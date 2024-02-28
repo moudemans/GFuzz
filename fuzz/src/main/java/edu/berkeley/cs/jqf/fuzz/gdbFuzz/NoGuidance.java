@@ -1,38 +1,9 @@
-/*
- * Copyright (c) 2017-2018 The Regents of the University of California
- *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *
- * 1. Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 package edu.berkeley.cs.jqf.fuzz.gdbFuzz;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Consumer;
 
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
@@ -49,6 +20,49 @@ import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
  * generator.
  */
 public class NoGuidance implements Guidance {
+
+
+
+    /**
+     * Coverage statistics for a single run.
+     */
+    protected Coverage runCoverage = new Coverage();
+
+    /**
+     * Cumulative coverage statistics.
+     */
+    protected Coverage totalCoverage = new Coverage();
+
+    /**
+     * Cumulative coverage for valid inputs.
+     */
+    protected Coverage validCoverage = new Coverage();
+
+    /**
+     * The number of valid inputs.
+     */
+    protected long numValid = 0;
+    /**
+     * The maximum number of keys covered by any single input found so far.
+     */
+    protected int maxCoverage = 0;
+
+    /**
+     * The set of unique failures found so far.
+     */
+    protected Set<List<StackTraceElement>> uniqueFailures = new HashSet<>();
+    protected HashMap<ArrayList<StackTraceElement>, Long> uniqueFailuresWithTrial = new HashMap<ArrayList<StackTraceElement>, Long>();
+
+
+    /**
+     * The list of total failures found so far.
+     */
+    protected int totalFailures = 0;
+
+    /**
+     * Validity fuzzing -- if true then save valid inputs that increase valid coverage
+     */
+    protected boolean validityFuzzing;
 
     private boolean keepGoing = true;
     private long numTrials = 0;
@@ -99,24 +113,14 @@ public class NoGuidance implements Guidance {
         if (numTrials % 1000 == 0) {
             System.out.print("\r  At trial: " + numTrials);
         }
-        if(numTrials>0)
-        {
-            try
-            {
-//                mutation.mutate(currentFile);
-                String fileName = new SimpleDateFormat("yyyyMMddHHmm'.csv'").format(new Date());
-                currentFile = fileName;
-                mutation.writeFile(new File(fileName), new ArrayList<>());
-                testFiles.add(fileName);
-            }
-            catch (IOException e)
-            {
 
-            }
-        }
+        // Clear coverage stats for this run
+        runCoverage = new Coverage();
+
+        // TODO : Add mutations
 
         InputStream targetStream = new ByteArrayInputStream(currentFile.getBytes());
-
+//        saveInput();
         return targetStream;
     }
 
@@ -138,7 +142,7 @@ public class NoGuidance implements Guidance {
     @Override
     public void handleResult(Result result, Throwable error) {
         numTrials++;
-        System.out.println("numTrials: "+numTrials);
+        System.out.println("numTrials: "+numTrials +", current coverage: " +  totalCoverage.toString());
 
         // Display error stack trace in case of failure
         if (result == Result.FAILURE) {
@@ -146,6 +150,18 @@ public class NoGuidance implements Guidance {
                 error.printStackTrace(out);
             }
             this.keepGoing = KEEP_GOING_ON_ERROR;
+        }
+
+        boolean valid = result == Result.SUCCESS;
+
+        if (valid) {
+            // Increment valid counter
+            this.numValid++;
+        }
+
+        // Keep track of discards
+        if (result == Result.INVALID) {
+            numDiscards++;
         }
 
         // Keep track of discards
@@ -161,7 +177,62 @@ public class NoGuidance implements Guidance {
         if (numTrials > 10 && ((float) numDiscards)/((float) (numTrials)) > maxDiscardRatio) {
             throw new GuidanceException("Assumption is too strong; too many inputs discarded");
         }
+        if (result == Result.SUCCESS || result == Result.INVALID) {
+
+            // Coverage before
+            int nonZeroBefore = totalCoverage.getNonZeroCount();
+            int validNonZeroBefore = validCoverage.getNonZeroCount();
+
+            // Compute a list of keys for which this input can assume responsiblity.
+            // Newly covered branches are always included.
+            // Existing branches *may* be included, depending on the heuristics used.
+            // A valid input will steal responsibility from invalid inputs
+//            Set<Object> responsibilities = computeResponsibilities(valid);
+            //System.out.println("Responsibilities of this input: "+responsibilities);
+
+            // Update total coverage
+            totalCoverage.updateBits(runCoverage);
+            if (valid) {
+                validCoverage.updateBits(runCoverage);
+            }
+
+            // Coverage after
+            int nonZeroAfter = totalCoverage.getNonZeroCount();
+            if (nonZeroAfter > maxCoverage) {
+                maxCoverage = nonZeroAfter;
+            }
+
+
+
+        } else if (result == Result.FAILURE || result == Result.TIMEOUT) {
+
+            String msg = error.getMessage();
+
+            //get the root cause
+            Throwable rootCause = error;
+            while (rootCause.getCause() != null) {
+                rootCause = rootCause.getCause();
+            }
+            this.totalFailures++;
+
+
+            // Only check the Stack trace elements until the program driver that is being tested
+            ArrayList<StackTraceElement> testProgramTraceElements = new ArrayList<>();
+
+            for (int i = 0; i < rootCause.getStackTrace().length; i++) {
+                testProgramTraceElements.add(rootCause.getStackTrace()[i]);
+
+            }
+
+            if(!uniqueFailuresWithTrial.containsKey(testProgramTraceElements)) {
+                uniqueFailures.add(testProgramTraceElements);
+                uniqueFailuresWithTrial.put(testProgramTraceElements, numTrials);
+            }
+        }
+
     }
+
+
 
     /**
      * Returns a callback that does almost nothing.
@@ -176,7 +247,12 @@ public class NoGuidance implements Guidance {
      */
     @Override
     public Consumer<TraceEvent> generateCallBack(Thread thread) {
-        return getCoverage()::handleEvent;
+        return this::handleEvent;
+    }
+
+    protected void handleEvent(TraceEvent e) {
+        // Collect totalCoverage
+        runCoverage.handleEvent(e);
     }
 
     /**
@@ -189,4 +265,5 @@ public class NoGuidance implements Guidance {
         }
         return coverage;
     }
+
 }

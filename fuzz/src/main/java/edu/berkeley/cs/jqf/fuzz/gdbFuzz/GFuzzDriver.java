@@ -12,8 +12,24 @@ import java.util.Arrays;
 
 
 public class GFuzzDriver {
+    // ---------- LOGGING / STATS OUTPUT ------------
+    /**
+     * Cleans outputDirectory if true, else adds a new subdirectory in which the results are stored
+     */
+    public static boolean CLEAR_ALL_PREVIOUS_RESULTS_ON_START = false;
 
-    public static int guidanceMethod = 0; // 0 == Zest, 1 == Graph, 2 == Random
+    // These booleans are for debugging purposes only, toggle them if you want to see the information
+    public static boolean PRINT_METHOD_NAMES = false;
+    public static boolean PRINT_MUTATION_DETAILS = false;
+    public static boolean PRINT_COVERAGE_DETAILS = false;
+    public static boolean PRINT_INPUT_SELECTION_DETAILS = false;
+    public static boolean LOG_AND_PRINT_STATS = false;
+    public static boolean PRINT_ERRORS = false;
+    public static boolean PRINT_MUTATIONS = false;
+    public static boolean PRINT_TEST_RESULTS = false;
+
+
+    public static int guidanceMethod = 0; // 0 == Zest, 1 == Graph, 2 == NoGuidance
 
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -38,7 +54,7 @@ public class GFuzzDriver {
         System.out.println("\t Class name: " + testClassName);
         System.out.println("\t Method name: " + testMethodName);
         System.out.println("\t output dir: " + outputDirectory.getAbsolutePath());
-        System.out.println("\t seed file(s): " );
+        System.out.println("\t seed file(s): ");
         Arrays.stream(seedFiles).map(file -> file.getName()).forEach(s -> System.out.println("\t\t- " + s));
 
         loadGuidance(testClassName, testMethodName, outputDirectory, seedFiles);
@@ -63,7 +79,7 @@ public class GFuzzDriver {
                     guidance = loadGraphGuidance(title, outputDirectory, seedFiles);
                     break;
                 default:
-                    guidance = loadNoGuidance(seedFiles, 10000);
+                    guidance = loadNoGuidance(seedFiles, 10000, outputDirectory);
             }
 
             System.out.println("Guidance loaded: " + guidance.getClass().toString());
@@ -75,6 +91,7 @@ public class GFuzzDriver {
                     System.out.println(String.format("Covered %d edges.",
                             ((ZestGuidance) guidance).getTotalCoverage().getNonZeroCount()));
                 }
+
             }
             if (Boolean.getBoolean("jqf.ei.EXIT_ON_CRASH") && !res.wasSuccessful()) {
                 System.exit(3);
@@ -86,8 +103,13 @@ public class GFuzzDriver {
         }
     }
 
-    private static NoGuidance loadNoGuidance(File[] seedFiles, int i) {
-        return new NoGuidance(seedFiles[0].getPath(), i, null);
+    private static NoGuidance loadNoGuidance(File[] seedFiles, int i, File outputDirectory) {
+        NoGuidance g = new NoGuidance(seedFiles[0].getPath(), i, System.out);
+
+
+        return g;
+
+
     }
 
     private static Guidance loadGraphGuidance(String title, File outputDirectory, File[] seedFiles) throws IOException {
