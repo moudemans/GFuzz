@@ -25,3 +25,4 @@ public class P3Driver {
 
         analysis.run("fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/gdbFuzz/seed.txt");
     }
+}
