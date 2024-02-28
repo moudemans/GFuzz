@@ -1,5 +1,6 @@
 package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples;
 
+import edu.berkeley.cs.jqf.fuzz.Fuzz;
 import edu.berkeley.cs.jqf.fuzz.JQF;
 import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.Node;
@@ -10,12 +11,12 @@ import java.io.IOException;
 @RunWith(JQF.class)
 public class P4Conditional {
     MyGraph my_g;
-
+@Fuzz
     public void run(String inputFile) throws IOException {
         MyGraph g = MyGraph.readGraphFromFile(inputFile);
         runConditions(g);
     }
-
+@Fuzz
     public int runConditions(MyGraph g) {
         my_g = g;
         Node firstNode = my_g.getNodes().get(0);
