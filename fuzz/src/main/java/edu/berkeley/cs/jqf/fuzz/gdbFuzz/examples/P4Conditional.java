@@ -16,10 +16,11 @@ public class P4Conditional {
         MyGraph g = MyGraph.readGraphFromFile(inputFile);
         runConditions(g);
     }
-@Fuzz
     public int runConditions(MyGraph g) {
         my_g = g;
         Node firstNode = my_g.getNodes().get(0);
+
+    System.out.println("I AM ALIVE");
 
         int value = Integer.parseInt(firstNode.properties.get("value"));
         if (value <= 0) {

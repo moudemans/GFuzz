@@ -130,7 +130,7 @@ public class MyGraph implements Serializable {
         emptyGraph();
         generateRandomSimpleGraph(i, i1);
 
-        for (int j = 0; j < 2; j++) {
+        for (int j = 0; j < 20; j++) {
             Node n = nodes.get(0);
             String k = "cat" + r.nextInt(5);
             String v = "val" + r.nextInt(100);

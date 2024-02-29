@@ -6,12 +6,12 @@ import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.*;
 
 import java.io.IOException;
 
-@RunWith(JQF.class)
 public class P2LabelAlgorithm {
     MyGraph my_g;
 
     public void run(String inputFile) throws IOException {
         MyGraph g = MyGraph.readGraphFromFile(inputFile);
+        System.out.println("Running program!");
         runConditions(g);
     }
 
@@ -22,13 +22,13 @@ public class P2LabelAlgorithm {
         if (firstNode.properties.containsKey("cat1")) {
             return method1(firstNode.id);
         } else if (firstNode.properties.containsKey("cat2")) {
-            return method2(firstNode.id);
+            return 0/0 == 0;
         } else if (firstNode.properties.containsKey("cat3")) {
             return method3(firstNode.id);
         } else if (firstNode.properties.containsKey("cat4")) {
             return method4(firstNode.id);
         } else if (firstNode.properties.containsKey("cat5")) {
-            return method5(firstNode.id);
+            return 0/0 == 0;
         }
 
         return true;

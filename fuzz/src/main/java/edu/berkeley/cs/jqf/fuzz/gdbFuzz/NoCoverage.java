@@ -40,7 +40,6 @@ public class NoCoverage implements Guidance {
     byte[] bytes = initialFile.getBytes();
     String currentFile;
     int v=0;
-    GDBFuzzMutation mutation = new RandomMutation();
     //try
     //{
     //System.out.println("UTF8");
@@ -74,18 +73,12 @@ public class NoCoverage implements Guidance {
         }
         if(numTrials>0)
         {
-            try
-            {
 //                mutation.mutate(currentFile);
                 String fileName = new SimpleDateFormat("yyyyMMddHHmm'.csv'").format(new Date());
                 currentFile = fileName;
-                mutation.writeFile(new File(fileName), new ArrayList<>());
+//                mutation.writeFile(new File(fileName), new ArrayList<>());
                 testFiles.add(fileName);
-            }
-            catch (IOException e)
-            {
 
-            }
         }
 
         InputStream targetStream = new ByteArrayInputStream(currentFile.getBytes());

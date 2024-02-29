@@ -1,9 +1,11 @@
 package edu.berkeley.cs.jqf.fuzz.gdbFuzz;
 
+import edu.berkeley.cs.jqf.fuzz.ei.ZestCLI;
 import edu.berkeley.cs.jqf.fuzz.ei.ZestGuidance;
 import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P2LabelAlgorithm;
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.junit.GuidedFuzzing;
+import edu.berkeley.cs.jqf.instrument.InstrumentingClassLoader;
 import org.junit.runner.Result;
 
 import java.io.File;
@@ -29,7 +31,7 @@ public class GFuzzDriver {
     public static boolean PRINT_TEST_RESULTS = false;
 
 
-    public static int guidanceMethod = 0; // 0 == Zest, 1 == Graph, 2 == NoGuidance
+    public static int guidanceMethod = 2; // 0 == Zest, 1 == Graph, 2 == NoGuidance
 
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -83,6 +85,12 @@ public class GFuzzDriver {
             }
 
             System.out.println("Guidance loaded: " + guidance.getClass().toString());
+
+//            ClassLoader loader = new InstrumentingClassLoader(
+//                    this.testPackageName.split(File.pathSeparator),
+////                    ZestCLI.class.getClassLoader());edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P4Driver
+//            String [] packages = new String[]{"edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples", "edu/berkeley/cs/jqf/fuzz/gdbFuzz"};
+//            ClassLoader loader = new InstrumentingClassLoader(packages, GFuzzDriver.class.getClassLoader());
 
             // Run the Junit test
             Result res = GuidedFuzzing.run(testClassName, testMethodName, guidance, System.out);

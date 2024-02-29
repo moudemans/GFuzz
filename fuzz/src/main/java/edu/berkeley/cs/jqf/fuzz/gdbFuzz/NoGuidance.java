@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 
+import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.GraphUtil;
+import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.guidance.GuidanceException;
 import edu.berkeley.cs.jqf.fuzz.guidance.Result;
@@ -81,7 +83,6 @@ public class NoGuidance implements Guidance {
     byte[] bytes = initialFile.getBytes();
     String currentFile;
     int v=0;
-    GDBFuzzMutation mutation = new RandomMutation();
     //try
     //{
     //System.out.println("UTF8");
@@ -111,15 +112,28 @@ public class NoGuidance implements Guidance {
     @Override
     public InputStream getInput() {
         if (numTrials % 1000 == 0) {
-            System.out.print("\r  At trial: " + numTrials);
+            System.out.println("\t  At trial: " + numTrials + " + passing file: " + currentFile);
         }
 
         // Clear coverage stats for this run
         runCoverage = new Coverage();
 
         // TODO : Add mutations
+        MyGraph currentGraph = MyGraph.readGraphFromFile(currentFile);
+        MyGraph mutation = GraphUtil.byteMutation(currentGraph, 1, random);
 
-        InputStream targetStream = new ByteArrayInputStream(currentFile.getBytes());
+        String output_file_name ="" ;
+        if(currentFile.equals(initialFile)) {
+            String[] path = initialFile.split("/");
+            for(String s: path) {
+                output_file_name += s + "/";
+            }
+            output_file_name += "fuzzedInput.txt";
+
+        }
+        MyGraph.writeGraphToFile(output_file_name, mutation);
+
+        InputStream targetStream = new ByteArrayInputStream(output_file_name.getBytes());
 //        saveInput();
         return targetStream;
     }
@@ -142,7 +156,9 @@ public class NoGuidance implements Guidance {
     @Override
     public void handleResult(Result result, Throwable error) {
         numTrials++;
-        System.out.println("numTrials: "+numTrials +", current coverage: " +  totalCoverage.toString());
+        if (numTrials % 1000 == 0) {
+            System.out.println("Handling result ");
+        }
 
         // Display error stack trace in case of failure
         if (result == Result.FAILURE) {
@@ -247,6 +263,8 @@ public class NoGuidance implements Guidance {
      */
     @Override
     public Consumer<TraceEvent> generateCallBack(Thread thread) {
+        System.out.println(String.format("Thread %s produced event", thread.getName()));
+
         return this::handleEvent;
     }
 
