@@ -58,7 +58,6 @@ public class MyGraph implements Serializable {
             out.writeObject(g);
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data is saved in:" + fileName);
         } catch (IOException i) {
             i.printStackTrace();
         }

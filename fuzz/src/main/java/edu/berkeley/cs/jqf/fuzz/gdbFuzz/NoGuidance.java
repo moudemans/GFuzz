@@ -124,16 +124,18 @@ public class NoGuidance implements Guidance {
 
         String output_file_name ="" ;
         if(currentFile.equals(initialFile)) {
-            String[] path = initialFile.split("/");
-            for(String s: path) {
-                output_file_name += s + "/";
+            String[] path = initialFile.split("\\\\");
+            for (int i = 0; i < path.length -1; i++) {
+                output_file_name += path[i] + "/";
+
             }
             output_file_name += "fuzzedInput.txt";
+            currentFile = output_file_name;
 
         }
-        MyGraph.writeGraphToFile(output_file_name, mutation);
+        MyGraph.writeGraphToFile(currentFile, mutation);
 
-        InputStream targetStream = new ByteArrayInputStream(output_file_name.getBytes());
+        InputStream targetStream = new ByteArrayInputStream(currentFile.getBytes());
 //        saveInput();
         return targetStream;
     }

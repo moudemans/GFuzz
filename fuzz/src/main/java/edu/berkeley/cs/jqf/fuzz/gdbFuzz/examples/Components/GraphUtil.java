@@ -50,9 +50,12 @@ public class GraphUtil {
             data[byteIndex] = (byte) byteValue;
         }
 
-        MyGraph newGraph =(MyGraph) SerializationUtils.deserialize(data);
-
-        return newGraph;
+        try {
+            MyGraph newGraph = (MyGraph) SerializationUtils.deserialize(data);
+            return newGraph;
+        } catch (Exception | NoClassDefFoundError e) {
+            return byteMutation(g, byteCount, r);
+        }
     }
 
 
