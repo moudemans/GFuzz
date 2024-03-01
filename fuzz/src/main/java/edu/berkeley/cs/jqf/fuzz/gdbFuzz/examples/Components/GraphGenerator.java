@@ -2,8 +2,8 @@ package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components;
 
 public class GraphGenerator {
 
-    static String path = "fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/gdbFuzz/";
-    static String fileName = "seed.txt";
+    static String path = "fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/gdbFuzz/fuzz-input/";
+    static String fileName = "input.txt";
 
     static int[] cycles = new int[]{10,20,30};
     static int generationMethod = 1;

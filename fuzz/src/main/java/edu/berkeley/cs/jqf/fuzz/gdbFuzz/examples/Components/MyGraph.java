@@ -37,8 +37,10 @@ public class MyGraph implements Serializable {
 
     public static MyGraph readGraphFromFile(String fileName) {
         MyGraph mg = null;
+        File directory = new File("./");
+        System.out.println(directory.getAbsolutePath());
         try {
-            FileInputStream fileIn = new FileInputStream(fileName);
+            FileInputStream fileIn = new FileInputStream( fileName);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             mg = (MyGraph) in.readObject();
             in.close();

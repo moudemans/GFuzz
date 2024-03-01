@@ -31,7 +31,7 @@ public class GFuzzDriver {
     public static boolean PRINT_TEST_RESULTS = false;
 
 
-    public static int guidanceMethod = 2; // 0 == Zest, 1 == Graph, 2 == NoGuidance
+    public static int guidanceMethod = 1; // 0 == Zest, 1 == Graph, 2 == NoGuidance
 
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -39,6 +39,7 @@ public class GFuzzDriver {
             System.exit(1);
         }
 
+        // Temp, have to be able to call any kind of application without calling them first
         P2LabelAlgorithm p = new P2LabelAlgorithm();
 
         System.out.println("Parsing program arguments... ");
@@ -86,12 +87,6 @@ public class GFuzzDriver {
 
             System.out.println("Guidance loaded: " + guidance.getClass().toString());
 
-//            ClassLoader loader = new InstrumentingClassLoader(
-//                    this.testPackageName.split(File.pathSeparator),
-////                    ZestCLI.class.getClassLoader());edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P4Driver
-//            String [] packages = new String[]{"edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples", "edu/berkeley/cs/jqf/fuzz/gdbFuzz"};
-//            ClassLoader loader = new InstrumentingClassLoader(packages, GFuzzDriver.class.getClassLoader());
-
             // Run the Junit test
             Result res = GuidedFuzzing.run(testClassName, testMethodName, guidance, System.out);
             if (Boolean.getBoolean("jqf.logCoverage")) {
@@ -114,20 +109,11 @@ public class GFuzzDriver {
     private static NoGuidance loadNoGuidance(File[] seedFiles, int i, File outputDirectory) {
         NoGuidance g = new NoGuidance(seedFiles[0].getPath(), i, System.out);
 
-
         return g;
-
-
     }
 
     private static Guidance loadGraphGuidance(String title, File outputDirectory, File[] seedFiles) throws IOException {
-        if (seedFiles == null) {
-            return new ZestGuidance(title, null, outputDirectory);
-        } else if (seedFiles.length == 1 && seedFiles[0].isDirectory()) {
-            return new ZestGuidance(title, null, outputDirectory, seedFiles[0]);
-        } else {
-            return new ZestGuidance(title, null, outputDirectory, seedFiles);
-        }
+        return new GGuidance(title, seedFiles[0], 10000L, outputDirectory, null);
     }
 
     private static ZestGuidance loadZestGuidance(String title, File outputDirectory, File[] seedFiles) throws IOException {

@@ -20,9 +20,9 @@ public class P2Driver {
         }
 
         public static void main(String[] args) throws IOException {
+            P2Driver a = new P2Driver();
+            a.test1("fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/gdbFuzz/fuzz-input/inputLocation.txt");
 
-            P2LabelAlgorithm analysis = new P2LabelAlgorithm();
-
-            analysis.run("fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/gdbFuzz/seed.txt");
+//            analysis.run("fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/gdbFuzz/seed.txt");
         }
 }
