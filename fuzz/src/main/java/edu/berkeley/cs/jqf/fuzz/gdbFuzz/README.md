@@ -17,7 +17,7 @@ The program expects some program arguments, listed below
 ```
 Below is an example of how to run the first application:
 ```json
-edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P1Driver
+edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P1.P1Driver
 test1
 fuzz-results
 fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/gdbFuzz/seed.txt

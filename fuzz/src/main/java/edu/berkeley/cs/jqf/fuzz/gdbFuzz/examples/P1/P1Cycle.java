@@ -1,8 +1,7 @@
-package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples;
+package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P1;
 
 
 
-import edu.berkeley.cs.jqf.fuzz.Fuzz;
 import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.Edge;
 import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.Components.Node;
@@ -12,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class P1CycleAlgorithm {
+public class P1Cycle {
     public void run(String inputFile) throws IOException {
         MyGraph g = MyGraph.readGraphFromFile(inputFile);
         findCycle(g);
