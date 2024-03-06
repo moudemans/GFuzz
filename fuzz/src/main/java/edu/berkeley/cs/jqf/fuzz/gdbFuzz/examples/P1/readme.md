@@ -9,7 +9,7 @@ The algorithm has been inspired by the [common graph problems in 2024]( https://
 
 Addtionally, most graph DB engines also offer some built in function, usually including cycle detection. 
 For example, in [neo4j](https://neo4j.com/labs/apoc/4.1/overview/apoc.nodes/apoc.nodes.cycles/) where the nodes.cycles function allows for a cycle detection on a specified subset of nodes. Additionally, this query can be extended with relationship types and a maximum depth. 
-In [Gremlin](https://github.com/apache/tinkerpop/blob/master/docs/src/recipes/cycle-detection.asciidoc), it is already less straight forward and requiring a complicated query. 
+In [Gremlin](https://github.com/apache/tinkerpop/blob/master/docs/src/recipes/cycle-detection.asciidoc), it is already less straight forward and requiring a complicated query. Additionally the query grows with the size of the cycle, unable to have a dynamically sized cycle.
 
 These implementations provide a mean to query straightforward cycles. But if a user would like to make a cycle detection algorithm relying on a more complex constraint, this will have to be executed by a different application.
 ****
