@@ -1,4 +1,4 @@
-# Label algorithm
+# Decision algorithm
 **Functionality** \
 ... 
 ****

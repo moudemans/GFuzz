@@ -11,7 +11,7 @@ following items:
 - [Common graph related problems]( https://www.geeksforgeeks.org/top-50-graph-coding-problems-for-interviews ) - These coding challenges consider a graph structured input. The tasks are based on common interview questions. They are therefore not necessarly very ellaborate and are not big applications, but they do show an importance for developers.
 
 
-The main focus of these examples is to create a broad and distinct range of graph applications which can be expected to be created in the real world. Using those examples, the fuzz method created in this project can be evaluated to give an indication of the potential effectiveness. For a fuzzer to be effective, an application needs to have different branches which are dependent on the data that is in the graph. For this reason, applications like the transportation is suited. There are some applications like ML and visualisation tools which do not have data dependent branching which are not included in the test framework as this is not the focus of the test method.
+The main focus of these examples is to create a broad and distinct range of graph applications which can be expected to be created in the real world. Using those examples, the fuzz method created in this project can be evaluated to give an indication of the potential effectiveness. For a fuzzer to be effective, an application needs to have different branches which are dependent on the data that is in the graph. For this reason, applications like the transportation is suited. There are some applications like ML and visualisation tools which do not have data dependent branching which are not included in the test framework as this is not the intended use.
 
 
 

@@ -1,4 +1,4 @@
-# Label algorithm
+# Weight algorithm
 **Functionality** \
 ... 
 ****
