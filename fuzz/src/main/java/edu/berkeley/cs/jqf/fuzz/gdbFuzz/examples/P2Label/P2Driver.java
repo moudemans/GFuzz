@@ -1,4 +1,4 @@
-package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P2;
+package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P2Label;
 
 import edu.berkeley.cs.jqf.fuzz.Fuzz;
 import edu.berkeley.cs.jqf.fuzz.JQF;

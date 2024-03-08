@@ -1,9 +1,0 @@
-# Decision algorithm
-**Functionality** \
-... 
-****
-
-
-**Motivation** \
-...
-****

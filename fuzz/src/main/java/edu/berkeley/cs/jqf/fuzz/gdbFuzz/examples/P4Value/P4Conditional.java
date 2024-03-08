@@ -1,4 +1,4 @@
-package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P4;
+package edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P4Value;
 
 import edu.berkeley.cs.jqf.fuzz.Fuzz;
 import edu.berkeley.cs.jqf.fuzz.JQF;

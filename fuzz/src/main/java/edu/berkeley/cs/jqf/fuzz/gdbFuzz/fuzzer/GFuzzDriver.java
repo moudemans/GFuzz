@@ -1,7 +1,7 @@
 package edu.berkeley.cs.jqf.fuzz.gdbFuzz.fuzzer;
 
 import edu.berkeley.cs.jqf.fuzz.ei.ZestGuidance;
-import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P2.P2Label;
+import edu.berkeley.cs.jqf.fuzz.gdbFuzz.examples.P2Label.P2Label;
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.junit.GuidedFuzzing;
 import org.junit.runner.Result;

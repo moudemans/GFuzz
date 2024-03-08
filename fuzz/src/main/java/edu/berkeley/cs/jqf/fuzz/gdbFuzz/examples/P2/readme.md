@@ -1,9 +1,0 @@
-# Label algorithm
-**Functionality** \
-... 
-****
-
-
-**Motivation** \
-...
-****
