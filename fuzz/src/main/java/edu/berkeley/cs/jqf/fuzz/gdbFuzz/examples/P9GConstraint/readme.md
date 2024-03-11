@@ -20,26 +20,22 @@ def function_1(
 	exclude_relationships :=  Excluded relationships to keep because they are maintained (linked)
 	)
 	
-	prev_item_relationships := all relationships with the previous item (used at the end)
+	prev_item_relationships     := all relationships with the previous item (used at the end)
+	prev_item_relationships         := all relationships in this study connected with the previous_item
+	relationships_to_maintain   := prev_item_relationships and -(exclude_relationships) - value_node
+	value_relationship_name     := relationship name where the target/endpoint node corresponds with the function parameter 'value_node'
 	
-	study_relationships := all relationships in this study
-	
-	relationships_to_maintain := study_relationships and -(exclude_relationships) - value_node
-	
-	value_relationship_name := relationship name where the target node corresponds with the function parameter
-	
-	for relationship_name, type in relationships to maintain:
-		if previous_item is specific instance:
-			previous_connected_nodes := all previously connected nodes with the current relationship name
-			connected nodes:= latest assigned version of previously assigned nodes
+	for relationship_name in relationships_to_maintain:
+		if previous_item is specific instance (StudySelectionMetadata):
+			prev_connected_nodes := all previously connected nodes with the current relationship name
+			connected_nodes      := latest assigned version of previously assigned nodes
 		else:
 			connected_nodes := function_2(previous_item, relationship_name, value_node True, False)
 			
-
 		for cn in connected_nodes:
-			add relationship new_item+relationship_name
+			add relationship [new_item -- relationship_name --> cn]
 	
-	#Check cardinality new_item, old_item
+	# Check cardinality new_item, old_item for all previous relationships 
 	getattr(previous_item, prev_item_relationships) = single
 	getattr(new_item, prev_item_relationships) = single
 	
@@ -50,31 +46,31 @@ def function_1(
 		
 		
 		
-def function(
-    node: Any,
-    RelationShip: str,
-    value_node: Any = None,
-    multiple_returned_nodes: bool = False,
-    at_least_one_returned: bool = True,
-	):
+def function_2(
+        previous_item       := Previous item from which relationships should be maintained
+        relationship_name   := a relationship in this study connected with the previous_item
+        value_node          := StudyValue node from which the previous item should be disconnected
+        multiple_nodes      := False
+        at_least_one        := True
+	)
 
 	connected_nodes:=  all nodes with the provided relationship
-	value_relationship_name := relationship name where the target node corresponds with the function parameter
+	value_relationship_name := relationship name where the target/endpoint node corresponds with the function parameter 'value_node'
 	
 	for cn in connected_nodes:
-		connected_values_nodes := nodes where cn is connected trhoug by value_relationship_name
+		connected_values_nodes := nodes where cn is connected by value_relationship_name
 		
 		for value in connected_values_nodes:
-			if value == value node
+			if value == value_node
 				connected_node_with_study_value := connected_node_with_study_value + cn
 	
-	if multiple_returned_nodes
+	if multiple_nodes
 		return connected_node_with_study_value
 	
 	if len(connected_node_with_study_value) > 1
 		return error
 		
-	if at_least_one_returned
+	if at_least_one
 		if len(connected_node_with_study_value) == 0
 			return error
 		return connected_node_with_study_value.first
