@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class Edge implements Serializable {
+
     public Node from;
     public Node to;
     boolean isDirected = false;

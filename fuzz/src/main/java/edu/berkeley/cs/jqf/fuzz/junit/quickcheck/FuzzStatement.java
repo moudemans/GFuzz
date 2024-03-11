@@ -122,7 +122,7 @@ public class FuzzStatement extends Statement {
                                 .toArray();
 
                         // Let guidance observe the generated input args
-                        guidance.observeGeneratedArgs(args);
+//                        guidance.observeGeneratedArgs(args);
                     } catch (IllegalStateException e) {
                         if (e.getCause() instanceof EOFException) {
                             // This happens when we reach EOF before reading all the random values.

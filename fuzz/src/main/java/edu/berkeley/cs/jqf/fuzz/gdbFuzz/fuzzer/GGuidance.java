@@ -23,6 +23,11 @@ public class GGuidance implements Guidance {
 
     public String inputLocationFile = "edu/berkeley/cs/jqf/fuzz/gdbFuzz/fuzz-input/inputLocation.txt";
 
+
+    /** Counters for test results. */
+    protected long numValid = 0;
+    protected long numDiscards = 0;
+
     private File currentInputFile;
     private File initialInputFile;
     public File outputDirectory;
@@ -74,6 +79,21 @@ public class GGuidance implements Guidance {
     @Override
     public void handleResult(Result result, Throwable error) throws GuidanceException {
         System.out.println("Calling Handle Result");
+        boolean valid = result == Result.SUCCESS;
+
+        if (valid) {
+            // Increment valid counter
+            this.numValid++;
+        }
+
+        // Keep track of discards
+        if (result == Result.INVALID) {
+            numDiscards++;
+        }
+
+
+        int nonZeroAfter = coverage.getNonZeroCount();
+        System.out.println("Current coverage: " + nonZeroAfter);
     }
 
     @Override

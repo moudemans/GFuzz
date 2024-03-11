@@ -141,4 +141,13 @@ public class MyGraph implements Serializable {
 
 
     }
+
+    public void generateRandomValueGraph(int nodeCount, int edgeCount, int maxValue) {
+        emptyGraph();
+        generateRandomSimpleGraph(nodeCount, edgeCount);
+
+        nodes.get(0).properties.put("value", String.valueOf(r.nextInt(maxValue)));
+
+
+    }
 }

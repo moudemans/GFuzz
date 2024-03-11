@@ -17,6 +17,7 @@ public class GraphGenerator {
             case 0: g.generateRandomSimpleGraph(nodeCount, edgeCount);
             case 1: g.generateRandomLabeledGraph(nodeCount, edgeCount);
             case 2: g.generateRandomWeightedGraph(nodeCount, edgeCount, 100, true);
+            case 3: g.generateRandomValueGraph(nodeCount, edgeCount, 100);
         }
         for (int c :
                 cycles) {
