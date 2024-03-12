@@ -206,14 +206,14 @@ In the figure below the database are visualized.
 
 
 
+## Appendix: Generated CFG
 
+The control flow graph can be seen below. 
 
-[//]: # (The control flow graph can be seen below. The cfg also includes the)
+![cfg1.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg1.png)
 
-[//]: # (![cfg1.png]&#40;..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg1.png&#41;)
+![cfg2.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg2.png)
 
-[//]: # (![cfg2.png]&#40;..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg2.png&#41;)
-
-[//]: # (![cfg3.png]&#40;..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg3.png&#41;)
+![cfg3.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg3.png)
 
 
