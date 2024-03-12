@@ -1,15 +1,24 @@
 # Constraint algorithm
+**Structure**
+- P9 implementation - this will describe the benchmark program eventually created from the motivating example below
+- Source and motivation - references the original program and explains why it is an interesting example
 ## P9 implementation 
 This algorithm verifies whether after a change of the database the constraint of how many relations there are is maintained. 
  
 ****
 
-## Motivation 
+## Source and motivation 
 
-The code from which the example is based can be found [here](https://gitlab.com/Novo-Nordisk/nn-public/openstudybuilder/OpenStudyBuilder-Solution/-/blob/main/clinical-mdr-api/clinical_mdr_api/domain_repositories/generic_repository.py?ref_type=heads).
+The code from which the example is based can be found [here](https://gitlab.com/Novo-Nordisk/nn-public/openstudybuilder/OpenStudyBuilder-Solution/-/blob/main/clinical-mdr-api/clinical_mdr_api/domain_repositories/generic_repository.py?ref_type=heads). This example shows to have different conditionals, depending on the node values and the relationships between the nodes. It also shows a constraint on the amount of relationships allowed, throwing errors of the relationship is not a [single](https://neo4j.com/docs/cypher-manual/current/functions/predicate/#functions-single). 
 ****
 
 ## Source functionality
+The function extracted from the source is a function that updates a previous node's relationships to a new node. The previous node should have a relationship with a node with a specific kind of value, which is also passed in the function call. The following steps are performed:
+- Collect relationships and nodes
+- Update nodes+relationships from previous node to new node if the value corresponds with the value in function call
+- Check constraints
+- Remove relationship between previous node and value node
+
 
 **Pseudocode**
 ```
