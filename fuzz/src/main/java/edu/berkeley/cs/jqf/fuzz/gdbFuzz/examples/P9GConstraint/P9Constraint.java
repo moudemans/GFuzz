@@ -67,7 +67,7 @@ public class P9Constraint {
         for (Node connected_node :
                 connected_nodes) {
 
-            ArrayList<String> study_values = get
+//            ArrayList<String> study_values = get
 
 
         }

@@ -169,7 +169,6 @@ public class MyGraph implements Serializable {
     }
 
     public ArrayList<Edge> getRelationships(Node node) {
-        ArrayList<Edge> relationships = new ArrayList<>();
         for (Node n :
                 nodes) {
             if (n.equals(node)) {
