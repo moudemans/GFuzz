@@ -150,4 +150,32 @@ public class MyGraph implements Serializable {
 
 
     }
+
+    public ArrayList<Node> getConnectedNodes(Node prevItem, String valueRelationshipName) {
+        ArrayList<Node> connected_nodes = new ArrayList<>();
+        for (Node n :
+                nodes) {
+            if (n.equals(prevItem)) {
+                for (Edge e :
+                        n.edges) {
+                    if (e.label.equals(valueRelationshipName)) {
+                        connected_nodes.add(e.to);
+                    }
+                }
+            }
+
+        }
+        return connected_nodes;
+    }
+
+    public ArrayList<Edge> getRelationships(Node node) {
+        ArrayList<Edge> relationships = new ArrayList<>();
+        for (Node n :
+                nodes) {
+            if (n.equals(node)) {
+                        return new ArrayList<>(n.edges);
+                }
+            }
+        return new ArrayList<Edge>();
+    }
 }

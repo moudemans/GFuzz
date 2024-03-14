@@ -5,11 +5,11 @@ import java.util.HashMap;
 
 public class Edge implements Serializable {
 
+    public String label;
     public Node from;
     public Node to;
     boolean isDirected = false;
     public int weight = 0;
-    String label;
 
     public HashMap<String, String> properties;
 

@@ -1,16 +1,36 @@
 # Graph API framework for fuzz testing
 
 ***
-This file describes the minimum requirements for a graph API
+This file describes the minimum requirements for the graph
+API
 to perform fuzz testing.
 These requirements are based on the functions and
 interactions described by the benchmark applications and the
 functionalities provided in popular query languages (Cypher
-and Gremlin).
+and Gremlin). The goal of this framework is to describe an
+automated test method which is independent and can be
+applied to any applications which uses a graph structure.
+
+***
+
+## Index
+
+- Functionalities
+    - Benchmark functionalities
+    - Cypher functionalities
+    - Gremlin functionalities
+- Proposed framework
+
+***
+
+## Functionalities
+
 Nodes (entities) and edges (relationships) will not be
-listed seperatly as these are trivial
+listed separately as these are trivial.
 
 ### Benchmark functionalities
+
+**P9 Constraint**
 
 Starting with P9, shows it needs to be able to reference
 nodes, relationships and values.
@@ -24,8 +44,6 @@ which returns true if exactly one element matches the
 constraint provided.
 The library used by this example is NeoModel, which is the
 implementation of neo4j for python.
-
-### Gremlin functionalities
 
 ### Neo4j/Cypher functionalities
 
@@ -109,20 +127,22 @@ Leaving the following packages to go into further:
 - org.neo4j.driver.types
 - org.neo4j.driver.util
 
-## Gremlin
+### Gremlin functionalities
+
 Todo...
 [full documentation](https://tinkerpop.apache.org/docs/current/reference/)
-
 
 ## Proposed test Framework
 
 From the collected features across benchmarks, query
 languages and research, the following framework is proposed.
 
-**Nodes and Relationships** \
-Each discussed paradigm uses an implementation of nodes and
-edges/relationships. Therefore, the graph can be described
-by a set of nodes and relationships:
+**Graph components** \
+Each of the above functionalities uses a form of a graph
+with nodes and edges. The exact implementation of these
+components differ, but each relies on a property graph
+structure. The property graph is a multigraph with labels
+and properties on the nodes and edges. More formally:
 
 G := {N: set of nodes} \
 N := {l: Label, P: set of properties (key,Value), E: set of
@@ -130,40 +150,72 @@ relationships} \
 E := {l: Label, a: first node, b: second node}
 
 **Typing** \
-There should be:
-- node types
-- Edge type
-- Content type
-
-Typing is required in the examples and supported in cypher,
-typing has to be included in the api framework.
-The datatypes included in this framework will either be the
-primitive types
-in [java](https://www.w3schools.com/java/java_data_types.asp),
-or the types supported in
+Each value in the properties of the component has a explicit
+type. The defined type is important to generate sensible
+database states and also will help the fuzzer to make more
+efficient mutations. The types which will be explored in
+this work will be the primitive types
+in [java](https://www.w3schools.com/java/java_data_types.asp) (+
+String), but the framework will not be restricted to said
+typing. excluded types can be added in form of an object and
+can still be fuzzed on by bit/byte mutations.
 the [Neo4J driver for java](https://neo4j.com/docs/api/java-driver/current/org.neo4j.driver/org/neo4j/driver/types/package-summary.html).
+for [gremlin](https://tinkerpop.apache.org/docs/current/reference/#staying-agnostic)
+the available typing is dependent on
+the [implementation](https://tinkerpop.apache.org/docs/current/reference/#_data_types)
 
-| **Java** | **Cypher**     |
-|----------|----------------|
-| Byte     | BOOLEAN        |
-| Short    | DATE           |
-| int      | DURATION       |
-| long     | FLOAT          |
-| double   | INTEGER        |
-| float    | LIST           |
-| boolean  | LOCAL DATETIME |
-| char     | LOCAL TIME     |
-|          | POINT          |
-|          | STRING         |
-|          | ZONED DATETIME |
-|          | ZONED TIME     |
+[//]: # (| **Java** | **Cypher**     |)
+
+[//]: # (|----------|----------------|)
+
+[//]: # (| Byte     | BOOLEAN        |)
+
+[//]: # (| Short    | DATE           |)
+
+[//]: # (| int      | DURATION       |)
+
+[//]: # (| long     | FLOAT          |)
+
+[//]: # (| double   | INTEGER        |)
+
+[//]: # (| float    | LIST           |)
+
+[//]: # (| boolean  | LOCAL DATETIME |)
+
+[//]: # (| char     | LOCAL TIME     |)
+
+[//]: # (|          | POINT          |)
+
+[//]: # (|          | STRING         |)
+
+[//]: # (|          | ZONED DATETIME |)
+
+[//]: # (|          | ZONED TIME     |)
 
 **Schema** \
-The api should have support for a schema, including the
-different kind of labels (like cypher), relationships
-between labels and constraints. Instead of using the
-constraints in neo4j, we can use a more extensive set
-described in the [PG-Schema paper](TODO).
+The api should have support for a schema The schema includes
+the
+different kind of labels, relationships
+between labels, properties, cardinality and key constraints.
+
+While labels, relationships and properties have already been
+discussed, cardinality and key constraints have not.
+
+**Cardinality** \
+There are multiple definitions for cardinality, in this
+framework it is describing the constraints regarding the
+connection between any two nodes.
+In [JanusGraph](https://docs.janusgraph.org/v0.3/basics/schema/)
+this is described as edge label multiplicity. This framework will consider the same cardinality  options for a relationship:
+- MULTI: Allows multiple edges of the same label between any pair of vertices
+- SIMPLE: Allows at most one edge of such label between any pair of vertices.
+- MANY2ONE: Allows at most one outgoing edge of such label on any vertex in the graph but places no constraint on incoming edges. 
+- ONE2MANY: Allows at most one incoming edge of such label on any vertex in the graph but places no constraint on outgoing edges. 
+- ONE2ONE: Allows at most one incoming and one outgoing edge of such label on any vertex in the graph.
+
+**Key constraints** \
+Key constraints are described in
+the [PG-keys paper][(TODO)].
 These describe key constraints which can be applied to
 nodes, edges and properties
 
@@ -188,7 +240,14 @@ constraints:
   number of aliases but no two users can have a common
   alias.
 
+### Describing schema
 
+The scheme will be described as followed ... 
+TODO
+
+inspired by the approaches from
+- [Tigergraph](https://docs.tigergraph.com/gsql-ref/current/ddl-and-loading/defining-a-graph-schema)
+- [JanusGraph]()
 
 
 

@@ -78,7 +78,7 @@ function_2 (
 ## Control flow graph
 
 **Simplified source code**
-```javascript
+```
 function_1 ( 
 	previous_item := Previous item from which relationships should be maintained
 	value_node := StudyValue node from which the previous item should be disconnected
