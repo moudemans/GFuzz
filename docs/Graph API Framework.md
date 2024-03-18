@@ -206,12 +206,22 @@ There are multiple definitions for cardinality, in this
 framework it is describing the constraints regarding the
 connection between any two nodes.
 In [JanusGraph](https://docs.janusgraph.org/v0.3/basics/schema/)
-this is described as edge label multiplicity. This framework will consider the same cardinality  options for a relationship:
-- MULTI: Allows multiple edges of the same label between any pair of vertices
-- SIMPLE: Allows at most one edge of such label between any pair of vertices.
-- MANY2ONE: Allows at most one outgoing edge of such label on any vertex in the graph but places no constraint on incoming edges. 
-- ONE2MANY: Allows at most one incoming edge of such label on any vertex in the graph but places no constraint on outgoing edges. 
-- ONE2ONE: Allows at most one incoming and one outgoing edge of such label on any vertex in the graph.
+this is described as edge label multiplicity. This framework
+will consider the same cardinality options for a
+relationship:
+
+- MULTI: Allows multiple edges of the same label between any
+  pair of vertices
+- SIMPLE: Allows at most one edge of such label between any
+  pair of vertices.
+- MANY2ONE: Allows at most one outgoing edge of such label
+  on any vertex in the graph but places no constraint on
+  incoming edges.
+- ONE2MANY: Allows at most one incoming edge of such label
+  on any vertex in the graph but places no constraint on
+  outgoing edges.
+- ONE2ONE: Allows at most one incoming and one outgoing edge
+  of such label on any vertex in the graph.
 
 **Key constraints** \
 Key constraints are described in
@@ -242,13 +252,25 @@ constraints:
 
 ### Describing schema
 
-The scheme will be described as followed ... 
+The scheme will be described as followed ...
 TODO
 
 inspired by the approaches from
+
 - [Tigergraph](https://docs.tigergraph.com/gsql-ref/current/ddl-and-loading/defining-a-graph-schema)
 - [JanusGraph]()
 
+### Graph generation
+
+There are existing works that have already tried to tackle
+the database generation task.
+
+The first example
+is [GMark](https://arxiv.org/pdf/1511.08386.pdf), which main
+focus is a query workload generator. It shows some useful
+steps towards a useful graph generator for a fuzzer, but the
+DB states for the fuzzer would be less focussed on
+nodes/edges/parameter distribution. 
 
 
 
