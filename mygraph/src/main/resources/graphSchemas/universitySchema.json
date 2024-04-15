@@ -1,0 +1,54 @@
+{
+  "NodeLabels": [
+    "University",
+    "Person",
+    "Bank_account"
+  ],
+  "EdgeLabels": [
+    "employs",
+    "has"
+  ],
+  "Relationships": [
+    {
+      "Label": "employs",
+      "From": "University",
+      "To": "Person",
+      "Cardinality": "MANY2ONE"
+    },
+    {
+      "Label": "has",
+      "From": "Person",
+      "To": "Bank_account",
+      "Cardinality": "MANY2ONE"
+    }
+  ],
+  "NodeProperties": {
+    "University": [
+      {
+        "Name": "name",
+        "Type": "STRING"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "employs": [
+      {
+        "Name": "date",
+        "Type": "DATE"
+      }
+    ]
+  },
+  "Patterns": [
+    {
+      "Relationships": [
+        {
+          "Label": "has",
+          "From": "Person",
+          "To": "Bank_account",
+          "Cardinality": "MANY2ONE"
+        }
+      ],
+      "MaxSize": 4
+    }
+  ]
+}

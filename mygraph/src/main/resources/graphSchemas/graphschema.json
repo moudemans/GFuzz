@@ -1,0 +1,65 @@
+{
+  "NodeLabels": [
+
+    "Account",
+    "Payment"
+  ],
+  "EdgeLabels": [
+    "Transfer"
+  ],
+  "Relationships": [
+    {
+      "Label": "Send",
+      "From": "Account",
+      "To": "Payment",
+      "Cardinality": "MANY2ONE"
+    },
+    {
+      "Label": "Receive",
+      "From": "Payment",
+      "To": "Account",
+      "Cardinality": "MANY2ONE"
+    }
+  ],
+  "NodeProperties": {
+    "Account": [
+      {
+        "Name": "name",
+        "Type": "STRING"
+      }
+    ],
+    "Payment": [
+      {
+        "Name": "amount",
+        "Type": "INT"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "Transfer": [
+      {
+        "Name": "date",
+        "Type": "DATE"
+      }
+    ]
+  },
+  "Patterns": [
+    {
+      "Relationships": [
+        {
+          "Label": "Send",
+          "From": "Account",
+          "To": "Payment",
+          "Cardinality": "ONE2MANY"
+        },
+        {
+          "Label": "Receive",
+          "From": "Payment",
+          "To": "Account",
+          "Cardinality": "ONE2ONE"
+        }
+      ],
+      "MaxSize": 12
+    }
+  ]
+}
