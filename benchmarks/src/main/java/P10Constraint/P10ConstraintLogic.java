@@ -33,6 +33,9 @@ public class P10ConstraintLogic {
 
             // TODO: add typing (or other condition) to access function 2 or not
             ArrayList<Node> connected_nodes = function_2(g, prev_item, e.label, value, multiple_nodes, at_least_one);
+            if(connected_nodes == null) {
+                continue;
+            }
             System.out.println("Ping.a005");
             for (Node n :
                     connected_nodes) {

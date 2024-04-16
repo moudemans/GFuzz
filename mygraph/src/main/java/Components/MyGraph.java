@@ -66,7 +66,9 @@ public class MyGraph implements Serializable {
             in.close();
             fileIn.close();
         } catch (IOException | ClassNotFoundException i) {
-            System.err.printf("Could not read file from [%s]", fileName);
+            System.err.printf("Could not read file from [%s] \n", fileName);
+            System.err.println("Current working dir: " + System.getProperty("user.dir"));
+            System.err.printf("Error message: [%s] \n", i.getMessage());
             System.exit(-1);
             return null;
         }

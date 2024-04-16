@@ -30,7 +30,7 @@ public class GraphGenerator {
 
     private static final Random r = new Random();
 
-    static int generationMethod = 7;
+    static int generationMethod = 5;
     // 0: random simple graph
     // 1: random labeled graph, with cat and val
     // 4: Generate graph from Schema
@@ -142,8 +142,8 @@ public class GraphGenerator {
 
     private static void copyGraphFromJson() {
 //        String dir = "mygraph/src/main/resources/graphs/P9Examples-MANUAL/";
-        String dir = "mygraph/src/main/resources/graphs/cardinalityExamples/";
-        String name = "one2one";
+        String dir = "benchmarks/src/main/resources/P9/P9Examples-MANUAL/";
+        String name = "test01";
         String extension_json = ".json";
         String extension_ser = ".ser";
 
