@@ -49,6 +49,7 @@ import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.guidance.GuidanceException;
 import edu.berkeley.cs.jqf.fuzz.junit.GuidedFuzzing;
 import edu.berkeley.cs.jqf.fuzz.junit.quickcheck.FuzzStatement;
+import edu.berkeley.cs.jqf.fuzz.junit.quickcheck.FuzzStringStatement;
 import edu.berkeley.cs.jqf.fuzz.random.NoGuidance;
 import edu.berkeley.cs.jqf.fuzz.repro.ReproGuidance;
 import org.junit.runners.model.FrameworkMethod;
@@ -184,7 +185,14 @@ public class JQF extends JUnitQuickcheck {
                 }
             }
 
-            return new FuzzStatement(method, getTestClass(), generatorRepository, guidance);
+            // TEMP FIX
+            if (guidance instanceof edu.berkeley.cs.jqf.fuzz.mo.NoGuidance) {
+//            return new FuzzStatement(method, getTestClass(), generatorRepository, guidance);
+                return new FuzzStringStatement(method, getTestClass(), generatorRepository);
+
+            } else {
+                return new FuzzStatement(method, getTestClass(), generatorRepository, guidance);
+            }
 
         } else if (method.getAnnotation(DiffFuzz.class) != null) {
             // Get currently set fuzzing guidance

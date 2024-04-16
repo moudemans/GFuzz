@@ -1,7 +1,7 @@
 
 
 import Components.MyGraph;
-import P10Constraint.P10Constraint;
+import P10Constraint.P10ConstraintLogic;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -10,7 +10,7 @@ public class P10ConstraintTest {
 
     @Test
     public void test01() {
-        P10Constraint analysis = new P10Constraint();
+        P10ConstraintLogic analysis = new P10ConstraintLogic();
 
         int start_test_case = 6;
         int end_test_case = 6;
@@ -59,7 +59,7 @@ public class P10ConstraintTest {
 
     @Test
     public void testGMARK() {
-        P10Constraint analysis = new P10Constraint();
+        P10ConstraintLogic analysis = new P10ConstraintLogic();
 
         for (int i = 1; i <= 9; i++) {
             try {
@@ -97,7 +97,7 @@ public class P10ConstraintTest {
 
     @Test
     public void testGMARKMutated() {
-        P10Constraint analysis = new P10Constraint();
+        P10ConstraintLogic analysis = new P10ConstraintLogic();
 
         for (int i = 0; i < 10000 ; i++) {
             try {

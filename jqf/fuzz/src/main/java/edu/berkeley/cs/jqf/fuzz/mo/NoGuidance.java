@@ -35,6 +35,7 @@ import edu.berkeley.cs.jqf.fuzz.guidance.Result;
 import edu.berkeley.cs.jqf.fuzz.util.Coverage;
 import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.*;
@@ -112,8 +113,11 @@ public class NoGuidance implements Guidance {
     @Override
     public InputStream getInput() {
 //        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+//        int val =  random.nextInt(256);
+//        System.out.println("Returning input: " +  val);
+//        return Guidance.createInputStream(() -> val);
 
-        return Guidance.createInputStream(() -> random.nextInt(256));
+        return new ByteArrayInputStream(("fuzz-dir/seed.txt").getBytes());
     }
 
     /**

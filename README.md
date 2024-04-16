@@ -92,6 +92,8 @@ FILE1="int"
 javac -cp .:$(jqf/scripts/classpath.sh) ${PATH1}${FILE1}Logic.java ${PATH1}${FILE1}Generator.java ${PATH1}${FILE1}Test.java
 ```
 
+### Notes on frequentl problems
+- Tutorials/example programs you want to test should not have a package defined, the class loader is not able to find it then.
 
 
 ---

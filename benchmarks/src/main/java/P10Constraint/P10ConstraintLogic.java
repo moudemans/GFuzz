@@ -3,12 +3,12 @@ package P10Constraint;
 import Components.Edge;
 import Components.MyGraph;
 import Components.Node;
+import edu.berkeley.cs.jqf.fuzz.Fuzz;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class P10Constraint {
-
+public class P10ConstraintLogic {
 
 
     public int function_1(MyGraph g, int prev_item_id, String value, int new_item_id, boolean multiple_nodes, boolean at_least_one) {
@@ -66,6 +66,7 @@ public class P10Constraint {
         return 1;
     }
 
+    @Fuzz
     public ArrayList<Node> function_2(MyGraph g, Node prev_item, String value_relationship_name, String value, boolean multiple_nodes, boolean at_least_one) {
         System.out.println("Ping.b001");
         ArrayList<Node> connected_nodes = g.getConnectedNodes(prev_item, value_relationship_name);

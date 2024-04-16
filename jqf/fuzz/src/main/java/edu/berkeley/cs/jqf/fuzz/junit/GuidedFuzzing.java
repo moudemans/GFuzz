@@ -152,6 +152,8 @@ public class GuidedFuzzing {
         // so that applications that use this API can still find test-classes
         Thread.currentThread().setContextClassLoader(loader);
 
+        System.out.println("TESTCLASS NAME: " + testClassName);
+        System.out.println("TESTMETHOD NAME: " + testMethod);
         // Load the application class using the provided class loader
         Class<?> testClass =
                 java.lang.Class.forName(testClassName, true, loader);
