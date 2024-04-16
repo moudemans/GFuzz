@@ -1,4 +1,3 @@
-package P10Constraint;
 
 import Components.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.Fuzz;

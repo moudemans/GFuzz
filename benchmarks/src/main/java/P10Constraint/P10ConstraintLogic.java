@@ -1,4 +1,3 @@
-package P10Constraint;
 
 import Components.Edge;
 import Components.MyGraph;

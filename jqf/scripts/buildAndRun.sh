@@ -2,10 +2,12 @@
 
 #cd "C:\Users\moude\IdeaProjects\myJQF"
 
-#PATH1="benchmarks/src/main/java/P10Constraint/"
-PATH1="tutorial/src/main/java/P10/"
+PATH1="benchmarks/src/main/java/P10Constraint/"
+#PATH1="tutorial/src/main/java/P10/"
 FILES="P10ConstraintLogic.java P10Driver.java"
 #FILES="intLogic.java intGenerator.java intTest.java"
+
+PATH_TO_ROOT="../../../../../"
 
 build_mvn=false
 
@@ -52,5 +54,5 @@ javac -cp .:$(../../../../../jqf/scripts/classpath.sh):$(../../../../../mygraph/
 
 
 #cd "$PATH1"
-../../../../../jqf/bin/jqf-mo -v -c .:$(../../../../../jqf/scripts/classpath.sh):$(../../../../../mygraph/scripts/classpath.sh) P10Driver test1
+${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) P10Driver test1
 #../../../../jqf/bin/jqf-mo -v -c .:$(../../../../jqf/scripts/classpath.sh) intTest test

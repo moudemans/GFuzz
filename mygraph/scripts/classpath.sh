@@ -12,9 +12,9 @@ ROOT_DIR=`dirname $SCRIPT_DIR`
 
 cp="$ROOT_DIR/target/classes"
 
-#for jar in $ROOT_DIR/fuzz/target/dependency/*.jar; do
-#  cp="$cp:$jar"
-#done
+for jar in $ROOT_DIR/target/lib/*.jar; do
+  cp="$cp:$jar"
+done
 #
 #cp="$cp:$ROOT_DIR/instrument/target/classes:$ROOT_DIR/instrument/target/test-classes"
 #
