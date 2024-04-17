@@ -61,6 +61,7 @@ public class TraceLogger extends AbstractLogger {
         // Singleton: Prevent outside construction
     }
 
+
     private ThreadTracer getTracer() {
         // The vast majority of fuzzing sessions are single-threaded; so, return the tracer quickly instead of
         // looking up the thread-local map. This provides about a 10-20% speedup.

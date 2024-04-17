@@ -190,10 +190,12 @@ public class GuidedFuzzing {
             throw new IllegalArgumentException(testClass.getName() + " is not annotated with @RunWith(JQF.class)");
         }
 
-        try {
 //            System.out.println("I AM ALIVE AAAAAAAAAAAAA");
             // Set the static guidance instance
             setGuidance(guidance);
+
+
+//            TraceLogger.resetSingleton();
 
             // Register callback
             SingleSnoop.setCallbackGenerator(guidance::generateCallBack);
@@ -207,6 +209,7 @@ public class GuidedFuzzing {
             // Start tracing for the test method
             SingleSnoop.startSnooping(testClass.getName() + "#" + testMethod);
 
+            try {
             // Run the test
             JUnitCore junit = new JUnitCore();
             if (out != null) {

@@ -49,13 +49,17 @@ public class P10ConstraintLogic {
             System.out.println("Ping.a008");
             if (!g.checkSingle(prev_item_id, e.label)) {
                 System.out.println("Ping.a009");
-                throw new RuntimeException("Not a single");
+//                throw new Exception("Not a single");
+                return -1;
             };
             if (!g.checkSingle(new_item_id, e.label)) {
                 System.out.println("Ping.a010");
                 System.out.println("check single: " + new_item_id +", " + e.label + ", " + g.getNode(new_item_id).label);
-                throw new RuntimeException("Not a single");
+//                throw new Exception("Not a single");
+//                System.exit(-1)
+                return -1;
             }
+
         }
 
         if (value_relationship_name != null) {
@@ -115,14 +119,18 @@ public class P10ConstraintLogic {
 
         if (connected_nodes_with_value.size() > 1) {
             System.out.println("Ping.b012");
-            throw new RuntimeException("Returned multiple connected {connected_rel_name} nodes and was expecting to match just one");
+//            throw new Exception("Returned multiple connected {connected_rel_name} nodes and was expecting to match just one");
+//            System.exit(-1);
+            return null;
         }
 
         if (at_least_one) {
             System.out.println("Ping.b013");
             if (connected_nodes_with_value.size() == 0) {
                 System.out.println("Ping.b014");
-                throw new RuntimeException("No connected {connected_rel_name} node was found and it was set as mandatory");
+//                throw new Exception("No connected {connected_rel_name} node was found and it was set as mandatory");
+//                System.exit(-1);
+                return null;
             }
             return connected_nodes_with_value;
         }

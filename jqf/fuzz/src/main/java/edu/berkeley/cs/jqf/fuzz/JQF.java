@@ -186,7 +186,7 @@ public class JQF extends JUnitQuickcheck {
             }
 
             // TEMP FIX
-            if (guidance instanceof edu.berkeley.cs.jqf.fuzz.mo.NoGuidance) {
+            if (guidance instanceof edu.berkeley.cs.jqf.fuzz.mo.NoGuidance || guidance instanceof edu.berkeley.cs.jqf.fuzz.mo.GraphGuidance) {
 //            return new FuzzStatement(method, getTestClass(), generatorRepository, guidance);
                 return new FuzzStringStatement(method, getTestClass(), generatorRepository);
 

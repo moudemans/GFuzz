@@ -148,7 +148,6 @@ public class FuzzStringStatement extends Statement {
                         }
                         //System.out.println("StreamBackedRandom getValue: "+stringBuilder.toString());
                         currentFile = stringBuilder.toString();
-                        System.out.println("currentfile: " + currentFile);
                         Object[] args2 = {currentFile};
                         args = args2;
 
@@ -182,7 +181,8 @@ public class FuzzStringStatement extends Statement {
                 } catch (GuidanceException e) {
                     // Throw the guidance exception outside to stop fuzzing
                     throw e;
-                } catch (AssumptionViolatedException e) {
+                }
+                catch (AssumptionViolatedException e) {
                     result = INVALID;
                     error = e;
                 } catch (TimeoutException e) {
