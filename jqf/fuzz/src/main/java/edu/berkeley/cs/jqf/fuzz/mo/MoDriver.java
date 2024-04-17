@@ -50,7 +50,7 @@ public class MoDriver {
         try {
             // Load the guidance
 //            NoGuidance guidance = new NoGuidance(maxTrials, System.err);
-            GraphGuidance guidance = new GraphGuidance(maxTrials, System.err, testClassName, testMethodName);
+            GraphGuidance guidance = new GraphGuidance(maxTrials, System.out, testClassName, testMethodName);
 
             // Run the Junit test
             GuidedFuzzing.run(testClassName, testMethodName, guidance, null);

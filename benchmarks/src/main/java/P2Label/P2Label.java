@@ -9,7 +9,7 @@ public class P2Label {
 
     public void run(String inputFile) throws IOException {
         MyGraph g = MyGraph.readGraphFromFile(inputFile);
-        System.out.println("Running program!");
+        //System.out.println("Running program!");
         runConditions(g);
     }
 

@@ -25,7 +25,7 @@ public class App {
 		
 		if (args.length == 0) {
 			printUsage();
-			System.out.println();
+			//System.out.println();
 			System.out.println("Warning: no arguments given, using default arguments");
 			System.out.println();
 		}

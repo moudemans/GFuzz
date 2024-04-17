@@ -226,7 +226,7 @@ public class State {
 		for (int i = 0 ; i < core_2.length ; i++) {
 			System.out.print("(" + core_2[i] + "-" + i + ") ");
 		}
-		System.out.println();
+		//System.out.println();
 	}
 	
 	/**

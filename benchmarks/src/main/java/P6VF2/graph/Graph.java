@@ -64,7 +64,7 @@ public class Graph {
 		
 		System.out.print(this.name + " - Nodes: ");
 		for (Node n : nodes) System.out.print(n.id + " ");
-		System.out.println();
+		//System.out.println();
 		for (int i = 0 ; i < k ; i++) {
 			for (int j = 0 ; j < k ; j++) {
 				System.out.print(a[i][j] + " ");

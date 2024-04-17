@@ -17,46 +17,46 @@ public class P9Constraint {
     }
 
     public int function_1(MyGraph g, int prev_item_id, String value, int new_item_id) {
-        System.out.println("Ping.a001");
+        //System.out.println("Ping.a001");
         Node prev_item = g.getNode(prev_item_id);
         Set<Edge> relationships_to_maintain = prev_item.getEdges();
 
-        System.out.println("Ping.a002");
+        //System.out.println("Ping.a002");
         // TODO: should I be using the label or the value of the label?
         String value_relationship_name = null;
         for (Edge e :
                 relationships_to_maintain) {
-            System.out.println("Ping.a006");
+            //System.out.println("Ping.a006");
             if (g.getNode(e.to).label.equals(value)) {
-                System.out.println("Ping.a003");
+                //System.out.println("Ping.a003");
                 value_relationship_name = e.label;
             }
         }
 
-        System.out.println("Ping.a004");
+        //System.out.println("Ping.a004");
         for (Edge e :
                 relationships_to_maintain) {
 
             // TODO: add typing (or other condition) to access function 2 or not
             ArrayList<Node> connected_nodes = function_2(g, prev_item, e.label, value, true, false);
-            System.out.println("Ping.a005");
+            //System.out.println("Ping.a005");
             for (Node n :
                     connected_nodes) {
-                System.out.println("Ping.a007");
+                //System.out.println("Ping.a007");
                 g.addEdge(new Edge( e.label, new_item_id, n.id));
             }
         }
 
         for (Edge e :
                 relationships_to_maintain) {
-            System.out.println("Ping.a008");
+            //System.out.println("Ping.a008");
             if (!g.checkSingle(prev_item_id, e.label)) {
-                System.out.println("Ping.a009");
+                //System.out.println("Ping.a009");
                 throw new RuntimeException("Not a single");
             };
             if (!g.checkSingle(new_item_id, e.label)) {
-                System.out.println("Ping.a010");
-                System.out.println("check single: " + new_item_id +", " + e.label + ", " + g.getNode(new_item_id).label);
+                //System.out.println("Ping.a010");
+                //System.out.println("check single: " + new_item_id +", " + e.label + ", " + g.getNode(new_item_id).label);
                 throw new RuntimeException("Not a single");
             }
         }

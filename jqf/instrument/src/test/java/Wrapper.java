@@ -9,7 +9,7 @@ public class Wrapper {
             if (s.equals("ERROR")) {
                 throw new Exception("Data is errornous");
             }
-            System.out.println(s);
+            //System.out.println(s);
         } catch (Exception e) {
            System.err.println(e.getClass().getCanonicalName() + ": " + e.getMessage());
         }

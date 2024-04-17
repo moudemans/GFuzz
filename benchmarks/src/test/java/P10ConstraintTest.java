@@ -23,7 +23,7 @@ public class P10ConstraintTest {
                 analysis.function_1(g, 0, "Data1", 2, false, false);
             } catch (Exception e) {
 //            throw new RuntimeException(e);
-                System.out.println("Exception returned");
+                //System.out.println("Exception returned");
 
             }
         }
@@ -35,7 +35,7 @@ public class P10ConstraintTest {
                 analysis.function_1(g, 0, "Data1", 2, false, true);
             } catch (Exception e) {
 //            throw new RuntimeException(e);
-                System.out.println("Exception returned");
+                //System.out.println("Exception returned");
 
             }
         }
@@ -47,7 +47,7 @@ public class P10ConstraintTest {
                 analysis.function_1(g, 0, "Data1", 2, true, false);
             } catch (Exception e) {
 //            throw new RuntimeException(e);
-                System.out.println("Exception returned");
+                //System.out.println("Exception returned");
 
             }
         }
@@ -87,7 +87,7 @@ public class P10ConstraintTest {
                 } catch (Exception ignored) {}
             } catch (Exception e) {
 //            throw new RuntimeException(e);
-                System.out.println("Exception returned");
+                //System.out.println("Exception returned");
 
             }
         }

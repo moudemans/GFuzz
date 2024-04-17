@@ -57,7 +57,7 @@ public class P1Cycle {
                     int beginCycleIndex = nWalker.getPath().indexOf(e.to);
                     List<Integer> cyclePath = nWalker.getPath().subList(beginCycleIndex, nWalker.getPath().size());
                     if (cyclePath.size() > 15) {
-                        System.out.println("Found cycle of size " + cyclePath.size() + ". Path: " + cyclePath.toString() + " --> " + e.to + " ******* full path: " + nWalker.getPath());
+                        //System.out.println("Found cycle of size " + cyclePath.size() + ". Path: " + cyclePath.toString() + " --> " + e.to + " ******* full path: " + nWalker.getPath());
                         return true;
                     }
                     continue;

@@ -71,13 +71,14 @@ public class GraphGuidance implements Guidance {
     private static final String SEED_DIR = "seeds/";
     private static boolean CLEAR_ALL_PREVIOUS_RESULTS_ON_START = true;
 
-    private static ArrayList<String> seed_files = new ArrayList<>();
 
     private static String currentInputFile = "";
     private static String nextInputFileLocation = WORKING_DIR + RUNNING_DIR + "mutated.ser";
 
 
+    private static ArrayList<String> seed_files = new ArrayList<>();
     Queue<String> inputFiles = new PriorityQueue<>();
+    private static ArrayList<String> important_files = new ArrayList<>(); // List of files which increase coverage / produce error. This is used to mutate
 
 
     protected Set<List<StackTraceElement>> uniqueFailures = new HashSet<>();
@@ -97,9 +98,6 @@ public class GraphGuidance implements Guidance {
     /** Total execs at last stats refresh. */
     protected long lastNumTrials = 0;
 
-
-
-
     /** The directory where fuzzing results are written. */
     protected File outputDirectory;
     protected File seedDirectory;
@@ -115,8 +113,6 @@ public class GraphGuidance implements Guidance {
     /** Cumulative coverage for valid inputs. */
     protected Coverage validCoverage = new Coverage();
 
-    /** Map which tracks the amount of times each known branch is covered */
-    protected Map<Set<Integer>, Integer> branchesHitCount = new HashMap<>();
 
 
     /**
@@ -240,9 +236,9 @@ public class GraphGuidance implements Guidance {
         if (!inputFiles.isEmpty()) {
             currentInputFile = inputFiles.poll();
         } else {
-            System.err.println("No more input files, mutating seeds");
-            int random_seed = random.nextInt(seed_files.size());
-            currentInputFile = seed_files.get(random_seed);
+//            System.err.println("No more input files, mutating seeds");
+            int random_seed = random.nextInt(important_files.size());
+            currentInputFile = important_files.get(random_seed);
         }
 
 
@@ -359,6 +355,11 @@ public class GraphGuidance implements Guidance {
         if(!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
             uniqueFailuresString.add(traceElementsString);
+
+            if (uniqueFailuresString.size() > 10000) {
+                System.err.println("Found more than 10.000x unique errors, check program and outputs");
+                keepGoing = false;
+            }
             saveCurrentInput("error");
         }
     }
@@ -374,6 +375,8 @@ public class GraphGuidance implements Guidance {
             System.exit(-1);
         }
 
+        important_files.add(dest_folder+ "/" +new_file_name);
+        inputFiles.add(dest_folder+ "/"+new_file_name);
     }
 
     private void displayStats() {
