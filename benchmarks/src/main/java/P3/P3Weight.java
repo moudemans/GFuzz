@@ -1,7 +1,7 @@
 package P3;
 
 
-import Components.*;
+import tudcomponents.*;
 
 import java.io.IOException;
 

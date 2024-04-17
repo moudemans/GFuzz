@@ -1,11 +1,7 @@
 
 
-import Components.MyGraph;
-import P4Value.P4Conditional;
 import P9GConstraint.P9Constraint;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 

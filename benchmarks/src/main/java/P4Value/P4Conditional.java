@@ -1,8 +1,8 @@
 package P4Value;
 
 
-import Components.MyGraph;
-import Components.Node;
+import tudcomponents.MyGraph;
+import tudcomponents.Node;
 
 import java.io.IOException;
 

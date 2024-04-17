@@ -1,4 +1,4 @@
-package Components;
+package tudcomponents;
 
 public enum Cardinality {
     // https://docs.janusgraph.org/v0.3/basics/schema/

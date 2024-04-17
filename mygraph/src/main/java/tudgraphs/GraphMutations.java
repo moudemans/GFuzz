@@ -1,4 +1,4 @@
-package Graphs;/*
+package tudgraphs;/*
  * Created by Melchior Oudemans for the bachelors research project at the TUDelft. Adopted for master thesis project at the TU Delft.
  */
 

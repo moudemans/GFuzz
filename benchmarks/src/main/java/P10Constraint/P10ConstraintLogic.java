@@ -1,7 +1,7 @@
 
-import Components.Edge;
-import Components.MyGraph;
-import Components.Node;
+import tudcomponents.Edge;
+import tudcomponents.MyGraph;
+import tudcomponents.Node;
 import edu.berkeley.cs.jqf.fuzz.Fuzz;
 
 import java.util.ArrayList;

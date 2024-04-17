@@ -1,5 +1,5 @@
-import Components.MyGraph;
-import Graphs.GraphMutator;
+import tudcomponents.MyGraph;
+import tudgraphs.GraphMutator;
 
 import java.util.Random;
 

@@ -2,9 +2,9 @@ package P1;
 
 
 
-import Components.Edge;
-import Components.MyGraph;
-import Components.Node;
+import tudcomponents.Edge;
+import tudcomponents.MyGraph;
+import tudcomponents.Node;
 
 
 import java.io.IOException;

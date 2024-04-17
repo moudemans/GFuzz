@@ -28,7 +28,7 @@
  */
 package edu.berkeley.cs.jqf.fuzz.mo;
 
-import Components.MyGraph;
+import tudcomponents.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.guidance.GuidanceException;
 import edu.berkeley.cs.jqf.fuzz.guidance.Result;
@@ -243,9 +243,11 @@ public class GraphGuidance implements Guidance {
 
 
         MyGraph currentGraph = MyGraph.readGraphFromFile(currentInputFile);
-        MyGraph mutation = GraphUtil.byteMutation(currentGraph, 1, random);
+//        MyGraph mutation = GraphUtil.byteMutation(currentGraph, 1, random, 1);
 
-        MyGraph.writeGraphToFile(nextInputFileLocation, mutation);
+//                GraphMutator.mutateGraph(currentGraph, null);
+        MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
+//        MyGraph.writeGraphToFile(nextInputFileLocation, mutation);
 
         InputStream targetStream = new ByteArrayInputStream(nextInputFileLocation.getBytes());
 //        saveInput();
@@ -282,7 +284,7 @@ public class GraphGuidance implements Guidance {
         if (numTrials > 10 && ((float) numDiscards)/((float) (numTrials)) > maxDiscardRatio) {
             throw new GuidanceException("Assumption is too strong; too many inputs discarded");
         }
-        System.out.println("RESULTS = " + result);
+
         if (result == Result.SUCCESS || result == Result.INVALID) {
 
             // Coverage before
@@ -347,7 +349,7 @@ public class GraphGuidance implements Guidance {
         String traceElementsString = "";
         for (int i = 0; i < testProgramTraceElements.size(); i++) {
             traceElementsString +=testProgramTraceElements.get(i).toString();
-            System.out.println(testProgramTraceElements.get(i).toString());
+//            System.out.println(testProgramTraceElements.get(i).toString());
         }
 
         //   Attempt to add this to the set of unique failures
@@ -355,7 +357,9 @@ public class GraphGuidance implements Guidance {
         if(!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
             uniqueFailuresString.add(traceElementsString);
-
+            System.out.println("New unique error found!");
+            System.out.println(traceElementsString);
+            System.out.println("****");
             if (uniqueFailuresString.size() > 10000) {
                 System.err.println("Found more than 10.000x unique errors, check program and outputs");
                 keepGoing = false;

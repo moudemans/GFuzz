@@ -41,6 +41,8 @@ fi
 "$java" -ea \
   -Xbootclasspath/a:"$INST_CLASSPATH" \
   ${JAVAAGENT} \
+   -Xmx4G\
+   -Xss1G \
   -Djanala.conf="${SCRIPT_DIR}/janala.conf" \
   -cp "${FUZZ_CLASSPATH}:${CLASSPATH}" \
   ${JVM_OPTS} \

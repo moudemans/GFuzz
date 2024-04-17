@@ -1,6 +1,6 @@
 
 
-import Components.MyGraph;
+import tudcomponents.MyGraph;
 import P10Constraint.P10ConstraintLogic;
 import org.junit.Test;
 

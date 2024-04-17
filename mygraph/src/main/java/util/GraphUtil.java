@@ -1,5 +1,5 @@
 package util;
-import Components.MyGraph;
+import tudcomponents.MyGraph;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.util.Random;
@@ -34,7 +34,9 @@ public class GraphUtil {
         return newGraph;
     }
 
-    public static MyGraph byteMutation(MyGraph g, int byteCount, Random r) {
+    public static MyGraph byteMutation(MyGraph g, int byteCount, Random r, int max_tries) {
+
+
         byte[] data = SerializationUtils.serialize(g);
 
         int MIN_BYTE_VALUE = -128;
@@ -54,7 +56,11 @@ public class GraphUtil {
             MyGraph newGraph = (MyGraph) SerializationUtils.deserialize(data);
             return newGraph;
         } catch (Exception | NoClassDefFoundError e) {
-            return byteMutation(g, byteCount, r);
+            // After specified amount of tries, return the original graph
+            if (max_tries <= 0) {
+                return g;
+            }
+            return byteMutation(g, byteCount, r, max_tries -1);
         }
     }
 

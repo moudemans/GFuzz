@@ -1,6 +1,6 @@
 package P2Label;
 
-import Components.*;
+import tudcomponents.*;
 
 import java.io.IOException;
 

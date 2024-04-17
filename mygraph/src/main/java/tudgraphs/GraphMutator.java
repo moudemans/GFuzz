@@ -1,6 +1,6 @@
-package Graphs;
+package tudgraphs;
 
-import Components.*;
+import tudcomponents.*;
 
 import java.util.*;
 import java.util.stream.Collectors;

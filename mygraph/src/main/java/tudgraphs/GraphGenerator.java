@@ -1,6 +1,6 @@
-package Graphs;
+package tudgraphs;
 
-import Components.*;
+import tudcomponents.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -30,7 +30,7 @@ public class GraphGenerator {
 
     private static final Random r = new Random();
 
-    static int generationMethod = 5;
+    static int generationMethod = 8;
     // 0: random simple graph
     // 1: random labeled graph, with cat and val
     // 4: Generate graph from Schema
@@ -71,12 +71,31 @@ public class GraphGenerator {
             case 7:
                 copyGraphFromGMARK2();
                 break;
+            case 8:
+                copyGraphFromSer();
+                break;
             default:
                 throw new RuntimeException("Generation method not recognized: " + generationMethod);
         }
 
         MyGraph.writeGraphToFile(DEFAULT_OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME, g);
         MyGraph.writeGraphToJSON(DEFAULT_OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME2, g);
+    }
+
+    private static void copyGraphFromSer() {
+//        String dir = "benchmarks/src/main/resources/P9/P9Examples-MANUAL/";
+        String dir = "benchmarks/src/main/java/P10Constraint/fuzz-dir/saved-inputs/";
+//        String name = "test01";
+        String name = "Coverage_6";
+        String extension_json = ".json";
+        String extension_ser = ".ser";
+
+        String input_file = dir + name + extension_ser;
+        String output_file = dir + name + extension_json;
+
+        MyGraph g = MyGraph.readGraphFromFile(input_file);
+        MyGraph.writeGraphToJSON(output_file, g);
+
     }
 
     private static void copyGraphToVF2() {

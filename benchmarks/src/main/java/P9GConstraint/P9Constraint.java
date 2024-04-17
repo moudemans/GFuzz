@@ -1,8 +1,8 @@
 package P9GConstraint;
 
-import Components.MyGraph;
-import Components.Node;
-import Components.Edge;
+import tudcomponents.MyGraph;
+import tudcomponents.Node;
+import tudcomponents.Edge;
 
 import java.util.ArrayList;
 import java.util.Set;

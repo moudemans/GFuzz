@@ -94,7 +94,8 @@ javac -cp .:$(jqf/scripts/classpath.sh) ${PATH1}${FILE1}Logic.java ${PATH1}${FIL
 
 ### Notes on frequentl problems
 - Tutorials/example programs you want to test should not have a package defined, the class loader is not able to find it then.
-
+- There is a stack overflow of the heap size. It can be adjusted [here](jqf/scripts/jqf-driver.sh) but needs to be fixed. The issue occurs when there are a lot of exceptions...
+  - This is caused due to the random byte mutation for graphs. Reading in the new graph causes a overflow deu to the serialization being corrupted.
 
 ---
  
