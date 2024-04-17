@@ -1,6 +1,7 @@
 # Transportation algorithm
 **Functionality** \
-This algoritm reads the property values of different nodes and edges and depending on the value range takes different paths. 
+The applications reads the property value from the edges, expecting specific properties dependent on the edge label.
+
 ****
 
 
