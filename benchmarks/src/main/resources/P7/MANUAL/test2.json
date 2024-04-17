@@ -1,0 +1,89 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "Centroid",
+      "Stop"
+    ],
+    "EdgeLabels": [
+      "DRT",
+      "WALK"
+    ],
+    "Relationships": [
+      {
+        "Label": "DRT",
+        "From": "Centroid",
+        "To": "Stop",
+        "Cardinality": "SIMPLE"
+      },
+      {
+        "Label": "WALK",
+        "From": "Centroid",
+        "To": "STOP",
+        "Cardinality": "SIMPLE"
+      }
+    ],
+    "NodeProperties": {},
+    "EdgeProperties": {
+      "DRT" : [
+        {
+          "Name": "inter_times",
+          "Type": "INT"
+        },
+        {
+          "Name": "waiting_time",
+          "Type": "INT"
+        },
+        {
+          "Name": "DRT_time",
+          "Type": "INT"
+        }
+      ],
+      "WALK" : [
+        {
+          "Name": "walking_time",
+          "Type": "INT"
+        }
+      ]
+    }
+  },
+  "Nodes": [
+    {
+      "Id": 0,
+      "Label": "Centroid",
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 1,
+          "IsDirected": false,
+          "Weight": 0,
+          "Properties": {
+            "inter_times": "1",
+            "waiting_DRT": "1",
+            "DRT_time": "1"
+          }
+        }
+      ],
+      "Incomming_edges": []
+    },
+    {
+      "Id": 1,
+      "Label": "Stop",
+      "Edges": [],
+      "Incomming_edges": [
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 1,
+          "IsDirected": false,
+          "Weight": 0,
+          "Properties": {
+            "inter_times": "1",
+            "waiting_DRT": "1",
+            "DRT_time": "1"
+          }
+        }
+      ]
+    }
+  ]
+}

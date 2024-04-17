@@ -1,0 +1,71 @@
+{
+  "NodeLabels": [
+    "A",
+    "B"
+  ],
+  "EdgeLabels": [
+    "1"
+  ],
+  "Relationships": [
+    {
+      "Label": "1",
+      "From": "A",
+      "To": "B",
+      "Cardinality": "SIMPLE"
+    },
+    {
+      "Label": "2",
+      "From": "B",
+      "To": "B",
+      "Cardinality": "SIMPLE"
+    },
+    {
+      "Label": "3",
+      "From": "B",
+      "To": "A",
+      "Cardinality": "SIMPLE"
+    }
+  ],
+  "NodeProperties": {
+    "A": [
+      {
+        "Name": "name",
+        "Type": "STRING"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "1": [
+      {
+        "Name": "date",
+        "Type": "DATE"
+      }
+    ]
+  },
+  "Patterns": [
+    {
+      "Relationships": [
+        {
+          "Label": "1",
+          "From": "A",
+          "To": "B",
+          "Cardinality": "ONE2ONE"
+        },
+        {
+          "Label": "2",
+          "From": "B",
+          "To": "B",
+          "Cardinality": "SIMPLE"
+        },
+        {
+          "Label": "1",
+          "From": "B",
+          "To": "A",
+          "Cardinality": "ONE2ONE"
+        }
+
+      ],
+      "MaxSize": 10
+    }
+  ]
+}

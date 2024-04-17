@@ -1,0 +1,73 @@
+{
+  "NodeLabels": [
+    "Company",
+    "User",
+    "Settings",
+    "Storage",
+    "Progress"
+  ],
+  "EdgeLabels": [
+    "1"
+  ],
+  "Relationships": [
+    {
+      "Label": "1",
+      "From": "User",
+      "To": "Settings",
+      "Cardinality": "ONE2ONE"
+    },
+    {
+      "Label": "2",
+      "From": "User",
+      "To": "Storage",
+      "Cardinality": "ONE2ONE"
+    },
+    {
+      "Label": "3",
+      "From": "User",
+      "To": "Progress",
+      "Cardinality": "ONE2ONE"
+    }
+  ],
+  "NodeProperties": {
+    "A": [
+      {
+        "Name": "name",
+        "Type": "STRING"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "1": [
+      {
+        "Name": "date",
+        "Type": "DATE"
+      }
+    ]
+  },
+  "Patterns": [
+    {
+      "Relationships": [
+        {
+          "Label": "1",
+          "From": "User",
+          "To": "Settings",
+          "Cardinality": "ONE2ONE"
+        },
+        {
+          "Label": "2",
+          "From": "User",
+          "To": "Storage",
+          "Cardinality": "ONE2ONE"
+        },
+        {
+          "Label": "3",
+          "From": "User",
+          "To": "Progress",
+          "Cardinality": "ONE2ONE"
+        }
+      ],
+      "MaxSize": 4
+    }
+  ]
+}

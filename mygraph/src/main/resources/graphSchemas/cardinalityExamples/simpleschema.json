@@ -1,0 +1,49 @@
+{
+  "NodeLabels": [
+    "Account"
+  ],
+  "EdgeLabels": [
+    "DEBT",
+    "CREDIT"
+  ],
+  "Relationships": [
+    {
+      "Label": "DEBT",
+      "From": "Account",
+      "To": "Account",
+      "Cardinality": "SIMPLE"
+    },
+    {
+      "Label": "CREDIT",
+      "From": "Account",
+      "To": "Account",
+      "Cardinality": "SIMPLE"
+    }
+  ],
+  "NodeProperties": {
+    "Account": [
+      {
+        "Name": "name",
+        "Type": "STRING"
+      },
+      {
+        "Name": "adult",
+        "Type": "BOOLEAN"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "DEBT": [
+      {
+        "Name": "amount",
+        "Type": "INT"
+      }
+    ],
+    "CREDIT": [
+      {
+        "Name": "amount",
+        "Type": "INT"
+      }
+    ]
+  }
+}
