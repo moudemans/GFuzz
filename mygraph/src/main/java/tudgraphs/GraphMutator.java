@@ -4,6 +4,7 @@ import tudcomponents.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang.SerializationUtils;
 import util.Util;
@@ -50,23 +51,23 @@ public class GraphMutator {
         }
         System.out.println("Mutation method selected: " + mm);
 
-        applyMutationMethod(g, mm);
+        applyMutationMethod(g, mm, null);
         return mm;
     }
-    public static GraphMutations.MutationMethod mutateGraphLimit(MyGraph g, Set<GraphMutations.MutationMethod> exclude_mutations) {
+    public static String mutateGraphLimit(MyGraph g, Set<String> breaking_mutations) {
         assert g.getSchema() != null : "Graph schema not available for graph mutation";
 
-        GraphMutations.MutationMethod mm = selectMutationMethod(exclude_mutations);
-
+        GraphMutations.MutationMethod mm = selectMutationMethod();
         System.out.println("Mutation method selected: " + mm);
 
-        applyMutationMethod(g, mm);
-        return mm;
+        String message = applyMutationMethod(g, mm, breaking_mutations);
+        return message;
     }
 
 
 
-    private static void applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm) {
+    private static String applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm, Set<String> breaking_mutations) {
+        String mutation_message = "";
         switch (mm) {
             case CopySubset -> applyCopySubSetMutation(g);
             case AddNode -> addNodeMutation(g);
@@ -76,46 +77,64 @@ public class GraphMutator {
             case ChangePropertyValue -> changePropertyValue(g);
             case RemoveProperty -> removePropertyKey(g);
             case AddProperty -> addPropertyKey(g);
-            case InsertCycle -> insertCycleMutation(g);
-            case BreakCardinality -> breakCardinalityMutation(g);
-            case BreakUnique -> breakUniqueMutation(g);
-            case BreakNull -> breakNullMutation(g);
+            case BreakSchema -> mutation_message = breakSchemaMutation(g, breaking_mutations);
+
+            case BreakCardinality -> mutation_message = breakCardinalityMutation(g, breaking_mutations);
+            case BreakUnique -> mutation_message = breakUniqueMutation(g, breaking_mutations);
+            case BreakNull -> mutation_message = breakNullMutation(g, breaking_mutations);
             default -> System.err.println("Mutation method not implemented: " + mm);
         }
+        return mutation_message;
     }
 
-    private static void breakNullMutation(MyGraph g) {
+    private static String breakSchemaMutation(MyGraph g, Set<String> breaking_mutations) {
+        // There are 2 types of constraint that can be broken, relationship or property
+        int random_schema_break_mutation = r.nextInt(3);
+        GraphMutations.MutationMethod[] breaking_mutations_methods = new GraphMutations.MutationMethod[] {
+                GraphMutations.MutationMethod.BreakUnique, GraphMutations.MutationMethod.BreakCardinality, GraphMutations.MutationMethod.BreakNull
+        };
+        String constraint = applyMutationMethod(g, breaking_mutations_methods[random_schema_break_mutation], breaking_mutations);
+
+        return breaking_mutations_methods[random_schema_break_mutation] + "$" + constraint;
+    }
+
+    private static String breakNullMutation(MyGraph g, Set<String> breaking_mutations) {
         HashMap<String, ArrayList<Property>> nullprops = new HashMap<>(g.getSchema().getNonNullNodeProperties());
 
-        ArrayList<String> empty_labels = new ArrayList<>();
-        for (String key : nullprops.keySet()) {
-            ArrayList<Property> notMutated = new ArrayList<>();
-            for (Property p : nullprops.get(key)) {
-                if (propertyNullMutationPerformed.contains(p)) {
-                    notMutated.add(p);
-                }
-            }
-            nullprops.put(key, notMutated);
-            if (notMutated.isEmpty()) {
-                empty_labels.add(key);
-            }
-        }
-
-        for(String key : empty_labels) {
-            nullprops.remove(key);
-        }
 
         if (nullprops.isEmpty()) {
             System.err.println("Could not perform a break null property mutation. There are no unique properties");
-            return;
+            return "";
         }
-        ArrayList<String> node_labels = new ArrayList<>(nullprops.keySet());
+
+        if (nullprops.isEmpty()) {
+            System.err.println("Could not perform a break unique property mutation. There are no unique properties");
+            return "";
+        }
+
+        HashMap<String, ArrayList<Property>> filtered_properties = new HashMap<>();
+        // Remove properties that are already mutated
+        for (String key : nullprops.keySet()) {
+            ArrayList<Property> notMutated = new ArrayList<>();
+            // Check each property whether is it in the broken mutations
+            for (Property p : nullprops.get(key)) {
+                if (!breaking_mutations.contains(key + "-" + p.name)) {
+                    notMutated.add(p);
+                }
+            }
+            // If there is at least one node which has not been mutated, add it to the filtered list
+            if (!notMutated.isEmpty()) {
+                filtered_properties.put(key, notMutated);
+            }
+        }
+
+        ArrayList<String> node_labels = new ArrayList<>(filtered_properties.keySet());
         Collections.shuffle(node_labels, r);
 
         String node_label = node_labels.get(0);
-        assert !nullprops.get(node_label).isEmpty();
+        assert !filtered_properties.get(node_label).isEmpty();
 
-        ArrayList<Property> properties = new ArrayList<>(nullprops.get(node_label));
+        ArrayList<Property> properties = new ArrayList<>(filtered_properties.get(node_label));
         Collections.shuffle(properties, r);
 
 
@@ -124,7 +143,7 @@ public class GraphMutator {
         ArrayList<Node> nodes = new ArrayList<>(g.getNodes(node_label));
         if (nodes.isEmpty()) {
             System.err.println("Could not perform a break unique property mutations, not enough nodes for label: " + node_label);
-            return;
+            return "";
         }
 
         Collections.shuffle(nodes, r);
@@ -137,40 +156,48 @@ public class GraphMutator {
         node1.properties.put(property.name, null);
 
         propertyNullMutationPerformed.add(property);
+        return node_label + "-" +property.name;
     }
 
-    private static void breakUniqueMutation(MyGraph g) {
+    private static String breakUniqueMutation(MyGraph g, Set<String> breaking_mutations) {
+
+        //Collect all node+properties
         HashMap<String, ArrayList<Property>> uniqueprops = new HashMap<>(g.getSchema().getUniqueNodeProperties());
 
-        ArrayList<String> empty_labels = new ArrayList<>();
-        for (String key : uniqueprops.keySet()) {
-            ArrayList<Property> notMutated = new ArrayList<>();
-            for (Property p : uniqueprops.get(key)) {
-                if (propertyUniqueMutationPerformed.contains(p)) {
-                    notMutated.add(p);
-                }
-            }
-            uniqueprops.put(key, notMutated);
-            if (notMutated.isEmpty()) {
-                empty_labels.add(key);
-            }
-        }
-
-        for(String key : empty_labels) {
-            uniqueprops.remove(key);
-        }
 
         if (uniqueprops.isEmpty()) {
             System.err.println("Could not perform a break unique property mutation. There are no unique properties");
-            return;
+            return "";
         }
-        ArrayList<String> node_labels = new ArrayList<>(uniqueprops.keySet());
+
+        HashMap<String, ArrayList<Property>> filtered_properties = new HashMap<>();
+        // Remove properties that are already mutated
+        for (String key : uniqueprops.keySet()) {
+            ArrayList<Property> notMutated = new ArrayList<>();
+            // Check each property whether is it in the broken mutations
+            for (Property p : uniqueprops.get(key)) {
+                if (!breaking_mutations.contains(key + "-" + p.name)) {
+                    notMutated.add(p);
+                }
+            }
+            // If there is at least one node which has not been mutated, add it to the filtered list
+            if (!notMutated.isEmpty()) {
+                filtered_properties.put(key, notMutated);
+            }
+        }
+
+
+        if (filtered_properties.isEmpty()) {
+            System.err.println("Could not perform a break unique property mutation. all the unique properties have already been mutated");
+            return "";
+        }
+        ArrayList<String> node_labels = new ArrayList<>(filtered_properties.keySet());
         Collections.shuffle(node_labels, r);
 
         String node_label = node_labels.get(0);
-        assert !uniqueprops.get(node_label).isEmpty();
+        assert !filtered_properties.get(node_label).isEmpty();
 
-        ArrayList<Property> properties = new ArrayList<>(uniqueprops.get(node_label));
+        ArrayList<Property> properties = new ArrayList<>(filtered_properties.get(node_label));
         Collections.shuffle(properties, r);
 
         Property property = properties.get(0);
@@ -178,7 +205,7 @@ public class GraphMutator {
         ArrayList<Node> nodes = new ArrayList<>(g.getNodes(node_label));
         if (nodes.size() <= 1) {
             System.err.println("Could not perform a break unique property mutations, not enough nodes for label: " + node_label);
-            return;
+            return "";
         }
 
         Collections.shuffle(nodes, r);
@@ -189,29 +216,43 @@ public class GraphMutator {
         assert node2.properties.containsKey(property.name);
 
         node2.properties.put(property.name, node1.properties.get(property.name));
+        return node_label+"-"+property.name;
     }
 
-    private static void breakCardinalityMutation(MyGraph g) {
+    private static String breakCardinalityMutation(MyGraph g, Set<String> breaking_mutations) {
         // Select relationships where there is a cardinality
         GraphSchema gs = g.getSchema();
         ArrayList<Relationship> relationships_with_cardinality = new ArrayList<>(gs.getRelationships()
                 .stream()
-                .filter(relationship -> relationship.getCardinality() != Cardinality.MULTI)
-                .filter(relationship -> !cardinalityMutationsPerformed.containsKey(relationship)).toList());
+                .filter(relationship -> relationship.getCardinality() != Cardinality.MULTI).toList());
 
 
 
         if (relationships_with_cardinality.isEmpty()) {
             System.err.println("There are no relationships with cardinality which can be broken, no cardinality mutation performed");
-            return;
+            return "";
+        }
+
+        Set<String> cardinality_mutations_applied = breaking_mutations.stream().filter(s -> s.contains(GraphMutations.MutationMethod.BreakCardinality.toString())).collect(Collectors.toSet()); // Filter on cardinality mutation messages
+        ArrayList<Relationship> filtered_relationships = new ArrayList<>(relationships_with_cardinality.stream().filter(relationship -> !cardinality_mutations_applied.contains(relToConstraintString(relationship))).toList());
+
+        if (filtered_relationships.isEmpty()) {
+            System.err.println("All relationships with cardinality have already been broken, no mutation performed");
+            return "";
         }
 
         int random_relationship_index = r.nextInt(relationships_with_cardinality.size());
         Relationship rel = relationships_with_cardinality.get(random_relationship_index);
 
         breakCardinality(g, rel);
-        cardinalityMutationsPerformed.put(rel, true);
 
+        cardinalityMutationsPerformed.put(rel, true);
+        String constraint_string = relToConstraintString(rel);
+        return constraint_string;
+    }
+
+    private static String relToConstraintString(Relationship rel) {
+        return "(" + rel.getFrom() + "-" + rel.getLabel() + "-" + rel.getTo() + "):" + rel.getCardinality();
     }
 
 
@@ -355,50 +396,18 @@ public class GraphMutator {
         g.addEdge(e2);
     }
 
-    private static void insertCycleMutation(MyGraph g) {
-        collect_cycles_in_schema(g);
-    }
 
-    private static void collect_cycles_in_schema(MyGraph g) {
-        GraphSchema gs = g.getSchema();
-        Set<String> cycle_paths = new HashSet<>();
-        for (Relationship rel :
-                gs.getRelationships()) {
-
-            ArrayList<String> path = find_path(gs, rel.getFrom(), new ArrayList<>(), new HashSet<>(), rel);
-
-        }
-
-    }
-
-    private static ArrayList<String> find_path(GraphSchema gs, String start_label, ArrayList<String> path, Set<Relationship> visited, Relationship current_rel) {
-        ArrayList<String> dc_path = new ArrayList<>(path);
-        HashSet<Relationship> dc_visited = new HashSet<>(visited);
-
-        String next_location = current_rel.getTo();
-        if (next_location.equals(start_label)) {
-            dc_path.add(current_rel.getLabel());
-            return dc_path;
-        }
-
-        List<Relationship> next_possible_steps = gs.getRelationships().stream().filter(relationship -> relationship.getFrom().equals(current_rel.getTo())).toList();
-        return null;
-
-    }
-
+    // TODO
     private static void addPropertyKey(MyGraph g) {
-//        String property_label;
-//        GraphSchema gs = g.getSchema();
-//        ArrayList<String> node_labels = new ArrayList<>(gs.getNodeProperties().keySet());
-//        ArrayList<String> edge_labels = new ArrayList<>(gs.getEdgeProperties().keySet());
-//
-//        int pool_size = node_labels.size() + edge_labels.size();
-//        int random_index = r.nextInt(pool_size);
-//        String random_label =  (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
-//        Property random_property = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
-//
-        // TODO: Discuss whether this is a sensible mutation
+        String property_label;
+        GraphSchema gs = g.getSchema();
+        ArrayList<String> node_labels = new ArrayList<>(gs.getNodeProperties().keySet());
+        ArrayList<String> edge_labels = new ArrayList<>(gs.getEdgeProperties().keySet());
 
+        int pool_size = node_labels.size() + edge_labels.size();
+        int random_index = r.nextInt(pool_size);
+        String random_label =  (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
+//        Property random_property = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
     }
 
     private static void removePropertyKey(MyGraph g) {

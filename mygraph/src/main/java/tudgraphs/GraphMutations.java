@@ -18,11 +18,11 @@ public class GraphMutations {
     private static final boolean changePropertyValueActive = true;
     private static final boolean addPropertyActive = true;
     private static final boolean removePropertyActive = true;
-    private static final boolean breakCardinalityActive = true;
 
-    private static final boolean insertCycleActive = false;
-    private static final boolean breakUniqueActive = true;
-    private static final boolean breakNullActive = true;
+    private static final boolean breakSchemaActive = true;
+    private static final boolean breakCardinalityActive = false;
+    private static final boolean breakUniqueActive = false;
+    private static final boolean breakNullActive = false;
     private static ArrayList<MutationMethod> activeMutations;
 
     // Indicates a bias towards the mutation method
@@ -39,6 +39,7 @@ public class GraphMutations {
     private static final float breakCardinalityBias = 1f;
     private static final float breakUniqueBias = 1f;
     private static final float breakNullBias = 1f;
+    private static final float breakSchemaBias = 1f;
 
     /**
      * List of mutations. Indicated with corresponding label from BigFuzz paper when applicable.
@@ -53,10 +54,10 @@ public class GraphMutations {
         ChangePropertyValue,
         RemoveProperty,
         AddProperty,
-        InsertCycle,
+        BreakSchema,
         BreakCardinality,
         BreakUnique,
-        BreakNull,
+        BreakNull
     }
 
     /**
@@ -94,9 +95,6 @@ public class GraphMutations {
             case AddProperty -> {
                 return addPropertyBias;
             }
-            case InsertCycle -> {
-                return insertCycleBias;
-            }
             case BreakCardinality -> {
                 return breakCardinalityBias;
             }
@@ -105,6 +103,9 @@ public class GraphMutations {
             }
             case BreakNull -> {
                 return breakNullBias;
+            }
+            case BreakSchema -> {
+                return breakSchemaBias;
             }
             default -> {
                 System.out.println("No Mutation bias defined for [" + mutationMethod + "], returning default of 1");
@@ -150,14 +151,14 @@ public class GraphMutations {
                 return addPropertyActive;
             case RemoveProperty:
                 return removePropertyActive;
-            case InsertCycle:
-                return insertCycleActive;
             case BreakCardinality:
                 return breakCardinalityActive;
             case BreakUnique:
                 return breakUniqueActive;
             case BreakNull:
                 return breakNullActive;
+            case BreakSchema:
+                return breakSchemaActive;
             default:
                 System.out.println("No activation boolean defined for: " + m);
                 return false;

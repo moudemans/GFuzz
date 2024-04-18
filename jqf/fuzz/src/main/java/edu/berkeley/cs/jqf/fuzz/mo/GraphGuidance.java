@@ -87,13 +87,11 @@ public class GraphGuidance implements Guidance {
     protected Set<String> uniqueFailuresString = new HashSet<>();
 
 
-    protected HashMap<String, Set<GraphMutations.MutationMethod>> files_mutated = new HashMap<>();
+    protected HashMap<String, Set<String>> files_mutated = new HashMap<>();
 
     protected int mutation_framework = -1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
     HashSet<GraphMutations.MutationMethod> schema_breaking_mutations = new HashSet<>(List.of(new GraphMutations.MutationMethod[]{
-            GraphMutations.MutationMethod.BreakCardinality,
-            GraphMutations.MutationMethod.BreakNull,
-            GraphMutations.MutationMethod.BreakUnique
+            GraphMutations.MutationMethod.BreakSchema
     }));
 
 
@@ -290,13 +288,21 @@ public class GraphGuidance implements Guidance {
         } else if (mutation_framework == 1) { // no restrictions on mutations
             mutation_applied = GraphMutator.mutateGraph(currentGraph, null);
         } else if (mutation_framework == 2) {
-            mutation_applied = GraphMutator.mutateGraphLimit(currentGraph, files_mutated.get(currentInputFile));
+            String mutation_message = GraphMutator.mutateGraphLimit(currentGraph, files_mutated.get(currentInputFile));
+            if (mutation_message.contains("$")) {
+                mutation_applied = GraphMutations.MutationMethod.valueOf(mutation_message.split("$")[0]);
+                files_mutated.get(currentInputFile).add(mutation_message);
+            } else {
+                mutation_applied = GraphMutations.MutationMethod.NoMutation;
+            }
+            if (schema_breaking_mutations.contains(mutation_applied)) {
+                files_mutated.get(currentInputFile).add(mutation_applied);
+            }
         } else { //
             mutation_applied = GraphMutations.MutationMethod.NoMutation;
             System.err.println("Invalid mutation framework selected: " + mutation_framework);
         }
 
-        files_mutated.get(currentInputFile).add(mutation_applied);
         MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
 
         return nextInputFileLocation;
