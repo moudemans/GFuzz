@@ -1,4 +1,4 @@
-package P9GConstraint;
+package P9GConstraint.DEPRECATED;
 
 import tudcomponents.MyGraph;
 import tudcomponents.Node;

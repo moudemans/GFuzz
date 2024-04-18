@@ -1,24 +1,23 @@
 package P9GConstraint;
 
+import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.Fuzz;
+import edu.berkeley.cs.jqf.fuzz.JQF;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 
+@RunWith(JQF.class)
 public class P9Driver {
 
-
+    @Fuzz
     public void test1(String fileName) throws IOException {
-        P9Constraint analysis = new P9Constraint();
-        List<String> fileList = Files.readAllLines(Paths.get(fileName));
-        analysis.run(fileList.get(0));
-    }
-
-    public static void main(String[] args) throws IOException {
-        P9Constraint analysis = new P9Constraint();
-
-        analysis.run("examplesCoverage/src/main/resources/P9Examples/test02.ser");
+        P9ConstraintLogic analysis = new P9ConstraintLogic();
+//        List<String> fileList = Files.readAllLines(Paths.get(fileName));
+        MyGraph g = MyGraph.readGraphFromFile(fileName);
+        analysis.function_1(g, 0, "Data1", 2, false, false);
+        assertTrue("holder", true);
     }
 }
