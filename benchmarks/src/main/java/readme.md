@@ -15,7 +15,7 @@ The main focus of these examples is to create a broad and distinct range of grap
 
 
 
-![system.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fsystem.png)
+![system.png](..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fsystem.png)
 *Figure 1: Example system*
 
 The goal of the fuzzer is to test applications which work with a graph database backend. Such an application will most likely look like a system like in figure 1 above. 
