@@ -1,5 +1,3 @@
-package P9GConstraint;
-
 import tudcomponents.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.Fuzz;
 import edu.berkeley.cs.jqf.fuzz.JQF;

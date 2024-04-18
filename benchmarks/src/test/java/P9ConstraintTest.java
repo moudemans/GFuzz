@@ -1,6 +1,6 @@
 
 
-import P9GConstraint.P9ConstraintLogic;
+import P9Constraint.P9ConstraintLogic;
 import tudcomponents.MyGraph;
 import org.junit.Test;
 

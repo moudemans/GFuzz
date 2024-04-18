@@ -42,7 +42,7 @@ public class GraphMutator {
 
     }
 
-    public static void mutateGraph(MyGraph g, GraphMutations.MutationMethod mm) {
+    public static GraphMutations.MutationMethod mutateGraph(MyGraph g, GraphMutations.MutationMethod mm) {
         assert g.getSchema() != null : "Graph schema not available for graph mutation";
 
         if (mm == null) {
@@ -51,8 +51,20 @@ public class GraphMutator {
         System.out.println("Mutation method selected: " + mm);
 
         applyMutationMethod(g, mm);
-
+        return mm;
     }
+    public static GraphMutations.MutationMethod mutateGraphLimit(MyGraph g, Set<GraphMutations.MutationMethod> exclude_mutations) {
+        assert g.getSchema() != null : "Graph schema not available for graph mutation";
+
+        GraphMutations.MutationMethod mm = selectMutationMethod(exclude_mutations);
+
+        System.out.println("Mutation method selected: " + mm);
+
+        applyMutationMethod(g, mm);
+        return mm;
+    }
+
+
 
     private static void applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm) {
         switch (mm) {
@@ -682,6 +694,16 @@ public class GraphMutator {
 
     private static GraphMutations.MutationMethod selectMutationMethod() {
         return GraphMutations.getRandomMutation(r);
+    }
+
+    private static GraphMutations.MutationMethod selectMutationMethod(Set<GraphMutations.MutationMethod> excludeMutations) {
+        ArrayList<GraphMutations.MutationMethod> mutations = GraphMutations.getActiveMutationMethodList();
+        List<GraphMutations.MutationMethod> filtered = new ArrayList<>(mutations.stream().filter(mutationMethod -> !excludeMutations.contains(mutationMethod)).toList());
+        Collections.shuffle(filtered);
+        if (filtered.isEmpty()) {
+            return GraphMutations.MutationMethod.NoMutation;
+        }
+        return filtered.get(0);
     }
 
 

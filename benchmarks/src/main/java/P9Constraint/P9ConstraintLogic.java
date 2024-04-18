@@ -1,5 +1,3 @@
-package P9GConstraint;
-
 import tudcomponents.Edge;
 import tudcomponents.MyGraph;
 import tudcomponents.Node;

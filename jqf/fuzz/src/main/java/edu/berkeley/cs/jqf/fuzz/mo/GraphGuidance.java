@@ -35,6 +35,8 @@ import edu.berkeley.cs.jqf.fuzz.guidance.Result;
 import edu.berkeley.cs.jqf.fuzz.util.Coverage;
 import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
 import org.apache.commons.io.FileUtils;
+import tudgraphs.GraphMutations;
+import tudgraphs.GraphMutator;
 import util.GraphUtil;
 
 import java.io.*;
@@ -85,34 +87,55 @@ public class GraphGuidance implements Guidance {
     protected Set<String> uniqueFailuresString = new HashSet<>();
 
 
+    protected HashMap<String, Set<GraphMutations.MutationMethod>> files_mutated = new HashMap<>();
+
+    protected int mutation_framework = -1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
+    HashSet<GraphMutations.MutationMethod> schema_breaking_mutations = new HashSet<>(List.of(new GraphMutations.MutationMethod[]{
+            GraphMutations.MutationMethod.BreakCardinality,
+            GraphMutations.MutationMethod.BreakNull,
+            GraphMutations.MutationMethod.BreakUnique
+    }));
 
 
-
-
-    /** Time since this guidance instance was created. */
+    /**
+     * Time since this guidance instance was created.
+     */
     protected final Date startTime = new Date();
-    /** Time at last stats refresh. */
+    /**
+     * Time at last stats refresh.
+     */
     protected Date lastRefreshTime = startTime;
-    /** Minimum amount of time (in millis) between two stats refreshes. */
+    /**
+     * Minimum amount of time (in millis) between two stats refreshes.
+     */
     protected static final long STATS_REFRESH_TIME_PERIOD = 10000;
-    /** Total execs at last stats refresh. */
+    /**
+     * Total execs at last stats refresh.
+     */
     protected long lastNumTrials = 0;
 
-    /** The directory where fuzzing results are written. */
+    /**
+     * The directory where fuzzing results are written.
+     */
     protected File outputDirectory;
     protected File seedDirectory;
     protected File runningDirectory;
     protected File savedInputsDirectory;
 
-    /** Coverage statistics for a single run. */
+    /**
+     * Coverage statistics for a single run.
+     */
     protected Coverage runCoverage = new Coverage();
 
-    /** Cumulative coverage statistics. */
+    /**
+     * Cumulative coverage statistics.
+     */
     protected Coverage totalCoverage = new Coverage();
 
-    /** Cumulative coverage for valid inputs. */
+    /**
+     * Cumulative coverage for valid inputs.
+     */
     protected Coverage validCoverage = new Coverage();
-
 
 
     /**
@@ -168,7 +191,7 @@ public class GraphGuidance implements Guidance {
 
         }
         if (counter == 1) {
-            System.err.printf("No seeds have been loaded from the dir [%s] \n", seedDirectory.getPath() );
+            System.err.printf("No seeds have been loaded from the dir [%s] \n", seedDirectory.getPath());
             System.exit(-1);
         }
 
@@ -180,12 +203,10 @@ public class GraphGuidance implements Guidance {
 
         // Create the output directory if it does not exist
         if (!outputDirectory.exists()) {
-                throw new IOException("output directory does not exists" +
-                        outputDirectory.getAbsolutePath());
+            throw new IOException("output directory does not exists" +
+                    outputDirectory.getAbsolutePath());
 
         }
-
-
 
 
         // Make sure we can write to output directory
@@ -208,7 +229,7 @@ public class GraphGuidance implements Guidance {
         }
 
         this.savedInputsDirectory = new File(outputDirectory, SAVED_INPUTS_DIR);
-        if ( !savedInputsDirectory.exists() &&!this.savedInputsDirectory.mkdirs()) {
+        if (!savedInputsDirectory.exists() && !this.savedInputsDirectory.mkdirs()) {
             System.out.println("!! Could not create directory: " + savedInputsDirectory);
         }
         if (CLEAR_ALL_PREVIOUS_RESULTS_ON_START && outputDirectory.isDirectory()) {
@@ -233,31 +254,57 @@ public class GraphGuidance implements Guidance {
     @Override
     public InputStream getInput() {
 
+        // If the queue of input files is empty, use the relevant files for a new mutation
         if (!inputFiles.isEmpty()) {
             currentInputFile = inputFiles.poll();
         } else {
-//            System.err.println("No more input files, mutating seeds");
             int random_seed = random.nextInt(important_files.size());
             currentInputFile = important_files.get(random_seed);
         }
 
 
-        MyGraph currentGraph = MyGraph.readGraphFromFile(currentInputFile);
-//        MyGraph mutation = GraphUtil.byteMutation(currentGraph, 1, random, 1);
+        String nextInputLocation = mutate_current_file();
 
-//                GraphMutator.mutateGraph(currentGraph, null);
-        MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
-//        MyGraph.writeGraphToFile(nextInputFileLocation, mutation);
-
-        InputStream targetStream = new ByteArrayInputStream(nextInputFileLocation.getBytes());
-//        saveInput();
+        InputStream targetStream = new ByteArrayInputStream(nextInputLocation.getBytes());
         return targetStream;
+    }
 
-//        return new ByteArrayInputStream(("fuzz-dir/seed.txt").getBytes());
+    private String mutate_current_file() {
+        MyGraph currentGraph = MyGraph.readGraphFromFile(currentInputFile);
+
+        GraphMutations.MutationMethod mutation_applied;
+
+
+        // If the file has been mutated before, certain mutations should not be reaplied
+        if (!files_mutated.containsKey(currentInputFile)) {
+            files_mutated.put(currentInputFile, new HashSet<>());
+        }
+
+        if (mutation_framework == -1) {
+            mutation_applied = GraphMutations.MutationMethod.NoMutation;
+        } else if (mutation_framework == 0) {
+            //TODO : add/remove as well as possible byte mutations
+            MyGraph mutation = GraphUtil.byteMutation(currentGraph, 1, random, 1);
+            currentGraph = mutation;
+            mutation_applied = GraphMutations.MutationMethod.NoMutation; // TODO: add bit/byte mutation to the enum
+        } else if (mutation_framework == 1) { // no restrictions on mutations
+            mutation_applied = GraphMutator.mutateGraph(currentGraph, null);
+        } else if (mutation_framework == 2) {
+            mutation_applied = GraphMutator.mutateGraphLimit(currentGraph, files_mutated.get(currentInputFile));
+        } else { //
+            mutation_applied = GraphMutations.MutationMethod.NoMutation;
+            System.err.println("Invalid mutation framework selected: " + mutation_framework);
+        }
+
+        files_mutated.get(currentInputFile).add(mutation_applied);
+        MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
+
+        return nextInputFileLocation;
     }
 
     /**
      * Returns <code>true</code> as long as <code>maxTrials</code> has not been reached.
+     *
      * @return <code>true</code> as long as <code>maxTrials</code> has not been reached
      */
     @Override
@@ -268,8 +315,8 @@ public class GraphGuidance implements Guidance {
     /**
      * Handles the result of a fuzz run.
      *
-     * @param result   the result of the fuzzing trial
-     * @param error    the error thrown during the trial, or <code>null</code>
+     * @param result the result of the fuzzing trial
+     * @param error  the error thrown during the trial, or <code>null</code>
      */
     @Override
     public void handleResult(Result result, Throwable error) {
@@ -281,7 +328,7 @@ public class GraphGuidance implements Guidance {
             this.keepGoing = false;
         }
 
-        if (numTrials > 10 && ((float) numDiscards)/((float) (numTrials)) > maxDiscardRatio) {
+        if (numTrials > 10 && ((float) numDiscards) / ((float) (numTrials)) > maxDiscardRatio) {
             throw new GuidanceException("Assumption is too strong; too many inputs discarded");
         }
 
@@ -290,19 +337,18 @@ public class GraphGuidance implements Guidance {
             // Coverage before
             int nonZeroBefore = totalCoverage.getNonZeroCount();
             int validNonZeroBefore = validCoverage.getNonZeroCount();
-            
-            
+
 
             // Update total coverage
             totalCoverage.updateBits(runCoverage);
             if (result == Result.SUCCESS) {
                 validCoverage.updateBits(runCoverage);
             }
-            
+
             if (nonZeroBefore < totalCoverage.getNonZeroCount()) {
                 System.out.println("New coverage found!");
                 saveCurrentInput("Coverage");
-                
+
                 //TODO: If coverage has increased. This file now needs to be mutated again  
             }
         }
@@ -313,7 +359,6 @@ public class GraphGuidance implements Guidance {
         if (true) {
             this.displayStats();
         }
-
 
 
         // Clear coverage stats for this run
@@ -348,13 +393,13 @@ public class GraphGuidance implements Guidance {
         }
         String traceElementsString = "";
         for (int i = 0; i < testProgramTraceElements.size(); i++) {
-            traceElementsString +=testProgramTraceElements.get(i).toString();
+            traceElementsString += testProgramTraceElements.get(i).toString();
 //            System.out.println(testProgramTraceElements.get(i).toString());
         }
 
         //   Attempt to add this to the set of unique failures
 //        if(!uniqueFailures.contains(testProgramTraceElements)) {
-        if(!uniqueFailuresString.contains(traceElementsString)) {
+        if (!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
             uniqueFailuresString.add(traceElementsString);
             System.out.println("New unique error found!");
@@ -369,7 +414,7 @@ public class GraphGuidance implements Guidance {
     }
 
     private void saveCurrentInput(String type) {
-        String dest_folder= savedInputsDirectory.getPath();
+        String dest_folder = savedInputsDirectory.getPath();
         String new_file_name = type + "_" + numTrials + ".ser";
 
         try {
@@ -379,8 +424,8 @@ public class GraphGuidance implements Guidance {
             System.exit(-1);
         }
 
-        important_files.add(dest_folder+ "/" +new_file_name);
-        inputFiles.add(dest_folder+ "/"+new_file_name);
+        important_files.add(dest_folder + "/" + new_file_name);
+        inputFiles.add(dest_folder + "/" + new_file_name);
     }
 
     private void displayStats() {
@@ -396,7 +441,6 @@ public class GraphGuidance implements Guidance {
         lastRefreshTime = now;
         lastNumTrials = numTrials;
         long elapsedMilliseconds = now.getTime() - startTime.getTime();
-
 
 
         int nonZeroCount = totalCoverage.getNonZeroCount();
@@ -476,6 +520,7 @@ public class GraphGuidance implements Guidance {
 
     /**
      * Returns a reference to the coverage statistics.
+     *
      * @return a reference to the coverage statistics
      */
     public Coverage getCoverage() {

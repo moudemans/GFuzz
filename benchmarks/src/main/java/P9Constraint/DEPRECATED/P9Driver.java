@@ -1,4 +1,4 @@
-package P9GConstraint.DEPRECATED;
+package P9Constraint.DEPRECATED;
 
 
 import java.io.IOException;

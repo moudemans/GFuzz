@@ -1,6 +1,6 @@
 
 
-import P9GConstraint.DEPRECATED.P9Constraint;
+import P9Constraint.DEPRECATED.P9Constraint;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

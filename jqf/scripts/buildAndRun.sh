@@ -2,9 +2,9 @@
 
 #cd "C:\Users\moude\IdeaProjects\myJQF"
 
-PATH1="benchmarks/src/main/java/P10Constraint/"
+PATH1="benchmarks/src/main/java/P9Constraint/"
 #PATH1="tutorial/src/main/java/P10/"
-FILES="P10ConstraintLogic.java P10Driver.java"
+FILES="P9ConstraintLogic.java P9Driver.java"
 #FILES="intLogic.java intGenerator.java intTest.java"
 
 PATH_TO_ROOT="../../../../../"
@@ -50,9 +50,9 @@ echo "file name 2: " $FILE2
 echo "moving to directory: " $PATH1
 cd $PATH1
 
-javac -cp .:$(../../../../../jqf/scripts/classpath.sh):$(../../../../../mygraph/scripts/classpath.sh) ${FILES}
+javac -cp .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) ${FILES}
 
 
 #cd "$PATH1"
-${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) P10Driver test1
+${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) P9Driver test1
 #../../../../jqf/bin/jqf-mo -v -c .:$(../../../../jqf/scripts/classpath.sh) intTest test
