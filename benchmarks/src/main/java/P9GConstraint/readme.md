@@ -201,8 +201,9 @@ Below DS are for function 2:
   - multiple nodes is disabled
   - the system throws an error
 
-In the figure below the database are visualized.
-![DS_states.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2FDS_states.png)
+In the figure below the database states which are needed to cover every branch is visualized.
+
+**TODO:**
 
 
 
