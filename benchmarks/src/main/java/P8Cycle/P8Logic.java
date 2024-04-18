@@ -54,7 +54,7 @@ public class P8Logic {
                 if (nWalker.getVisited().contains(e.to)) {
                     int beginCycleIndex = nWalker.getPath().indexOf(e.to);
                     List<Integer> cyclePath = nWalker.getPath().subList(beginCycleIndex, nWalker.getPath().size());
-                    if (cyclePath.size() > 15) {
+                    if (cyclePath.size() > 10) {
                         System.out.println("Found cycle of size " + cyclePath.size() + ". Path: " + cyclePath.toString() + " --> " + e.to + " ******* full path: " + nWalker.getPath());
                         return true;
                     }
