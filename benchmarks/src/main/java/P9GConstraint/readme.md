@@ -152,14 +152,14 @@ function_2 (
 Snippet 1 shows an abstracted version of the example in pseudocode.
 In the picture below the different decisions in the code are highlighted.
 
-![system.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2FColored decisions.png)
+![system.png](2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fbenchmarks%2FP9%2FColored decisions.png)
 *Figure 1: Colored decision paths*
 ***
 
-![decision_tree_function1.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fdecision_tree_function1.png)
+![decision_tree_function1.png](2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fbenchmarks%2FP9%2Fdecision_tree_function1.png)
 *Figure 2: Decision tree function 1*
 
-![decision_tree_function2.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fdecision_tree_function2.png)
+![decision_tree_function2.png](2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fbenchmarks%2FP9%2Fdecision_tree_function2.png)
 *Figure 3: Decision tree function 2*
 
 **Database states needed**
@@ -210,10 +210,10 @@ In the figure below the database are visualized.
 
 The control flow graph can be seen below. 
 
-![cfg1.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg1.png)
+![cfg1.png](2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fbenchmarks%2FP9%2Fcfg1.png)
 
-![cfg2.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg2.png)
+![cfg2.png](2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fbenchmarks%2FP9%2Fcfg2.png)
 
-![cfg3.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fcfg3.png)
+![cfg3.png](2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fdocs%2Fmedia%2Fbenchmarks%2FP9%2Fcfg3.png)
 
 
