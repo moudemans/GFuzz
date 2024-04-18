@@ -16,21 +16,22 @@ public class GraphGenerator {
     private static final String DEFAULT_OUTPUT_FILENAME = "simple.ser";
     private static final String DEFAULT_OUTPUT_FILENAME2 = "simple.json";
 
-    static String GMARK_DIR = "examplesCoverage/src/main/resources/P9-GMARK/";
-    static String GMARK_FILE = "P9";
-    static int GMARK_DS_COUNT = 9;
+    static String GMARK_DIR = "benchmarks/src/main/resources/P8/GMARK/";
+    static String GMARK_DIR_out = "benchmarks/src/main/resources/P8/GMARK-FIXED/";
+    static String GMARK_FILE = "test";
+    static int GMARK_DS_COUNT = 20;
 
-    static String GMARK_DIR2 = "examplesCoverage/src/main/resources/VF2/GMARK/";
-    static String GMARK_DIR2_out = "examplesCoverage/src/main/resources/VF2/GMARK-FIXED/";
-    static String GMARK_FILE2 = "VF2";
-    static int GMARK_DS2_COUNT = 50;
+    static String GMARK_DIR2 = "benchmarks/src/main/resources/P8/GMARK/";
+    static String GMARK_DIR2_out = "benchmarks/src/main/resources/P8/GMARK-FIXED/";
+    static String GMARK_FILE2 = "test";
+    static int GMARK_DS2_COUNT = 20;
 
 
     private static final int DEFAULT_GENERATION_TRIES = 1000;
 
     private static final Random r = new Random();
 
-    static int generationMethod = 5;
+    static int generationMethod = 6;
     // 0: random simple graph
     // 1: random labeled graph, with cat and val
     // 4: Generate graph from Schema
@@ -120,7 +121,7 @@ public class GraphGenerator {
             String output_file = GMARK_DIR2_out + "test" + zeroPaddedI + ".ser";
 
             MyGraph g = MyGraph.readGraphFromGMARK(input_file);
-            GraphSchema gs = GraphSchema.readFromFile(GMARK_DIR + "GFuzzGraphSchema.json");
+            GraphSchema gs = GraphSchema.readFromFile(GMARK_DIR2 + "Schema.json");
             g.setSchema(gs);
             graphs.add(g);
 //            MyGraph.writeGraphToFile(output_file, g);
@@ -142,18 +143,18 @@ public class GraphGenerator {
             return;
         }
 
-        for (int i = 0; i < GMARK_DS_COUNT; i++) {
+        for (int i = 1; i <= GMARK_DS_COUNT; i++) {
 
-            input_file = GMARK_DIR + GMARK_FILE + "-" + i + ".txt";
+            input_file = GMARK_DIR + GMARK_FILE + "-" + i + "-0.txt";
 
-            String zeroPaddedI = (i + 1) + "";
-            if (i < 9) {
-                zeroPaddedI = "0" + (i + 1);
-            }
-            String output_file = GMARK_DIR + "test" + zeroPaddedI + ".ser";
+//            String zeroPaddedI = (i + 1) + "";
+//            if (i < 9) {
+//                zeroPaddedI = "0" + (i + 1);
+//            }
+            String output_file = GMARK_DIR_out + "test" + i + ".ser";
 
             MyGraph g = MyGraph.readGraphFromGMARK(input_file);
-            GraphSchema gs = GraphSchema.readFromFile(GMARK_DIR + "GFuzzGraphSchema.json");
+            GraphSchema gs = GraphSchema.readFromFile(GMARK_DIR + "Schema.json");
             g.setSchema(gs);
             MyGraph.writeGraphToFile(output_file, g);
         }

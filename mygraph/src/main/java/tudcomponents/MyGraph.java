@@ -34,13 +34,21 @@ public class MyGraph implements Serializable {
             for (Node node : nodes) {
                 if (node.id == from) {
                     node_1 = node;
-                } else if (node.id == to) {
+                }
+                if (node.id == to) {
                     node_2 = node;
                 }
 
                 if (node_1 != null && node_2 != null) {
                     break;
                 }
+            }
+
+            if(node_1 == null) {
+                System.out.printf("Could not add edge to graph due from node not present. Edge going from [%s] to [%s]", edge.from, edge.to);
+            }
+            if(node_2 == null) {
+                System.out.printf("Could not add edge to graph due to node not present. Edge going from [%s] to [%s]", edge.from, edge.to);
             }
 
             assert node_1 != null;
