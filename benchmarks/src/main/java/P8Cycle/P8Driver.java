@@ -1,7 +1,7 @@
 package P8Cycle;
 
 
-import Components.MyGraph;
+import tudcomponents.MyGraph;
 
 import java.io.IOException;
 

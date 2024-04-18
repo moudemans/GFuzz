@@ -1,5 +1,6 @@
-import Components.MyGraph;
+
 import P7Transportation.P7Logic;
+import tudcomponents.MyGraph;
 
 import static org.junit.Assert.assertTrue;
 

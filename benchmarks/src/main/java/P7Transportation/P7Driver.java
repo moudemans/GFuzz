@@ -1,7 +1,8 @@
 package P7Transportation;
 
 
-import Components.MyGraph;
+
+import tudcomponents.MyGraph;
 
 import java.io.IOException;
 

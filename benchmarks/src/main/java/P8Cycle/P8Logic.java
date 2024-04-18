@@ -1,9 +1,10 @@
 package P8Cycle;
 
 
-import Components.Edge;
-import Components.MyGraph;
-import Components.Node;
+
+import tudcomponents.Edge;
+import tudcomponents.MyGraph;
+import tudcomponents.Node;
 
 import java.util.*;
 
