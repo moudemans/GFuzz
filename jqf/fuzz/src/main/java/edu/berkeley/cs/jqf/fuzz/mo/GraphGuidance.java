@@ -295,9 +295,6 @@ public class GraphGuidance implements Guidance {
             } else {
                 mutation_applied = GraphMutations.MutationMethod.NoMutation;
             }
-            if (schema_breaking_mutations.contains(mutation_applied)) {
-                files_mutated.get(currentInputFile).add(mutation_applied);
-            }
         } else { //
             mutation_applied = GraphMutations.MutationMethod.NoMutation;
             System.err.println("Invalid mutation framework selected: " + mutation_framework);
