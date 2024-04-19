@@ -239,9 +239,23 @@ public class MyGraph implements Serializable {
         Gson gson = createGSon();
 
         try {
-            return gson.fromJson(new FileReader(fileName), MyGraph.class);
+            MyGraph g =  gson.fromJson(new FileReader(fileName), MyGraph.class);
+            g.updateOutgoingIncommingEdges();
+            return g;
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void updateOutgoingIncommingEdges() {
+        for (Node n : nodes) {
+            for (Edge e: n.getOutgoingEdges()) {
+                Node to = getNode(e.to);
+                if (!to.getEdges().contains(e)) {
+                    to.addEdge(e);
+                }
+
+            }
         }
     }
 
