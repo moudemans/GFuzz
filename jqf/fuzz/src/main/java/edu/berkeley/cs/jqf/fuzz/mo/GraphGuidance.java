@@ -55,6 +55,7 @@ public class GraphGuidance implements Guidance {
 
     private boolean keepGoing = true;
     private long numTrials = 0;
+    private long failedMutation = 0;
 
     private final String testClassName;
     private final String testMethodName;
@@ -89,7 +90,7 @@ public class GraphGuidance implements Guidance {
 
     protected HashMap<String, Set<String>> files_mutated = new HashMap<>();
 
-    protected int mutation_framework = -1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
+    protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
     HashSet<GraphMutations.MutationMethod> schema_breaking_mutations = new HashSet<>(List.of(new GraphMutations.MutationMethod[]{
             GraphMutations.MutationMethod.BreakSchema
     }));
@@ -300,6 +301,10 @@ public class GraphGuidance implements Guidance {
             System.err.println("Invalid mutation framework selected: " + mutation_framework);
         }
 
+        if (mutation_applied == GraphMutations.MutationMethod.NoMutation) {
+            failedMutation++;
+        }
+
         MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
 
         return nextInputFileLocation;
@@ -328,6 +333,7 @@ public class GraphGuidance implements Guidance {
 
         // Stopping criteria
         if (numTrials >= maxTrials) {
+            System.out.println("Max trials has been reached");
             this.keepGoing = false;
         }
 
@@ -459,6 +465,7 @@ public class GraphGuidance implements Guidance {
         console.printf("\tNumber of executions: %,d\n", numTrials);
         console.printf("\tTotal coverage:       %,d branches (%.2f%% of map)\n", nonZeroCount, nonZeroFraction);
         console.printf("\trun coverage:       %,d branches (%.2f%% of map)\n", nonZeroValidCount, nonZeroValidFraction);
+        console.printf("\tFailed mutations:       %,d\n", failedMutation);
         console.println();
 
     }

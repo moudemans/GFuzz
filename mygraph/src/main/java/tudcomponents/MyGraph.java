@@ -326,7 +326,8 @@ public class MyGraph implements Serializable {
                 return n;
             }
         }
-        throw new RuntimeException("Could not find node with id: " + id);
+//        throw new RuntimeException("Could not find node with id: " + id);
+        return null;
     }
 
     public Node getNodeOnIndex(int id) {

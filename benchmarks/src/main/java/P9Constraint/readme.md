@@ -90,15 +90,10 @@ function_1 (
 	relationships_to_maintain   := prev_item_relationships and -(exclude_relationships) - value_node
 	value_relationship_name     := relationship name where the target/endpoint node corresponds with the function parameter 'value_node'
 	
-	for relationship_name in relationships_to_maintain:
-		if previous_item is specific instance (StudySelectionMetadata):
-			prev_connected_nodes := all previously connected nodes with the current relationship name
-			connected_nodes      := latest assigned version of previously assigned nodes
-		else:
-			connected_nodes := function_2(previous_item, relationship_name, value_node True, False)
-			
-		for cn in connected_nodes:
-			add relationship [new_item -- relationship_name --> cn]
+	for relationship_name in relationships_to_maintain: 
+	    connected_nodes := function_2(previous_item, relationship_name, value_node True, False)
+	    for cn in connected_nodes:
+		add relationship [new_item -- relationship_name --> cn]
 	
 	# Check cardinality new_item, old_item for all previous relationships 
 	getattr(previous_item, prev_item_relationships) = single
