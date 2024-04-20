@@ -1,0 +1,114 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "Centroid",
+      "Stop"
+    ],
+    "EdgeLabels": [
+      "DRT",
+      "WALK"
+    ],
+    "Relationships": [
+      {
+        "Label": "DRT",
+        "From": "Centroid",
+        "To": "Stop",
+        "Cardinality": "SIMPLE"
+      },
+      {
+        "Label": "WALK",
+        "From": "Centroid",
+        "To": "STOP",
+        "Cardinality": "SIMPLE"
+      }
+    ],
+    "NodeProperties": {},
+    "EdgeProperties": {
+      "DRT": [
+        {
+          "Name": "inter_times",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "waiting_time",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "DRT_time",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ],
+      "WALK": [
+        {
+          "Name": "walking_time",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ]
+    },
+    "Patterns": []
+  },
+  "Nodes": [
+    {
+      "Id": 0,
+      "Label": "Centroid",
+      "Properties": null,
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "1"
+          }
+        },
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1",
+            "waiting_DRT": "1",
+            "inter_times": "1"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Label": "Stop",
+      "Properties": null,
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1",
+            "waiting_DRT": "1",
+            "inter_times": "1"
+          }
+        },
+        {
+          "Label": "WALK",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "1"
+          }
+        }
+      ]
+    }
+  ]
+}

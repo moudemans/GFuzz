@@ -642,7 +642,7 @@ public class MyGraph implements Serializable {
         return false;
     }
 
-    private static boolean checkNewEdgeCardinality(Edge new_edge, Node from_node, Node to_node, Relationship relationship) {
+    public static boolean checkNewEdgeCardinality(Edge new_edge, Node from_node, Node to_node, Relationship relationship) {
         switch (relationship.getCardinality()) {
             case MULTI -> {
                 return true;

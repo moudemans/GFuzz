@@ -15,27 +15,17 @@ public class GraphGenerator {
     private static final String DEFAULT_GRAPH_SCHEMA_FILENAME = "simpleschema.json";
     private static final String DEFAULT_GRAPH_SCHEMA_PATH = DEFAULT_GRAPH_SCHEMA_DIR + DEFAULT_GRAPH_SCHEMA_FILENAME;
 
-    private static final String DEFAULT_OUTPUT_DIR = "mygraph/src/main/resources/graphs/";
     private static final String DEFAULT_OUTPUT_FILENAME = "simple.ser";
     private static final String DEFAULT_OUTPUT_FILENAME2 = "simple.json";
 
-    static String GMARK_DIR = "benchmarks/src/main/resources/P8/GMARK/";
-    static String GMARK_DIR_out = "benchmarks/src/main/resources/P8/GMARK-FIXED/";
-    static String GMARK_FILE = "test";
-    static int GMARK_DS_COUNT = 20;
-
-    static String GMARK_DIR2 = "benchmarks/src/main/resources/P8/GMARK/";
-    static String GMARK_DIR2_out = "benchmarks/src/main/resources/P8/GMARK-FIXED/";
-    static String GMARK_FILE2 = "test";
-    static int GMARK_DS2_COUNT = 20;
 
 
     private static final int DEFAULT_GENERATION_TRIES = 1000;
 
     private static final Random r = new Random();
 
-    static int generationMethod = 6;
-    static String INPUT_DIR_PATH = "GraphTransformer/";
+    static int generationMethod = 5;
+    static String INPUT_DIR_PATH = "tmp/";
     static String OUTPUT_DIR = INPUT_DIR_PATH;
     static String INPUT_FILE_NAME = "";
     // 0: random simple graph
@@ -59,12 +49,30 @@ public class GraphGenerator {
         SelectProcess();
     }
 
+    private static String generationMethodString() {
+        switch (generationMethod) {
+            case 0:
+                return "random Simple";
+            case 1:
+                return "random Labeled";
+            case 2:
+                return "Generate From Schema";
+            case 3:
+                return "Copy From JSON";
+            case 4:
+                return "Copy From GMARK";
+            case 5:
+                return "Copy From .ser";
+            default:
+                return "N/A";
+        }
+    }
+
     private static void processProgramArguments(String[] args) {
-        if (args.length == 0) {
-            return;
+        if (args.length > 0) {
+            System.out.println("Applying system parameters");
         }
 
-        System.out.println("Applying system parameters");
         if (args.length > 0) {
             try {
                 generationMethod = Integer.parseInt(args[0]);
@@ -175,24 +183,6 @@ public class GraphGenerator {
         MyGraph.writeGraphToJSON(OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME2, g);
     }
 
-    private static String generationMethodString() {
-        switch (generationMethod) {
-            case 0:
-                return "random Simple";
-            case 1:
-                return "random Labeled";
-            case 2:
-                return "Generate From Schema";
-            case 3:
-                return "Copy From JSON";
-            case 4:
-                return "Copy From GMARK";
-            case 5:
-                return "Copy From .ser";
-            default:
-                return "N/A";
-        }
-    }
 
 
     private static void copyGraphFromGMARK() {
@@ -247,8 +237,8 @@ public class GraphGenerator {
         }
     }
     private static void copyGraphFromSer() {
-        String input_extension = ".json";
-        String output_extension = ".ser";
+        String input_extension = ".ser";
+        String output_extension = ".json";
         List<File> files = loadFilesInDir(input_extension);
         for (File f :
                 files) {
@@ -262,13 +252,18 @@ public class GraphGenerator {
     private static List<File> loadFilesInDir(String extension) {
         File input_dir = new File(INPUT_DIR_PATH);
 
-        System.out.printf("Files found in dir: [%s]", INPUT_DIR_PATH);
-        System.out.printf("Filtering on extension: [%s]", extension);
+        System.out.printf("Files found in dir: [%s] \n", INPUT_DIR_PATH);
+        System.out.printf("Filtering on extension: [%s] \n", extension);
         if (!INPUT_FILE_NAME.isEmpty()) {
-            System.out.printf("Filtering on file name contains: [%s]", INPUT_FILE_NAME);
+            System.out.printf("Filtering on file name contains: [%s] \n", INPUT_FILE_NAME);
         }
 
         File[] listOfFiles = input_dir.listFiles();
+        if (listOfFiles == null || listOfFiles.length == 0) {
+            System.err.printf("No files found in directory: [%s] \n", input_dir.getAbsolutePath());
+            System.exit(-1);
+        }
+
         ArrayList<File> files = new ArrayList<>();
         for (File file : listOfFiles) {
             if (!file.isFile()) {
@@ -535,9 +530,9 @@ public class GraphGenerator {
                 //TODO: check cardinality
                 boolean validCardinality;
                 if (rel.getFrom().equals(currNode.label)) {
-                    validCardinality = checkNewEdgeCardinality(new_edge, currNode, new_node, rel);
+                    validCardinality = MyGraph.checkNewEdgeCardinality(new_edge, currNode, new_node, rel);
                 } else {
-                    validCardinality = checkNewEdgeCardinality(new_edge, new_node, currNode, rel);
+                    validCardinality = MyGraph.checkNewEdgeCardinality(new_edge, new_node, currNode, rel);
                 }
                 if (!validCardinality) {
                     continue;
