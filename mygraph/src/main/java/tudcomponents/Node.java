@@ -1,4 +1,5 @@
 package tudcomponents;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,7 +36,7 @@ public class Node implements Serializable {
     public String outgoingEdgesText() {
         ArrayList<Integer> connectedTo = new ArrayList<>();
 
-        for(Edge e : edges) {
+        for (Edge e : edges) {
             connectedTo.add(e.to);
         }
         Arrays.sort(connectedTo.toArray());

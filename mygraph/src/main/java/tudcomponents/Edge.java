@@ -9,7 +9,7 @@ public class Edge implements Serializable {
     public String label;
     public int from;
     public int to;
-//    boolean isDirected = false;
+    //    boolean isDirected = false;
     public int weight = 0;
 
     public HashMap<String, String> properties = new HashMap<>();
@@ -26,7 +26,7 @@ public class Edge implements Serializable {
     }
 
     public Edge(Node from, Node to) {
-        this.from = from.id ;
+        this.from = from.id;
         this.to = to.id;
     }
 

@@ -462,7 +462,7 @@ public class GraphGenerator {
     private static boolean checkSimpleCardinality(Edge e, Node from_node) {
         Set<Edge> current_edges = from_node.getOutgoingEdges();
         if (!current_edges.contains(e)) {
-           return true;
+            return true;
         }
         return false;
     }
@@ -470,13 +470,13 @@ public class GraphGenerator {
     private static boolean checkNewEdgeCardinality(Edge new_edge, Node from_node, Node to_node, Relationship relationship) {
         switch (relationship.getCardinality()) {
             case MULTI -> {
-                return  true;
+                return true;
             }
             case SIMPLE -> {
                 return checkSimpleCardinality(new_edge, from_node);
             }
             case MANY2ONE -> {
-                return  checkMany2OneCardinality(new_edge, from_node);
+                return checkMany2OneCardinality(new_edge, from_node);
             }
             case ONE2MANY -> {
                 return checkOne2ManyCardinality(new_edge, to_node);
@@ -528,7 +528,6 @@ public class GraphGenerator {
     }
 
 
-
     public static void generateRandomSimpleGraph(MyGraph g, int nodeCount, int edgeCount) {
         g.addNewNodes(nodeCount);
 
@@ -558,8 +557,6 @@ public class GraphGenerator {
     }
 
 
-
-
     public static ArrayList<Node> generatePattern(MyGraph g, Pattern p) {
 
         OptionalInt max_id_opt = g.getMaxID();
@@ -567,13 +564,13 @@ public class GraphGenerator {
         // Loop over every relationship, starting at a random one. If all starting relationships have been checked, the generation failed
         ArrayList<Relationship> shuffledRels = new ArrayList<>(p.getRelationships());
         Collections.shuffle(shuffledRels);
-        for (Relationship rel : shuffledRels){
+        for (Relationship rel : shuffledRels) {
             String from_label = rel.getFrom();
             Node start_node = new Node(available_id, from_label);
             available_id++;
             ArrayList<Node> filled_pattern = new ArrayList<>();
             filled_pattern.add(start_node);
-            ArrayList<Node> pattern_generated = generateRecPattern(available_id, p, start_node, filled_pattern,g.getSchema());
+            ArrayList<Node> pattern_generated = generateRecPattern(available_id, p, start_node, filled_pattern, g.getSchema());
             if (pattern_generated != null) {
                 return pattern_generated;
             }
@@ -609,18 +606,17 @@ public class GraphGenerator {
                     new_edge = new Edge(rel.getLabel(), new_node.id, currNode.id);
                 }
                 if (new_node == null || new_edge == null) {
-                    System.err.println("Something went wrong durring the generation of pattern, variables are null which shold not happen at relationship: " +rel );
+                    System.err.println("Something went wrong durring the generation of pattern, variables are null which shold not happen at relationship: " + rel);
                     return null;
                 }
                 //TODO: check cardinality
                 boolean validCardinality;
                 if (rel.getFrom().equals(currNode.label)) {
                     validCardinality = checkNewEdgeCardinality(new_edge, currNode, new_node, rel);
-                }
-                else {
+                } else {
                     validCardinality = checkNewEdgeCardinality(new_edge, new_node, currNode, rel);
                 }
-                if(!validCardinality) {
+                if (!validCardinality) {
                     continue;
                 }
 

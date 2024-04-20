@@ -13,7 +13,8 @@ public class Relationship implements Serializable {
         this.cardinality = c;
     }
 
-    public Relationship() { }
+    public Relationship() {
+    }
 
     public String getLabel() {
         return label;

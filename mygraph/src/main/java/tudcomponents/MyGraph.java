@@ -44,10 +44,10 @@ public class MyGraph implements Serializable {
                 }
             }
 
-            if(node_1 == null) {
+            if (node_1 == null) {
                 System.out.printf("Could not add edge to graph due from node not present. Edge going from [%s] to [%s]", edge.from, edge.to);
             }
-            if(node_2 == null) {
+            if (node_2 == null) {
                 System.out.printf("Could not add edge to graph due to node not present. Edge going from [%s] to [%s]", edge.from, edge.to);
             }
 
@@ -58,12 +58,6 @@ public class MyGraph implements Serializable {
 
         }
     }
-
-
-    public int nodeCount() {
-        return nodes.size();
-    }
-
 
     public static MyGraph readGraphFromFile(String fileName) {
         MyGraph mg;
@@ -119,7 +113,6 @@ public class MyGraph implements Serializable {
                 int id_to = Integer.parseInt(to_node[1]);
 
 
-
                 if (!ids_found.contains(id_from)) {
                     ids_found.add(id_from);
                     int mask_id = node_counter;
@@ -137,8 +130,8 @@ public class MyGraph implements Serializable {
                     id_mask.put(id_to, mask_id);
                 }
 
-                int masked_id_from  = id_mask.get(id_from);
-                int masked_id_to  = id_mask.get(id_to);
+                int masked_id_from = id_mask.get(id_from);
+                int masked_id_to = id_mask.get(id_to);
 
                 Edge e = new Edge(cols[1], masked_id_from, masked_id_to);
                 edges.add(e);
@@ -205,7 +198,7 @@ public class MyGraph implements Serializable {
                 }
             }
 
-            writer.write("t # -1" );
+            writer.write("t # -1");
             writer.close();
         } catch (IOException i) {
             System.err.printf("Could not write the graph to [%s]", fileName);
@@ -239,7 +232,7 @@ public class MyGraph implements Serializable {
         Gson gson = createGSon();
 
         try {
-            MyGraph g =  gson.fromJson(new FileReader(fileName), MyGraph.class);
+            MyGraph g = gson.fromJson(new FileReader(fileName), MyGraph.class);
             g.updateOutgoingIncommingEdges();
             return g;
         } catch (IOException e) {
@@ -249,7 +242,7 @@ public class MyGraph implements Serializable {
 
     private void updateOutgoingIncommingEdges() {
         for (Node n : nodes) {
-            for (Edge e: n.getOutgoingEdges()) {
+            for (Edge e : n.getOutgoingEdges()) {
                 Node to = getNode(e.to);
                 if (!to.getEdges().contains(e)) {
                     to.addEdge(e);

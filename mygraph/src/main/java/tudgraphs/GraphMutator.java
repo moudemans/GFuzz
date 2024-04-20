@@ -54,6 +54,7 @@ public class GraphMutator {
         applyMutationMethod(g, mm, null);
         return mm;
     }
+
     public static String mutateGraphLimit(MyGraph g, Set<String> breaking_mutations) {
         assert g.getSchema() != null : "Graph schema not available for graph mutation";
 
@@ -63,7 +64,6 @@ public class GraphMutator {
         String message = applyMutationMethod(g, mm, breaking_mutations);
         return message;
     }
-
 
 
     private static String applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm, Set<String> breaking_mutations) {
@@ -90,7 +90,7 @@ public class GraphMutator {
     private static String breakSchemaMutation(MyGraph g, Set<String> breaking_mutations) {
         // There are 2 types of constraint that can be broken, relationship or property
         int random_schema_break_mutation = r.nextInt(3);
-        GraphMutations.MutationMethod[] breaking_mutations_methods = new GraphMutations.MutationMethod[] {
+        GraphMutations.MutationMethod[] breaking_mutations_methods = new GraphMutations.MutationMethod[]{
                 GraphMutations.MutationMethod.BreakUnique, GraphMutations.MutationMethod.BreakCardinality, GraphMutations.MutationMethod.BreakNull
         };
         String constraint = applyMutationMethod(g, breaking_mutations_methods[random_schema_break_mutation], breaking_mutations);
@@ -156,7 +156,7 @@ public class GraphMutator {
         node1.properties.put(property.name, null);
 
         propertyNullMutationPerformed.add(property);
-        return node_label + "-" +property.name;
+        return node_label + "-" + property.name;
     }
 
     private static String breakUniqueMutation(MyGraph g, Set<String> breaking_mutations) {
@@ -216,7 +216,7 @@ public class GraphMutator {
         assert node2.properties.containsKey(property.name);
 
         node2.properties.put(property.name, node1.properties.get(property.name));
-        return node_label+"-"+property.name;
+        return node_label + "-" + property.name;
     }
 
     private static String breakCardinalityMutation(MyGraph g, Set<String> breaking_mutations) {
@@ -225,7 +225,6 @@ public class GraphMutator {
         ArrayList<Relationship> relationships_with_cardinality = new ArrayList<>(gs.getRelationships()
                 .stream()
                 .filter(relationship -> relationship.getCardinality() != Cardinality.MULTI).toList());
-
 
 
         if (relationships_with_cardinality.isEmpty()) {
@@ -268,8 +267,7 @@ public class GraphMutator {
             case MANY2ONE -> breakMany2OneCardinality(g, rel);
             case ONE2MANY -> breakOne2ManyCardinality(g, rel);
             case ONE2ONE -> breakOne2OneCardinality(g, rel);
-            default ->
-                    throw new RuntimeException("Cardinality mutation not yet implemented: " + rel.getCardinality());
+            default -> throw new RuntimeException("Cardinality mutation not yet implemented: " + rel.getCardinality());
         }
 
     }
@@ -305,7 +303,7 @@ public class GraphMutator {
         int random_to_node_index = r.nextInt(to_nodes.size());
 
         // In case the same to node is selected
-        while(random_from_node_index2 == random_from_node_index) {
+        while (random_from_node_index2 == random_from_node_index) {
             random_from_node_index2 = r.nextInt(from_nodes.size());
         }
 
@@ -348,7 +346,7 @@ public class GraphMutator {
         int random_to_node_index2 = r.nextInt(to_nodes.size());
 
         // In case the same to node is selected
-        while(random_to_node_index2 == random_to_node_index) {
+        while (random_to_node_index2 == random_to_node_index) {
             random_to_node_index2 = r.nextInt(to_nodes.size());
         }
 
@@ -406,7 +404,7 @@ public class GraphMutator {
 
         int pool_size = node_labels.size() + edge_labels.size();
         int random_index = r.nextInt(pool_size);
-        String random_label =  (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
+        String random_label = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
 //        Property random_property = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
     }
 
