@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.text.DateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MyGraph implements Serializable {
 
@@ -494,5 +495,171 @@ public class MyGraph implements Serializable {
     public void removeEdge(Edge e) {
         getNode(e.from).removeEdge(e);
         getNode(e.to).removeEdge(e);
+    }
+
+    /**
+     * * Perform following filters depending on the cardinality of the relationship.
+     */
+    public static ArrayList<Edge> filterOnCardinality(ArrayList<Edge> candidateEdges, Relationship rel, MyGraph g) {
+        switch (rel.getCardinality()) {
+            case MULTI -> {
+                return candidateEdges;
+            }
+            case SIMPLE -> {
+                return filterSimpleCardinality(candidateEdges, g);
+            }
+            case MANY2ONE -> {
+                return filterMany2OneCardinality(candidateEdges, g);
+            }
+            case ONE2MANY -> {
+                return filterOne2ManyCardinality(candidateEdges, g);
+            }
+            case ONE2ONE -> {
+                return filterOne2OneCardinality(candidateEdges, g);
+            }
+            default ->
+                    throw new RuntimeException("Cardinality generation not yet implemented: " + rel.getCardinality());
+        }
+    }
+
+    /**
+     * Allows at most one incoming and one outgoing edge of such label on any vertex in the graph.
+     * The edge label marriedTo is an example with ONE2ONE multiplicity since a person is married to exactly one other person.
+     */
+    private static ArrayList<Edge> filterOne2OneCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
+        ArrayList<Edge> filtered_candidates = new ArrayList<>();
+
+        for (Edge e : candidateEdges) {
+            if (checkOne2OneCardinality(e, g.getNode(e.from), g.getNode(e.to))) {
+                filtered_candidates.add(e);
+            }
+            Set<Edge> current_edges_from_out = g.getNode(e.from).getOutgoingEdges();
+            Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+
+            Set<Edge> current_edges_from_in = g.getNode(e.from).getIncomingEdges();
+            Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+
+            Set<Edge> current_edges_to_in = g.getNode(e.to).getIncomingEdges();
+            Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+            Set<Edge> current_edges_to_out = g.getNode(e.to).getOutgoingEdges();
+            Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+
+            if (!edge_labels_from_out.contains(e.label) && !edge_labels_from_in.contains(e.label)
+                    && !edge_labels_to_out.contains(e.label) && !edge_labels_to_in.contains(e.label)) {
+                filtered_candidates.add(e);
+            }
+        }
+        return filtered_candidates;
+    }
+
+    private static boolean checkOne2OneCardinality(Edge e, Node from_node, Node to_node) {
+        Set<Edge> current_edges_from_out = from_node.getOutgoingEdges();
+        Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+
+        Set<Edge> current_edges_from_in = from_node.getIncomingEdges();
+        Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+
+        Set<Edge> current_edges_to_in = to_node.getIncomingEdges();
+        Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+        Set<Edge> current_edges_to_out = to_node.getOutgoingEdges();
+        Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+
+        if (!edge_labels_from_out.contains(e.label) && !edge_labels_from_in.contains(e.label)
+                && !edge_labels_to_out.contains(e.label) && !edge_labels_to_in.contains(e.label)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Allows at most one incoming edge of such label on any vertex in the graph but places no constraint on outgoing edges.
+     * The edge label winnerOf is an example with ONE2MANY multiplicity since each contest is won by at most one person but a person can win multiple contests.
+     */
+    private static ArrayList<Edge> filterOne2ManyCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
+        ArrayList<Edge> filtered_candidates = new ArrayList<>();
+
+        for (Edge e : candidateEdges) {
+            if (checkOne2ManyCardinality(e, g.getNode(e.to))) {
+                filtered_candidates.add(e);
+            }
+        }
+        return filtered_candidates;
+    }
+
+    private static boolean checkOne2ManyCardinality(Edge e, Node to_node) {
+        Set<Edge> current_edges = to_node.getIncomingEdges();
+        Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
+        if (!edge_labels.contains(e.label)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Allows at most one outgoing edge of such label on any vertex in the graph but places no constraint on incoming edges.
+     * The edge label mother is an example with MANY2ONE multiplicity since each person has at most one mother but mothers can have multiple children.
+     */
+    private static ArrayList<Edge> filterMany2OneCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
+        ArrayList<Edge> filtered_candidates = new ArrayList<>();
+
+        for (Edge e : candidateEdges) {
+            if (checkMany2OneCardinality(e, g.getNode(e.from))) {
+                filtered_candidates.add(e);
+            }
+        }
+        return filtered_candidates;
+    }
+
+    private static boolean checkMany2OneCardinality(Edge e, Node from_node) {
+        Set<Edge> current_edges = from_node.getOutgoingEdges();
+        Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
+        if (!edge_labels.contains(e.label)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Allows at most one edge of such label between any pair of vertices. In other words, the graph is a simple graph with respect to the label.
+     * Ensures that edges are unique for a given label and pairs of vertices.
+     */
+    private static ArrayList<Edge> filterSimpleCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
+        ArrayList<Edge> filtered_candidates = new ArrayList<>();
+
+        for (Edge e : candidateEdges) {
+            if (checkSimpleCardinality(e, g.getNode(e.from))) {
+                filtered_candidates.add(e);
+            }
+        }
+        return filtered_candidates;
+    }
+
+    private static boolean checkSimpleCardinality(Edge e, Node from_node) {
+        Set<Edge> current_edges = from_node.getOutgoingEdges();
+        if (!current_edges.contains(e)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkNewEdgeCardinality(Edge new_edge, Node from_node, Node to_node, Relationship relationship) {
+        switch (relationship.getCardinality()) {
+            case MULTI -> {
+                return true;
+            }
+            case SIMPLE -> {
+                return checkSimpleCardinality(new_edge, from_node);
+            }
+            case MANY2ONE -> {
+                return checkMany2OneCardinality(new_edge, from_node);
+            }
+            case ONE2MANY -> {
+                return checkOne2ManyCardinality(new_edge, to_node);
+            }
+            case ONE2ONE -> {
+                return checkOne2OneCardinality(new_edge, from_node, to_node);
+            }
+        }
+        return false;
     }
 }

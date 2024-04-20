@@ -2,9 +2,12 @@ package tudgraphs;
 
 import tudcomponents.*;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static util.Util.computeTimePassed;
+import static util.Util.dirExists;
 
 public class GraphGenerator {
 
@@ -32,6 +35,9 @@ public class GraphGenerator {
     private static final Random r = new Random();
 
     static int generationMethod = 6;
+    static String INPUT_DIR_PATH = "GraphTransformer/";
+    static String OUTPUT_DIR = INPUT_DIR_PATH;
+    static String INPUT_FILE_NAME = "";
     // 0: random simple graph
     // 1: random labeled graph, with cat and val
     // 4: Generate graph from Schema
@@ -48,11 +54,111 @@ public class GraphGenerator {
      */
     public static void main(String[] args) {
         printStart(args);
-        generateGraph();
+        System.out.println();
+        processProgramArguments(args);
+        SelectProcess();
+    }
+
+    private static void processProgramArguments(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
+
+        System.out.println("Applying system parameters");
+        if (args.length > 0) {
+            try {
+                generationMethod = Integer.parseInt(args[0]);
+                System.out.printf("\tGeneration method set to [%s], [%s]", generationMethod, generationMethodString());
+            } catch (Exception e) {
+                System.err.printf("Could not read the generation method [%s], please provide a number between [1-6]", args[0]);
+                System.exit(-1);
+            }
+        }
+        if (args.length > 1) {
+            INPUT_DIR_PATH = args[1];
+            System.out.printf("\tInput directory set to: %s", INPUT_DIR_PATH);
+        }
+        if (!dirExists(INPUT_DIR_PATH)) {
+            System.err.printf("Input directory does not exist [%s]", INPUT_DIR_PATH);
+            System.exit(-1);
+        }
+
+        if (args.length > 2) {
+            INPUT_FILE_NAME = args[2];
+            System.out.printf("\tInput file name set to [%s] (file should contains string, empty string will use all files in folder) ", INPUT_FILE_NAME);
+        }
+
+        if (args.length > 3) {
+            OUTPUT_DIR = args[3];
+        } else {
+            OUTPUT_DIR = INPUT_DIR_PATH;
+        }
+
+        if (!dirExists(OUTPUT_DIR)) {
+            System.err.printf("Output directory does not exist [%s]", OUTPUT_DIR);
+            System.exit(-1);
+        }
+
+        if (args.length > 5) {
+            try {
+                nodeCount = Integer.parseInt(args[4]);
+                edgeCount = Integer.parseInt(args[5]);
+                System.out.printf("\tgraph size set to:  nodes=[%s], edges=[%s]", nodeCount, edgeCount);
+            } catch (Exception e) {
+                System.err.printf("Could not load the graph size, please use whole numbers for 5th and 6th argument: args[4]=[%s], args[5]=[%s]", args[4], args[5]);
+                System.exit(-1);
+            }
+        }
+    }
+
+
+    private static void printStart(String[] args) {
+        System.out.println("Started graph generation with parameters: ");
+
+        if (args.length == 0) {
+            System.out.println("\t No parameters given. Using default...");
+            System.out.println();
+            ;
+        }
+
+        for (int i = 0; i < args.length; i++) {
+            String s = String.format("\t arg[%s]: %s", i, args[i]);
+            System.out.println(s);
+        }
+    }
+
+    private static void SelectProcess() {
+        switch (generationMethod) {
+            case 0, 1, 2:
+                generateGraph();
+                break;
+            case 3, 4, 5:
+                copyGraph();
+                break;
+            default:
+                throw new RuntimeException("Generation method not recognized: " + generationMethod);
+        }
+    }
+
+    private static void copyGraph() {
+        switch (generationMethod) {
+            case 3:
+                copyGraphFromJson();
+                break;
+            case 4:
+                copyGraphFromGMARK();
+                break;
+            case 5:
+                copyGraphFromSer();
+                break;
+            default:
+                throw new RuntimeException("Copy method not recognized: " + generationMethod);
+        }
     }
 
     private static void generateGraph() {
         MyGraph g = new MyGraph();
+        System.out.println("Selecting graph generation method: " + generationMethod);
         switch (generationMethod) {
             case 0:
                 generateRandomSimpleGraph(g, nodeCount, edgeCount);
@@ -60,119 +166,127 @@ public class GraphGenerator {
             case 1:
                 generateRandomLabeledGraph(g, nodeCount, edgeCount);
                 break;
-            case 4:
+            case 2:
                 generateGraphFromSchema(g, nodeCount, edgeCount);
                 break;
+        }
+
+        MyGraph.writeGraphToFile(OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME, g);
+        MyGraph.writeGraphToJSON(OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME2, g);
+    }
+
+    private static String generationMethodString() {
+        switch (generationMethod) {
+            case 0:
+                return "random Simple";
+            case 1:
+                return "random Labeled";
+            case 2:
+                return "Generate From Schema";
+            case 3:
+                return "Copy From JSON";
+            case 4:
+                return "Copy From GMARK";
             case 5:
-                copyGraphFromJson();
-                break;
-            case 6:
-                copyGraphFromGMARK();
-                break;
-            case 7:
-                copyGraphFromGMARK2();
-                break;
-            case 8:
-                copyGraphFromSer();
-                break;
+                return "Copy From .ser";
             default:
-                throw new RuntimeException("Generation method not recognized: " + generationMethod);
+                return "N/A";
         }
-
-        MyGraph.writeGraphToFile(DEFAULT_OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME, g);
-        MyGraph.writeGraphToJSON(DEFAULT_OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME2, g);
     }
 
-    private static void copyGraphFromSer() {
-//        String dir = "benchmarks/src/main/resources/P9/P9Examples-MANUAL/";
-        String dir = "benchmarks/src/main/java/P10Constraint/fuzz-dir/saved-inputs/";
-//        String name = "test01";
-        String name = "Coverage_6";
-        String extension_json = ".json";
-        String extension_ser = ".ser";
-
-        String input_file = dir + name + extension_ser;
-        String output_file = dir + name + extension_json;
-
-        MyGraph g = MyGraph.readGraphFromFile(input_file);
-        MyGraph.writeGraphToJSON(output_file, g);
-
-    }
-
-    private static void copyGraphToVF2() {
-
-
-    }
-
-
-    private static void copyGraphFromGMARK2() {
-        String input_file = GMARK_DIR2 + GMARK_FILE2;
-        ArrayList<MyGraph> graphs = new ArrayList<>();
-
-
-        for (int i = 1; i < GMARK_DS2_COUNT; i++) {
-
-            input_file = GMARK_DIR2 + GMARK_FILE2 + "-" + i + "-0.txt";
-
-            String zeroPaddedI = (i + 1) + "";
-            if (i < 9) {
-                zeroPaddedI = "0" + (i + 1);
-            }
-            String output_file = GMARK_DIR2_out + "test" + zeroPaddedI + ".ser";
-
-            MyGraph g = MyGraph.readGraphFromGMARK(input_file);
-            GraphSchema gs = GraphSchema.readFromFile(GMARK_DIR2 + "Schema.json");
-            g.setSchema(gs);
-            graphs.add(g);
-//            MyGraph.writeGraphToFile(output_file, g);
-//            MyGraph.writeGraphVF2File(output_file, g);
-        }
-        String output_file = GMARK_DIR2_out + "testinput" + ".txt";
-
-        MyGraph.writeGraphsVF2File(output_file, graphs);
-    }
 
     private static void copyGraphFromGMARK() {
-        String input_file = GMARK_DIR + GMARK_FILE;
+        String input_extension = ".txt";
+        String output_extension = ".ser";
+        String output_extension2 = ".json";
 
-        if (GMARK_DS_COUNT == 1) {
-            String output_file = GMARK_DIR + GMARK_FILE.split("\\.")[0] + ".ser";
-
-            MyGraph g = MyGraph.readGraphFromGMARK(input_file);
-            MyGraph.writeGraphToFile(output_file, g);
-            return;
+        File input_dir = new File(INPUT_DIR_PATH);
+        File[] listOfFiles = input_dir.listFiles();
+        ArrayList<File> schema_files = new ArrayList<>();
+        assert listOfFiles != null;
+        for (File file : listOfFiles) {
+            if (file.getName().endsWith("Schema.json") || file.getName().endsWith("schema.json")) {
+                schema_files.add(file);
+            }
+        }
+        GraphSchema gs = null;
+        if(schema_files.size() == 1) {
+            gs = GraphSchema.readFromFile(schema_files.get(0).getPath());
+        } else {
+            System.err.printf("found [%s] schemas in the input folder. Please add single schema, ending with [schema.json]", schema_files.size());
+            System.exit(-1);
         }
 
-        for (int i = 1; i <= GMARK_DS_COUNT; i++) {
+        List<File> files = loadFilesInDir(input_extension);
+        for (File f :
+                files) {
 
-            input_file = GMARK_DIR + GMARK_FILE + "-" + i + "-0.txt";
-
-//            String zeroPaddedI = (i + 1) + "";
-//            if (i < 9) {
-//                zeroPaddedI = "0" + (i + 1);
-//            }
-            String output_file = GMARK_DIR_out + "test" + i + ".ser";
-
-            MyGraph g = MyGraph.readGraphFromGMARK(input_file);
-            GraphSchema gs = GraphSchema.readFromFile(GMARK_DIR + "Schema.json");
+            MyGraph g = MyGraph.readGraphFromGMARK(f.getPath());
             g.setSchema(gs);
-            MyGraph.writeGraphToFile(output_file, g);
+
+            String output_file_name =f.getPath().replace(input_extension, output_extension);
+            String output_file_name2 =f.getPath().replace(input_extension, output_extension2);
+            MyGraph.writeGraphToFile(output_file_name, g);
+
+            MyGraph.writeGraphToJSON(output_file_name2, g);
         }
+
     }
 
     private static void copyGraphFromJson() {
-//        String dir = "mygraph/src/main/resources/graphs/P9Examples-MANUAL/";
-        String dir = "benchmarks/src/main/resources/P8/MANUAL/";
-        String name = "test3";
-        String extension_json = ".json";
-        String extension_ser = ".ser";
+        String input_extension = ".json";
+        String output_extension = ".ser";
+        List<File> files = loadFilesInDir(input_extension);
+        for (File f :
+                files) {
 
-        String input_file = dir + name + extension_json;
-        String output_file = dir + name + extension_ser;
+            MyGraph g = MyGraph.readGraphFromJSON(f.getPath());
 
-        MyGraph g = MyGraph.readGraphFromJSON(input_file);
-        MyGraph.writeGraphToFile(output_file, g);
+            String output_file_name =f.getPath().replace(input_extension, output_extension);
+            MyGraph.writeGraphToFile(output_file_name, g);
+        }
+    }
+    private static void copyGraphFromSer() {
+        String input_extension = ".json";
+        String output_extension = ".ser";
+        List<File> files = loadFilesInDir(input_extension);
+        for (File f :
+                files) {
+            MyGraph g = MyGraph.readGraphFromFile(f.getPath());
 
+            String output_file_name =f.getPath().replace(input_extension, output_extension);
+            MyGraph.writeGraphToJSON(output_file_name, g);
+        }
+    }
+
+    private static List<File> loadFilesInDir(String extension) {
+        File input_dir = new File(INPUT_DIR_PATH);
+
+        System.out.printf("Files found in dir: [%s]", INPUT_DIR_PATH);
+        System.out.printf("Filtering on extension: [%s]", extension);
+        if (!INPUT_FILE_NAME.isEmpty()) {
+            System.out.printf("Filtering on file name contains: [%s]", INPUT_FILE_NAME);
+        }
+
+        File[] listOfFiles = input_dir.listFiles();
+        ArrayList<File> files = new ArrayList<>();
+        for (File file : listOfFiles) {
+            if (!file.isFile()) {
+                continue;
+            }
+            if (!file.getName().endsWith(extension)) {
+                continue;
+            }
+            if (!INPUT_FILE_NAME.isEmpty()) {
+                if (!file.getName().contains(INPUT_FILE_NAME)) {
+                    continue;
+                }
+            }
+            System.out.println("\t " + file.getPath() + " --> " + file.getName());
+
+            files.add(file);
+        }
+        return files;
     }
 
     /**
@@ -252,13 +366,6 @@ public class GraphGenerator {
         }
     }
 
-    private static String computeTimePassed(long flag) {
-        long end = System.currentTimeMillis();
-        float sec = (end - flag) / 1000F;
-        return String.format("(%f2 s)", sec);
-
-    }
-
     private static void generateEdgesFromSchema(MyGraph g, int eCount) {
         GraphSchema gs = g.getSchema();
         ArrayList<String> edgeLabels = new ArrayList<>(gs.getEdgeLabels());
@@ -299,7 +406,7 @@ public class GraphGenerator {
 
             // TODO: With very large graphs, straightforward filtering will become very inefficient
             //Check for cardinality for these candidates, filter out those who can not accept this relationship
-            candidate_edges = filterOnCardinality(candidate_edges, rel, g);
+            candidate_edges = MyGraph.filterOnCardinality(candidate_edges, rel, g);
 
             if (candidate_edges.isEmpty()) {
                 try_counter++;
@@ -322,173 +429,6 @@ public class GraphGenerator {
 
     }
 
-    /**
-     * * Perform following filters depending on the cardinality of the relationship.
-     */
-    private static ArrayList<Edge> filterOnCardinality(ArrayList<Edge> candidateEdges, Relationship rel, MyGraph g) {
-        switch (rel.getCardinality()) {
-            case MULTI -> {
-                return candidateEdges;
-            }
-            case SIMPLE -> {
-                return filterSimpleCardinality(candidateEdges, g);
-            }
-            case MANY2ONE -> {
-                return filterMany2OneCardinality(candidateEdges, g);
-            }
-            case ONE2MANY -> {
-                return filterOne2ManyCardinality(candidateEdges, g);
-            }
-            case ONE2ONE -> {
-                return filterOne2OneCardinality(candidateEdges, g);
-            }
-            default ->
-                    throw new RuntimeException("Cardinality generation not yet implemented: " + rel.getCardinality());
-        }
-    }
-
-    /**
-     * Allows at most one incoming and one outgoing edge of such label on any vertex in the graph.
-     * The edge label marriedTo is an example with ONE2ONE multiplicity since a person is married to exactly one other person.
-     */
-    private static ArrayList<Edge> filterOne2OneCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
-        ArrayList<Edge> filtered_candidates = new ArrayList<>();
-
-        for (Edge e : candidateEdges) {
-            if (checkOne2OneCardinality(e, g.getNode(e.from), g.getNode(e.to))) {
-                filtered_candidates.add(e);
-            }
-            Set<Edge> current_edges_from_out = g.getNode(e.from).getOutgoingEdges();
-            Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
-
-            Set<Edge> current_edges_from_in = g.getNode(e.from).getIncomingEdges();
-            Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
-
-            Set<Edge> current_edges_to_in = g.getNode(e.to).getIncomingEdges();
-            Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
-            Set<Edge> current_edges_to_out = g.getNode(e.to).getOutgoingEdges();
-            Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
-
-            if (!edge_labels_from_out.contains(e.label) && !edge_labels_from_in.contains(e.label)
-                    && !edge_labels_to_out.contains(e.label) && !edge_labels_to_in.contains(e.label)) {
-                filtered_candidates.add(e);
-            }
-        }
-        return filtered_candidates;
-    }
-
-    private static boolean checkOne2OneCardinality(Edge e, Node from_node, Node to_node) {
-        Set<Edge> current_edges_from_out = from_node.getOutgoingEdges();
-        Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
-
-        Set<Edge> current_edges_from_in = from_node.getIncomingEdges();
-        Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
-
-        Set<Edge> current_edges_to_in = to_node.getIncomingEdges();
-        Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
-        Set<Edge> current_edges_to_out = to_node.getOutgoingEdges();
-        Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
-
-        if (!edge_labels_from_out.contains(e.label) && !edge_labels_from_in.contains(e.label)
-                && !edge_labels_to_out.contains(e.label) && !edge_labels_to_in.contains(e.label)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Allows at most one incoming edge of such label on any vertex in the graph but places no constraint on outgoing edges.
-     * The edge label winnerOf is an example with ONE2MANY multiplicity since each contest is won by at most one person but a person can win multiple contests.
-     */
-    private static ArrayList<Edge> filterOne2ManyCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
-        ArrayList<Edge> filtered_candidates = new ArrayList<>();
-
-        for (Edge e : candidateEdges) {
-            if (checkOne2ManyCardinality(e, g.getNode(e.to))) {
-                filtered_candidates.add(e);
-            }
-        }
-        return filtered_candidates;
-    }
-
-    private static boolean checkOne2ManyCardinality(Edge e, Node to_node) {
-        Set<Edge> current_edges = to_node.getIncomingEdges();
-        Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
-        if (!edge_labels.contains(e.label)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Allows at most one outgoing edge of such label on any vertex in the graph but places no constraint on incoming edges.
-     * The edge label mother is an example with MANY2ONE multiplicity since each person has at most one mother but mothers can have multiple children.
-     */
-    private static ArrayList<Edge> filterMany2OneCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
-        ArrayList<Edge> filtered_candidates = new ArrayList<>();
-
-        for (Edge e : candidateEdges) {
-            if (checkMany2OneCardinality(e, g.getNode(e.from))) {
-                filtered_candidates.add(e);
-            }
-        }
-        return filtered_candidates;
-    }
-
-    private static boolean checkMany2OneCardinality(Edge e, Node from_node) {
-        Set<Edge> current_edges = from_node.getOutgoingEdges();
-        Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
-        if (!edge_labels.contains(e.label)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Allows at most one edge of such label between any pair of vertices. In other words, the graph is a simple graph with respect to the label.
-     * Ensures that edges are unique for a given label and pairs of vertices.
-     */
-    private static ArrayList<Edge> filterSimpleCardinality(ArrayList<Edge> candidateEdges, MyGraph g) {
-        ArrayList<Edge> filtered_candidates = new ArrayList<>();
-
-        for (Edge e : candidateEdges) {
-            if (checkSimpleCardinality(e, g.getNode(e.from))) {
-                filtered_candidates.add(e);
-            }
-        }
-        return filtered_candidates;
-    }
-
-    private static boolean checkSimpleCardinality(Edge e, Node from_node) {
-        Set<Edge> current_edges = from_node.getOutgoingEdges();
-        if (!current_edges.contains(e)) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean checkNewEdgeCardinality(Edge new_edge, Node from_node, Node to_node, Relationship relationship) {
-        switch (relationship.getCardinality()) {
-            case MULTI -> {
-                return true;
-            }
-            case SIMPLE -> {
-                return checkSimpleCardinality(new_edge, from_node);
-            }
-            case MANY2ONE -> {
-                return checkMany2OneCardinality(new_edge, from_node);
-            }
-            case ONE2MANY -> {
-                return checkOne2ManyCardinality(new_edge, to_node);
-            }
-            case ONE2ONE -> {
-                return checkOne2OneCardinality(new_edge, from_node, to_node);
-            }
-        }
-        return false;
-    }
-
-
     public static void generateNodesFromSchema(MyGraph g, int nCount) {
         GraphSchema gs = g.getSchema();
         ArrayList<String> nodeLabels = new ArrayList<>(gs.getNodeLabels());
@@ -497,22 +437,6 @@ public class GraphGenerator {
             int randomIndex = r.nextInt(nodeLabels.size());
             String randomNodeLabel = nodeLabels.get(randomIndex);
             g.addLabeledNode(randomNodeLabel);
-        }
-    }
-
-    private static void printStart(String[] args) {
-        System.out.println("Started graph generation with parameters: ");
-
-        if (args.length == 0) {
-            System.out.println("\t No parameters given. Using default...");
-            System.out.println();
-            System.out.println("Graph schema input file: " + DEFAULT_GRAPH_SCHEMA_DIR + DEFAULT_GRAPH_SCHEMA_FILENAME);
-            System.out.println("Graph output file: " + DEFAULT_OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME);
-        }
-
-        for (int i = 0; i < args.length; i++) {
-            String s = String.format("\t arg[%s]: %s", i, args[i]);
-            System.out.println(s);
         }
     }
 
@@ -541,7 +465,6 @@ public class GraphGenerator {
         }
     }
 
-    //TODO: fix random parameter
     public static void generateNodeProperties(Node newNode, GraphSchema gs) {
         ArrayList<Property> properties = gs.getNodeProperties().get(newNode.label);
         if (properties.isEmpty()) {
