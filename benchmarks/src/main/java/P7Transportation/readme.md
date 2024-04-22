@@ -2,6 +2,44 @@
 **Functionality** \
 The applications reads the property value from the edges, expecting specific properties dependent on the edge label.
 
+
+```
+getTimesFirstStation(Graph g):
+    inter_times:= 0
+    waiting_times:= 0
+    DRT_time:= 0
+    walking_time:= 0
+    
+    for edge e:
+        if e.label == DRT
+            inter_times += e.inter_times
+            waiting_times += e.waiting_times
+            DRT_time += e.DRT_time
+        if e.label == WALK
+            walking_time += e.walking_time    
+    return times
+    
+getFirstStation(Graph g):
+    for edge e:
+        if e.label == DRT
+            return e.to
+        if e.label == WALK
+            return e.to
+                 
+getTransport(Graph g):
+    transport_methods:= []
+    transport_count:= 0
+    for edge e:
+        if e.label == DRT or e.label == WALK:
+            transport_methods += e.label
+            transport_count += 1
+            
+    if transport_count == 2:
+        return "DRT/WALK"
+    else:
+        return transport_methods.first()
+        
+```
 ****
 
 
