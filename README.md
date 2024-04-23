@@ -15,7 +15,25 @@ Below is a description of the modules currently in the project and their purpose
 - mygraph - graph structure used in the benchmarks and mutators
 - tutorial - tutorial collected from the JQF repo and toy examples
 
- 
+## Tranform graph file
+Navigate to the graph generator [file](mygraph/src/main/java/tudgraphs/GraphGenerator.java) and run with the following arguments:
+```bash
+6 pgMark/default/output/ "" 
+```
+where 
+```
+<Method> <input dir> <file pattern> <output dir>
+```
+
+## Run PG mark
+```bash
+scripts/pgMarkGenerateGraph.sh "" 100 3 default/output2/
+```
+where 
+``` 
+scripts/pgMarkGenerateGraph.sh <input dir> <graph size> <DS count> <output file>
+```
+
 ## How to run
 The following steps describe how the fuzz loop can be run on a program. For the fuzz loop we need the fuzz framework to be built by maven, have a application on which we want to run the fuzzer and start the application with our bash script. 
 
@@ -24,6 +42,7 @@ If any changes have been made to the fuzzing framework (e.g. guidance, mutations
 ``` bash
 mvn package
 ```
+
 
 **Test application**
 The test application needs to be annotated with the tags @RunWith(JQF.class) and @Fuzz, as shown below:

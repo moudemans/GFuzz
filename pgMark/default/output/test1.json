@@ -1,0 +1,338 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "Company",
+      "User",
+      "Settings",
+      "Storage",
+      "Progress"
+    ],
+    "EdgeLabels": [
+      "1"
+    ],
+    "Relationships": [
+      {
+        "Label": "1",
+        "From": "User",
+        "To": "Settings",
+        "Cardinality": "ONE2ONE"
+      },
+      {
+        "Label": "2",
+        "From": "User",
+        "To": "Storage",
+        "Cardinality": "ONE2ONE"
+      },
+      {
+        "Label": "3",
+        "From": "User",
+        "To": "Progress",
+        "Cardinality": "ONE2ONE"
+      }
+    ],
+    "NodeProperties": {
+      "A": [
+        {
+          "Name": "name",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ]
+    },
+    "EdgeProperties": {
+      "1": [
+        {
+          "Name": "date",
+          "Type": null,
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ]
+    },
+    "Patterns": [
+      {
+        "Relationships": [
+          {
+            "Label": "1",
+            "From": "User",
+            "To": "Settings",
+            "Cardinality": "ONE2ONE"
+          },
+          {
+            "Label": "2",
+            "From": "User",
+            "To": "Storage",
+            "Cardinality": "ONE2ONE"
+          },
+          {
+            "Label": "3",
+            "From": "User",
+            "To": "Progress",
+            "Cardinality": "ONE2ONE"
+          }
+        ],
+        "MaxSize": 4
+      }
+    ]
+  },
+  "Nodes": [
+    {
+      "Id": 0,
+      "Label": "person",
+      "Properties": {
+        "income": "4602",
+        "gender": "male",
+        "email": "€1038au2@outlook.com",
+        "age": "39"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Label": "person",
+      "Properties": {
+        "income": "4844",
+        "gender": "female",
+        "email": "€5l4hw8x@live.com",
+        "age": "50"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 1,
+          "To": 8,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Label": "person",
+      "Properties": {
+        "income": "9079",
+        "gender": "female",
+        "email": "€60s5wl6@outlook.com",
+        "age": "50"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 3,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 7,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 2,
+          "To": 3,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "Label": "person",
+      "Properties": {
+        "income": "16429",
+        "gender": "female",
+        "email": "€6P2fp65@yahoo.com",
+        "age": "82"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 3,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 2,
+          "To": 3,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "Label": "person",
+      "Properties": {
+        "income": "18278",
+        "gender": "male",
+        "email": "€6+ef1ki@hotmail.com",
+        "age": "7"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 8,
+          "To": 4,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 4,
+          "To": 5,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "Label": "person",
+      "Properties": {
+        "income": "34325",
+        "gender": "male",
+        "email": "€1.rbvfx@gmail.com",
+        "age": "47"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 4,
+          "To": 5,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 5,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 6,
+      "Label": "person",
+      "Properties": {
+        "income": "1529",
+        "gender": "female",
+        "email": "€8Xpho4c@hotmail.com",
+        "age": "21"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 5,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 6,
+          "To": 7,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 7,
+      "Label": "person",
+      "Properties": {
+        "income": "17148",
+        "gender": "female",
+        "email": "€1\u003dzg6pi@gmail.com",
+        "age": "45"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 7,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "works_at",
+          "From": 7,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 6,
+          "To": 7,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 8,
+      "Label": "person",
+      "Properties": {
+        "income": "69920",
+        "gender": "female",
+        "email": "€4\u0026qnpwy@outlook.com",
+        "age": "42"
+      },
+      "Edges": [
+        {
+          "Label": "knows",
+          "From": 8,
+          "To": 4,
+          "Weight": 0,
+          "Properties": {}
+        },
+        {
+          "Label": "knows",
+          "From": 1,
+          "To": 8,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    },
+    {
+      "Id": 9,
+      "Label": "business",
+      "Properties": {
+        "name": "Uzecdcplufrrvm"
+      },
+      "Edges": [
+        {
+          "Label": "works_at",
+          "From": 7,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {}
+        }
+      ]
+    }
+  ]
+}

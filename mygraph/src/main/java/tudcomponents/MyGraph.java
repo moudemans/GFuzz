@@ -78,6 +78,149 @@ public class MyGraph implements Serializable {
         return mg;
     }
 
+    public static MyGraph readGraphFromPGMARK(String inputFile) {
+
+        HashSet<Integer> ids_found = new HashSet<>();
+        ArrayList<Node> nodes = new ArrayList<>();
+        ArrayList<Edge> edges = new ArrayList<>();
+
+        HashMap<Integer, Integer> id_mask = new HashMap<>();
+
+
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(inputFile));
+        } catch (FileNotFoundException e) {
+            System.err.println("Could not find the file: " + inputFile);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            String holder = reader.readLine();
+            int counter = 1;
+
+            if (!holder.startsWith("###")) {
+                System.err.println("Expected the file to begin with node relationships, indicated by [### NODE RELATIONS ###]");
+                System.err.println("First Line: " + holder);
+                System.exit(-1);
+            }
+            holder = reader.readLine();
+
+            int node_counter = 0;
+            while (holder != null) {
+                if (holder.startsWith("###")) {
+                    break;
+                }
+                if (!checkPGMARKSyntax1(holder, counter)) {
+                    counter++;
+                    holder = reader.readLine();
+                    continue;
+                }
+
+                String[] cols = holder.strip().split(",");
+                String[] from_node = cols[0].split("_");
+                String[] to_node = cols[2].split("_");
+
+
+                String node_label_from = from_node[0];
+                int id_from = Integer.parseInt(from_node[1]);
+
+                String node_label_to = to_node[0];
+                int id_to = Integer.parseInt(to_node[1]);
+
+
+                if (!ids_found.contains(id_from)) {
+                    ids_found.add(id_from);
+                    int mask_id = node_counter;
+                    node_counter++;
+                    Node n = new Node(mask_id, node_label_from);
+                    nodes.add(n);
+                    id_mask.put(id_from, mask_id);
+                }
+                if (!ids_found.contains(id_to)) {
+                    ids_found.add(id_to);
+                    int mask_id = node_counter;
+                    node_counter++;
+                    Node n = new Node(mask_id, node_label_to);
+                    nodes.add(n);
+                    id_mask.put(id_to, mask_id);
+                }
+
+                int masked_id_from = id_mask.get(id_from);
+                int masked_id_to = id_mask.get(id_to);
+
+                Edge e = new Edge(cols[1], masked_id_from, masked_id_to);
+                edges.add(e);
+
+                counter++;
+                holder = reader.readLine();
+            }
+
+            if (!holder.startsWith("###")) {
+                System.err.println("Only relationships found in the PG Mark file");
+            }
+            holder = reader.readLine();
+
+            HashMap<String, String> previous_properties = null;
+            String previous_property_key = "";
+
+            while (holder != null) {
+                if (holder.startsWith("###")) {
+
+                    counter++;
+                    holder = reader.readLine();
+                    continue;
+                }
+                if (!checkPGMARKSyntax2(holder, counter)) {
+
+                    // Value of property can contain line ending character, in that case it needs to be added to the previous property
+                    if (!previous_property_key.isEmpty() && !holder.isEmpty()) {
+                        String value = previous_properties.get(previous_property_key);
+                        value += "\n" + holder;
+                        previous_properties.put(previous_property_key, value);
+                    }
+
+                    counter++;
+                    holder = reader.readLine();
+                    continue;
+                }
+
+                String[] cols = holder.strip().split(",");
+
+                // value can contain , character. In that case it needs to be fixed
+                String value = cols[2];
+                if( cols.length > 3) {
+                    for (int i = 3; i < cols.length; i++) {
+                        value += "," + cols[i];
+                    }
+                }
+
+                String[] from_node = cols[0].split("_");
+                String node_label_from = from_node[0];
+                int id_from = Integer.parseInt(from_node[1]);
+
+                String propertyKey = cols[1];
+
+                nodes.get(id_mask.get(id_from)).properties.put(propertyKey, value);
+                previous_properties = nodes.get(id_mask.get(id_from)).properties;
+                previous_property_key = propertyKey;
+
+
+                counter++;
+                holder = reader.readLine();
+
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new MyGraph(nodes, edges);
+
+    }
+
     public static MyGraph readGraphFromGMARK(String inputFile) {
 
         HashSet<Integer> ids_found = new HashSet<>();
@@ -101,7 +244,11 @@ public class MyGraph implements Serializable {
 
             int node_counter = 0;
             while (holder != null) {
-                checkGMARKSyntax(holder, counter);
+                if (!checkGMARKSyntax(holder, counter)) {
+                    counter++;
+                    holder = reader.readLine();
+                    continue;
+                }
                 String[] cols = holder.strip().split(" ");
                 String[] from_node = cols[0].split("_");
                 String[] to_node = cols[2].split("_");
@@ -150,20 +297,62 @@ public class MyGraph implements Serializable {
 
     }
 
-    private static void checkGMARKSyntax(String holder, int atLine) {
+    private static boolean checkGMARKSyntax(String holder, int atLine) {
+        boolean isValid = true;
+
         String[] cols = holder.strip().split(" ");
         if (cols.length != 3) {
             System.err.println("Incorrect syntax on line [" + atLine + "], expected <node edge node>");
+            isValid = false;
         }
         String[] from_node = cols[0].split("_");
         if (from_node.length != 2) {
             System.err.println("Incorrect syntax on line [" + atLine + "], expected from_node to be <label>_<id>");
+            isValid = false;
         }
         String[] to_node = cols[2].split("_");
         if (to_node.length != 2) {
             System.err.println("Incorrect syntax on line [" + atLine + "], expected to_node to be <label>_<id>");
+            isValid = false;
         }
+        return isValid;
     }
+
+    private static boolean checkPGMARKSyntax1(String holder, int atLine) {
+        boolean isValid = true;
+        String[] cols = holder.strip().split(",");
+        if (cols.length != 3) {
+            System.err.println("Incorrect syntax on line [" + atLine + "], expected <node,edge,node>");
+            isValid = false;
+        }
+        String[] from_node = cols[0].split("_");
+        if (from_node.length != 2) {
+            System.err.println("Incorrect syntax on line [" + atLine + "], expected from_node to be <label>_<id>");
+            isValid = false;
+        }
+        String[] to_node = cols[2].split("_");
+        if (to_node.length != 2) {
+            System.err.println("Incorrect syntax on line [" + atLine + "], expected to_node to be <label>_<id>");
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private static boolean checkPGMARKSyntax2(String holder, int atLine) {
+        boolean isValid = true;
+        String[] cols = holder.strip().split(",");
+        if (cols.length < 3) {
+            System.err.println("Incorrect syntax on line [" + atLine + "], expected <node,property,value>");
+            isValid = false;
+        }
+        String[] from_node = cols[0].split("_");
+        if (from_node.length != 2) {
+            System.err.println("Incorrect syntax on line [" + atLine + "], expected from_node to be <label>_<id>");
+            isValid = false;
+        }
+        return isValid;
+    }
+
 
     public static void writeGraphToFile(String fileName, MyGraph g) {
         try {
@@ -173,7 +362,8 @@ public class MyGraph implements Serializable {
             out.close();
             fileOut.close();
         } catch (IOException i) {
-            System.err.printf("Could not write the graph to [%s]", fileName);
+            System.err.printf("Could not write the graph to [%s]\n", fileName);
+            System.err.println(i.getMessage());
         }
     }
 

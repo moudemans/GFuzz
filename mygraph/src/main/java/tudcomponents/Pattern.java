@@ -1,8 +1,9 @@
 package tudcomponents;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Pattern {
+public class Pattern implements Serializable {
 
     Set<Relationship> relationships;
     int maxSize;

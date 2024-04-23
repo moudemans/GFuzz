@@ -38,9 +38,12 @@ public class GraphGenerator {
 
     /**
      * Program arguments:
+     * - Generation method
      * - Input dir
      * - input file name
-     * -
+     * - output dir
+     * - node count
+     * - edge count
      */
     public static void main(String[] args) {
         printStart(args);
@@ -63,6 +66,8 @@ public class GraphGenerator {
                 return "Copy From GMARK";
             case 5:
                 return "Copy From .ser";
+            case 6:
+                return "Copy From PGMARK";
             default:
                 return "N/A";
         }
@@ -76,24 +81,24 @@ public class GraphGenerator {
         if (args.length > 0) {
             try {
                 generationMethod = Integer.parseInt(args[0]);
-                System.out.printf("\tGeneration method set to [%s], [%s]", generationMethod, generationMethodString());
+                System.out.printf("\tGeneration method set to [%s], [%s] \n", generationMethod, generationMethodString());
             } catch (Exception e) {
-                System.err.printf("Could not read the generation method [%s], please provide a number between [1-6]", args[0]);
+                System.err.printf("Could not read the generation method [%s], please provide a number between [1-6]\n", args[0]);
                 System.exit(-1);
             }
         }
         if (args.length > 1) {
             INPUT_DIR_PATH = args[1];
-            System.out.printf("\tInput directory set to: %s", INPUT_DIR_PATH);
+            System.out.printf("\tInput directory set to: %s\n", INPUT_DIR_PATH);
         }
         if (!dirExists(INPUT_DIR_PATH)) {
-            System.err.printf("Input directory does not exist [%s]", INPUT_DIR_PATH);
+            System.err.printf("Input directory does not exist [%s]\n", INPUT_DIR_PATH);
             System.exit(-1);
         }
 
         if (args.length > 2) {
             INPUT_FILE_NAME = args[2];
-            System.out.printf("\tInput file name set to [%s] (file should contains string, empty string will use all files in folder) ", INPUT_FILE_NAME);
+            System.out.printf("\tInput file name set to [%s] (file should contains string, empty string will use all files in folder) \n", INPUT_FILE_NAME);
         }
 
         if (args.length > 3) {
@@ -103,7 +108,7 @@ public class GraphGenerator {
         }
 
         if (!dirExists(OUTPUT_DIR)) {
-            System.err.printf("Output directory does not exist [%s]", OUTPUT_DIR);
+            System.err.printf("Output directory does not exist [%s]\n", OUTPUT_DIR);
             System.exit(-1);
         }
 
@@ -111,9 +116,9 @@ public class GraphGenerator {
             try {
                 nodeCount = Integer.parseInt(args[4]);
                 edgeCount = Integer.parseInt(args[5]);
-                System.out.printf("\tgraph size set to:  nodes=[%s], edges=[%s]", nodeCount, edgeCount);
+                System.out.printf("\tgraph size set to:  nodes=[%s], edges=[%s]\n", nodeCount, edgeCount);
             } catch (Exception e) {
-                System.err.printf("Could not load the graph size, please use whole numbers for 5th and 6th argument: args[4]=[%s], args[5]=[%s]", args[4], args[5]);
+                System.err.printf("Could not load the graph size, please use whole numbers for 5th and 6th argument: args[4]=[%s], args[5]=[%s]\n", args[4], args[5]);
                 System.exit(-1);
             }
         }
@@ -140,7 +145,7 @@ public class GraphGenerator {
             case 0, 1, 2:
                 generateGraph();
                 break;
-            case 3, 4, 5:
+            case 3, 4, 5, 6:
                 copyGraph();
                 break;
             default:
@@ -158,6 +163,9 @@ public class GraphGenerator {
                 break;
             case 5:
                 copyGraphFromSer();
+                break;
+            case 6:
+                copyGraphFromPGMARK();
                 break;
             default:
                 throw new RuntimeException("Copy method not recognized: " + generationMethod);
@@ -185,6 +193,43 @@ public class GraphGenerator {
 
 
 
+    private static void copyGraphFromPGMARK() {
+        String input_extension = ".csv";
+        String output_extension = ".ser";
+        String output_extension2 = ".json";
+
+        File input_dir = new File(INPUT_DIR_PATH);
+        File[] listOfFiles = input_dir.listFiles();
+        ArrayList<File> schema_files = new ArrayList<>();
+        assert listOfFiles != null;
+        for (File file : listOfFiles) {
+            if (file.getName().endsWith("Schema.json") || file.getName().endsWith("schema.json")) {
+                schema_files.add(file);
+            }
+        }
+        GraphSchema gs = null;
+        if(schema_files.size() == 1) {
+            gs = GraphSchema.readFromFile(schema_files.get(0).getPath());
+        } else {
+            System.err.printf("found [%s] schemas in the input folder. Please add single schema, ending with [schema.json] \n", schema_files.size());
+            System.exit(-1);
+        }
+
+        List<File> files = loadFilesInDir(input_extension);
+        for (File f :
+                files) {
+            System.out.printf("Loading file: %s\n", f.getPath());
+            MyGraph g = MyGraph.readGraphFromPGMARK(f.getPath());
+            g.setSchema(gs);
+
+            String output_file_name =f.getPath().replace(input_extension, output_extension);
+            String output_file_name2 =f.getPath().replace(input_extension, output_extension2);
+            MyGraph.writeGraphToFile(output_file_name, g);
+            MyGraph.writeGraphToJSON(output_file_name2, g);
+            System.out.println();
+        }
+
+    }
     private static void copyGraphFromGMARK() {
         String input_extension = ".txt";
         String output_extension = ".ser";
