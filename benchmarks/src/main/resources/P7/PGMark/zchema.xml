@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<pgmark>
+    <types>
+        <type name="Centroid">
+            <relations>
+                <relation predicate="DRT" target="StopTime" allow_loops="false">
+                </relation>
+                <relation predicate="WALK" target="StopTime" allow_loops="false">
+                </relation>
+            </relations>
+            <attributes>
+            </attributes>
+        </type>
+        <type name="StopTime">
+            <attributes>
+                <attribute name="name" unique="true" required="true">
+                    <regex>[A-Z][a-z]{2,20}</regex>
+                </attribute>
+            </attributes>
+        </type>
+    </types>
+    <predicates>
+        <predicate name="WALK">
+            <attributes>
+                <attribute name="walk_time" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                    </numeric>
+                </attribute>
+            </attributes>
+        </predicate>
+        <predicate name="DRT">
+        </predicate>
+    </predicates>
+</pgmark>
