@@ -146,25 +146,33 @@ public class MyGraph implements Serializable {
                     id_mask.put(id_to, mask_id);
                 }
 
+                HashMap<String,String> attributes = new HashMap<>();
+                if (holder.contains("$Attributes$")) {
+                    attributes = parsePGMARKEdgeProperties(holder, counter);
+                }
+
                 int masked_id_from = id_mask.get(id_from);
                 int masked_id_to = id_mask.get(id_to);
 
                 Edge e = new Edge(cols[1], masked_id_from, masked_id_to);
+                e.properties = attributes;
                 edges.add(e);
 
                 counter++;
                 holder = reader.readLine();
             }
-
-            if (!holder.startsWith("###")) {
+            boolean stop = false;
+            if (holder == null || !holder.startsWith("###")) {
                 System.err.println("Only relationships found in the PG Mark file");
-            }
-            holder = reader.readLine();
+                stop = true;
+            } else {
+                holder = reader.readLine();
 
+            }
             HashMap<String, String> previous_properties = null;
             String previous_property_key = "";
 
-            while (holder != null) {
+            while (!stop && holder != null) {
                 if (holder.startsWith("###")) {
 
                     counter++;
@@ -218,6 +226,33 @@ public class MyGraph implements Serializable {
         }
 
         return new MyGraph(nodes, edges);
+
+    }
+
+    private static HashMap<String, String> parsePGMARKEdgeProperties(String holder, int counter) {
+
+        String[] cols = holder.strip().split(",");
+        if (!Objects.equals(cols[3], "$Attributes$")) {
+            System.err.printf("Called to parse edge attributes at line [%s] but no attribute column found: %s", counter, holder);
+            return new HashMap<>();
+        }
+
+        if (cols.length <= 4) {
+            System.err.printf("Called to parse edge attributes at line [%s] but no attributes found after $attribute$ column: %s", counter, holder);
+            return new HashMap<>();
+        }
+        if ((cols.length -3) % 2 == 0 ) {
+            System.err.printf("Called to parse edge attributes at line [%s] but there is not an even amount of key value pairs: %s", counter, holder);
+            return new HashMap<>();
+        }
+        HashMap<String, String> properties = new HashMap<>();
+        //TODO: what to do if there is a , in the property value
+        for (int i = 4; i < cols.length; i = i+2) {
+            String key = cols[i];
+            String value = cols[i+ 1] ;
+            properties.put(key, value);
+        }
+        return properties;
 
     }
 
@@ -321,7 +356,7 @@ public class MyGraph implements Serializable {
     private static boolean checkPGMARKSyntax1(String holder, int atLine) {
         boolean isValid = true;
         String[] cols = holder.strip().split(",");
-        if (cols.length != 3) {
+        if ( !(cols.length == 3 || holder.contains("$Attributes$")) ) {
             System.err.println("Incorrect syntax on line [" + atLine + "], expected <node,edge,node>");
             isValid = false;
         }
