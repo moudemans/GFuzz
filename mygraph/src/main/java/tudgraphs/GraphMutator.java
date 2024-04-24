@@ -10,7 +10,6 @@ import org.apache.commons.lang.SerializationUtils;
 import util.Util;
 
 public class GraphMutator {
-    // Graphs.Mutation parameters
 
 
     // Random objects for random mutations. Seed is stored for reproducibility;
