@@ -1,0 +1,2 @@
+# Fuzzable folder
+This folder has been created to store automatically generated benchmark programs. The benchmarks are copied from another source which is stored in a project module. By storing the benchmarks in a module it allows developers to still run the benchmark through the IDEA. The fuzzer requires a compiled java file, without any packages defined (as it can not find a package).
