@@ -42,13 +42,13 @@ mvn package
 fi
 
 echo "Configurations: "
-echo "Working Directory: " $PWD
+echo "Working Directory: " "$PWD"
 echo "MVN has been build: " ${build_mvn}
 echo "file path: " $PATH1
 echo ""
 
 echo "moving to directory: " $PATH1
-cd $PATH1
+cd $PATH1 || exit
 
 javaFiles=`ls ./*.java`
 echo "Java files found in dir:"

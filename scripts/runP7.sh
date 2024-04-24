@@ -7,5 +7,5 @@ bash ./scripts/prepareBenchmark.sh $PATH1 $program_name
 
 # Figure out script absolute path
 repo_root=$(./scripts/repoRoot.sh)
-echo $repo_root
+echo "$repo_root"
 

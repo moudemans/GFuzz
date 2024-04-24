@@ -62,11 +62,11 @@ for filename in $PATH1*.java; do
     new_file_name="${output_dir}/${xpref}.${xfext}"
 
 
-    echo $filename " --> " "${output_dir}/${xpref}.${xfext}"
-    cp $filename $new_file_name
+    echo "$filename" " --> " "${output_dir}/${xpref}.${xfext}"
+    cp "$filename" "$new_file_name"
 
 #    Remove first line containing package name. The class can't be in a package as it cannot be found by junit
-    sed -i '1d'  $new_file_name
+    sed -i '1d'  "$new_file_name"
 done
 
 
