@@ -10,16 +10,19 @@ public class GraphMutations {
 
     // Indicates whether a mutation is active or not
     private static final boolean noMutationActive = false;  // Boolean is used to generate mutation list that can be applied. NoMutation is an indication that no Graphs.Mutation can be performed and does not match a specific mutation approach
-    private static final boolean copySubsetActive = true;
-    private static final boolean addNodeActive = true;
-    private static final boolean removeNodeActive = true;
+    private static final boolean copySubsetActive = false;
+    private static final boolean addNodeActive = false;
+    private static final boolean removeNodeActive = false;
+
     private static final boolean addEdgeActive = true;
     private static final boolean removeEdgeActive = true;
-    private static final boolean changePropertyValueActive = true;
-    private static final boolean addPropertyActive = true;
-    private static final boolean removePropertyActive = true;
+    private static final boolean changeEdgeLabelActive = true;
 
-    private static final boolean breakSchemaActive = true;
+    private static final boolean changePropertyValueActive = false;
+    private static final boolean addPropertyActive = false;
+    private static final boolean removePropertyActive = false;
+
+    private static final boolean breakSchemaActive = false;
     private static final boolean breakCardinalityActive = false;
     private static final boolean breakUniqueActive = false;
     private static final boolean breakNullActive = false;
@@ -32,6 +35,7 @@ public class GraphMutations {
     private static final float removeNodeBias = 1f;
     private static final float addEdgeBias = 1f;
     private static final float removeEdgeBias = 1f;
+    private static final float changeEdgeLabelBias = 1f;
     private static final float changePropertyValueBias = 1f;
     private static final float addPropertyBias = 1f;
     private static final float removePropertyBias = 1f;
@@ -49,8 +53,11 @@ public class GraphMutations {
         CopySubset,    // Select subset of nodes and copy them
         AddNode,
         RemoveNode,
+
         AddEdge,
         RemoveEdge,
+        ChangeLabelEdge,
+
         ChangePropertyValue,
         RemoveProperty,
         AddProperty,
@@ -85,6 +92,9 @@ public class GraphMutations {
             }
             case RemoveEdge -> {
                 return removeEdgeBias;
+            }
+            case ChangeLabelEdge -> {
+                return changeEdgeLabelBias;
             }
             case ChangePropertyValue -> {
                 return changePropertyValueBias;
@@ -145,6 +155,8 @@ public class GraphMutations {
                 return addEdgeActive;
             case RemoveEdge:
                 return removeEdgeActive;
+            case ChangeLabelEdge:
+                return changeEdgeLabelActive;
             case ChangePropertyValue:
                 return changePropertyValueActive;
             case AddProperty:

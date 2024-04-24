@@ -2,6 +2,8 @@ package tudgraphs;
 
 import tudcomponents.*;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -68,11 +70,14 @@ public class GraphMutator {
     private static String applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm, Set<String> breaking_mutations) {
         String mutation_message = "";
         switch (mm) {
+            case AddEdge -> addEdgeMutation(g);
+            case RemoveEdge -> removeEdgeMutation(g);
+            case ChangeLabelEdge -> changeEdgeMutation(g);
+
             case CopySubset -> applyCopySubSetMutation(g);
             case AddNode -> addNodeMutation(g);
             case RemoveNode -> removeNodeMutation(g);
-            case AddEdge -> addEdgeMutation(g);
-            case RemoveEdge -> removeEdgeMutation(g);
+
             case ChangePropertyValue -> changePropertyValue(g);
             case RemoveProperty -> removePropertyKey(g);
             case AddProperty -> addPropertyKey(g);
@@ -434,33 +439,55 @@ public class GraphMutator {
     }
 
     private static void removeEdgeMutation(MyGraph g) {
-        ArrayList<Node> nodes = g.getNodes();
-        int random_node_index = r.nextInt(nodes.size());
-        Node n = g.getNodeOnIndex(random_node_index);
-
-        ArrayList<Edge> edges = new ArrayList<>(n.getEdges());
-        int random_edge_index = r.nextInt(edges.size());
-        Edge e = edges.get(random_edge_index);
+        Node n = getRandomNode(g);
+        Edge e = getRandomEdge(n);
 
         System.out.printf("Removed Edge [%s], from [%s] --> to [%s] \n", e.label, e.from, e.to);
         g.removeEdge(e);
     }
 
+    private static Edge getRandomEdge(Node random_node) {
+        ArrayList<Edge> edges = new ArrayList<>(random_node.getEdges());
+        int random_edge_index = r.nextInt(edges.size());
+        Edge e = edges.get(random_edge_index);
+        return e;
+    }
+
+    private static void changeEdgeMutation(MyGraph g) {
+        Node n = getRandomNode(g);
+        Edge e = getRandomEdge(n);
+
+        String old_label = e.label;
+        e.label = generateString(e.label.length()*2);
+
+        System.out.printf("Changed Edge label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.label, old_label, e.label);
+    }
+
+    private static Node getRandomNode(MyGraph g) {
+        ArrayList<Node> nodes = g.getNodes();
+        int random_node_index = r.nextInt(nodes.size());
+        Node n = g.getNodeOnIndex(random_node_index);
+        return n;
+    }
+
+    private static String generateString(int maxSize) {
+        int size = r.nextInt(maxSize) + 1;
+        byte[] array = new byte[size]; // length is bounded by 7
+        r.nextBytes(array);
+        return new String(array, StandardCharsets.UTF_8);
+    }
+
     private static void addEdgeMutation(MyGraph g) {
         GraphSchema gs = g.getSchema();
 
-        // Select random edge label from schema
-        ArrayList<String> labels = new ArrayList<>(gs.getEdgeLabels());
-        String random_edge_label = labels.get(r.nextInt(labels.size()));
+        ArrayList<Relationship> rels = new ArrayList<>(gs.getRelationships());
 
-        // Determine which nodes are needed to create relationship
-        List<Relationship> rels = gs.getRelationships().stream().filter(relationship -> relationship.getLabel().equals(random_edge_label)).toList();
-
-        // If no relationship is defined, select 2 random nodes to add the edge between? <-- TODO
         if (rels.isEmpty()) {
-            System.err.printf("No relationships available for edge label: %s \n", random_edge_label);
+            System.err.println("Add edge mutation failed, no relationships defined in schema");
         }
 
+        // Select random relationship to generate
+        Collections.shuffle(rels,r);
         Relationship rel = rels.get(0);
         String from_label = rel.getFrom();
         String to_label = rel.getTo();
@@ -481,7 +508,7 @@ public class GraphMutator {
 
         // TODO: follow cardinality?
 
-        Edge new_edge = new Edge(random_edge_label, from.id, to.id);
+        Edge new_edge = new Edge(rel.getLabel(), from.id, to.id);
         g.addEdge(new_edge);
         System.out.printf("Add Edge [%s], from [%s] --> to [%s] \n", new_edge.label, new_edge.from, new_edge.to);
     }

@@ -63,7 +63,7 @@ public class P7TransportationTest {
 
             try {
 //                String fileName = "src/main/resources/P7/PGMark-FIXED/test" + i + ".ser";
-                String path = "src/main/resources/P7/PGMark-MUTATED/";
+                String path = "src/main/resources/P7/PGMark-MUTATED2/";
                 File input_dir = new File(path);
                 File[] listOfFiles = input_dir.listFiles();
                 for (File f :
