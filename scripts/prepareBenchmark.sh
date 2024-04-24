@@ -1,11 +1,11 @@
 #!/bin/bash
 
-FUZZ_FOLDER= "benchmarksFuzzable"
+FUZZ_FOLDER="benchmarksFuzzable"
 #Make dirs needed for fuzzing
-echo "Creating fuzz directory:"
 if [ ! -d ${FUZZ_FOLDER} ]; then
   mkdir ${FUZZ_FOLDER}
   echo "Made fuzzable dir: ${FUZZ_FOLDER}"
+  echo ""
 fi
 
 if [[ ! $1 ]]
@@ -36,7 +36,7 @@ echo "Preparing fuzz folder at: $output_dir"
 echo ""
 
 #Make dirs needed for fuzzing
-echo "Creating fuzz directory for ${program_name}:"
+echo "Creating fuzz directories for ${program_name}..."
 if [ ! -d ${output_dir} ]; then
   mkdir ${output_dir}
   echo "Made output dir: ${output_dir}"

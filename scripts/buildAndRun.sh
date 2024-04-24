@@ -1,13 +1,14 @@
 #!/bin/bash
 
-#cd "C:\Users\moude\IdeaProjects\myJQF"
 
-PATH1="benchmarks/src/main/java/P9Constraint/"
-#PATH1="tutorial/src/main/java/P10/"
-FILES="P9ConstraintLogic.java P9Driver.java"
-#FILES="intLogic.java intGenerator.java intTest.java"
+#PATH1="benchmarks/src/main/java/P9Constraint/"
+PATH1="benchmarksFuzzable/P7/"
+ProgramName="P7"
 
-PATH_TO_ROOT="../../../../../"
+class_name="${ProgramName}Driver"
+class_method="test1"
+
+PATH_TO_ROOT="$(./scripts/repoRoot.sh)/"
 
 build_mvn=false
 
@@ -42,17 +43,18 @@ fi
 
 echo "Configurations: "
 echo "Working Directory: " $PWD
+echo "MVN has been build: " ${build_mvn}
 echo "file path: " $PATH1
-echo "file names: " $FILES
-echo "file name 2: " $FILE2
-echo "file name 2: " $FILE2
+echo ""
 
 echo "moving to directory: " $PATH1
 cd $PATH1
 
-javac -cp .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) ${FILES}
+javaFiles=`ls ./*.java`
+echo "Java files found in dir:"
+echo "${javaFiles}"
+echo ""
 
+javac -cp .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) ${javaFiles}
 
-#cd "$PATH1"
-${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) P9Driver test1
-#../../../../jqf/bin/jqf-mo -v -c .:$(../../../../jqf/scripts/classpath.sh) intTest test
+${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method

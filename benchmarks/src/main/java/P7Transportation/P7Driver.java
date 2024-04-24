@@ -2,11 +2,14 @@ package P7Transportation;
 
 
 
+import edu.berkeley.cs.jqf.fuzz.JQF;
+import org.junit.runner.RunWith;
 import tudcomponents.MyGraph;
 
 import java.io.IOException;
 
 
+@RunWith(JQF.class)
 public class P7Driver {
 
     public void test1(String fileName) throws IOException {
