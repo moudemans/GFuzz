@@ -15,6 +15,12 @@ Below is a description of the modules currently in the project and their purpose
 - mygraph - graph structure used in the benchmarks and mutators
 - tutorial - tutorial collected from the JQF repo and toy examples
 
+## Run fuzzer
+```bash 
+scripts/buildAndRun.sh -m
+```
+Add m to include maven package command
+
 ## Tranform graph file
 Navigate to the graph generator [file](mygraph/src/main/java/tudgraphs/GraphGenerator.java) and run with the following arguments:
 ```bash
@@ -31,7 +37,7 @@ scripts/pgMarkGenerateGraph.sh "" 100 3 default/output2/
 ```
 where 
 ``` 
-scripts/pgMarkGenerateGraph.sh <input dir> <graph size> <DS count> <output file>
+scripts/pgMarkGenerateGraph.sh <Schema> <graph size> <DS count> <output dir> <output file>
 ```
 
 ## How to run

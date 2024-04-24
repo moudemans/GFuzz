@@ -1,8 +1,12 @@
 #!/bin/bash
 
-#cd "C:\Users\moude\IdeaProjects\myJQF"
-
-FILES="P7Logic.java P7Driver.java"
+FUZZ_FOLDER= "benchmarksFuzzable"
+#Make dirs needed for fuzzing
+echo "Creating fuzz directory:"
+if [ ! -d ${FUZZ_FOLDER} ]; then
+  mkdir ${FUZZ_FOLDER}
+  echo "Made fuzzable dir: ${FUZZ_FOLDER}"
+fi
 
 if [[ ! $1 ]]
 then
@@ -16,12 +20,13 @@ then
   exit
 fi
 
-
+# Examples
 #PATH1="benchmarks/src/main/java/P7Transportation/"
-PATH1=$1
 #program_name="P7"
+
+PATH1=$1
 program_name=$2
-output_dir="benchmarksFuzzable/${program_name}"
+output_dir="${FUZZ_FOLDER}/${program_name}"
 
 echo "Configurations: "
 echo "Working Directory: " $PWD
@@ -30,9 +35,8 @@ echo "Program name: " $program_name
 echo "Preparing fuzz folder at: $output_dir"
 echo ""
 
-
 #Make dirs needed for fuzzing
-echo "Creating fuzz directory:"
+echo "Creating fuzz directory for ${program_name}:"
 if [ ! -d ${output_dir} ]; then
   mkdir ${output_dir}
   echo "Made output dir: ${output_dir}"
