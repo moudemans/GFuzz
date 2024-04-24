@@ -183,7 +183,7 @@ public class GraphGuidance implements Guidance {
                 continue;
             }
 
-            System.out.printf("loading seed file [%s]: %s --> %s ", counter, file.getName(), file.getPath());
+            System.out.printf("loading seed file [%s]: %s --> %s \n", counter, file.getName(), file.getPath());
             seed_files.add(file.getPath());
             inputFiles.add(file.getPath());
             counter++;

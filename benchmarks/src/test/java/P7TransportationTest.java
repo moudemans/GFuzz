@@ -38,8 +38,9 @@ public class P7TransportationTest {
         for (int i = start_test_id; i <= end_test_id; i++) {
             try {
 //                String fileName = "src/main/resources/P7/MANUAL/test" + i + ".ser";
-                String fileName = "src/main/resources/P7/PGMark-FIXED/test" + i + ".json";
-                MyGraph g = MyGraph.readGraphFromJSON(fileName);
+                String fileName = "src/main/resources/P7/PGMark-FIXED/test" + i + ".ser";
+//                MyGraph g = MyGraph.readGraphFromJSON(fileName);
+                MyGraph g = MyGraph.readGraphFromFile(fileName);
                 analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());

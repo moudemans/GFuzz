@@ -511,7 +511,7 @@ public class GraphGenerator {
 
     public static void generateNodeProperties(Node newNode, GraphSchema gs) {
         ArrayList<Property> properties = gs.getNodeProperties().get(newNode.label);
-        if (properties.isEmpty()) {
+        if (properties == null || properties.isEmpty()) {
             return;
         }
 

@@ -93,6 +93,9 @@ public class GraphMutator {
         GraphMutations.MutationMethod[] breaking_mutations_methods = new GraphMutations.MutationMethod[]{
                 GraphMutations.MutationMethod.BreakUnique, GraphMutations.MutationMethod.BreakCardinality, GraphMutations.MutationMethod.BreakNull
         };
+        if (breaking_mutations == null) {
+            breaking_mutations = new HashSet<>();
+        }
         String constraint = applyMutationMethod(g, breaking_mutations_methods[random_schema_break_mutation], breaking_mutations);
 
         return breaking_mutations_methods[random_schema_break_mutation] + "$" + constraint;
@@ -466,6 +469,11 @@ public class GraphMutator {
         ArrayList<Node> from_candidates = g.getNodes(from_label);
         ArrayList<Node> to_candidates = g.getNodes(to_label);
 
+        if (from_candidates.isEmpty() || to_candidates.isEmpty()) {
+            System.out.printf("Could not add a new edge, to few available nodes - from=[%s]:[%s], to=[%s]:[%s] \n", from_label, from_candidates.size(), to_label, to_candidates.size());
+            return;
+        }
+
         int random_from_index = r.nextInt(from_candidates.size());
         int random_to_index = r.nextInt(to_candidates.size());
 
@@ -488,6 +496,12 @@ public class GraphMutator {
         int random_label_index = r.nextInt(node_labels.size());
         String random_label = new ArrayList<>(g.getSchema().getNodeLabels()).get(random_label_index);
         ArrayList<Property> properties = g.getSchema().getNodeProperties().get(random_label);
+
+        if (properties == null || properties.isEmpty()) {
+            System.err.printf("No properties defined for node [%s], can't mutate properties \n", random_label);
+            return;
+        }
+
         int random_property_index = r.nextInt(properties.size());
         Property p = properties.get(random_property_index);
 
