@@ -231,7 +231,7 @@ public class GraphMutations {
         }
 
         //Code should not reach this part
-        System.err.println("Something went wrong in selecting a weighted mutation: " + mutationList);
+        printString("Something went wrong in selecting a weighted mutation: " + mutationList, false);
         return MutationMethod.NoMutation;
     }
 
@@ -246,7 +246,7 @@ public class GraphMutations {
             activeMutations = createActiveMutations();
             // Graphs.Mutation active status does not change once the program started. When first time called, create the active mutation list
             if (activeMutations.isEmpty()) {
-                System.err.println("No active mutations found");
+                printString("No active mutations found", false);
                 System.exit(0);
             }
         }
@@ -266,7 +266,7 @@ public class GraphMutations {
     public static MutationMethod intToMutationMethod(int i) {
         MutationMethod[] m_array = MutationMethod.values();
         if (i > m_array.length || i < 0) {
-            System.err.println("Int for MutationMethod not matching a Mutation, int: [" + i + "]");
+            printString("Int for MutationMethod not matching a Mutation, int: [" + i + "]", false);
         }
         return m_array[i];
     }
@@ -284,7 +284,13 @@ public class GraphMutations {
                 return i;
             }
         }
-        System.err.println("Mutation method not recognised");
+        printString("Mutation method not recognised", false);
         return 0;
+    }
+
+    public static void printString(String s, boolean isInfo) {
+        if (false) {
+            System.out.println(s);
+        }
     }
 }

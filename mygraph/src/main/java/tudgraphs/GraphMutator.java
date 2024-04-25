@@ -2,11 +2,9 @@ package tudgraphs;
 
 import tudcomponents.*;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang.SerializationUtils;
 import util.Util;
@@ -50,7 +48,7 @@ public class GraphMutator {
         if (mm == null) {
             mm = selectMutationMethod();
         }
-        System.out.println("Mutation method selected: " + mm);
+        printString(String.format("Mutation method selected: " + mm), System.Logger.Level.INFO);
 
         applyMutationMethod(g, mm, null);
         return mm;
@@ -60,7 +58,7 @@ public class GraphMutator {
         assert g.getSchema() != null : "Graph schema not available for graph mutation";
 
         GraphMutations.MutationMethod mm = selectMutationMethod();
-        System.out.println("Mutation method selected: " + mm);
+        printString(String.format("Mutation method selected: " + mm), System.Logger.Level.INFO);
 
         String message = applyMutationMethod(g, mm, breaking_mutations);
         return message;
@@ -86,7 +84,7 @@ public class GraphMutator {
             case BreakCardinality -> mutation_message = breakCardinalityMutation(g, breaking_mutations);
             case BreakUnique -> mutation_message = breakUniqueMutation(g, breaking_mutations);
             case BreakNull -> mutation_message = breakNullMutation(g, breaking_mutations);
-            default -> System.err.println("Mutation method not implemented: " + mm);
+            default -> printString(String.format("Mutation method not implemented: " + mm), System.Logger.Level.WARNING);
         }
         return mutation_message;
     }
@@ -110,12 +108,12 @@ public class GraphMutator {
 
 
         if (nullprops.isEmpty()) {
-            System.err.println("Could not perform a break null property mutation. There are no unique properties");
+            printString(String.format("Could not perform a break null property mutation. There are no unique properties"), System.Logger.Level.WARNING);
             return "";
         }
 
         if (nullprops.isEmpty()) {
-            System.err.println("Could not perform a break unique property mutation. There are no unique properties");
+            printString(String.format("Could not perform a break unique property mutation. There are no unique properties"), System.Logger.Level.WARNING);
             return "";
         }
 
@@ -149,7 +147,7 @@ public class GraphMutator {
 
         ArrayList<Node> nodes = new ArrayList<>(g.getNodes(node_label));
         if (nodes.isEmpty()) {
-            System.err.println("Could not perform a break unique property mutations, not enough nodes for label: " + node_label);
+            printString(String.format("Could not perform a break unique property mutations, not enough nodes for label: " + node_label), System.Logger.Level.WARNING);
             return "";
         }
 
@@ -173,7 +171,7 @@ public class GraphMutator {
 
 
         if (uniqueprops.isEmpty()) {
-            System.err.println("Could not perform a break unique property mutation. There are no unique properties");
+            printString(String.format("Could not perform a break unique property mutation. There are no unique properties"), System.Logger.Level.WARNING);
             return "";
         }
 
@@ -195,7 +193,7 @@ public class GraphMutator {
 
 
         if (filtered_properties.isEmpty()) {
-            System.err.println("Could not perform a break unique property mutation. all the unique properties have already been mutated");
+            printString(String.format("Could not perform a break unique property mutation. all the unique properties have already been mutated"), System.Logger.Level.WARNING);
             return "";
         }
         ArrayList<String> node_labels = new ArrayList<>(filtered_properties.keySet());
@@ -211,7 +209,7 @@ public class GraphMutator {
 
         ArrayList<Node> nodes = new ArrayList<>(g.getNodes(node_label));
         if (nodes.size() <= 1) {
-            System.err.println("Could not perform a break unique property mutations, not enough nodes for label: " + node_label);
+            printString(String.format("Could not perform a break unique property mutations, not enough nodes for label: " + node_label), System.Logger.Level.WARNING);
             return "";
         }
 
@@ -235,7 +233,7 @@ public class GraphMutator {
 
 
         if (relationships_with_cardinality.isEmpty()) {
-            System.err.println("There are no relationships with cardinality which can be broken, no cardinality mutation performed");
+            printString(String.format("There are no relationships with cardinality which can be broken, no cardinality mutation performed"), System.Logger.Level.WARNING);
             return "";
         }
 
@@ -243,7 +241,7 @@ public class GraphMutator {
         ArrayList<Relationship> filtered_relationships = new ArrayList<>(relationships_with_cardinality.stream().filter(relationship -> !cardinality_mutations_applied.contains(relToConstraintString(relationship))).toList());
 
         if (filtered_relationships.isEmpty()) {
-            System.err.println("All relationships with cardinality have already been broken, no mutation performed");
+            printString(String.format("All relationships with cardinality have already been broken, no mutation performed"), System.Logger.Level.WARNING);
             return "";
         }
 
@@ -339,12 +337,12 @@ public class GraphMutator {
 
 
         if (from_nodes.isEmpty()) {
-            System.err.printf("No from nodes found to break many2One cardinality for relationship [%s]", rel);
+            printString(String.format("No from nodes found to break many2One cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
             return;
         }
 
         if (to_nodes.size() < 2) {
-            System.err.printf("Not enough to nodes found to break many2One cardinality for relationship [%s]", rel);
+            printString(String.format("Not enough to nodes found to break many2One cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
             return;
         }
 
@@ -377,12 +375,12 @@ public class GraphMutator {
         ArrayList<Node> to_nodes = g.getNodes(to_label);
 
         if (from_nodes.isEmpty()) {
-            System.err.printf("No from nodes found to break simple cardinality for relationship [%s]", rel);
+            printString(String.format("No from nodes found to break simple cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
             return;
         }
 
         if (to_nodes.isEmpty()) {
-            System.err.printf("No to nodes found to break simple cardinality for relationship [%s]", rel);
+            printString(String.format("No to nodes found to break simple cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
             return;
         }
 
@@ -395,7 +393,7 @@ public class GraphMutator {
         Edge e1 = new Edge(rel.getLabel(), from_node.id, to_node.id);
         Edge e2 = new Edge(rel.getLabel(), from_node.id, to_node.id);
 
-        System.out.printf("Breaking SIMPLE cardinality between node [%s] and [%s] by adding two edges with label [%s]", from_node.id, to_node.id, rel.getLabel());
+        printString(String.format("Breaking SIMPLE cardinality between node [%s] and [%s] by adding two edges with label [%s]", from_node.id, to_node.id, rel.getLabel()), System.Logger.Level.INFO);
 
         g.addEdge(e1);
         g.addEdge(e2);
@@ -422,7 +420,7 @@ public class GraphMutator {
 
 
         if (n.properties.isEmpty()) {
-            System.err.println("No properties on node which can be removed");
+            printString("No properties on node which can be removed", System.Logger.Level.WARNING);
             return;
         }
 
@@ -435,14 +433,18 @@ public class GraphMutator {
         String value_to_be_removed = n.properties.get(prop_key);
         n.properties.remove(prop_key);
 
-        System.out.printf("Removed Property [%s] with value [%s], from node [%s] \n", prop_key, value_to_be_removed, n.id);
+        printString(String.format("Removed Property [%s] with value [%s], from node [%s] \n", prop_key, value_to_be_removed, n.id), System.Logger.Level.INFO);
     }
 
     private static void removeEdgeMutation(MyGraph g) {
-        Node n = getRandomNode(g);
+        Node n = getRandomNodeWithEdges(g);
+        if(n == null) {
+            printString("Could not apply removeEdgeMutation an edge due to there not being nodes with edge", System.Logger.Level.WARNING);
+            return;
+        }
         Edge e = getRandomEdge(n);
 
-        System.out.printf("Removed Edge [%s], from [%s] --> to [%s] \n", e.label, e.from, e.to);
+        printString(String.format("Removed Edge [%s], from [%s] --> to [%s] \n", e.label, e.from, e.to), System.Logger.Level.INFO);
         g.removeEdge(e);
     }
 
@@ -454,19 +456,40 @@ public class GraphMutator {
     }
 
     private static void changeEdgeMutation(MyGraph g) {
-        Node n = getRandomNode(g);
+        Node n = getRandomNodeWithEdges(g);
+
+        if(n == null) {
+            printString("Could not apply changeEdgeMutation an edge due to there not being nodes with edge", System.Logger.Level.WARNING);
+            return;
+        }
+
         Edge e = getRandomEdge(n);
 
         String old_label = e.label;
         e.label = generateString(e.label.length()*2);
 
-        System.out.printf("Changed Edge label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.label, old_label, e.label);
+        printString(String.format("Changed Edge label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.label, old_label, e.label), System.Logger.Level.INFO);
     }
 
     private static Node getRandomNode(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
         int random_node_index = r.nextInt(nodes.size());
         Node n = g.getNodeOnIndex(random_node_index);
+        return n;
+    }
+
+    private static Node getRandomNodeWithEdges(MyGraph g) {
+        ArrayList<Node> nodes = g.getNodes();
+        ArrayList<Node> filtered_nodes = new ArrayList<>(nodes.stream().filter(node -> !node.getEdges().isEmpty()).toList());
+
+        if(filtered_nodes.isEmpty()) {
+            printString("There are no nodes with edges that can be removed", System.Logger.Level.WARNING);
+            return null;
+        }
+
+        int random_node_index = r.nextInt(filtered_nodes.size());
+        int node_id = filtered_nodes.get(random_node_index).id;
+        Node n = g.getNode(node_id);
         return n;
     }
 
@@ -483,7 +506,7 @@ public class GraphMutator {
         ArrayList<Relationship> rels = new ArrayList<>(gs.getRelationships());
 
         if (rels.isEmpty()) {
-            System.err.println("Add edge mutation failed, no relationships defined in schema");
+            printString(String.format("Add edge mutation failed, no relationships defined in schema"), System.Logger.Level.WARNING);
         }
 
         // Select random relationship to generate
@@ -496,7 +519,7 @@ public class GraphMutator {
         ArrayList<Node> to_candidates = g.getNodes(to_label);
 
         if (from_candidates.isEmpty() || to_candidates.isEmpty()) {
-            System.out.printf("Could not add a new edge, to few available nodes - from=[%s]:[%s], to=[%s]:[%s] \n", from_label, from_candidates.size(), to_label, to_candidates.size());
+            printString(String.format("Could not add a new edge, to few available nodes - from=[%s]:[%s], to=[%s]:[%s] \n", from_label, from_candidates.size(), to_label, to_candidates.size()), System.Logger.Level.WARNING);
             return;
         }
 
@@ -510,12 +533,12 @@ public class GraphMutator {
 
         Edge new_edge = new Edge(rel.getLabel(), from.id, to.id);
         g.addEdge(new_edge);
-        System.out.printf("Add Edge [%s], from [%s] --> to [%s] \n", new_edge.label, new_edge.from, new_edge.to);
+        printString(String.format("Add Edge [%s], from [%s] --> to [%s] \n", new_edge.label, new_edge.from, new_edge.to), System.Logger.Level.INFO);
     }
 
     private static void changePropertyValue(MyGraph g) {
         if (g.getSchema().getNodeLabels().isEmpty()) {
-            System.err.println("No node labels defined in schema, can't mutate properties");
+            printString("No node labels defined in schema, can't mutate properties", System.Logger.Level.WARNING) ;
         }
         // select random Node label from schema + property
         ArrayList<String> node_labels = new ArrayList<>(g.getSchema().getNodeLabels());
@@ -524,7 +547,7 @@ public class GraphMutator {
         ArrayList<Property> properties = g.getSchema().getNodeProperties().get(random_label);
 
         if (properties == null || properties.isEmpty()) {
-            System.err.printf("No properties defined for node [%s], can't mutate properties \n", random_label);
+            printString(String.format("No properties defined for node [%s], can't mutate properties \n", random_label), System.Logger.Level.WARNING);
             return;
         }
 
@@ -541,14 +564,14 @@ public class GraphMutator {
         String new_value = GraphGenerator.generatePropertyValue(p);
         candidate.properties.put(p.name, new_value);
 
-        System.out.printf("Changed Property [%s] for Node [%s]. [%s] --> [%s] \n", p.name, candidate.id, old_value, new_value);
+        printString(String.format("Changed Property [%s] for Node [%s]. [%s] --> [%s] \n", p.name, candidate.id, old_value, new_value), System.Logger.Level.INFO);
     }
 
     private static void removeNodeMutation(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
         int random_node_index = r.nextInt(nodes.size());
         Node n = g.getNodeOnIndex(random_node_index);
-        System.out.printf("Removed Node [%s] \n", n.id);
+        printString(String.format("Removed Node [%s] \n", n.id), System.Logger.Level.INFO);
         g.removeNode(n.id);
     }
 
@@ -670,12 +693,12 @@ public class GraphMutator {
 
     private static void applyCopySubSetMutation(MyGraph g) {
         ArrayList<Node> subset_nodes = selectSubGraphNodes(g);
-        System.out.printf("Selected [%s] nodes for subgraph%n", subset_nodes.size());
+        printString(String.format("Selected [%s] nodes for subgraph%n", subset_nodes.size()), System.Logger.Level.INFO);
         HashMap<Integer, Integer> mapping = updateNodeIDs(subset_nodes, g);
-        System.out.println("subset mapping: ");
+        printString("subset mapping: ", System.Logger.Level.DEBUG);
         for (Integer k :
                 mapping.keySet()) {
-            System.out.printf("\t Node [%s] --> Node [%s]", k, mapping.get(k));
+            printString(String.format("\t Node [%s] --> Node [%s]", k, mapping.get(k)), System.Logger.Level.DEBUG);
 
         }
 
@@ -759,6 +782,11 @@ public class GraphMutator {
         r = new Random(seed);
     }
 
+    public static void printString(String s, System.Logger.Level isInfo) {
+        if (false) {
+            System.out.println(s);
+        }
+    }
 }
 
 

@@ -165,9 +165,13 @@ public class FuzzStringStatement extends Statement {
                         throw e;
                     } catch (GuidanceException e) {
                         // Throw the guidance exception outside to stop fuzzing
+                        System.out.println("Error throw 2");
+
                         throw e;
                     } catch (Throwable e) {
                         // Throw the guidance exception outside to stop fuzzing
+                        System.out.println("Error throw 3");
+
                         throw new GuidanceException(e);
                     } finally {
                         // System.out.println(randomFile.getTotalBytesRead() + " random bytes read");
@@ -180,6 +184,7 @@ public class FuzzStringStatement extends Statement {
                     result = SUCCESS;
                 } catch (GuidanceException e) {
                     // Throw the guidance exception outside to stop fuzzing
+                    System.out.println("Error throw 4");
                     throw e;
                 }
                 catch (AssumptionViolatedException e) {
@@ -212,11 +217,11 @@ public class FuzzStringStatement extends Statement {
 
         if (failures.size() > 0) {
             if (failures.size() == 1) {
-                throw failures.get(0);
+//                throw failures.get(0);
             } else {
                 // Not sure if we should report each failing run,
                 // as there may be duplicates
-                throw new MultipleFailureException(failures);
+//                throw new MultipleFailureException(failures);
             }
         }
 

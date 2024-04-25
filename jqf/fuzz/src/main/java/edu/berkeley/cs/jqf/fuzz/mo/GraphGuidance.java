@@ -80,7 +80,7 @@ public class GraphGuidance implements Guidance {
 
 
     private static ArrayList<String> seed_files = new ArrayList<>();
-    Queue<String> inputFiles = new PriorityQueue<>();
+    Queue<String> priorityFiles = new PriorityQueue<>();
     private static ArrayList<String> important_files = new ArrayList<>(); // List of files which increase coverage / produce error. This is used to mutate
 
 
@@ -89,6 +89,12 @@ public class GraphGuidance implements Guidance {
 
 
     protected HashMap<String, Set<String>> files_mutated = new HashMap<>();
+
+    private static final boolean PRINT_MUTATION_COUNT = true;
+    private static final boolean PRINT_MUTATION_RESPONSIBILITY = true;
+    protected HashMap<GraphMutations.MutationMethod, Integer> mutation_counts = new HashMap<>();
+    protected HashMap<String, GraphMutations.MutationMethod> coverage_by_mutation = new HashMap<>();
+    GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
     protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
     HashSet<GraphMutations.MutationMethod> schema_breaking_mutations = new HashSet<>(List.of(new GraphMutations.MutationMethod[]{
@@ -185,7 +191,7 @@ public class GraphGuidance implements Guidance {
 
             System.out.printf("loading seed file [%s]: %s --> %s \n", counter, file.getName(), file.getPath());
             seed_files.add(file.getPath());
-            inputFiles.add(file.getPath());
+            priorityFiles.add(file.getPath());
             counter++;
 
         }
@@ -254,17 +260,20 @@ public class GraphGuidance implements Guidance {
     public InputStream getInput() {
 
         // If the queue of input files is empty, use the relevant files for a new mutation
-        if (!inputFiles.isEmpty()) {
-            currentInputFile = inputFiles.poll();
+        if (!priorityFiles.isEmpty()) {
+            currentInputFile = priorityFiles.poll();
+            nextInputFileLocation = currentInputFile;
+            last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
         } else {
+            //select random file from files which discovered new coverage
             int random_seed = random.nextInt(important_files.size());
             currentInputFile = important_files.get(random_seed);
+            // Mutate said file
+            String nextInputLocation = mutate_current_file();
         }
 
-
-        String nextInputLocation = mutate_current_file();
-
-        InputStream targetStream = new ByteArrayInputStream(nextInputLocation.getBytes());
+        // DEFAULT TO: WORKING_DIR + RUNNING_DIR + "mutated.ser"
+        InputStream targetStream = new ByteArrayInputStream(nextInputFileLocation.getBytes());
         return targetStream;
     }
 
@@ -306,6 +315,12 @@ public class GraphGuidance implements Guidance {
         }
 
         MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
+
+        if (!mutation_counts.containsKey(mutation_applied)) {
+            mutation_counts.put(mutation_applied, 0);
+        }
+        mutation_counts.put(mutation_applied, mutation_counts.get(mutation_applied) + 1);
+        last_mutation_applied = mutation_applied;
 
         return nextInputFileLocation;
     }
@@ -403,11 +418,9 @@ public class GraphGuidance implements Guidance {
         String traceElementsString = "";
         for (int i = 0; i < testProgramTraceElements.size(); i++) {
             traceElementsString += testProgramTraceElements.get(i).toString();
-//            System.out.println(testProgramTraceElements.get(i).toString());
         }
 
         //   Attempt to add this to the set of unique failures
-//        if(!uniqueFailures.contains(testProgramTraceElements)) {
         if (!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
             uniqueFailuresString.add(traceElementsString);
@@ -427,15 +440,19 @@ public class GraphGuidance implements Guidance {
         String new_file_name = type + "_" + numTrials + ".ser";
 
         try {
-            FileUtils.copyFile(new File(currentInputFile), new File(dest_folder, new_file_name));
+            FileUtils.copyFile(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
         } catch (IOException e) {
             System.err.println("Could not copy file which produced new coverage to the saved inputs dir");
             System.exit(-1);
         }
 
+        coverage_by_mutation.put(new_file_name, last_mutation_applied);
+
         important_files.add(dest_folder + "/" + new_file_name);
-        inputFiles.add(dest_folder + "/" + new_file_name);
+        priorityFiles.add(dest_folder + "/" + new_file_name);
     }
+
+
 
     private void displayStats() {
         PrintStream console = System.out;
@@ -466,6 +483,23 @@ public class GraphGuidance implements Guidance {
         console.printf("\tTotal coverage:       %,d branches (%.2f%% of map)\n", nonZeroCount, nonZeroFraction);
         console.printf("\trun coverage:       %,d branches (%.2f%% of map)\n", nonZeroValidCount, nonZeroValidFraction);
         console.printf("\tFailed mutations:       %,d\n", failedMutation);
+        if(PRINT_MUTATION_COUNT) {
+            console.printf("\tmutation counts:       \n");
+            for (GraphMutations.MutationMethod mm :
+                    mutation_counts.keySet()) {
+                console.printf("\t\t %s: %,d\n",mm.toString(), mutation_counts.get(mm));
+
+            }
+        }
+        if(PRINT_MUTATION_RESPONSIBILITY) {
+            console.printf("\tSaved inputs:       \n");
+            for (String f :
+                    coverage_by_mutation.keySet()) {
+                console.printf("\t\t %s, created by mutation: %s\n",f, coverage_by_mutation.get(f));
+
+            }
+        }
+
         console.println();
 
     }
@@ -491,7 +525,7 @@ public class GraphGuidance implements Guidance {
         // Display error stack trace in case of failure
         if (result == Result.FAILURE) {
             if (out != null) {
-                error.printStackTrace(out);
+//                error.printStackTrace(out);
             }
             this.keepGoing = KEEP_GOING_ON_ERROR;
         }

@@ -32,6 +32,9 @@ package edu.berkeley.cs.jqf.fuzz.mo;
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.junit.GuidedFuzzing;
 
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 /**
  * @author Rohan Padhye
  */
@@ -53,7 +56,7 @@ public class MoDriver {
             GraphGuidance guidance = new GraphGuidance(maxTrials, System.out, testClassName, testMethodName);
 
             // Run the Junit test
-            GuidedFuzzing.run(testClassName, testMethodName, guidance, null);
+            GuidedFuzzing.run(testClassName, testMethodName, guidance, System.out);
 
             if (Boolean.getBoolean("jqf.logCoverage")) {
                 System.out.println(String.format("Covered %d edges.",

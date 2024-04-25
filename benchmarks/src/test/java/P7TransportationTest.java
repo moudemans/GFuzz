@@ -18,8 +18,10 @@ public class P7TransportationTest {
         for (int i = start_test_id; i <= end_test_id; i++) {
             try {
 //                String fileName = "src/main/resources/P7/MANUAL/test" + i + ".ser";
-                String fileName = "src/main/resources/P7/MANUAL/test" + i + ".json";
-                MyGraph g = MyGraph.readGraphFromJSON(fileName);
+//                String fileName = "benchmarks/src/main/resources/P7/MANUAL/test" + i + ".json";
+//                MyGraph g = MyGraph.readGraphFromJSON(fileName);
+                String fileName = "benchmarks/src/main/resources/P7/MANUAL/test" + i + ".ser";
+                MyGraph g = MyGraph.readGraphFromFile(fileName);
                 analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());
@@ -36,12 +38,13 @@ public class P7TransportationTest {
 
         try {
 //            String fileName = "src/main/resources/P7/PGMark-FIXED/test" + i + ".ser";
-            String path = "src/main/resources/P7/PGMark-FIXED/";
+            String path = "benchmarks/src/main/resources/P7/PGMark-FIXED/";
             File input_dir = new File(path);
             File[] listOfFiles = input_dir.listFiles();
+            System.out.println("Working Directory = " + System.getProperty("user.dir"));
             for (File f :
                     listOfFiles) {
-                if(f.getPath().contains("json")) {
+                if (f.getPath().contains("json")) {
                     continue;
                 }
                 MyGraph g = MyGraph.readGraphFromFile(f.getPath());
@@ -53,27 +56,51 @@ public class P7TransportationTest {
         }
 
 
+        assertTrue("test", true);
+    }
+
+    @org.junit.Test
+    public void testMUTATED2() {
+        P7Logic analysis = new P7Logic();
+        int count = 1;
+        try {
+//                String fileName = "src/main/resources/P7/PGMark-FIXED/test" + i + ".ser";
+            String path = "benchmarks/src/main/resources/P7/PGMark-MUTATED2/";
+            File input_dir = new File(path);
+            File[] listOfFiles = input_dir.listFiles();
+            for (File f :
+                    listOfFiles) {
+                System.out.println("at " + count);
+                MyGraph g = MyGraph.readGraphFromFile(f.getPath());
+                analysis.run(g);
+            }
+        } catch (Exception e) {
+            System.err.println("Caught exception: " + e.getMessage());
+        }
 
         assertTrue("test", true);
     }
 
     @org.junit.Test
-    public void testMUTATED() {
+    public void testMANUAL2() {
         P7Logic analysis = new P7Logic();
+        int count = 1;
 
-            try {
 //                String fileName = "src/main/resources/P7/PGMark-FIXED/test" + i + ".ser";
-                String path = "src/main/resources/P7/PGMark-MUTATED2/";
-                File input_dir = new File(path);
-                File[] listOfFiles = input_dir.listFiles();
-                for (File f :
-                        listOfFiles) {
-                    MyGraph g = MyGraph.readGraphFromFile(f.getPath());
-                    analysis.run(g);
-                }
+        String path = "benchmarks/src/main/resources/P7/PGMark-GFUZZ/";
+        File input_dir = new File(path);
+        File[] listOfFiles = input_dir.listFiles();
+        for (File f :
+                listOfFiles) {
+            System.out.println("at " + count);
+            try {
+                MyGraph g = MyGraph.readGraphFromFile(f.getPath());
+                analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());
             }
+        }
+
 
         assertTrue("test", true);
     }

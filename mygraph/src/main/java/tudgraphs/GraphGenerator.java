@@ -24,7 +24,7 @@ public class GraphGenerator {
 
     private static final Random r = new Random();
 
-    static int generationMethod = 5;
+    static int generationMethod = 3;
     static String INPUT_DIR_PATH = "tmp/";
     static String OUTPUT_DIR = INPUT_DIR_PATH;
     static String INPUT_FILE_NAME = "";

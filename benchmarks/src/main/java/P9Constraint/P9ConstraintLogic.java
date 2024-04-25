@@ -72,7 +72,6 @@ public class P9ConstraintLogic {
         return 1;
     }
 
-    @Fuzz
     public ArrayList<Node> function_2(MyGraph g, Node prev_item, String value_relationship_name, String value, boolean multiple_nodes, boolean at_least_one) {
         //System.out.println("Ping.b001");
         ArrayList<Node> connected_nodes = g.getConnectedNodes(prev_item, value_relationship_name);
