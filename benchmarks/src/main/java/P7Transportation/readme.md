@@ -2,12 +2,14 @@
 **Functionality** \
 The applications reads the property value from the edges, expecting specific properties dependent on the edge label.
 
-Function descriptions:
-**getTimesFirstStation** \\
+Function descriptions: \
+**getTimesFirstStation** \
 Sum the time values stored in edge properties where the edge label is ‘WALK’ or ‘DRT’
-**getFirstStation** \\
+
+**getFirstStation** \
 Return the first end location where the edge label is either ‘WALK’ or ‘DRT’
-**getTransport** \\
+
+**getTransport** \
 Return the transportation method from node. If both methods are available return ‘DRT/WALK’
 
 
