@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertTrue;
 
 @RunWith(JQF.class)
 public class P9Driver {
@@ -19,6 +18,8 @@ public class P9Driver {
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
         analysis.function_1(g, 0, "Data1", 2, false, false);
-        assertTrue("holder", true);
+        analysis.function_1(g, 0, "Data1", 2, true, false);
+        analysis.function_1(g, 0, "Data1", 2, false, true);
+        analysis.function_1(g, 0, "Data1", 2, true, true);
     }
 }
