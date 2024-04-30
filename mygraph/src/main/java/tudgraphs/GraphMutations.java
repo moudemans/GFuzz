@@ -27,6 +27,8 @@ public class GraphMutations {
     private static final boolean breakCardinalityActive = false;
     private static final boolean breakUniqueActive = false;
     private static final boolean breakNullActive = false;
+    private static final boolean bitMutationActive = false;
+    private static final boolean byteMutationActive = false;
     private static ArrayList<MutationMethod> activeMutations;
 
     // Indicates a bias towards the mutation method
@@ -45,6 +47,8 @@ public class GraphMutations {
     private static final float breakUniqueBias = 1f;
     private static final float breakNullBias = 1f;
     private static final float breakSchemaBias = 1f;
+    private static final float bitBias = 1f;
+    private static final float byteBias = 1f;
 
     /**
      * List of mutations. Indicated with corresponding label from BigFuzz paper when applicable.
@@ -65,7 +69,9 @@ public class GraphMutations {
         BreakSchema,
         BreakCardinality,
         BreakUnique,
-        BreakNull
+        BreakNull,
+        BitMutation,
+        ByteMutation
     }
 
     /**
@@ -117,6 +123,12 @@ public class GraphMutations {
             }
             case BreakSchema -> {
                 return breakSchemaBias;
+            }
+            case BitMutation -> {
+                return bitBias;
+            }
+            case ByteMutation -> {
+                return byteBias;
             }
             default -> {
                 System.out.println("No Mutation bias defined for [" + mutationMethod + "], returning default of 1");
@@ -172,6 +184,10 @@ public class GraphMutations {
                 return breakNullActive;
             case BreakSchema:
                 return breakSchemaActive;
+            case BitMutation:
+                return bitMutationActive;
+            case ByteMutation:
+                return byteMutationActive;
             default:
                 System.out.println("No activation boolean defined for: " + m);
                 return false;

@@ -56,6 +56,7 @@ public class GraphGuidance implements Guidance {
     private boolean keepGoing = true;
     private long numTrials = 0;
     private long failedMutation = 0;
+    private long invalidStates = 0;
 
     private final String testClassName;
     private final String testMethodName;
@@ -96,7 +97,7 @@ public class GraphGuidance implements Guidance {
     protected HashMap<String, GraphMutations.MutationMethod> coverage_by_mutation = new HashMap<>();
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
-    protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
+    protected int mutation_framework = 0; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
     HashSet<GraphMutations.MutationMethod> schema_breaking_mutations = new HashSet<>(List.of(new GraphMutations.MutationMethod[]{
             GraphMutations.MutationMethod.BreakSchema
     }));
@@ -278,8 +279,15 @@ public class GraphGuidance implements Guidance {
     }
 
     private String mutate_current_file() {
-        MyGraph currentGraph = MyGraph.readGraphFromFile(currentInputFile);
-
+        MyGraph currentGraph;
+        try {
+            currentGraph = MyGraph.readGraphFromFile(currentInputFile);
+        }
+        catch (Exception e) {
+            System.err.printf("An error occured while loading graph from [%s] \n", currentInputFile);
+            important_files.remove(currentInputFile);
+            return currentInputFile;
+        }
         GraphMutations.MutationMethod mutation_applied;
 
 
@@ -292,9 +300,25 @@ public class GraphGuidance implements Guidance {
             mutation_applied = GraphMutations.MutationMethod.NoMutation;
         } else if (mutation_framework == 0) {
             //TODO : add/remove as well as possible byte mutations
-            MyGraph mutation = GraphUtil.byteMutation(currentGraph, 1, random, 1);
-            currentGraph = mutation;
-            mutation_applied = GraphMutations.MutationMethod.NoMutation; // TODO: add bit/byte mutation to the enum
+//            MyGraph mutation = GraphMutator.ByteMutation(currentGraph);
+//            currentGraph = mutation;
+            try {
+                GraphMutator.ByteMutationToFile(currentGraph, nextInputFileLocation);
+                mutation_applied = GraphMutations.MutationMethod.ByteMutation;
+            }
+            catch (IOException e) {
+                mutation_applied = GraphMutations.MutationMethod.NoMutation;
+                invalidStates++;
+            }
+            if (!mutation_counts.containsKey(mutation_applied)) {
+                mutation_counts.put(mutation_applied, 0);
+            }
+            mutation_counts.put(mutation_applied, mutation_counts.get(mutation_applied) + 1);
+            System.out.println("mutation_counts: " + mutation_counts.size());
+            System.out.println("Mutation appplied: " + mutation_applied);
+            last_mutation_applied = mutation_applied;
+            return nextInputFileLocation;
+
         } else if (mutation_framework == 1) { // no restrictions on mutations
             mutation_applied = GraphMutator.mutateGraph(currentGraph, null);
         } else if (mutation_framework == 2) {
@@ -483,6 +507,8 @@ public class GraphGuidance implements Guidance {
         console.printf("\tTotal coverage:       %,d branches (%.2f%% of map)\n", nonZeroCount, nonZeroFraction);
         console.printf("\trun coverage:       %,d branches (%.2f%% of map)\n", nonZeroValidCount, nonZeroValidFraction);
         console.printf("\tFailed mutations:       %,d\n", failedMutation);
+        console.printf("\tInvalid states:       %,d\n", invalidStates);
+        console.printf("\tNum discards:       %,d\n", numDiscards);
         if(PRINT_MUTATION_COUNT) {
             console.printf("\tmutation counts:       \n");
             for (GraphMutations.MutationMethod mm :

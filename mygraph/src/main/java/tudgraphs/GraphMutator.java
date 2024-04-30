@@ -2,6 +2,9 @@ package tudgraphs;
 
 import tudcomponents.*;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -940,13 +943,24 @@ public class GraphMutator {
 
     }
 
-    public static MyGraph ByteMutation(MyGraph g, int byteCount) {
+    public static void ByteMutationToFile(MyGraph g, String output_file) throws IOException {
+        byte[] data = ByteMutationToStream(g);
+
+        FileOutputStream fileOut = new FileOutputStream(output_file);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(data);
+        out.close();
+        fileOut.close();
+    }
+
+    public static MyGraph ByteMutation(MyGraph g) throws IOException {
         byte[] data = ByteMutationToStream(g);
         MyGraph newGraph = null;
         try {
             newGraph = (MyGraph) SerializationUtils.deserialize(data);
         } catch (Exception e) {
             // do nothing, structure is most likely corrupted
+            throw new IOException("Structure corrupted");
         }
         return newGraph;
     }
@@ -970,7 +984,7 @@ public class GraphMutator {
             for (int i = 0; i < byteIndex; i++) {
                 mutated_data[i] = data[i];
             }
-            for (int i = byteIndex; i < data.length; i++) {
+            for (int i = byteIndex; i < data.length-1; i++) {
                 mutated_data[i] = data[i+1];
             }
 
