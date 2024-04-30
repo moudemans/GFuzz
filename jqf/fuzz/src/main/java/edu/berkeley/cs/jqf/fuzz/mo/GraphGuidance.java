@@ -40,6 +40,7 @@ import tudgraphs.GraphMutator;
 import util.GraphUtil;
 
 import java.io.*;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -63,6 +64,7 @@ public class GraphGuidance implements Guidance {
 
     private long numDiscards = 0;
     private final long maxTrials;
+    protected final long maxDurationMillis;
     private final float maxDiscardRatio = 0.9f;
     private final PrintStream out;
     private Random random = new Random();
@@ -153,11 +155,13 @@ public class GraphGuidance implements Guidance {
      * @param testClassName
      * @param testMethodName
      */
-    public GraphGuidance(long maxTrials, PrintStream out, String testClassName, String testMethodName) {
+    public GraphGuidance(long maxTrials, PrintStream out, String testClassName, String testMethodName, Duration duration) {
         if (maxTrials <= 0) {
             throw new IllegalArgumentException("maxTrials must be greater than 0");
         }
-        this.maxTrials = 10;
+        this.maxTrials = maxTrials;
+        this.maxDurationMillis = duration != null ? duration.toMillis() : Long.MAX_VALUE;
+
         this.out = out;
         this.testClassName = testClassName;
         this.testMethodName = testMethodName;
@@ -207,6 +211,8 @@ public class GraphGuidance implements Guidance {
 
         outputDirectory = new File(WORKING_DIR);
 
+        System.out.println("Preparing output directories ...");
+
         // Create the output directory if it does not exist
         if (!outputDirectory.exists()) {
             throw new IOException("output directory does not exists" +
@@ -240,6 +246,7 @@ public class GraphGuidance implements Guidance {
         }
         if (CLEAR_ALL_PREVIOUS_RESULTS_ON_START && outputDirectory.isDirectory()) {
             try {
+                System.out.println("\t Clearing previous output results");
                 File inputs = new File(outputDirectory, RUNNING_DIR);
                 FileUtils.cleanDirectory(inputs);
                 File saved = new File(outputDirectory, SAVED_INPUTS_DIR);
@@ -279,6 +286,7 @@ public class GraphGuidance implements Guidance {
     }
 
     private String mutate_current_file() {
+
         MyGraph currentGraph;
         try {
             currentGraph = MyGraph.readGraphFromFile(currentInputFile);
@@ -299,9 +307,7 @@ public class GraphGuidance implements Guidance {
         if (mutation_framework == -1) {
             mutation_applied = GraphMutations.MutationMethod.NoMutation;
         } else if (mutation_framework == 0) {
-            //TODO : add/remove as well as possible byte mutations
-//            MyGraph mutation = GraphMutator.ByteMutation(currentGraph);
-//            currentGraph = mutation;
+
             try {
                 GraphMutator.ByteMutationToFile(currentGraph, nextInputFileLocation);
                 mutation_applied = GraphMutations.MutationMethod.ByteMutation;
@@ -368,16 +374,8 @@ public class GraphGuidance implements Guidance {
 
         process_result_value(result, error);
 
-        // Stopping criteria
-        if (numTrials >= maxTrials) {
-            System.out.println("Max trials has been reached");
-            write_log_to_file();
-            this.keepGoing = false;
-        }
+        process_stopping_criteria();
 
-        if (numTrials > 10 && ((float) numDiscards) / ((float) (numTrials)) > maxDiscardRatio) {
-            throw new GuidanceException("Assumption is too strong; too many inputs discarded");
-        }
 
         if (result == Result.SUCCESS || result == Result.INVALID) {
 
@@ -410,6 +408,27 @@ public class GraphGuidance implements Guidance {
 
         // Clear coverage stats for this run
         runCoverage.clear();
+    }
+
+    private void process_stopping_criteria() {
+        // Stopping criteria
+        if (numTrials >= maxTrials) {
+            System.out.println("Max trials has been reached");
+            this.keepGoing = false;
+        }
+
+        long elapsedMillis = new Date().getTime() - startTime.getTime();
+        if (elapsedMillis >= this.maxDurationMillis) {
+            this.keepGoing = false;
+        }
+
+        if (numTrials > 10 && ((float) numDiscards) / ((float) (numTrials)) > maxDiscardRatio) {
+            throw new GuidanceException("Assumption is too strong; too many inputs discarded");
+        }
+
+        if (!keepGoing) {
+            write_log_to_file();
+        }
     }
 
     private void handleFailure(Result result, Throwable error) {

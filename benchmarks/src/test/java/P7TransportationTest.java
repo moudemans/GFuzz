@@ -1,4 +1,5 @@
 
+import P10Pangenomic.P10Logic;
 import P7Transportation.P7Logic;
 import tudcomponents.MyGraph;
 
@@ -83,25 +84,29 @@ public class P7TransportationTest {
 
     @org.junit.Test
     public void testMANUAL2() {
-        P7Logic analysis = new P7Logic();
-        int count = 1;
+        String path = "benchmarks/src/main/resources/P7/PGMark-Random/";
+        testFilesInDir(path);
+    }
 
-//                String fileName = "src/main/resources/P7/PGMark-FIXED/test" + i + ".ser";
-        String path = "benchmarks/src/main/resources/P7/PGMark-GFUZZ/";
+    public void testFilesInDir(String path) {
+        P7Logic analysis = new P7Logic();
+
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         for (File f :
                 listOfFiles) {
-            System.out.println("at " + count);
+            if (f.getPath().contains("json")) {
+                continue;
+            }
             try {
                 MyGraph g = MyGraph.readGraphFromFile(f.getPath());
                 analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());
+                e.printStackTrace();
             }
         }
-
-
         assertTrue("test", true);
     }
 

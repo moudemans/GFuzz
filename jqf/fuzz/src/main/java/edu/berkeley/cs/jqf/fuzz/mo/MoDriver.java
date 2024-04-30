@@ -34,6 +34,8 @@ import edu.berkeley.cs.jqf.fuzz.junit.GuidedFuzzing;
 
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 /**
  * @author Rohan Padhye
@@ -52,8 +54,10 @@ public class MoDriver {
 
         try {
             // Load the guidance
+            Duration maxDuration = Duration.of(10, ChronoUnit.MINUTES);
+            maxTrials = 5000L;
 //            NoGuidance guidance = new NoGuidance(maxTrials, System.err);
-            GraphGuidance guidance = new GraphGuidance(maxTrials, System.out, testClassName, testMethodName);
+            GraphGuidance guidance = new GraphGuidance(maxTrials, System.out, testClassName, testMethodName, maxDuration);
 
             // Run the Junit test
             GuidedFuzzing.run(testClassName, testMethodName, guidance, System.out);
