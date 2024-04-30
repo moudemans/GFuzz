@@ -94,10 +94,10 @@ public class MyGraph implements Serializable {
             System.err.println("Could not find the file: " + inputFile);
             throw new RuntimeException(e);
         }
+        int counter = 1;
 
         try {
             String holder = reader.readLine();
-            int counter = 1;
 
             if (!holder.startsWith("###")) {
                 System.err.println("Expected the file to begin with node relationships, indicated by [### NODE RELATIONS ###]");
@@ -207,6 +207,15 @@ public class MyGraph implements Serializable {
                 String node_label_from = from_node[0];
                 int id_from = Integer.parseInt(from_node[1]);
 
+                if (!ids_found.contains(id_from)) {
+                    ids_found.add(id_from);
+                    int mask_id = node_counter;
+                    node_counter++;
+                    Node n = new Node(mask_id, node_label_from);
+                    nodes.add(n);
+                    id_mask.put(id_from, mask_id);
+                }
+
                 String propertyKey = cols[1];
 
                 nodes.get(id_mask.get(id_from)).properties.put(propertyKey, value);
@@ -222,6 +231,9 @@ public class MyGraph implements Serializable {
             reader.close();
 
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.err.println("Error at line: " + counter);
             throw new RuntimeException(e);
         }
 
@@ -649,6 +661,16 @@ public class MyGraph implements Serializable {
         return res;
     }
 
+
+    public ArrayList<Edge> getEdges() {
+        HashSet<Edge> edges = new HashSet<>();
+        for (Node n :
+                nodes) {
+            edges.addAll(n.getEdges());
+        }
+        return new ArrayList<>(edges);
+    }
+
     public boolean checkSingle(int nodeID, String edgeLabel) {
         Node n = getNode(nodeID);
         ArrayList<Edge> edges = getRelationships(n);
@@ -709,10 +731,14 @@ public class MyGraph implements Serializable {
 
         for (Edge e :
                 del_node.edges) {
+            Node n;
             if (e.to == del_node.id) {
-                getNode(e.from).removeEdge(e);
+                n = getNode(e.from);
             } else {
-                getNode(e.to).removeEdge(e);
+                n = getNode(e.to);
+            }
+            if (n != null) {
+                n.removeEdge(e);
             }
         }
     }
@@ -887,4 +913,5 @@ public class MyGraph implements Serializable {
         }
         return false;
     }
+
 }

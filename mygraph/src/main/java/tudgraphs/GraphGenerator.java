@@ -400,6 +400,12 @@ public class GraphGenerator {
     }
 
     public static String generatePropertyValue(Property p) {
+        if (p == null) {
+            byte[] array = new byte[10]; // length is bounded by 7
+            r.nextBytes(array);
+            return new String(array, StandardCharsets.UTF_8);
+        }
+
         if (p.type == Type.INT) {
             int random_val = r.nextInt(Integer.MAX_VALUE) - (Integer.MIN_VALUE / 2);
             return random_val + "";
