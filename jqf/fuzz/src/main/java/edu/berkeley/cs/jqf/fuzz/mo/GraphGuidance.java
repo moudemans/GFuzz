@@ -157,7 +157,7 @@ public class GraphGuidance implements Guidance {
         if (maxTrials <= 0) {
             throw new IllegalArgumentException("maxTrials must be greater than 0");
         }
-        this.maxTrials = maxTrials;
+        this.maxTrials = 10;
         this.out = out;
         this.testClassName = testClassName;
         this.testMethodName = testMethodName;
@@ -314,8 +314,6 @@ public class GraphGuidance implements Guidance {
                 mutation_counts.put(mutation_applied, 0);
             }
             mutation_counts.put(mutation_applied, mutation_counts.get(mutation_applied) + 1);
-            System.out.println("mutation_counts: " + mutation_counts.size());
-            System.out.println("Mutation appplied: " + mutation_applied);
             last_mutation_applied = mutation_applied;
             return nextInputFileLocation;
 
@@ -373,6 +371,7 @@ public class GraphGuidance implements Guidance {
         // Stopping criteria
         if (numTrials >= maxTrials) {
             System.out.println("Max trials has been reached");
+            write_log_to_file();
             this.keepGoing = false;
         }
 
@@ -528,6 +527,58 @@ public class GraphGuidance implements Guidance {
 
         console.println();
 
+    }
+
+    public void write_log_to_file() {
+        System.out.println("Collecting statistics");
+
+        Date now = new Date();
+
+        lastRefreshTime = now;
+        lastNumTrials = numTrials;
+        long elapsedMilliseconds = now.getTime() - startTime.getTime();
+
+
+        int nonZeroCount = totalCoverage.getNonZeroCount();
+        double nonZeroFraction = nonZeroCount * 100.0 / totalCoverage.size();
+
+        ArrayList<String> output = new ArrayList<>();
+        output.add(String.format("\tElapsed time:         %s \n", millisToDuration(elapsedMilliseconds)));
+        output.add(String.format("\tNumber of executions: %,d\n", numTrials));
+        output.add(String.format("\tTotal coverage:       %,d branches (%.2f%% of map)\n", nonZeroCount, nonZeroFraction));
+        output.add(String.format("\tFailed mutations:       %,d\n", failedMutation));
+        output.add(String.format("\tInvalid states:       %,d\n", invalidStates));
+        output.add(String.format("\tNum discards:       %,d\n", numDiscards));
+        if(PRINT_MUTATION_COUNT) {
+            output.add(String.format("\tmutation counts:       \n"));
+            for (GraphMutations.MutationMethod mm :
+                    mutation_counts.keySet()) {
+                output.add(String.format("\t\t %s: %,d\n",mm.toString(), mutation_counts.get(mm)));
+
+            }
+        }
+        if(PRINT_MUTATION_RESPONSIBILITY) {
+            output.add(String.format("\tSaved inputs:       \n"));
+            for (String f :
+                    coverage_by_mutation.keySet()) {
+                output.add(String.format("\t\t %s, created by mutation: %s\n",f, coverage_by_mutation.get(f)));
+
+            }
+        }
+
+
+        try {
+            FileWriter myWriter = new FileWriter(WORKING_DIR + "fuzz-log.txt");
+            myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n" );
+            for(String s : output) {
+                myWriter.write(s);
+            }
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     private String millisToDuration(long millis) {
