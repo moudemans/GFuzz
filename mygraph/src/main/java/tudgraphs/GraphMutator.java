@@ -902,6 +902,91 @@ public class GraphMutator {
             System.out.println(s);
         }
     }
+
+    public static MyGraph GraphBitMutation(MyGraph g, int bitflipCount) {
+        byte[] data = BitMutationToStream(g, bitflipCount);
+        MyGraph newGraph = null;
+        try {
+            newGraph = (MyGraph) SerializationUtils.deserialize(data);
+        } catch (Exception e) {
+            // do nothing, structure is most likely corrupted
+        }
+        return newGraph;
+
+    }
+    public static byte[] BitMutationToStream(MyGraph g, int bitflipCount) {
+        byte[] data = SerializationUtils.serialize(g);
+
+        int MIN_BYTE_VALUE = -128;
+        int MAX_BYTE_VALUE = 127;
+
+        if (r == null) {
+            r = new Random();
+        }
+
+        for (int i = 0; i < bitflipCount; i++) {
+            int byteIndex = r.nextInt(data.length);
+
+            int mutation = 1;
+            if ( r.nextBoolean() ) {
+                mutation = -1;
+            }
+
+            Integer mutatedByteValue =(int) data[byteIndex] + mutation;
+
+            data[byteIndex] = mutatedByteValue.byteValue();
+        }
+        return data;
+
+    }
+
+    public static MyGraph ByteMutation(MyGraph g, int byteCount) {
+        byte[] data = ByteMutationToStream(g);
+        MyGraph newGraph = null;
+        try {
+            newGraph = (MyGraph) SerializationUtils.deserialize(data);
+        } catch (Exception e) {
+            // do nothing, structure is most likely corrupted
+        }
+        return newGraph;
+    }
+    public static byte[] ByteMutationToStream(MyGraph g) {
+        byte[] data = SerializationUtils.serialize(g);
+
+        int MIN_BYTE_VALUE = -128;
+
+        byte[] mutated_data = new byte[0];
+
+        //Either  mutate, delete or add byte
+        int byte_mutation_method = r.nextInt(3);
+        int byteIndex = r.nextInt(data.length);
+        int byteValue = r.nextInt(256) + MIN_BYTE_VALUE;
+
+        if (byte_mutation_method == 0) {
+            mutated_data = data.clone();
+            mutated_data[byteIndex] = (byte) byteValue;
+        } else if (byte_mutation_method == 1) {
+            mutated_data = new byte[data.length-1];
+            for (int i = 0; i < byteIndex; i++) {
+                mutated_data[i] = data[i];
+            }
+            for (int i = byteIndex; i < data.length; i++) {
+                mutated_data[i] = data[i+1];
+            }
+
+        } else if (byte_mutation_method == 2) {
+            mutated_data = new byte[data.length+1];
+            for (int i = 0; i < byteIndex; i++) {
+                mutated_data[i] = data[i];
+            }
+            mutated_data[byteIndex] = (byte) byteValue;
+            for (int i = byteIndex; i < data.length; i++) {
+                mutated_data[i+1] = data[i];
+            }
+        }
+        return mutated_data;
+    }
+
 }
 
 
