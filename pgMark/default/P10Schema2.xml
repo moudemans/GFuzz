@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<pgmark>
+    <types>
+        <type name="PanGenome">
+            <count>
+                <proportion>
+                    0.1
+                </proportion>
+            </count>
+        </type>
+        <type name="Family">
+            <count>
+                <proportion>
+                    0.2
+                </proportion>
+            </count>
+            <relations>
+                <relation predicate="P1" target="PanGenome" allow_loops="true">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+                <relation predicate="P2" target="Family" allow_loops="true">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+            </relations>
+            <attributes>
+                <attribute name="name" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="annotation" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+            </attributes>
+        </type>
+        <type name="Gene">
+            <count>
+                <proportion>
+                    0.7
+                </proportion>
+            </count>
+            <relations>
+                <relation predicate="P3" target="Family" allow_loops="true">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+            </relations>
+            <attributes>
+                <attribute name="name" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="start" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="stop" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="type" unique="false" required="true">
+                    <categorical>
+                        <category probability="0.5">-</category>
+                        <category probability="0.5">+</category>
+                    </categorical>
+                </attribute>
+                <attribute name="is_fragment" unique="false" required="true">
+                    <categorical>
+                        <category probability="0.5">true</category>
+                        <category probability="0.5">false</category>
+                    </categorical>
+                </attribute>
+            </attributes>
+        </type>
+    </types>
+    <predicates>
+        <predicate name="P1">
+        </predicate>
+        <predicate name="P2">
+            <attributes>
+                <attribute name="weight" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </predicate>
+        <predicate name="P3">
+        </predicate>
+    </predicates>
+</pgmark>

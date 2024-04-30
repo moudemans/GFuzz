@@ -1,0 +1,85 @@
+{
+  "NodeLabels": [
+    "Pangenome",
+    "Family",
+    "Gene"
+  ],
+  "EdgeLabels": [
+    "DRT",
+    "WALK"
+  ],
+  "Relationships": [
+    {
+      "Label": "P1",
+      "From": "Family",
+      "To": "Pangenome",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "P2",
+      "From": "Family",
+      "To": "Family",
+      "Cardinality": "ONE2ONE"
+    },
+    {
+      "Label": "P3",
+      "From": "Gene",
+      "To": "Family",
+      "Cardinality": "MANY2ONE"
+    }
+  ],
+  "NodeProperties": {
+    "Family": [
+      {
+        "Name": "name",
+        "Type": "STRING"
+      },
+      {
+        "Name": "annotation",
+        "Type": "STRING"
+      }
+    ],
+    "Gene": [
+      {
+        "Name": "name",
+        "Type": "STRING"
+      },
+      {
+        "Name": "start",
+        "Type": "INT"
+      },
+      {
+        "Name": "stop",
+        "Type": "INT"
+      },
+      {
+        "Name": "product",
+        "Type": "STRING"
+      },
+      {
+        "Name": "type",
+        "Type": "STRING"
+      },
+      {
+        "Name": "is_fragment",
+        "Type": "STRING"
+      },
+      {
+        "Name": "local_id",
+        "Type": "STRING"
+      },
+      {
+        "Name": "tmp_id",
+        "Type": "STRING"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "P2" : [
+      {
+        "Name": "weight",
+        "Type": "INT"
+      }
+    ]
+  }
+}

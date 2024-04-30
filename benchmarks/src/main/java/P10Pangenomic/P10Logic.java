@@ -15,33 +15,29 @@ public class P10Logic {
     MyGraph my_g;
 
     public void run(MyGraph g) {
-
+        write_families(g);
     }
 
     public void write_families(MyGraph g) {
-        ArrayList<Node> families = g.getNodes("GeneFamily");
+        ArrayList<Node> families = g.getNodes("Family");
 
         for (Node family :
                 families) {
-            // TODO: What to do with annot
-            String[] annot = new String[0];
             HashMap<String, String> fam_dic_prop = new HashMap<>();
             String name = family.properties.get("name");
             String partition1 = family.properties.get("named_partition");
             String partition2 = family.properties.get("partition");
-            String annotation = null;
-            if (annot != null) {
-                annotation = annot[0];
-            }
+            String annotation = family.properties.get("annotation");
+
+
             String gene = get_genes(g, family);
             String get_family = get_neighbor(g, family);
-            Set<Edge> fam = family.getEdges();
 
             fam_dic_prop.put("name",name);
             fam_dic_prop.put("partition1",partition1);
             fam_dic_prop.put("partition2",partition2);
             fam_dic_prop.put("annotation",annotation);
-            fam_dic_prop.put("Gene",gene_string);
+            fam_dic_prop.put("Gene",gene);
             fam_dic_prop.put("Family",get_family);
         }
     }
@@ -52,8 +48,8 @@ public class P10Logic {
 //        Node family = g.getNodes("Family").get(0);
         ArrayList<Node> genes = new ArrayList<>();
         for (Edge e :
-                family.getOutgoingEdges()) {
-            if (g.getNode(e.to).label.equals("Gene")) {
+                family.getEdges()) {
+            if (g.getNode(e.from).label.equals("Gene")) {
                 genes.add(g.getNode(e.to));
             }
         }
@@ -93,53 +89,47 @@ public class P10Logic {
                 family.getEdges()) {
             Node source = g.getNode(e.from);
             Node target = g.getNode(e.to);
-            if (source.label.equals(family.properties.get("name"))) {
-                if (fam_visit.contains(target.properties.get("name"))) {
-                    // TODO: get annot
-                    String[] annot = null;
+            if (source.properties.get("name").equals(family.properties.get("name"))) {
+                if (!fam_visit.contains(target.properties.get("name"))) {
                     String weight = e.properties.get("organisms");
                     String name = target.properties.get("name");
                     String partition1 = target.properties.get("named_partition");
                     String partition2 = target.properties.get("partition");
-                    String annotation = null;
-                    if (annot != null) {
-                        annotation = annot[0];
-                    }
+
+                    String annot = target.properties.get("annotation");
 
 
                     HashMap<String, String> neighbor = new HashMap<>();
 
+                    neighbor.put("weight",weight);
                     neighbor.put("name",name);
                     neighbor.put("partition1",partition1);
                     neighbor.put("partition2",partition2);
-                    neighbor.put("annotation",annotation);
+                    neighbor.put("annotation",annot);
                     neighbors.add(neighbor);
                 }
-            } else if (target.label.equals(family.properties.get("name"))) {
-                if (fam_visit.contains(source.properties.get("name"))) {
-                    // TODO: get annot
-                    String[] annot = null;
-                    String weight = e.properties.get("organisms");
+            } else if (target.properties.get("name").equals(family.properties.get("name"))) {
+                if (!fam_visit.contains(source.properties.get("name"))) {
+                    String weight = e.properties.get("weight");
                     String name = source.properties.get("name");
                     String partition1 = source.properties.get("named_partition");
                     String partition2 = source.properties.get("partition");
-                    String annotation = null;
-                    if (annot != null) {
-                        annotation = annot[0];
-                    }
+
+                    String annot = source.properties.get("annotation");
 
 
                     HashMap<String, String> neighbor = new HashMap<>();
 
+                    neighbor.put("weight",weight);
                     neighbor.put("name", name);
                     neighbor.put("partition1", partition1);
                     neighbor.put("partition2", partition2);
-                    neighbor.put("annotation", annotation);
+                    neighbor.put("annotation", annot);
                     neighbors.add(neighbor);
                 }
             } else {
                 System.err.println("Source and target name are different from edge's family. \n Please check you import graph data and if the problem persist, post an issue.");
-                System.exit(-1);
+                return "";
             }
         }
         fam_visit.add(family.properties.get("name"));

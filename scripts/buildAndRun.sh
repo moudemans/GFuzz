@@ -2,8 +2,8 @@
 
 
 #PATH1="benchmarks/src/main/java/P9Constraint/"
-PATH1="benchmarksFuzzable/P7/"
-ProgramName="P7"
+PATH1="benchmarksFuzzable/P10/"
+ProgramName="P10"
 
 
 class_name="${ProgramName}Driver"
