@@ -8,7 +8,11 @@ import static org.junit.Assert.assertTrue;
 
 public class P10PanGenomicTest {
 
-
+    @org.junit.Test
+    public void testPGMARK() {
+        String path = "benchmarks/src/main/resources/P10/PGMark-FIXED/";
+        testFilesInDir(path);
+    }
     @org.junit.Test
     public void testMUTATED() {
         String path = "benchmarks/src/main/resources/P10/PGMark-GFUZZ/";
@@ -16,10 +20,12 @@ public class P10PanGenomicTest {
     }
 
     @org.junit.Test
-    public void testPGMARK2() {
-        String path = "benchmarks/src/main/resources/P10/PGMark-FIXED/";
+    public void testRANDOM() {
+        String path = "benchmarks/src/main/resources/P10/PGMark-RANDOM/";
         testFilesInDir(path);
     }
+
+
 
     public void testFilesInDir(String path) {
         P10Logic analysis = new P10Logic();
