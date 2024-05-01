@@ -4,6 +4,7 @@ import tudcomponents.Edge;
 import tudcomponents.MyGraph;
 import tudcomponents.Node;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -63,11 +64,12 @@ public class P9ConstraintLogic {
         }
 
         if (value_relationship_name != null) {
-            //System.out.println("Ping.a011");
+//            System.out.println("Ping.a011");
+            g.checkSingle(prev_item_id,value_relationship_name);
             //TODO add single for whole graph?
             // TODO Add remove graph to api
         }
-        //System.out.println("Ping.a012");
+//        System.out.println("Ping.a012");
 
         return 1;
     }

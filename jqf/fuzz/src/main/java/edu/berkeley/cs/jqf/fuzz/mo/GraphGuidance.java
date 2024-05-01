@@ -83,7 +83,7 @@ public class GraphGuidance implements Guidance {
 
 
     private static ArrayList<String> seed_files = new ArrayList<>();
-    Queue<String> priorityFiles = new PriorityQueue<>();
+    Queue<String> priorityFiles = new LinkedList<>();
     private static ArrayList<String> important_files = new ArrayList<>(); // List of files which increase coverage / produce error. This is used to mutate
 
 
@@ -186,7 +186,6 @@ public class GraphGuidance implements Guidance {
         int counter = 1;
         System.out.println("Files in seed dir: ");
         for (File file : listOfFiles) {
-            System.out.println("\t " + file.getPath() + " + " + file.getName());
             if (!file.isFile()) {
                 continue;
             }
@@ -270,6 +269,7 @@ public class GraphGuidance implements Guidance {
         // If the queue of input files is empty, use the relevant files for a new mutation
         if (!priorityFiles.isEmpty()) {
             currentInputFile = priorityFiles.poll();
+            System.out.println("Using priority file: " + currentInputFile);
             nextInputFileLocation = currentInputFile;
             last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
         } else {
@@ -290,8 +290,7 @@ public class GraphGuidance implements Guidance {
         MyGraph currentGraph;
         try {
             currentGraph = MyGraph.readGraphFromFile(currentInputFile);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.printf("An error occured while loading graph from [%s] \n", currentInputFile);
             important_files.remove(currentInputFile);
             return currentInputFile;
@@ -311,8 +310,7 @@ public class GraphGuidance implements Guidance {
             try {
                 GraphMutator.ByteMutationToFile(currentGraph, nextInputFileLocation);
                 mutation_applied = GraphMutations.MutationMethod.ByteMutation;
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 mutation_applied = GraphMutations.MutationMethod.NoMutation;
                 invalidStates++;
             }
@@ -482,7 +480,10 @@ public class GraphGuidance implements Guidance {
         String new_file_name = type + "_" + numTrials + ".ser";
 
         try {
-            FileUtils.copyFile(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
+            System.out.printf("Saving last used input [%s] to [%s] \n", nextInputFileLocation, new_file_name);
+//            FileUtils.copyFile(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
+//            Files.copy(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
+            copy_file(nextInputFileLocation, dest_folder + "/" + new_file_name);
         } catch (IOException e) {
             System.err.println("Could not copy file which produced new coverage to the saved inputs dir");
             System.exit(-1);
@@ -494,6 +495,24 @@ public class GraphGuidance implements Guidance {
         priorityFiles.add(dest_folder + "/" + new_file_name);
     }
 
+    public void copy_file(String src, String dst) throws IOException {
+
+        File src_file = new File(src);
+        File dst_file = new File(dst);
+        try (
+                InputStream in = new BufferedInputStream(
+                        new FileInputStream(src_file));
+                OutputStream out = new BufferedOutputStream(
+                        new FileOutputStream(dst_file))) {
+
+            byte[] buffer = new byte[1024];
+            int lengthRead;
+            while ((lengthRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, lengthRead);
+                out.flush();
+            }
+        }
+    }
 
 
     private void displayStats() {
@@ -527,19 +546,19 @@ public class GraphGuidance implements Guidance {
         console.printf("\tFailed mutations:       %,d\n", failedMutation);
         console.printf("\tInvalid states:       %,d\n", invalidStates);
         console.printf("\tNum discards:       %,d\n", numDiscards);
-        if(PRINT_MUTATION_COUNT) {
+        if (PRINT_MUTATION_COUNT) {
             console.printf("\tmutation counts:       \n");
             for (GraphMutations.MutationMethod mm :
                     mutation_counts.keySet()) {
-                console.printf("\t\t %s: %,d\n",mm.toString(), mutation_counts.get(mm));
+                console.printf("\t\t %s: %,d\n", mm.toString(), mutation_counts.get(mm));
 
             }
         }
-        if(PRINT_MUTATION_RESPONSIBILITY) {
+        if (PRINT_MUTATION_RESPONSIBILITY) {
             console.printf("\tSaved inputs:       \n");
             for (String f :
                     coverage_by_mutation.keySet()) {
-                console.printf("\t\t %s, created by mutation: %s\n",f, coverage_by_mutation.get(f));
+                console.printf("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f));
 
             }
         }
@@ -568,19 +587,19 @@ public class GraphGuidance implements Guidance {
         output.add(String.format("\tFailed mutations:       %,d\n", failedMutation));
         output.add(String.format("\tInvalid states:       %,d\n", invalidStates));
         output.add(String.format("\tNum discards:       %,d\n", numDiscards));
-        if(PRINT_MUTATION_COUNT) {
+        if (PRINT_MUTATION_COUNT) {
             output.add(String.format("\tmutation counts:       \n"));
             for (GraphMutations.MutationMethod mm :
                     mutation_counts.keySet()) {
-                output.add(String.format("\t\t %s: %,d\n",mm.toString(), mutation_counts.get(mm)));
+                output.add(String.format("\t\t %s: %,d\n", mm.toString(), mutation_counts.get(mm)));
 
             }
         }
-        if(PRINT_MUTATION_RESPONSIBILITY) {
+        if (PRINT_MUTATION_RESPONSIBILITY) {
             output.add(String.format("\tSaved inputs:       \n"));
             for (String f :
                     coverage_by_mutation.keySet()) {
-                output.add(String.format("\t\t %s, created by mutation: %s\n",f, coverage_by_mutation.get(f)));
+                output.add(String.format("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f)));
 
             }
         }
@@ -588,8 +607,8 @@ public class GraphGuidance implements Guidance {
 
         try {
             FileWriter myWriter = new FileWriter(WORKING_DIR + "fuzz-log.txt");
-            myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n" );
-            for(String s : output) {
+            myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n");
+            for (String s : output) {
                 myWriter.write(s);
             }
             myWriter.close();

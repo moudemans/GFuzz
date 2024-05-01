@@ -18,8 +18,11 @@ public class P9Driver {
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
         analysis.function_1(g, 0, "Data1", 2, false, false);
-        analysis.function_1(g, 0, "Data1", 2, true, false);
-        analysis.function_1(g, 0, "Data1", 2, false, true);
-        analysis.function_1(g, 0, "Data1", 2, true, true);
+        MyGraph g2 = MyGraph.readGraphFromFile(fileName);
+        analysis.function_1(g2, 0, "Data1", 2, true, false);
+        MyGraph g3 = MyGraph.readGraphFromFile(fileName);
+        analysis.function_1(g3, 0, "Data1", 2, false, true);
+        MyGraph g4 = MyGraph.readGraphFromFile(fileName);
+        analysis.function_1(g4, 0, "Data1", 2, true, true);
     }
 }

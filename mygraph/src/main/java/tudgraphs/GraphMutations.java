@@ -23,7 +23,7 @@ public class GraphMutations {
     private static final boolean removePropertyActive = true;
     private static final boolean addPropertyActive = false;
 
-    private static final boolean breakSchemaActive = false;
+    private static final boolean breakSchemaActive = true;
     private static final boolean breakCardinalityActive = false;
     private static final boolean breakUniqueActive = false;
     private static final boolean breakNullActive = false;

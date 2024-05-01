@@ -265,8 +265,11 @@ public class GraphGenerator {
 
             String output_file_name =f.getPath().replace(input_extension, output_extension);
             String output_file_name2 =f.getPath().replace(input_extension, output_extension2);
-            MyGraph.writeGraphToFile(output_file_name, g);
 
+            output_file_name = output_file_name.replace(input_dir.getPath(), OUTPUT_DIR);
+            output_file_name2 = output_file_name2.replace(input_dir.getPath(), OUTPUT_DIR);
+
+            MyGraph.writeGraphToFile(output_file_name, g);
             MyGraph.writeGraphToJSON(output_file_name2, g);
         }
 
