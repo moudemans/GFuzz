@@ -674,11 +674,22 @@ public class MyGraph implements Serializable {
     public boolean checkSingle(int nodeID, String edgeLabel) {
         Node n = getNode(nodeID);
         ArrayList<Edge> edges = getRelationships(n);
+        Set<String> node_labels = new HashSet<>();
         int counter = 0;
         for (Edge e : edges) {
             if (e.label.equals(edgeLabel)) {
-                counter++;
+                String node_label =getNode(e.to).label;
+
+                if(node_label.equals(n.label)) {
+                    node_label = getNode(e.from).label;
+                }
+
+                if(node_labels.contains(node_label)) {
+                    counter++;
+                }
+                node_labels.add(node_label);
             }
+
         }
         return counter == 1;
     }

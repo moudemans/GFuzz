@@ -64,33 +64,33 @@ public class P9ConstraintTest {
     @Test
     public void testGMARK() {
         String path = "benchmarks/src/main/resources/P9/GMark-FIXED/";
-        testFilesInDir(path);
+        testFilesInDir(path, null);
     }
 
     @Test
     public void testGMARKRandom() {
         String path = "benchmarks/src/main/resources/P9/GMark-RANDOM/";
-        testFilesInDir(path);
+        testFilesInDir(path, null);
     }
 
     @Test
     public void testGMARKRandom2() {
         String path = "benchmarks/src/main/resources/P9/GMark-RANDOM2/";
-        testFilesInDir(path);
+        testFilesInDir(path, null);
     }
     @Test
     public void testGMARKMutation() {
-        String path = "benchmarks/src/main/resources/P9/GMark-MUTATED/";
-        testFilesInDir(path);
+        String path = "benchmarks/src/main/resources/P9/GMark-MUTATED2/";
+        testFilesInDir(path, "");
     }
 
     @Test
     public void testGMARKMutated() {
         String path = "src/main/resources/P9/P9-GMARK-MUTATED2/";
-        testFilesInDir(path);
+        testFilesInDir(path, null);
     }
 
-    public void testFilesInDir(String path) {
+    public void testFilesInDir(String path, String pattern) {
 
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
@@ -100,6 +100,10 @@ public class P9ConstraintTest {
             if (f.getPath().contains("json")) {
                 continue;
             }
+            if (pattern != null && !pattern.isEmpty() && !f.getPath().contains(pattern)) {
+                continue;
+            }
+
             try {
                 System.out.println("File input: " + f);
                 call_test(f);
@@ -122,22 +126,31 @@ public class P9ConstraintTest {
 
             analysis.function_1(g, prev_item_id, "Data1", new_item_id, false, false);
         } catch (Exception ignored) {
-//            ignored.printStackTrace();
+            ignored.printStackTrace();
         }
 
         try {
             MyGraph g2 = MyGraph.readGraphFromFile(f.getPath());
             analysis.function_1(g2, prev_item_id, "Data1", new_item_id, false, true);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+
+        }
 
         try {
             MyGraph g3 = MyGraph.readGraphFromFile(f.getPath());
             analysis.function_1(g3, prev_item_id, "Data1", new_item_id, true, false);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+
+        }
 
         try {
             MyGraph g4 = MyGraph.readGraphFromFile(f.getPath());
             analysis.function_1(g4, prev_item_id, "Data1", new_item_id, true, true);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+
+        }
     }
 }

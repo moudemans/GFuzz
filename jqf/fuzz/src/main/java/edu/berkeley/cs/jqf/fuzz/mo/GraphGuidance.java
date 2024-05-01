@@ -99,7 +99,7 @@ public class GraphGuidance implements Guidance {
     protected HashMap<String, GraphMutations.MutationMethod> coverage_by_mutation = new HashMap<>();
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
-    protected int mutation_framework = 0; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
+    protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
     HashSet<GraphMutations.MutationMethod> schema_breaking_mutations = new HashSet<>(List.of(new GraphMutations.MutationMethod[]{
             GraphMutations.MutationMethod.BreakSchema
     }));
@@ -272,12 +272,17 @@ public class GraphGuidance implements Guidance {
             System.out.println("Using priority file: " + currentInputFile);
             nextInputFileLocation = currentInputFile;
             last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
-        } else {
+        } else if (!important_files.isEmpty()) {
             //select random file from files which discovered new coverage
             int random_seed = random.nextInt(important_files.size());
             currentInputFile = important_files.get(random_seed);
             // Mutate said file
             String nextInputLocation = mutate_current_file();
+        } else {
+            int random_seed = random.nextInt(seed_files.size());
+            currentInputFile = seed_files.get(random_seed);
+            // Mutate said file
+            mutate_current_file();
         }
 
         // DEFAULT TO: WORKING_DIR + RUNNING_DIR + "mutated.ser"
@@ -481,9 +486,9 @@ public class GraphGuidance implements Guidance {
 
         try {
             System.out.printf("Saving last used input [%s] to [%s] \n", nextInputFileLocation, new_file_name);
-//            FileUtils.copyFile(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
+            FileUtils.copyFile(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
 //            Files.copy(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
-            copy_file(nextInputFileLocation, dest_folder + "/" + new_file_name);
+//            copy_file(nextInputFileLocation, dest_folder + "/" + new_file_name);
         } catch (IOException e) {
             System.err.println("Could not copy file which produced new coverage to the saved inputs dir");
             System.exit(-1);
@@ -581,6 +586,7 @@ public class GraphGuidance implements Guidance {
         double nonZeroFraction = nonZeroCount * 100.0 / totalCoverage.size();
 
         ArrayList<String> output = new ArrayList<>();
+        output.add(String.format("\tMutation framework used:         %s \n", mutation_framework));
         output.add(String.format("\tElapsed time:         %s \n", millisToDuration(elapsedMilliseconds)));
         output.add(String.format("\tNumber of executions: %,d\n", numTrials));
         output.add(String.format("\tTotal coverage:       %,d branches (%.2f%% of map)\n", nonZeroCount, nonZeroFraction));
@@ -602,6 +608,12 @@ public class GraphGuidance implements Guidance {
                 output.add(String.format("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f)));
 
             }
+        }
+
+        output.add("\n\n Unique failures found: ");
+        for (String s :
+                uniqueFailuresString) {
+            output.add("\n\t" + s);
         }
 
 

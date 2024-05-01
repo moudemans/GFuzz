@@ -474,15 +474,38 @@ public class GraphMutator {
         }
         Edge e = getRandomEdge(n);
 
+        if (e == null) {
+            printString("Could not apply removeEdgeMutation an edge due to there not being edges on the selected node", System.Logger.Level.WARNING);
+            return;
+        }
+
         printString(String.format("Removed Edge [%s], from [%s] --> to [%s] \n", e.label, e.from, e.to), System.Logger.Level.INFO);
         g.removeEdge(e);
     }
 
     private static Edge getRandomEdge(Node random_node) {
         ArrayList<Edge> edges = new ArrayList<>(random_node.getEdges());
+
+        if (edges == null || edges.isEmpty()) {
+            return null;
+        }
+
         int random_edge_index = r.nextInt(edges.size());
         Edge e = edges.get(random_edge_index);
         return e;
+    }
+    private static Node getRandomNodeWithEdges(MyGraph g) {
+        ArrayList<Node> nodes = g.getNodes();
+        ArrayList<Node> filtered_nodes = new ArrayList<>(nodes.stream().filter(node -> !node.getEdges().isEmpty()).toList());
+
+        if( filtered_nodes == null || filtered_nodes.isEmpty()) {
+            printString("There are no nodes with edges that can be removed", System.Logger.Level.WARNING);
+            return null;
+        }
+
+        int random_node_index = r.nextInt(filtered_nodes.size());
+        int node_id = filtered_nodes.get(random_node_index).id;
+        return g.getNode(node_id);
     }
 
     private static void changeEdgeMutation(MyGraph g) {
@@ -494,6 +517,11 @@ public class GraphMutator {
         }
 
         Edge e = getRandomEdge(n);
+
+        if (e == null) {
+            printString("Could not apply changeEdgeMutation an edge due to there not being edges on the selected node", System.Logger.Level.WARNING);
+            return;
+        }
 
         String old_label = e.label;
         e.label = generateString(e.label.length()*2);
@@ -531,20 +559,7 @@ public class GraphMutator {
         return n;
     }
 
-    private static Node getRandomNodeWithEdges(MyGraph g) {
-        ArrayList<Node> nodes = g.getNodes();
-        ArrayList<Node> filtered_nodes = new ArrayList<>(nodes.stream().filter(node -> !node.getEdges().isEmpty()).toList());
 
-        if(filtered_nodes.isEmpty()) {
-            printString("There are no nodes with edges that can be removed", System.Logger.Level.WARNING);
-            return null;
-        }
-
-        int random_node_index = r.nextInt(filtered_nodes.size());
-        int node_id = filtered_nodes.get(random_node_index).id;
-        Node n = g.getNode(node_id);
-        return n;
-    }
 
     private static String generateString(int maxSize) {
         int size = r.nextInt(maxSize) + 1;
