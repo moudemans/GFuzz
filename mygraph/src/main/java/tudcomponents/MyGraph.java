@@ -939,4 +939,29 @@ public class MyGraph implements Serializable {
         }
         return null;
     }
+
+    public ArrayList<Node> getNodes(String node_label, String label, String value) {
+        ArrayList<Node> res = new ArrayList<>();
+        for (Node n : getNodes(node_label)) {
+            if (n.properties.containsKey(label) && n.properties.get(label).equals(value)) {
+                res.add(n);
+            }
+        }
+        return res;
+    }
+
+
+    public ArrayList<Node> findNodes(String node_label, String label1, String value1, String label2, String value2) {
+        ArrayList<Node> res = new ArrayList<>();
+
+        for (Node n : getNodes(node_label)) {
+            if (n.properties.containsKey(label1)
+                    && n.properties.get(label1).equals(value1)
+                    && n.properties.containsKey(label2)
+                    && n.properties.get(label2).equals(value2)) {
+                res.add(n);
+            }
+        }
+        return res;
+    }
 }
