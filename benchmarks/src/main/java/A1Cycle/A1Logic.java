@@ -1,4 +1,4 @@
-package P8Cycle;
+package A1Cycle;
 
 
 
@@ -8,7 +8,7 @@ import tudcomponents.Node;
 
 import java.util.*;
 
-public class P8Logic {
+public class A1Logic {
 
     public void run(MyGraph g) {
      // Cyccle

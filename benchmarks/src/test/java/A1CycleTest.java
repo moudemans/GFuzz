@@ -1,16 +1,16 @@
 
-import P8Cycle.P8Logic;
+import A1Cycle.A1Logic;
 import tudcomponents.MyGraph;
 
 import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
-public class P8CycleTest {
+public class A1CycleTest {
 
     @org.junit.Test
     public void test01() {
-        P8Logic analysis = new P8Logic();
+        A1Logic analysis = new A1Logic();
 
         int start_test_id = 1;
         int end_test_id = 3;
@@ -62,7 +62,7 @@ public class P8CycleTest {
     }
 
     public void testFilesInDir(String path, String pattern) {
-        P8Logic analysis = new P8Logic();
+        A1Logic analysis = new A1Logic();
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
         System.out.println("Working Directory = " + System.getProperty("user.dir"));

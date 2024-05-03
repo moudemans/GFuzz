@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PATH1="benchmarks/src/main/java/P8Cycle/"
-program_name="P8"
+PATH1="benchmarks/src/main/java/A1Cycle/"
+program_name="A1"
 
 bash ./scripts/prepareBenchmark.sh $PATH1 $program_name
 

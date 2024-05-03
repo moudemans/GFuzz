@@ -1,4 +1,4 @@
-package P8Cycle;
+package A1Cycle;
 
 import java.util.ArrayList;
 import java.util.HashSet;

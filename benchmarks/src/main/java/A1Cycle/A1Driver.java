@@ -1,4 +1,4 @@
-package P8Cycle;
+package A1Cycle;
 
 
 import edu.berkeley.cs.jqf.fuzz.Fuzz;
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 @RunWith(JQF.class)
 
-public class P8Driver {
+public class A1Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
-        P8Logic analysis = new P8Logic();
+        A1Logic analysis = new A1Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
 
