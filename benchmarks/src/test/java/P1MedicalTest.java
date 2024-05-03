@@ -63,30 +63,30 @@ public class P1MedicalTest {
 
     @Test
     public void testGMARK() {
-        String path = "benchmarks/src/main/resources/P9/GMark-FIXED/";
+        String path = "benchmarks/src/main/resources/P1/GMark-FIXED/";
         testFilesInDir(path, null);
     }
 
     @Test
     public void testGMARKRandom() {
-        String path = "benchmarks/src/main/resources/P9/GMark-RANDOM/";
+        String path = "benchmarks/src/main/resources/P1/GMark-RANDOM/";
         testFilesInDir(path, null);
     }
 
     @Test
     public void testGMARKRandom2() {
-        String path = "benchmarks/src/main/resources/P9/GMark-RANDOM2/";
+        String path = "benchmarks/src/main/resources/P1/GMark-RANDOM2/";
         testFilesInDir(path, null);
     }
     @Test
     public void testGMARKMutation() {
-        String path = "benchmarks/src/main/resources/P9/GMark-MUTATED2/";
+        String path = "benchmarks/src/main/resources/P1/GMark-MUTATED2/";
         testFilesInDir(path, "");
     }
 
     @Test
     public void testGMARKMutated() {
-        String path = "src/main/resources/P9/P9-GMARK-MUTATED2/";
+        String path = "src/main/resources/P1/P9-GMARK-MUTATED2/";
         testFilesInDir(path, null);
     }
 

@@ -1,4 +1,4 @@
-package P7Transportation;
+package P2Transportation;
 
 
 
@@ -8,7 +8,7 @@ import tudcomponents.Node;
 
 import java.util.ArrayList;
 
-public class P7Logic {
+public class P2Logic {
     MyGraph my_g;
 
     public void run(MyGraph g) {

@@ -1,4 +1,4 @@
-package P7Transportation;
+package P2Transportation;
 
 
 
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 
 @RunWith(JQF.class)
-public class P7Driver {
+public class P2Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
-        P7Logic analysis = new P7Logic();
+        P2Logic analysis = new P2Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
 
