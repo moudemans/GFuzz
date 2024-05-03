@@ -1,8 +1,6 @@
-package P4;
+package P4PanTool;
 
 
-
-import tudcomponents.Edge;
 import tudcomponents.MyGraph;
 import tudcomponents.Node;
 
@@ -14,8 +12,107 @@ public class P4Logic {
     private HashMap<String, String[]> phasingInfoMap;
 
     public void run(MyGraph g) {
-        preparePhasedGenomeInformation(g, null);
-        checkIfGeneCopiesWithinGenome(g, null, null);
+        HashMap<String, Node[]>  mrnaNodesPerSequence = getOrderedMrnaNodesPerSequence(g, true);
+        preparePhasedGenomeInformation(g);
+
+        HashMap<String, ArrayList<String>> sequencesPerChromosomeMap = createSequencesPerChromosomeMapString();
+        checkIfGeneCopiesWithinGenome(g, mrnaNodesPerSequence, sequencesPerChromosomeMap);
+    }
+
+    private HashMap<String, ArrayList<String>> createSequencesPerChromosomeMapString() {
+        HashMap<String, ArrayList<String>> sequencesPerChromosomeMap = new HashMap<>();
+        for (String sequenceId : phasingInfoMap.keySet()) {
+            if (!sequenceId.contains("_")) { // its a genome number
+                continue;
+            }
+            String[] seqIdArray = sequenceId.split("_");
+            String[] phasingInfo = phasingInfoMap.get(sequenceId);
+            sequencesPerChromosomeMap.computeIfAbsent(seqIdArray[0] + "_" + phasingInfo[0], k -> new ArrayList<>()).add(sequenceId);
+        }
+        return sequencesPerChromosomeMap;
+    }
+
+    public HashMap<String, Node[]> getOrderedMrnaNodesPerSequence(MyGraph g,boolean allow_same_start) {
+
+        HashMap<String, Node[]> mrnaNodesPerSequence = new HashMap<>();
+        int total_genomes = (int) g.getNodes("pangenome").getFirst().getProperty("num_genomes");
+        for (int i = 1; i <= total_genomes; i++) { // i is a genome number
+            int total_mrna_counter = 0;
+            ArrayList<Node> genome_nodes = g.getNodes("genome", "number", i + "");
+
+            if(genome_nodes.size() > 1) {
+                // This is handled in the neo4j library throwing an error, seeGraphDatabaseFacade.findNode(label, key, value)
+                return null;
+            }
+            Node genome_node = genome_nodes.getFirst();
+
+            int num_sequences = (int) genome_node.getProperty("num_sequences");
+            for (int j = 1; j <= num_sequences; j++) {
+
+
+                TreeSet<Integer> gene_start_positions = new TreeSet<>(); // automatically ordered, contains starting locations of genes
+                HashMap<Integer, ArrayList<Node>> mrna_nodes_per_start_position = new HashMap<>();
+//                ResourceIterator<Node> mrna_nodes = GRAPH_DB.findNodes(MRNA_LABEL, "genome", i, "sequence", j);
+                Iterator<Node> mrna_nodes = g.findNodes("mRNA", "genome", i+"", "sequence", j+"").iterator();
+                while (mrna_nodes.hasNext()) {
+                    Node mrna_node = mrna_nodes.next();
+                    if (!mrna_node.properties.containsKey("longest_transcript")) {
+                        continue;
+                    }
+                    if ( !mrna_node.properties.containsKey("protein_ID")) {
+                        continue;
+                    }
+                    total_mrna_counter++;
+
+                    int[] address = (int[]) mrna_node.getProperty("address");
+                    gene_start_positions.add(address[2]);
+                    mrna_nodes_per_start_position.computeIfAbsent(address[2], k -> new ArrayList<>()).add(mrna_node); // used to find genes with the same start position
+                }
+                if (gene_start_positions.isEmpty()) {
+                    continue;
+                }
+                Node[] mrnas_ordered = put_ordered_genes_in_array(g, gene_start_positions, mrna_nodes_per_start_position, allow_same_start); // order the genes by start position
+                mrnaNodesPerSequence.put(i + "_" + j, mrnas_ordered);
+            }
+        }
+        return mrnaNodesPerSequence;
+    }
+
+    private Node[] put_ordered_genes_in_array(MyGraph g, TreeSet<Integer> gene_start_positions,
+                                              HashMap<Integer, ArrayList<Node>> mrna_nodes_per_start_position, boolean allow_same_start) {
+
+        ArrayList<Node> ordered_mrnas = new ArrayList<>();
+        for (int gene_start : gene_start_positions) {
+            ArrayList<Node> mrna_nodes_list = mrna_nodes_per_start_position.get(gene_start);
+            if (mrna_nodes_list.size() > 1) {
+                if (allow_same_start) { // add all mrna's but order them from shortest to largest
+                    TreeSet<Integer> lengths = new TreeSet<>();
+                    HashMap<Integer, ArrayList<Node>> nodes_per_length = new HashMap<>();
+                    for (Node mrna_node : mrna_nodes_list) {
+                        int length = (int) mrna_node.getProperty("length");
+                        lengths.add(length);
+                        nodes_per_length.computeIfAbsent(length, k -> new ArrayList<>()).add(mrna_node);
+                    }
+                    for (int length : lengths) {
+                        ArrayList<Node> nodes = nodes_per_length.get(length);
+                        ordered_mrnas.addAll(nodes);
+                    }
+                } else { // only add the largest
+                    int highest = 0;
+                    Node mrna_of_highest = g.getNode(0);
+                    for (Node mrna_node : mrna_nodes_list) {
+                        int length = (int) mrna_node.getProperty("length");
+                        if (highest < length) {
+                            mrna_of_highest = mrna_node;
+                        }
+                    }
+                    ordered_mrnas.add(mrna_of_highest);
+                }
+            } else {
+                ordered_mrnas.add(mrna_nodes_list.get(0));
+            }
+        }
+        return ordered_mrnas.toArray(new Node[ordered_mrnas.size()]); // list_to_array list to array ;
     }
 
 
@@ -45,14 +142,14 @@ public class P4Logic {
                 int[] address = (int[]) mrnaNode.getProperty("address");
 
                 // TODO:, should be incomming
-                if(mrnaNode.isSingleRelationship("has_homolog", true )) {
+                if (mrnaNode.isSingleRelationship("has_homolog", true)) {
 //                    throw new Exception("is not single");
                     return;
                 }
 
-                Node hmNode =g.getConnectedNode(mrnaNode.id, "has_homolog", true);
+                Node hmNode = g.getConnectedNode(mrnaNode.id, "has_homolog", true);
 
-                if(hmNode == null) {
+                if (hmNode == null) {
                     return;
                 }
 
@@ -91,7 +188,7 @@ public class P4Logic {
         System.out.println("");
     }
 
-    public int preparePhasedGenomeInformation(MyGraph g, LinkedHashSet<String> selectedSequences) {
+    public int preparePhasedGenomeInformation(MyGraph g) {
         phasingInfoMap = new HashMap<>(); // genome number and sequence identifiers as key
         int counter = 0;
         HashSet<Integer> genomesWithPhasing = new HashSet<>();
@@ -108,9 +205,7 @@ public class P4Logic {
             String sequenceId = (String) sequenceNode.getProperty("identifier");
             int genomeNr = (int) sequenceNode.getProperty("genome");
             int sequenceNr = (int) sequenceNode.getProperty("number");
-            if (selectedSequences != null && !selectedSequences.contains(genomeNr + "_" + sequenceNr)) { // sequence was skipped via --selection-file argument
-                continue;
-            }
+
 
             if (!sequenceNode.properties.containsKey("phasing_ID")) {
                 continue;
