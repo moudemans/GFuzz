@@ -1,8 +1,8 @@
-# Constraint algorithm
+# Medical Algorithm
 **Structure**
-- P9 implementation - this will describe the benchmark program eventually created from the motivating example below
+- P1 implementation - this will describe the benchmark program eventually created from the motivating example below
 - Source and motivation - references the original program and explains why it is an interesting example
-## P9 implementation 
+## P1 implementation 
 This algorithm verifies whether after a change of the database the constraint of how many relations there are is maintained. 
  
 ****

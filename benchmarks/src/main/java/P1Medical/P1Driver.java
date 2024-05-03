@@ -1,4 +1,4 @@
-package P9Constraint;
+package P1Medical;
 
 
 import tudcomponents.MyGraph;
@@ -10,11 +10,11 @@ import java.io.IOException;
 
 
 @RunWith(JQF.class)
-public class P9Driver {
+public class P1Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
-        P9ConstraintLogic analysis = new P9ConstraintLogic();
+        P1Logic analysis = new P1Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
         analysis.function_1(g, 0, "Data1", 2, false, false);

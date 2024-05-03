@@ -1,6 +1,6 @@
 
 
-import P9Constraint.P9ConstraintLogic;
+import P1Medical.P1Logic;
 import tudcomponents.MyGraph;
 import org.junit.Test;
 
@@ -8,11 +8,11 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
-public class P9ConstraintTest {
+public class P1MedicalTest {
 
     @Test
     public void test01() {
-        P9ConstraintLogic analysis = new P9ConstraintLogic();
+        P1Logic analysis = new P1Logic();
 
         int start_test_case = 1;
         int end_test_case = 6;
@@ -116,7 +116,7 @@ public class P9ConstraintTest {
     }
 
     private void call_test(File f) {
-        P9ConstraintLogic analysis = new P9ConstraintLogic();
+        P1Logic analysis = new P1Logic();
         int prev_item_id = 0;
         int new_item_id = 2;
 //        int prev_item_id = 5;

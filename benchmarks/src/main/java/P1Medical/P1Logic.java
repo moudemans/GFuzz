@@ -1,14 +1,13 @@
-package P9Constraint;
+package P1Medical;
 
 import tudcomponents.Edge;
 import tudcomponents.MyGraph;
 import tudcomponents.Node;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class P9ConstraintLogic {
+public class P1Logic {
 
 
     public int function_1(MyGraph g, int prev_item_id, String value, int new_item_id, boolean multiple_nodes, boolean at_least_one) {
