@@ -70,7 +70,7 @@ public class Node implements Serializable {
         edges.remove(e);
     }
 
-    public Object getProperty(String address) {
+    public String getProperty(String address) {
         return properties.get(address);
     }
 

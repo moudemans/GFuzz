@@ -10,7 +10,9 @@ import static org.junit.Assert.assertTrue;
 
 public class P4PanToolTest {
 
-    String input_path ="benchmarks/src/main/resources/P4/";
+    String input_path ="src/main/resources/P4/";
+    boolean run_json = true;
+    boolean run_ser = true;
 
     @org.junit.Test
     public void testManual() {
@@ -31,11 +33,17 @@ public class P4PanToolTest {
         File[] listOfFiles = input_dir.listFiles();
         for (File f :
                 listOfFiles) {
-            if (f.getPath().contains("json")) {
+            MyGraph g;
+            if (run_json && f.getPath().contains("json")) {
+                g = MyGraph.readGraphFromJSON(f.getPath());
+            } else if (run_ser && f.getPath().contains("ser")) {
+                g = MyGraph.readGraphFromFile(f.getPath());
+            } else {
                 continue;
             }
+
+
             try {
-                MyGraph g = MyGraph.readGraphFromFile(f.getPath());
                 analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());

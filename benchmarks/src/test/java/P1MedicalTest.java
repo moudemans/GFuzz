@@ -20,7 +20,7 @@ public class P1MedicalTest {
 
         for (int i = start_test_case; i <= end_test_case; i++) {
             try {
-                String fileName ="benchmarks/src/main/resources/P9/P9Examples-MANUAL/test0" + i + ".ser";
+                String fileName ="benchmarks/src/main/resources/P1/P9Examples-MANUAL/test0" + i + ".ser";
                 MyGraph g = MyGraph.readGraphFromFile(fileName);
                 analysis.function_1(g, 0, "Data1", 2, false, false);
             } catch (Exception e) {
@@ -63,7 +63,7 @@ public class P1MedicalTest {
 
     @Test
     public void testGMARK() {
-        String path = "benchmarks/src/main/resources/P1/GMark-FIXED/";
+        String path = "src/main/resources/P1/GMark-FIXED/";
         testFilesInDir(path, null);
     }
 

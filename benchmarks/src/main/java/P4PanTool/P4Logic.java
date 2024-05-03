@@ -35,7 +35,7 @@ public class P4Logic {
     public HashMap<String, Node[]> getOrderedMrnaNodesPerSequence(MyGraph g,boolean allow_same_start) {
 
         HashMap<String, Node[]> mrnaNodesPerSequence = new HashMap<>();
-        int total_genomes = (int) g.getNodes("pangenome").getFirst().getProperty("num_genomes");
+        int total_genomes = Integer.parseInt(g.getNodes("pangenome").getFirst().getProperty("num_genomes"));
         for (int i = 1; i <= total_genomes; i++) { // i is a genome number
             int total_mrna_counter = 0;
             ArrayList<Node> genome_nodes = g.getNodes("genome", "number", i + "");
@@ -46,7 +46,7 @@ public class P4Logic {
             }
             Node genome_node = genome_nodes.getFirst();
 
-            int num_sequences = (int) genome_node.getProperty("num_sequences");
+            int num_sequences = Integer.parseInt(genome_node.getProperty("num_sequences"));
             for (int j = 1; j <= num_sequences; j++) {
 
 
@@ -64,7 +64,11 @@ public class P4Logic {
                     }
                     total_mrna_counter++;
 
-                    int[] address = (int[]) mrna_node.getProperty("address");
+                    // TODO: int array
+//                    int[] address = (int[]) mrna_node.getProperty("address");
+                    int[] address = new int[]{
+                            1,2,3
+                    };
                     gene_start_positions.add(address[2]);
                     mrna_nodes_per_start_position.computeIfAbsent(address[2], k -> new ArrayList<>()).add(mrna_node); // used to find genes with the same start position
                 }
@@ -89,7 +93,7 @@ public class P4Logic {
                     TreeSet<Integer> lengths = new TreeSet<>();
                     HashMap<Integer, ArrayList<Node>> nodes_per_length = new HashMap<>();
                     for (Node mrna_node : mrna_nodes_list) {
-                        int length = (int) mrna_node.getProperty("length");
+                        int length = Integer.parseInt( mrna_node.getProperty("length"));
                         lengths.add(length);
                         nodes_per_length.computeIfAbsent(length, k -> new ArrayList<>()).add(mrna_node);
                     }
@@ -101,7 +105,7 @@ public class P4Logic {
                     int highest = 0;
                     Node mrna_of_highest = g.getNode(0);
                     for (Node mrna_node : mrna_nodes_list) {
-                        int length = (int) mrna_node.getProperty("length");
+                        int length = Integer.parseInt(mrna_node.getProperty("length"));
                         if (highest < length) {
                             mrna_of_highest = mrna_node;
                         }
@@ -139,10 +143,12 @@ public class P4Logic {
             StringBuilder singleCopyBuilder = new StringBuilder("x,y,block_nr,type\n");
             int blockNr = 0;
             for (Node mrnaNode : mrnaNodes) {
-                int[] address = (int[]) mrnaNode.getProperty("address");
-
-                // TODO:, should be incomming
-                if (mrnaNode.isSingleRelationship("has_homolog", true)) {
+                // TODO INT ARRAY
+//                int[] address = (int[]) mrnaNode.getProperty("address");
+                int[] address = new int[]{
+                        1,2,3,4
+                };
+                if (!mrnaNode.isSingleRelationship("has_homolog", true)) {
 //                    throw new Exception("is not single");
                     return;
                 }
@@ -153,8 +159,9 @@ public class P4Logic {
                     return;
                 }
 
-
-                int[] copyNumberArray = (int[]) hmNode.getProperty("copy_number");
+                // TODO INT ARRAY
+//                int[] copyNumberArray = (int[]) hmNode.getProperty("copy_number");
+                int[] copyNumberArray = new int[]{1, 1};
                 String inOtherChromosome = "Other chromosome";
                 if (copyNumberArray[genomeNr] == 1) { // only found once in genome
                     inOtherChromosome = "Single copy";
@@ -163,7 +170,10 @@ public class P4Logic {
                         System.out.println("This plot requires you to run gene_classification2 with the --sequence argument ");
                         return;
                     }
-                    int[] sequenceCopyNumberArray = (int[]) hmNode.getProperty("copy_number_genome_" + genomeNr);
+                    // TODO INT ARRAY
+//                    int[] sequenceCopyNumberArray = (int[]) hmNode.getProperty("copy_number_genome_" + genomeNr);
+                    int[] sequenceCopyNumberArray = new int[]{1};
+
                     inOtherChromosome = "Single copy"; // this is new
                     ArrayList<String> chromosomeSeqIdentifiers = sequencesPerChromosomeMap.get(genomeNr + "_" + phasingInfo[0]);
                     for (int i = 0; i < sequenceCopyNumberArray.length; i++) {
@@ -203,15 +213,15 @@ public class P4Logic {
                 continue;
             }
             String sequenceId = (String) sequenceNode.getProperty("identifier");
-            int genomeNr = (int) sequenceNode.getProperty("genome");
-            int sequenceNr = (int) sequenceNode.getProperty("number");
+            int genomeNr = Integer.parseInt(sequenceNode.getProperty("genome"));
+            int sequenceNr = Integer.parseInt(sequenceNode.getProperty("number"));
 
 
             if (!sequenceNode.properties.containsKey("phasing_ID")) {
                 continue;
             }
 
-            int chromosomeNr = (int) sequenceNode.getProperty("phasing_chromosome");
+            int chromosomeNr = Integer.parseInt(sequenceNode.getProperty("phasing_chromosome"));
             String phasingId = (String) sequenceNode.getProperty("phasing_ID"); // consists of chromosome number + "_" + phase
             String[] phasing_array = phasingId.split("_"); // 1_A becomes [1,A], 2_unphased [2,unphased]
             String[] phasing_info = new String[4]; //[chromosome number, phasing letter, combination of the two, combination of the two with '_' ]
