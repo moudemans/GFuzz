@@ -1,4 +1,4 @@
-package P6VF2.core;
+package A2VF2.core;
 
 public class Pair<K, V> {
 	private K key;

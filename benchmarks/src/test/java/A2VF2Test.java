@@ -1,6 +1,6 @@
 
 
-import P6VF2.runner.App;
+import A2VF2.runner.App;
 
 
 import java.io.FileNotFoundException;
@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 import static org.junit.Assert.assertTrue;
 
-public class P6VF2Test {
+public class A2VF2Test {
 
     @org.junit.Test
     public void test01() {

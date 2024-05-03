@@ -1,9 +1,9 @@
-package P6VF2.runner;
+package A2VF2.runner;
 
 
-import P6VF2.core.State;
-import P6VF2.core.VF2;
-import P6VF2.graph.Graph;
+import A2VF2.core.State;
+import A2VF2.core.VF2;
+import A2VF2.graph.Graph;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

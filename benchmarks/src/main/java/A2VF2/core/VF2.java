@@ -1,9 +1,9 @@
-package P6VF2.core;
+package A2VF2.core;
 
 
-import P6VF2.graph.Edge;
-import P6VF2.graph.Graph;
-import P6VF2.graph.Node;
+import A2VF2.graph.Edge;
+import A2VF2.graph.Graph;
+import A2VF2.graph.Node;
 
 import java.util.ArrayList;
 

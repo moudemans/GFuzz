@@ -1,4 +1,4 @@
-package P6VF2.graph;
+package A2VF2.graph;
 
 public class Edge {
 	
