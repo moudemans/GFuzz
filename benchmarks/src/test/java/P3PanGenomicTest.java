@@ -1,12 +1,12 @@
 
-import P10Pangenomic.P10Logic;
+import P3Pangenomic.P3Logic;
 import tudcomponents.MyGraph;
 
 import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
-public class P10PanGenomicTest {
+public class P3PanGenomicTest {
 
     @org.junit.Test
     public void testPGMARK() {
@@ -28,7 +28,7 @@ public class P10PanGenomicTest {
 
 
     public void testFilesInDir(String path) {
-        P10Logic analysis = new P10Logic();
+        P3Logic analysis = new P3Logic();
 
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();

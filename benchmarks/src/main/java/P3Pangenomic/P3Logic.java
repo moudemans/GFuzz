@@ -1,4 +1,4 @@
-package P10Pangenomic;
+package P3Pangenomic;
 
 
 
@@ -9,9 +9,8 @@ import tudcomponents.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
-public class P10Logic {
+public class P3Logic {
     MyGraph my_g;
 
     public void run(MyGraph g) {

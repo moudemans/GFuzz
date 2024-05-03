@@ -1,4 +1,4 @@
-package P10Pangenomic;
+package P3Pangenomic;
 
 
 
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 
 @RunWith(JQF.class)
-public class P10Driver {
+public class P3Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
-        P10Logic analysis = new P10Logic();
+        P3Logic analysis = new P3Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
 
