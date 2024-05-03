@@ -146,7 +146,7 @@ public class MyGraph implements Serializable {
                     id_mask.put(id_to, mask_id);
                 }
 
-                HashMap<String,String> attributes = new HashMap<>();
+                HashMap<String, String> attributes = new HashMap<>();
                 if (holder.contains("$Attributes$")) {
                     attributes = parsePGMARKEdgeProperties(holder, counter);
                 }
@@ -197,7 +197,7 @@ public class MyGraph implements Serializable {
 
                 // value can contain , character. In that case it needs to be fixed
                 String value = cols[2];
-                if( cols.length > 3) {
+                if (cols.length > 3) {
                     for (int i = 3; i < cols.length; i++) {
                         value += "," + cols[i];
                     }
@@ -253,15 +253,15 @@ public class MyGraph implements Serializable {
             System.err.printf("Called to parse edge attributes at line [%s] but no attributes found after $attribute$ column: %s", counter, holder);
             return new HashMap<>();
         }
-        if ((cols.length -3) % 2 == 0 ) {
+        if ((cols.length - 3) % 2 == 0) {
             System.err.printf("Called to parse edge attributes at line [%s] but there is not an even amount of key value pairs: %s", counter, holder);
             return new HashMap<>();
         }
         HashMap<String, String> properties = new HashMap<>();
         //TODO: what to do if there is a , in the property value
-        for (int i = 4; i < cols.length; i = i+2) {
+        for (int i = 4; i < cols.length; i = i + 2) {
             String key = cols[i];
-            String value = cols[i+ 1] ;
+            String value = cols[i + 1];
             properties.put(key, value);
         }
         return properties;
@@ -368,7 +368,7 @@ public class MyGraph implements Serializable {
     private static boolean checkPGMARKSyntax1(String holder, int atLine) {
         boolean isValid = true;
         String[] cols = holder.strip().split(",");
-        if ( !(cols.length == 3 || holder.contains("$Attributes$")) ) {
+        if (!(cols.length == 3 || holder.contains("$Attributes$"))) {
             System.err.println("Incorrect syntax on line [" + atLine + "], expected <node,edge,node>");
             isValid = false;
         }
@@ -678,13 +678,13 @@ public class MyGraph implements Serializable {
         int counter = 0;
         for (Edge e : edges) {
             if (e.label.equals(edgeLabel)) {
-                String node_label =getNode(e.to).label;
+                String node_label = getNode(e.to).label;
 
-                if(node_label.equals(n.label)) {
+                if (node_label.equals(n.label)) {
                     node_label = getNode(e.from).label;
                 }
 
-                if(node_labels.contains(node_label)) {
+                if (node_labels.contains(node_label)) {
                     counter++;
                 }
                 node_labels.add(node_label);
@@ -925,4 +925,18 @@ public class MyGraph implements Serializable {
         return false;
     }
 
+    public Node getConnectedNode(int id, String label, boolean isIncoming) {
+        Node n = getNode(id);
+        if (n == null) {
+            return null;
+        }
+        Set<Edge> l_edges = isIncoming ? n.getIncomingEdges() : n.getOutgoingEdges();
+        for (Edge e : l_edges) {
+            if (e.label.equals(label)) {
+                int target = isIncoming ? e.from : e.to;
+                return getNode(target);
+            }
+        }
+        return null;
+    }
 }

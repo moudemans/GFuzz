@@ -69,4 +69,25 @@ public class Node implements Serializable {
     public void removeEdge(Edge e) {
         edges.remove(e);
     }
+
+    public Object getProperty(String address) {
+        return properties.get(address);
+    }
+
+    public boolean isSingleRelationship(String label, boolean isIncomming) {
+        boolean res = true;
+        boolean found = false;
+        Set<Edge> l_edges = isIncomming ? getIncomingEdges() : getOutgoingEdges();
+        for (Edge e : l_edges) {
+            if (e.label.equals(label)) {
+                if(found) {
+                    return false;
+                }
+                found = true;
+            }
+        }
+        return res;
+    }
+
+
 }
