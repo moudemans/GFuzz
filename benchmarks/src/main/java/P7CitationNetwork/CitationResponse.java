@@ -1,4 +1,4 @@
-package P7Citation;
+package P7CitationNetwork;
 
 public class CitationResponse {
     // depends on the context, this might be referer or referee

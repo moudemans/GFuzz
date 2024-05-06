@@ -1,4 +1,4 @@
-package P7Citation;
+package P8Citation;
 
 public class CollaborationResponse {
     private AuthorResponse author;

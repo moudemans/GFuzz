@@ -1,7 +1,6 @@
-package P8CitationNetwork;
+package P7CitationNetwork;
 
 
-import tudcomponents.Edge;
 import tudcomponents.MyGraph;
 import tudcomponents.Node;
 
@@ -10,9 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class P8Logic {
+public class P7Logic {
     MyGraph my_g;
 
 

@@ -1,4 +1,4 @@
-package P7Citation;
+package P7CitationNetwork;
 
 import java.util.List;
 

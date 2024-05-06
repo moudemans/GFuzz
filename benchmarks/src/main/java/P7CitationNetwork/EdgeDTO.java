@@ -1,4 +1,4 @@
-package P8CitationNetwork;
+package P7CitationNetwork;
 
 public class EdgeDTO {
     private String from;

@@ -1,10 +1,11 @@
-package P8CitationNetwork;
+package P8Citation;
 
-public class CollaborationResponse {
+public class CitationResponse {
+    // depends on the context, this might be referer or referee
     private AuthorResponse author;
     private int count;
 
-    public CollaborationResponse(AuthorResponse author, int count) {
+    public CitationResponse(AuthorResponse author, int count) {
         this.author = author;
         this.count = count;
     }

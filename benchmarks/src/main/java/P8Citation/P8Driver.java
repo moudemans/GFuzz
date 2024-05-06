@@ -1,4 +1,4 @@
-package P8CitationNetwork;
+package P8Citation;
 
 
 
