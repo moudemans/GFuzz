@@ -1,10 +1,7 @@
 package P7Citation;
 
 
-import tudcomponents.MyGraph;
-import tudcomponents.Node;
-import tudcomponents.Property;
-import tudcomponents.Type;
+import tudcomponents.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,23 +32,19 @@ public class P7Logic {
         PaperResponse paperResponse = new PaperResponse(
                 id,
                 (String) paperProps.get("title"),
-                (Integer) paperProps.getOrDefault("year", 0));
+                Integer.parseInt(paperProps.getOrDefault("year", "0")));
 
-        List<Object> authorIds = g.V(paper)
-                .inE("writes")
-                .order().by("authorOrder", asc)
-                .outV()
-                .id()
-                .toList();
+        List<Node> authorIds = g.getConnectedNodes(paper, "writes");
+
         List<AuthorResponse> authors = IntStream.range(0, authorIds.size())
                 .mapToObj(index -> {
-                    Object vid = authorIds.get(index);
-                    Map<Object, Object> props = g.V(vid).elementMap().next();
+                    Node vid = authorIds.get(index);
+                    Map<String, String> props = vid.properties;
                     return new AuthorResponse(
                             (String) props.getOrDefault("name", "unknown"),
-                            (String) vid,
-                            (Integer) props.getOrDefault("numOfPaperReferers", 0),
-                            (Double) props.getOrDefault("pagerank", 0.0),
+                            (String) (vid.id + ""),
+                            Integer.parseInt(props.getOrDefault("numOfPaperReferers", "0")),
+                            Double.parseDouble(props.getOrDefault("pagerank", "0.0")),
                             index + 1);
                 })
                 .collect(Collectors.toList());
@@ -59,10 +52,10 @@ public class P7Logic {
 
 
         // collect pagerank
-        double pagerank = (Double) paperProps.getOrDefault("pagerank", 0.0);
+        double pagerank = Double.parseDouble(paperProps.getOrDefault("pagerank", "0.0"));
         // collect paper citations
-        int numOfReferees = (Integer) paperProps.getOrDefault("numOfPaperReferees", 0);
-        int numOfReferers = (Integer) paperProps.getOrDefault("numOfPaperReferers", 0);
+        int numOfReferees = Integer.parseInt(paperProps.getOrDefault("numOfPaperReferees", "0"));
+        int numOfReferers = Integer.parseInt(paperProps.getOrDefault("numOfPaperReferers", "0"));
         paperResponse.setNumOfReferees(numOfReferees);
         paperResponse.setNumOfReferers(numOfReferers);
         paperResponse.setPagerank(pagerank);
@@ -77,32 +70,33 @@ public class P7Logic {
         paperResponse.setDoi((String) paperProps.get("doi"));
         paperResponse.setPaperAbstract((String) paperProps.get("abstract"));
 
-        List<PaperResponse> referees = g.V(paper).out("cites").limit(limit).toList()
+        List<PaperResponse> referees = g.getConnectedNodes(paper, "cites", false)
                 .stream()
                 .map(v -> {
-                    Map<Object, Object> props = g.V(v).elementMap().next();
+                    Map<String, String> props = v.properties;
+
                     return new PaperResponse(
-                            (String) v.id(),
+                            (String) (v.id + ""),
                             (String) props.getOrDefault("title", "N/A"),
-                            (Integer) props.getOrDefault("year", "N/A"),
-                            (Integer) props.getOrDefault("numOfPaperReferees", 0),
-                            (Integer) props.getOrDefault("numOfPaperReferers", 0),
-                            (Double) props.getOrDefault("pagerank", 0.0));
+                            Integer.parseInt(props.getOrDefault("year", "N/A")),
+                            Integer.parseInt(props.getOrDefault("numOfPaperReferees", "0")),
+                            Integer.parseInt(props.getOrDefault("numOfPaperReferers", "0")),
+                            Double.parseDouble(props.getOrDefault("pagerank", "0.0")));
                 })
                 .collect(Collectors.toList());
         paperResponse.setReferees(referees);
 
-        List<PaperResponse> referers = g.V(paper).in("cites").limit(limit).toList()
+        List<PaperResponse> referers = g.getConnectedNodes(paper, "cites", true)
                 .stream()
                 .map(v -> {
-                    Map<Object, Object> props = g.V(v).elementMap().next();
+                    Map<String, String> props = v.properties;
                     return new PaperResponse(
-                            (String) v.id(),
+                            (String) (v.id + ""),
                             (String) props.getOrDefault("title", "N/A"),
-                            (Integer) props.getOrDefault("year", "N/A"),
-                            (Integer) props.getOrDefault("numOfPaperReferees", 0),
-                            (Integer) props.getOrDefault("numOfPaperReferers", 0),
-                            (Double) props.getOrDefault("pagerank", 0.0));
+                            Integer.parseInt(props.getOrDefault("year", "N/A")),
+                            Integer.parseInt(props.getOrDefault("numOfPaperReferees", "0")),
+                            Integer.parseInt(props.getOrDefault("numOfPaperReferers", "0")),
+                            Double.parseDouble(props.getOrDefault("pagerank", "0.0")));
                 })
                 .collect(Collectors.toList());
         paperResponse.setReferers(referers);
@@ -111,159 +105,109 @@ public class P7Logic {
         return 1;
     }
 
-    public AuthorResponse getAuthor(@PathVariable String id, @RequestParam int limit, @RequestParam boolean getEdges) {
-        if (!g.V().hasId(id).hasNext()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, String.format("Author %s not found", id)
-            );
+    public int getAuthor(MyGraph g, String id, int limit, boolean getEdges) {
+        if (g.getNodes(id) == null || g.getNodes(id).isEmpty()) {
+            return -1;
         }
-        Vertex author = g.V().hasId(id).next();
-        Map<Object, Object> authorProps = g.V(author).elementMap().next();
+
+        Node paper = g.getNodes(id).getFirst();
+        HashMap<String, String> paperProps = paper.properties;
+        if (!paperProps.containsKey("title")) {
+            return -1;
+        }
+
+        Node author = g.getNodes(id).getFirst();
+//        Vertex author = g.V().hasId(id).next();
+        Map<String, String> authorProps = author.properties;
         if (!authorProps.containsKey("name")) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, String.format("Author %s's name not found", id)
-            );
+            return -1;
         }
         String name = (String) authorProps.get("name");
 
-        authorCache.get(id, k -> name);
 
         // collect pagerank
-        double pagerank = (Double) authorProps.getOrDefault("pagerank", 0.0);
+        double pagerank = Double.parseDouble(authorProps.getOrDefault("pagerank", "0.0"));
         // collect papers
-        int numOfPapers = (Integer) authorProps.getOrDefault("numOfPapers", 0);
+        int numOfPapers = Integer.parseInt(authorProps.getOrDefault("numOfPapers", "0"));
 
         // collect author references
-        int numOfReferees = (Integer) authorProps.getOrDefault("numOfAuthorReferees", 0);
-        int numOfReferers = (Integer) authorProps.getOrDefault("numOfAuthorReferers", 0);
+        int numOfReferees = Integer.parseInt(authorProps.getOrDefault("numOfAuthorReferees", "0"));
+        int numOfReferers = Integer.parseInt(authorProps.getOrDefault("numOfAuthorReferers", "0"));
         // collect paper references
-        int numOfPaperReferees = (Integer) authorProps.getOrDefault("numOfPaperReferees", 0);
-        int numOfPaperReferers = (Integer) authorProps.getOrDefault("numOfPaperReferers", 0);
+        int numOfPaperReferees = Integer.parseInt(authorProps.getOrDefault("numOfPaperReferees", "0"));
+        int numOfPaperReferers = Integer.parseInt(authorProps.getOrDefault("numOfPaperReferers", "0"));
 
-        int numOfCoauthors = (Integer) authorProps.getOrDefault("numOfCoworkers", 0);
+        int numOfCoauthors = Integer.parseInt(authorProps.getOrDefault("numOfCoworkers", "0"));
 
         String org = (String) authorProps.getOrDefault("org", "");
 
         AuthorResponse res = new AuthorResponse(name, id, org, numOfPapers, numOfReferees, numOfReferers,
                 numOfPaperReferees, numOfPaperReferers, numOfCoauthors, pagerank);
 
-        if (getEdges) {
-            List<PaperResponse> papers = g.V(author).out("writes").limit(limit).toList()
-                    .stream()
-                    .map(v -> {
-                        Map<Object, Object> props = g.V(v).elementMap().next();
-                        return new PaperResponse((String) v.id(),
-                                (String) props.getOrDefault("title", "N/A"),
-                                (Integer) props.getOrDefault("year", 0),
-                                (Integer) props.getOrDefault("numOfPaperReferees", 0),
-                                (Integer) props.getOrDefault("numOfPaperReferers", 0),
-                                (Double) props.getOrDefault("pagerank", 0.0)
-                        );
-                    })
-                    .collect(Collectors.toList());
-            res.setPapers(papers);
+        List<PaperResponse> papers = g.getConnectedNodes(author, "writes")
+                .stream()
+                .map(v -> {
+                    Map<String, String> props = v.properties;
+                    return new PaperResponse((String) (v.id + ""),
+                            (String) props.getOrDefault("title", "N/A"),
+                            Integer.parseInt(props.getOrDefault("year", "0")),
+                            Integer.parseInt(props.getOrDefault("numOfPaperReferees", "0")),
+                            Integer.parseInt(props.getOrDefault("numOfPaperReferers", "0")),
+                            Integer.parseInt(props.getOrDefault("pagerank", "0.0"))
+                    );
+                })
+                .collect(Collectors.toList());
+        res.setPapers(papers);
 
-            Map<String, Map<Object, Object>> idPropMap = new HashMap<>();
-            buildPropMap(idPropMap, g.V(author).union(
-                    __.out("refers").limit(limit),
-                    __.in("refers").limit(limit),
-                    __.both("collaborates").limit(limit)
-            ).toList());
 
-            List<Edge> referees = g.V(author).outE("refers").limit(limit).toList();
-            List<CitationResponse> refereeResponse = new ArrayList<>(referees.size());
-            for (Edge referee : referees) {
-                int refCount = (Integer) g.E(referee).values("refCount").next();
-                String refereeId = (String) referee.inVertex().id();
-                String refereeName = (String) idPropMap.get(refereeId).get("name");
-                double refereePagerank = (Double) idPropMap.get(refereeId).get("pagerank");
-                CitationResponse citationResponse = new CitationResponse(new AuthorResponse(refereeName, refereeId, refereePagerank), refCount);
-                refereeResponse.add(citationResponse);
-            }
 
-            List<Edge> referers = g.V(author).inE("refers").limit(limit).toList();
-            List<CitationResponse> refererResponse = new ArrayList<>(referers.size());
-            for (Edge referer : referers) {
-                int refCount = (Integer) g.E(referer).values("refCount").tryNext().orElse(1);
-                String refererId = (String) referer.outVertex().id();
-                String refererName = (String) idPropMap.get(refererId).get("name");
-                double refererPagerank = (Double) idPropMap.get(refererId).get("pagerank");
-                CitationResponse citationResponse = new CitationResponse(new AuthorResponse(refererName, refererId, refererPagerank), refCount);
-                refererResponse.add(citationResponse);
-            }
-
-            List<Edge> coauthors = g.V(author).bothE("collaborates").limit(limit).toList();
-            List<CollaborationResponse> coauthorResponse = new ArrayList<>(coauthors.size());
-            for (Edge edge : coauthors) {
-                int collaborationCount = (Integer) g.E(edge).values("collaborateCount").tryNext().orElse(1);
-                Vertex otherVertex = edge.outVertex().equals(author) ? edge.inVertex() : edge.outVertex();
-                String coauthorId = (String) otherVertex.id();
-                String coauthorName = (String) idPropMap.get(coauthorId).get("name");
-                double coauthorPagerank = (Double) idPropMap.get(coauthorId).get("pagerank");
-                CollaborationResponse collaborationResponse = new CollaborationResponse(new AuthorResponse(coauthorName, coauthorId, coauthorPagerank), collaborationCount);
-                coauthorResponse.add(collaborationResponse);
-            }
-
-            res.setReferees(refereeResponse);
-            res.setReferers(refererResponse);
-            res.setCoauthors(coauthorResponse);
+        List<Edge> referees = author.getOutgoingEdges().stream().filter(edge -> edge.label.equals("refers")).toList();
+        List<CitationResponse> refereeResponse = new ArrayList<>(referees.size());
+        for (Edge referee : referees) {
+            int refCount = Integer.parseInt(referee.properties.get("refCount"));
+            String refereeId = (String) (referee.from + "");
+            String refereeName = (String) referee.properties.get("name");
+            double refereePagerank = Double.parseDouble(referee.properties.get("pagerank"));
+            CitationResponse citationResponse = new CitationResponse(new AuthorResponse(refereeName, refereeId, refereePagerank), refCount);
+            refereeResponse.add(citationResponse);
         }
 
-        return res;
+        List<Edge> referers = author.getIncomingEdges().stream().filter(edge -> edge.label.equals("refers")).toList();
+//        List<Edge> referers = g.V(author).inE("refers").limit(limit).toList();
+        List<CitationResponse> refererResponse = new ArrayList<>(referers.size());
+        for (Edge referer : referers) {
+            int refCount =  Integer.parseInt(referer.properties.getOrDefault("refCount", "1"));
+            String refererId =  (String) (referer.from + "");
+            String refererName =  (String) referer.properties.get("name");
+            double refererPagerank =  Double.parseDouble(referer.properties.get("pagerank"));
+            CitationResponse citationResponse = new CitationResponse(new AuthorResponse(refererName, refererId, refererPagerank), refCount);
+            refererResponse.add(citationResponse);
+        }
+
+        List<Edge> coauthors = author.getEdges().stream().filter(edge -> edge.label.equals("collaborates")).toList();
+//        List<Edge> coauthors = g.V(author).bothE("collaborates").limit(limit).toList();
+        List<CollaborationResponse> coauthorResponse = new ArrayList<>(coauthors.size());
+        for (Edge edge : coauthors) {
+            int collaborationCount = Integer.parseInt(edge.properties.getOrDefault("collaborateCount", "1"));
+            Node otherVertex = edge.to == author.id ? g.getNode(edge.from) : g.getNode(edge.to);
+            String coauthorId = (String) (otherVertex.id + "");
+            String coauthorName = (String) edge.properties.get("name");
+            double coauthorPagerank = Double.parseDouble(edge.properties.get("pagerank"));
+            CollaborationResponse collaborationResponse = new CollaborationResponse(new AuthorResponse(coauthorName, coauthorId, coauthorPagerank), collaborationCount);
+            coauthorResponse.add(collaborationResponse);
+        }
+
+        res.setReferees(refereeResponse);
+        res.setReferers(refererResponse);
+        res.setCoauthors(coauthorResponse);
+
+
+        return 1;
     }
 
-    @GetMapping("/search/author/{name}")
-    public List<AuthorResponse> getAuthorByName(@PathVariable String name) {
-        List<AuthorResponse> authors = g.V().has("name", Text.textContains(name)).limit(DEFAULT_LIMIT).toList()
-                .stream()
-                .map(v -> new AuthorResponse(
-                        (String) g.V(v).values("name").next(),
-                        (String) g.V(v).values("org").tryNext().orElseGet(() -> null),
-                        (String) v.id()))
-                .collect(Collectors.toList());
-        return authors;
-    }
 
-    public List<PaperResponse> getPaperByTitle(@PathVariable String title) {
-        List<PaperResponse> papers = g.V().has("title", Text.textContains(title)).limit(DEFAULT_LIMIT).toList()
-                .stream()
-                .map(v -> new PaperResponse((String) v.id(), (String) g.V(v).values("title").next()))
-                .collect(Collectors.toList());
-        return papers;
-    }
 
-    public List<AuthorResponse> getAuthors() {
-        return authorCache.asMap().entrySet().stream()
-                .map(entry -> new AuthorResponse(entry.getValue(), entry.getKey()))
-                .collect(Collectors.toList());
-    }
 
-    public List<PathDTO> getCluster(@PathVariable String vid) {
-        String clusterId = (String) g.V(vid).values("clusterId").next();
-        return g.V(vid)
-                .repeat(__.bothE("collaborates").otherV().simplePath())
-                .until(__.not(__.has("clusterId", clusterId)))
-                .limit(100)
-                .path()
-                .by(__.elementMap())
-                .by(__.label())
-                .toStream()
-                .map(PathDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<PathDTO> getShortestPath(@RequestParam String fromId, @RequestParam String toId) {
-        return g.V(fromId)
-                .repeat(__.bothE("collaborates", "refers").otherV().simplePath())
-                .until(__.hasId(toId))
-                .path()
-                .by(__.elementMap())
-                .by(__.label())
-                .limit(1)
-                .toStream()
-                .map(PathDTO::new)
-                .collect(Collectors.toList());
-    }
 
     /**
      * Feature request: https://github.com/Citegraph/citegraph/issues/2
@@ -286,125 +230,120 @@ public class P7Logic {
      * @param vid
      * @return
      */
-    @GetMapping("/graph/citations/{vid}")
-    public PathDTO getCitationNetwork(@PathVariable String vid) {
-        PathDTO result = new PathDTO();
-        // for each paper, how many times has it been cited in this subgraph?
-        Map<String, Integer> citationMap = new HashMap<>();
-        // for the starting vertex, let's assign a default value being one
-        citationMap.put(vid, 1);
+//    @GetMapping("/graph/citations/{vid}")
+//    public PathDTO getCitationNetwork(@PathVariable String vid) {
+//        PathDTO result = new PathDTO();
+//        // for each paper, how many times has it been cited in this subgraph?
+//        Map<String, Integer> citationMap = new HashMap<>();
+//        // for the starting vertex, let's assign a default value being one
+//        citationMap.put(vid, 1);
+//
+//        // step 0: get title of current vertex
+//        Map<Object, Object> props = g.V(vid).elementMap("title").next();
+//        result.getVertices().add(new VertexDTO(vid, null, (String) props.get("title"), 0));
+//
+//        // step 1: find immediate neighbors (1-hop references)
+//        List<Map<Object, Object>> oneHopVertices = g.V(vid).out("cites").elementMap("title").toList();
+//        for (Map<Object, Object> oneHopVertex : oneHopVertices) {
+//            String id = (String) oneHopVertex.get(T.id);
+//            citationMap.put(id, citationMap.getOrDefault(id, 0) + 1);
+//            result.getVertices().add(new VertexDTO(id, null, (String) oneHopVertex.get("title"), 1));
+//            result.getEdges().add(new EdgeDTO(vid, id, "cites"));
+//        }
+//
+//        // step 2: find 2-hop references.
+//
+//        // two-hop vertex id -> one-hop vertex ids mapping
+//        Map<String, List<String>> twoHopVerticesAndEdges = new HashMap<>();
+//
+//        for (Map<Object, Object> oneHopVertex : oneHopVertices) {
+//            String id = (String) oneHopVertex.get(T.id);
+//            List<Object> neighbors = g.V(id).out("cites").id().toList();
+//            for (Object neighbor : neighbors) {
+//                twoHopVerticesAndEdges.computeIfAbsent(neighbor.toString(), k -> new ArrayList<>()).add(id);
+//            }
+//        }
+//
+//        for (Map.Entry<String, List<String>> entry : twoHopVerticesAndEdges.entrySet()) {
+//            String twoHopVertexId = entry.getKey();
+//            // skip two-hop vertices that have only been cited by a single one-hop vertex
+//            if (entry.getValue().size() <= 1) continue;
+//            // add edges (from one-hop vertex to two-hop vertex)
+//            result.getEdges().addAll(entry.getValue().stream()
+//                    .map(oneHopVertexId -> new EdgeDTO(oneHopVertexId, twoHopVertexId, "cites"))
+//                    .collect(Collectors.toList()));
+//            // add two-hop vertex
+//            if (!citationMap.containsKey(twoHopVertexId)) {
+//                Map<Object, Object> vProps = g.V(twoHopVertexId).elementMap("title").next();
+//                result.getVertices().add(new VertexDTO(twoHopVertexId, null, (String) vProps.get("title"), 2));
+//            }
+//            citationMap.put(twoHopVertexId, citationMap.getOrDefault(twoHopVertexId, 0) + entry.getValue().size());
+//        }
+//
+//        int maxCitations = citationMap.values().stream().max(Integer::compare).get();
+//        // Generate a "local" pagerank in this subgraph. Rather than use the standard pagerank algorithm to compute,
+//        // we do a simple scaling to make sure the number is between 0 and 1.
+//        result.getVertices().forEach(vertexDTO -> {
+//            if (vertexDTO.getId() != vid) {
+//                vertexDTO.setPagerank(((double) citationMap.get(vertexDTO.getId())) / maxCitations);
+//            } else {
+//                vertexDTO.setPagerank(1);
+//            }
+//        });
+//
+//        return result;
+//    }
+//
+//    @GetMapping("/graph/vertex/{vid}")
+//    public Map<String, Object> getVertexById(@PathVariable String vid, @RequestParam int limit, @RequestParam boolean getEdges) {
+//        try {
+//
+//            if (getEdges) {
+//                return g.V(vid)
+//                        .project("self", "neighbors")
+//                        .by(__.elementMap())
+//                        .by(
+//                                __.union(
+//                                                __.bothE("collaborates").limit(limit).as("edge")
+//                                                        .otherV().as("vertex")
+//                                                        .select("edge", "vertex")
+//                                                        .by(__.elementMap()),
+//                                                __.outE("cites").limit(limit).as("edge")
+//                                                        .otherV().as("vertex")
+//                                                        .select("edge", "vertex")
+//                                                        .by(__.elementMap()),
+//                                                __.inE("cites").limit(limit).as("edge")
+//                                                        .otherV().as("vertex")
+//                                                        .select("edge", "vertex")
+//                                                        .by(__.elementMap()),
+//                                                __.outE("refers").limit(limit).as("edge")
+//                                                        .otherV().as("vertex")
+//                                                        .select("edge", "vertex")
+//                                                        .by(__.elementMap()),
+//                                                __.inE("refers").limit(limit).as("edge")
+//                                                        .otherV().as("vertex")
+//                                                        .select("edge", "vertex")
+//                                                        .by(__.elementMap()),
+//                                                __.bothE("writes").limit(limit).as("edge")
+//                                                        .otherV().as("vertex")
+//                                                        .select("edge", "vertex")
+//                                                        .by(__.elementMap())
+//                                        )
+//                                        .fold()
+//                        ).next();
+//            } else {
+//                return g.V(vid)
+//                        .project("self")
+//                        .by(__.elementMap())
+//                        .next();
+//            }
+//        } catch (NoSuchElementException ex) {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, String.format("Vertex (ID: %s) not found", vid));
+//        }
+//    }
 
-        // step 0: get title of current vertex
-        Map<Object, Object> props = g.V(vid).elementMap("title").next();
-        result.getVertices().add(new VertexDTO(vid, null, (String) props.get("title"), 0));
 
-        // step 1: find immediate neighbors (1-hop references)
-        List<Map<Object, Object>> oneHopVertices = g.V(vid).out("cites").elementMap("title").toList();
-        for (Map<Object, Object> oneHopVertex : oneHopVertices) {
-            String id = (String) oneHopVertex.get(T.id);
-            citationMap.put(id, citationMap.getOrDefault(id, 0) + 1);
-            result.getVertices().add(new VertexDTO(id, null, (String) oneHopVertex.get("title"), 1));
-            result.getEdges().add(new EdgeDTO(vid, id, "cites"));
-        }
-
-        // step 2: find 2-hop references.
-
-        // two-hop vertex id -> one-hop vertex ids mapping
-        Map<String, List<String>> twoHopVerticesAndEdges = new HashMap<>();
-
-        for (Map<Object, Object> oneHopVertex : oneHopVertices) {
-            String id = (String) oneHopVertex.get(T.id);
-            List<Object> neighbors = g.V(id).out("cites").id().toList();
-            for (Object neighbor : neighbors) {
-                twoHopVerticesAndEdges.computeIfAbsent(neighbor.toString(), k -> new ArrayList<>()).add(id);
-            }
-        }
-
-        for (Map.Entry<String, List<String>> entry : twoHopVerticesAndEdges.entrySet()) {
-            String twoHopVertexId = entry.getKey();
-            // skip two-hop vertices that have only been cited by a single one-hop vertex
-            if (entry.getValue().size() <= 1) continue;
-            // add edges (from one-hop vertex to two-hop vertex)
-            result.getEdges().addAll(entry.getValue().stream()
-                    .map(oneHopVertexId -> new EdgeDTO(oneHopVertexId, twoHopVertexId, "cites"))
-                    .collect(Collectors.toList()));
-            // add two-hop vertex
-            if (!citationMap.containsKey(twoHopVertexId)) {
-                Map<Object, Object> vProps = g.V(twoHopVertexId).elementMap("title").next();
-                result.getVertices().add(new VertexDTO(twoHopVertexId, null, (String) vProps.get("title"), 2));
-            }
-            citationMap.put(twoHopVertexId, citationMap.getOrDefault(twoHopVertexId, 0) + entry.getValue().size());
-        }
-
-        int maxCitations = citationMap.values().stream().max(Integer::compare).get();
-        // Generate a "local" pagerank in this subgraph. Rather than use the standard pagerank algorithm to compute,
-        // we do a simple scaling to make sure the number is between 0 and 1.
-        result.getVertices().forEach(vertexDTO -> {
-            if (vertexDTO.getId() != vid) {
-                vertexDTO.setPagerank(((double) citationMap.get(vertexDTO.getId())) / maxCitations);
-            } else {
-                vertexDTO.setPagerank(1);
-            }
-        });
-
-        return result;
-    }
-
-    @GetMapping("/graph/vertex/{vid}")
-    public Map<String, Object> getVertexById(@PathVariable String vid, @RequestParam int limit, @RequestParam boolean getEdges) {
-        try {
-
-            if (getEdges) {
-                return g.V(vid)
-                        .project("self", "neighbors")
-                        .by(__.elementMap())
-                        .by(
-                                __.union(
-                                                __.bothE("collaborates").limit(limit).as("edge")
-                                                        .otherV().as("vertex")
-                                                        .select("edge", "vertex")
-                                                        .by(__.elementMap()),
-                                                __.outE("cites").limit(limit).as("edge")
-                                                        .otherV().as("vertex")
-                                                        .select("edge", "vertex")
-                                                        .by(__.elementMap()),
-                                                __.inE("cites").limit(limit).as("edge")
-                                                        .otherV().as("vertex")
-                                                        .select("edge", "vertex")
-                                                        .by(__.elementMap()),
-                                                __.outE("refers").limit(limit).as("edge")
-                                                        .otherV().as("vertex")
-                                                        .select("edge", "vertex")
-                                                        .by(__.elementMap()),
-                                                __.inE("refers").limit(limit).as("edge")
-                                                        .otherV().as("vertex")
-                                                        .select("edge", "vertex")
-                                                        .by(__.elementMap()),
-                                                __.bothE("writes").limit(limit).as("edge")
-                                                        .otherV().as("vertex")
-                                                        .select("edge", "vertex")
-                                                        .by(__.elementMap())
-                                        )
-                                        .fold()
-                        ).next();
-            } else {
-                return g.V(vid)
-                        .project("self")
-                        .by(__.elementMap())
-                        .next();
-            }
-        } catch (NoSuchElementException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, String.format("Vertex (ID: %s) not found", vid));
-        }
-    }
-
-    private void buildPropMap(Map<String, Map<Object, Object>> idPropMap, List<Vertex> authors) {
-        for (Vertex v : authors) {
-            Map<Object, Object> props = g.V(v).elementMap("name", "pagerank").next();
-            idPropMap.putIfAbsent((String) v.id(), props);
-        }
-    }
 
 
 }
