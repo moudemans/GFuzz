@@ -15,7 +15,7 @@ public class P4Logic {
 
 
     public void run(MyGraph g) {
-
+        getCitationNetwork(g, "test");
 
     }
 
