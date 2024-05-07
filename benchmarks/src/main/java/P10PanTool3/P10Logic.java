@@ -5,6 +5,9 @@ import tudcomponents.Edge;
 import tudcomponents.MyGraph;
 import tudcomponents.Node;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,17 +21,85 @@ public class P10Logic {
 
     public void run(MyGraph g) {
         // TODO
-        retrieve_gene_seq_check_presence_hmgroup(g, "", new ArrayList<>(), new StringBuilder());
+        ArrayList<String> genes = new ArrayList<>();
+        genes.add("1");
+        genes.add("2");
+        genes.add("3");
+        findGenesByName(g, genes);
+//        report_found_genes(g, )
+//        retrieve_gene_seq_check_presence_hmgroup(g, "", new ArrayList<>(), new StringBuilder());
+    }
+
+
+    public void findGenesByName(MyGraph g, List<String> geneNames) {
+        int warning_counter = 0;
+
+
+//        Node pangenome_node = GRAPH_DB.findNodes(PANGENOME_LABEL).next();
+        Node pangenome_node = g.getNodes("pangenome").getFirst();
+        retrieve_phenotypes(g); // create geno_pheno_map and new_phenotype_map when a phenotype was provided by the user
+
+
+//        int hm_nodes = (int) count_nodes(HOMOLOGY_GROUP_LABEL);
+        int hm_nodes = (int) g.getNodes("homology_group").size();
+        if (hm_nodes == 0) {
+            System.out.println("\rMust first cluster the protein sequences with 'group'\n");
+            System.exit(1);
+        }
+
+        ArrayList<String> annotation_identifiers = get_annotation_identifiers(g);
+        HashMap<String, ArrayList<Node>> foundGeneNodeMap = new HashMap<>();
+        findGeneNodesMatchingName(g,geneNames, foundGeneNodeMap, false);
+        List<String> genesWithoutHit = new ArrayList<>();
+        for (String geneName : geneNames) {
+            if (!foundGeneNodeMap.containsKey(geneName)) {
+                genesWithoutHit.add(geneName);
+            }
+        }
+        if (!genesWithoutHit.isEmpty()) { // search again but now case insensitive for genes without a hit
+            findGeneNodesMatchingName(g,genesWithoutHit, foundGeneNodeMap, true);
+        }
+
+        report_found_genes(g, geneNames, foundGeneNodeMap);
+
+
+        if (warning_counter > 0) {
+            // LOG SOMETHING
+            System.out.println("Warning occured");
+        }
+
+
+    }
+
+    public void report_found_genes(MyGraph g, List<String> geneNameList, HashMap<String, ArrayList<Node>> foundGeneNodeMap) {
+        StringBuilder log_builder = new StringBuilder();
+
+        for (String geneName : geneNameList) {
+            log_builder.append("#gene name ").append(geneName).append("; genome; gene node id; mRNA node id; homology group id; gene length;"
+                    + " protein length; gene address\n");
+            ArrayList<Node> gene_list = foundGeneNodeMap.get(geneName);
+            if (!gene_list.isEmpty()) {
+                retrieve_gene_seq_check_presence_hmgroup(g, geneName, gene_list, log_builder);
+            } else {
+                log_builder.append("No genes were found! Trying a case insensitive search\n");
+                gene_list = foundGeneNodeMap.get(geneName + "#case_insensitive");
+                if (gene_list == null) {
+                    log_builder.append("Still no gene found!\n\n");
+                } else {
+                    retrieve_gene_seq_check_presence_hmgroup(g, geneName, gene_list, log_builder);
+                }
+            }
+        }
+
     }
 
 
     /**
      * Collects a lot of statistics about genes that were found per gene
-     * @param geneName the gene name that was searched for
-     * @param gene_list the gene names that were found
-     * @param log_builder
      *
-     * The functions assumes there is only one mRNA for each gene. Will not work for eukaryotes
+     * @param geneName    the gene name that was searched for
+     * @param gene_list   the gene names that were found
+     * @param log_builder The functions assumes there is only one mRNA for each gene. Will not work for eukaryotes
      */
     public void retrieve_gene_seq_check_presence_hmgroup(MyGraph g, String geneName, ArrayList<Node> gene_list, StringBuilder log_builder) {
         HashMap<Node, StringBuilder> prot_seqs_per_hmgroup = new HashMap<>(); // key is homology node.
@@ -43,8 +114,8 @@ public class P10Logic {
 
         int total_genomes = Integer.parseInt(g.getNodes("pangenome").getFirst().getProperty("num_genomes"));
 
-        int [] presence_array = new int[total_genomes];
-        for(int i = 1 ; i <= total_genomes; i++) {
+        int[] presence_array = new int[total_genomes];
+        for (int i = 1; i <= total_genomes; i++) {
             gene_genome_map.put(i, 0);
         }
         HashMap<String, String> prot_seqs_per_genome = new HashMap<>();
@@ -66,7 +137,7 @@ public class P10Logic {
             String prot_sequence = "", nuc_sequence = "", seq_header = "", mrna_node_str = "", hm_node_str = "no homology group";
             for (Edge rel : rels) { // for MLSA, the functions assumes there is only one mRNA for each gene. Will not work for eukaryotes
                 Node mrna_node = g.getNode(rel.to);
-                mrna_node_str = mrna_node.id +"";
+                mrna_node_str = mrna_node.id + "";
                 if (!mrna_node.properties.containsKey("protein_ID")) {
                     continue;
                 }
@@ -77,7 +148,7 @@ public class P10Logic {
 
 //                int[] address = (int[]) mrna_node.getProperty("address");
                 int[] address = new int[]{
-                        1,2,3,4
+                        1, 2, 3, 4
                 };
 
                 address_str = address[0] + " " + address[1] + " " + address[2] + " " + address[3];
@@ -100,9 +171,9 @@ public class P10Logic {
                 String phenotype = get_phenotype_for_genome(genome_nr, true);
                 if (hmNode != null) { // mrna is connected to an homology_group node
                     Node hm_node = hmNode;
-                    hm_node_str =  hm_node.id +"";
+                    hm_node_str = hm_node.id + "";
 
-                        seq_header = ">" + protein_id + " " + gene_name + "_gn_" + genome_nr + "_" + gene_node.id + "_hmgroup_" + hm_node.id + phenotype + "\n";
+                    seq_header = ">" + protein_id + " " + gene_name + "_gn_" + genome_nr + "_" + gene_node.id + "_hmgroup_" + hm_node.id + phenotype + "\n";
 
                     all_hms.add(hm_node);
                     dna_lengths_per_hmgroup.computeIfAbsent(hm_node, n -> new ArrayList<>()).add(gene_length);
@@ -112,7 +183,7 @@ public class P10Logic {
                     nuc_seqs_per_hmgroup.computeIfAbsent(hm_node, n -> new StringBuilder())
                             .append(seq_header).append(nuc_sequence).append("\n");
                 } else { // pr
-                        seq_header = ">" + protein_id + " " + gene_name + "_gn_" + genome_nr + "_" + gene_node.id + phenotype + "\n";
+                    seq_header = ">" + protein_id + " " + gene_name + "_gn_" + genome_nr + "_" + gene_node.id + phenotype + "\n";
                 }
             }
             if (gene_length == 0) {
@@ -120,7 +191,7 @@ public class P10Logic {
                         .append(", Protein sequence is missing! Something wrong with GFF?\n");
                 continue;
             }
-            presence_array[genome_nr-1]++;
+            presence_array[genome_nr - 1]++;
             log_builder.append(gene_name).append("; ").append(genome_nr).append("; ").append(gene_node.id).append("; ").append(mrna_node_str).append("; ")
                     .append(hm_node_str).append("; ").append(gene_length).append("; ").append(protein_length).append("; ").append(address_str).append("\n");
             int gene_count = gene_genome_map.get(genome_nr);
@@ -172,7 +243,7 @@ public class P10Logic {
                             log_builder.append("Removed ").append(duplicate_set.size()).append(" genes from genome ")
                                     .append(genome_nr).append(" because they are identical\n");
                         }
-                        for (int copy_number: duplicate_set) {
+                        for (int copy_number : duplicate_set) {
                             prot_seqs_per_genome.remove(genome_nr + "_" + copy_number);
                             nuc_seqs_per_genome.remove(genome_nr + "_" + copy_number);
                         }
@@ -192,9 +263,9 @@ public class P10Logic {
             nuc_seq_builder.append(header).append(nuc_seq).append("\n");
         }
 
-        absent_genomes = absent_genomes.replaceFirst(".$","");
-        present_genomes = present_genomes.replaceFirst(".$","");
-        multiple_copies = multiple_copies.replaceFirst(".$","");
+        absent_genomes = absent_genomes.replaceFirst(".$", "");
+        present_genomes = present_genomes.replaceFirst(".$", "");
+        multiple_copies = multiple_copies.replaceFirst(".$", "");
         if (present_genomes.length() > 18) {
             // do nothing
         } else {
@@ -237,7 +308,7 @@ public class P10Logic {
 //            TODO: No int arrays in framework
 //            int[] temp_copy_number = (int[]) hm_node.getProperty("copy_number");
 //            int[] copy_number = remove_first_position_array(temp_copy_number);
-            int[] copy_number = new int[]{1,2,3,4,5};
+            int[] copy_number = new int[]{1, 2, 3, 4, 5};
             hm_builder.append("Homology group ").append(hm_node.id).append(", ").append(num_members).append(" members ").append(Arrays.toString(copy_number))
                     .append("\nGene lengths: ").append(dna_freqs)
                     .append("\nProtein lengths: ").append(prot_freqs).append("\n");
@@ -270,6 +341,7 @@ public class P10Logic {
         }
         return name;
     }
+
     public static String get_protein_sequence(Node mrna_node) {
         String sequence = "";
         if (mrna_node.properties.containsKey("protein")) {
@@ -300,7 +372,7 @@ public class P10Logic {
         for (int i = 0; i < sequence.length(); i++) {
             char c = sequence.charAt(i);
             sequenceSB.append(c);
-            if ((i+1) % length == 0) {
+            if ((i + 1) % length == 0) {
                 sequenceSB.append("\n");
             }
         }
@@ -313,18 +385,18 @@ public class P10Logic {
 
     public static String get_phenotype_for_genome(int genome, boolean space_in_front) {
         String add = "";
-            String pheno = "Unknown";
-            if (geno_pheno_map.containsKey(genome)) {
-                pheno = geno_pheno_map.get(genome);
-                if (pheno.equals("?")) {
-                    pheno = "Unknown";
-                }
+        String pheno = "Unknown";
+        if (geno_pheno_map.containsKey(genome)) {
+            pheno = geno_pheno_map.get(genome);
+            if (pheno.equals("?")) {
+                pheno = "Unknown";
             }
-            if (space_in_front) {
-                add += " " + pheno;
-            } else {
-                add = pheno;
-            }
+        }
+        if (space_in_front) {
+            add += " " + pheno;
+        } else {
+            add = pheno;
+        }
         return add;
     }
 
@@ -387,6 +459,7 @@ public class P10Logic {
         ArrayList tester = new ArrayList<>(newList);
         return tester;
     }
+
     public static String determine_frequency_list_int(ArrayList<Integer> size_list) {
         ArrayList<Integer> distinct_size_list = remove_duplicates_from_AL_int(size_list);
         StringBuilder output = new StringBuilder();
@@ -412,7 +485,7 @@ public class P10Logic {
         HashSet<Integer> duplicate_set = new HashSet<>();
         for (int i = 1; i <= value; i++) {
             String prot_sequence1 = prot_seqs_per_genome.get(genome_nr + "_" + i);
-            for (int j = i+1; j <= value; j++) {
+            for (int j = i + 1; j <= value; j++) {
                 if (i == j) {
                     continue;
                 }
@@ -427,7 +500,7 @@ public class P10Logic {
 
     public String get_size_str(ArrayList<Integer> distinct_gene_lengths) {
         int size1 = distinct_gene_lengths.get(0);
-        String size_str = size1 +"";
+        String size_str = size1 + "";
         if (distinct_gene_lengths.size() == 1) {
             size_str += "bp";
             return size_str;
@@ -435,5 +508,81 @@ public class P10Logic {
         int size2 = distinct_gene_lengths.get(distinct_gene_lengths.size() - 1);
         size_str += "-" + size2 + "bp";
         return size_str;
+    }
+    public static ArrayList<String> get_annotation_identifiers(MyGraph g) {
+        ArrayList<String> selected_annotation_ids = new ArrayList<>();
+
+//        ResourceIterator<Node> annotation_nodes = GRAPH_DB.findNodes(ANNOTATION_LABEL);
+        Iterator<Node> annotation_nodes = g.getNodes("annotation").iterator();
+        int total_genomes = Integer.parseInt(g.getNodes("pangenome").getFirst().getProperty("num_genomes"));
+
+        int[] highest_ids = new int[total_genomes];
+        String[] highest_ids_str = new String[total_genomes];
+        while (annotation_nodes.hasNext()) {
+            Node annotation_node = annotation_nodes.next();
+            String identifier = (String) annotation_node.getProperty("identifier");
+            String[] id_array = identifier.split("_");
+            int genome_nr = Integer.parseInt(id_array[0]);
+
+            int anotation_number = Integer.parseInt(id_array[1]);
+            if (anotation_number > highest_ids[genome_nr-1]) {
+                highest_ids[genome_nr-1] = anotation_number;
+            }
+        }
+
+        for (int i=0; i < highest_ids.length; i++) {
+            highest_ids_str[i] = (i+1) + "_" + highest_ids[i];
+        }
+
+
+        selected_annotation_ids.addAll(Arrays.asList(highest_ids_str));
+        return selected_annotation_ids;
+    }
+
+    public void findGeneNodesMatchingName(MyGraph g, List<String> geneNamesList,
+                                          HashMap<String, ArrayList<Node>> foundGeneNodeMap,
+                                          boolean caseInsensitive) {
+
+//        ResourceIterator<Node> allGeneNodes = GRAPH_DB.findNodes(GENE_LABEL);
+        Iterator<Node> allGeneNodes = g.getNodes("gene").iterator();
+
+
+        while (allGeneNodes.hasNext()) {
+            Node geneNode = allGeneNodes.next();
+            int genome_nr = Integer.parseInt(geneNode.getProperty("genome"));
+
+            // TODO no arrays support
+//            String[] nameArray = (String[]) geneNode.getProperty("name");
+            String[] nameArray = new String[]{"a"};
+
+            // value of "name" property has become a String[] as of v3.4
+            for (String name : nameArray) {
+                for (String targetGeneName : geneNamesList) {
+                    String gene_name_key = targetGeneName;
+                    if (caseInsensitive) {
+                        targetGeneName = targetGeneName.toLowerCase();
+                        name = name.toLowerCase();
+                        gene_name_key += "#case_insensitive";
+                    }
+                    if (( name.startsWith(targetGeneName)) ) {
+                        foundGeneNodeMap.computeIfAbsent(gene_name_key, s -> new ArrayList<>()).add(geneNode);
+                    }
+                }
+            }
+
+            String geneId = (String) geneNode.getProperty("id");
+            for (String targetGeneName : geneNamesList) {
+                String gene_name_key = targetGeneName;
+                if (caseInsensitive) {
+                    targetGeneName = targetGeneName.toLowerCase();
+                    geneId = geneId.toLowerCase();
+                    gene_name_key += "#case_insensitive";
+                }
+                if ((geneId.startsWith(targetGeneName)) ) {
+                    foundGeneNodeMap.computeIfAbsent(gene_name_key, s -> new ArrayList<>()).add(geneNode);
+                }
+            }
+        }
+
     }
 }
