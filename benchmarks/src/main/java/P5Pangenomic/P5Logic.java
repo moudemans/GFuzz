@@ -1,4 +1,4 @@
-package P3Pangenomic;
+package P5Pangenomic;
 
 
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class P3Logic {
+public class P5Logic {
     MyGraph my_g;
 
     public void run(MyGraph g) {

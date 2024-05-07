@@ -1,4 +1,4 @@
-package P7CitationNetwork;
+package P4CitationNetwork;
 
 
 import tudcomponents.MyGraph;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class P7Logic {
+public class P4Logic {
     MyGraph my_g;
 
 

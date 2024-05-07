@@ -1,6 +1,5 @@
 
-import P4PanTool.P4Logic;
-import P5Pheno4j.P5Logic;
+import P7Pheno4j.P7Logic;
 import tudcomponents.MyGraph;
 import util.Util;
 
@@ -20,7 +19,7 @@ public class P5Pheno4jTest {
         testFilesInDir(path);
     }
     public void testFilesInDir(String path) {
-        P5Logic analysis = new P5Logic();
+        P7Logic analysis = new P7Logic();
 
         if (!Util.dirExists(path)) {
             System.err.println("Input directory not found: " + path);

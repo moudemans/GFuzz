@@ -1,6 +1,5 @@
 
-import P3Pangenomic.P3Logic;
-import P4PanTool.P4Logic;
+import P8PanTool1.P8Logic;
 import tudcomponents.MyGraph;
 import util.Util;
 
@@ -20,7 +19,7 @@ public class P4PanToolTest {
         testFilesInDir(path);
     }
     public void testFilesInDir(String path) {
-        P4Logic analysis = new P4Logic();
+        P8Logic analysis = new P8Logic();
 
         if (!Util.dirExists(path)) {
             System.err.println("Input directory not found: " + path);

@@ -1,4 +1,4 @@
-package P4PanTool;
+package P5Pangenomic;
 
 
 
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 
 @RunWith(JQF.class)
-public class P4Driver {
+public class P5Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
-        P4Logic analysis = new P4Logic();
+        P5Logic analysis = new P5Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
 

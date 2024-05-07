@@ -1,4 +1,4 @@
-package P8Citation;
+package P3Citation;
 
 
 
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 
 @RunWith(JQF.class)
-public class P8Driver {
+public class P3Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
-        P8Logic analysis = new P8Logic();
+        P3Logic analysis = new P3Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
 

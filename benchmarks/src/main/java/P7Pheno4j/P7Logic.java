@@ -1,13 +1,12 @@
-package P5Pheno4j;
+package P7Pheno4j;
 
 
-import javassist.bytecode.ExceptionTable;
 import tudcomponents.MyGraph;
 import tudcomponents.Node;
 
 import java.util.*;
 
-public class P5Logic {
+public class P7Logic {
     MyGraph my_g;
 
     private HashMap<String, String[]> phasingInfoMap;

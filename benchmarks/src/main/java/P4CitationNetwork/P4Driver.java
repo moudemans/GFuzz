@@ -1,4 +1,4 @@
-package P5Pheno4j;
+package P4CitationNetwork;
 
 
 
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 
 @RunWith(JQF.class)
-public class P5Driver {
+public class P4Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
-        P5Logic analysis = new P5Logic();
+        P4Logic analysis = new P4Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
         MyGraph g = MyGraph.readGraphFromFile(fileName);
 

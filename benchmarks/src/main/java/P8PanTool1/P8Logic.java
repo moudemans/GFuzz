@@ -1,4 +1,4 @@
-package P4PanTool;
+package P8PanTool1;
 
 
 import tudcomponents.MyGraph;
@@ -6,7 +6,7 @@ import tudcomponents.Node;
 
 import java.util.*;
 
-public class P4Logic {
+public class P8Logic {
     MyGraph my_g;
 
     private HashMap<String, String[]> phasingInfoMap;

@@ -1,5 +1,5 @@
 
-import P3Pangenomic.P3Logic;
+import P5Pangenomic.P5Logic;
 import tudcomponents.MyGraph;
 
 import java.io.File;
@@ -28,7 +28,7 @@ public class P3PanGenomicTest {
 
 
     public void testFilesInDir(String path) {
-        P3Logic analysis = new P3Logic();
+        P5Logic analysis = new P5Logic();
 
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();

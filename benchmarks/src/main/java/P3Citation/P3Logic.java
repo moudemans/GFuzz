@@ -1,4 +1,4 @@
-package P8Citation;
+package P3Citation;
 
 
 import tudcomponents.*;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class P8Logic {
+public class P3Logic {
     MyGraph my_g;
 
 

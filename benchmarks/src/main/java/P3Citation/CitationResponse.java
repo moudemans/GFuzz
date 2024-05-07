@@ -1,4 +1,4 @@
-package P8Citation;
+package P3Citation;
 
 public class CitationResponse {
     // depends on the context, this might be referer or referee
