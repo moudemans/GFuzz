@@ -7,7 +7,7 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
-public class P4PanToolTest {
+public class P8PanToolTest {
 
     String input_path ="src/main/resources/P4/";
     boolean run_json = true;

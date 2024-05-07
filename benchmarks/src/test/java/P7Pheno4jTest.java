@@ -7,7 +7,7 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
-public class P5Pheno4jTest {
+public class P7Pheno4jTest {
 
     String input_path ="src/main/resources/P5/";
     boolean run_json = true;

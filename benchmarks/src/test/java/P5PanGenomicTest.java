@@ -6,22 +6,26 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
-public class P3PanGenomicTest {
+public class P5PanGenomicTest {
+
+    String input_path ="src/main/resources/P5/";
+    boolean run_json = true;
+    boolean run_ser = true;
 
     @org.junit.Test
     public void testPGMARK() {
-        String path = "benchmarks/src/main/resources/P10/PGMark-FIXED/";
+        String path = input_path + "PGMark-FIXED/";
         testFilesInDir(path);
     }
     @org.junit.Test
     public void testMUTATED() {
-        String path = "benchmarks/src/main/resources/P10/PGMark-GFUZZ/";
+        String path = input_path + "PGMark-GFUZZ/";
         testFilesInDir(path);
     }
 
     @org.junit.Test
     public void testRANDOM() {
-        String path = "benchmarks/src/main/resources/P10/PGMark-RANDOM/";
+        String path = input_path + "PGMark-RANDOM/";
         testFilesInDir(path);
     }
 

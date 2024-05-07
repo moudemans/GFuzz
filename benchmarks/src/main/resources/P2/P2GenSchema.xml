@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<pgmark>
+    <types>
+        <type name="Centroid">
+            <count>
+                <proportion>
+                    0.33
+                </proportion>
+            </count>
+            <relations>
+                <relation predicate="DRT" target="StopTime" allow_loops="false">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+                <relation predicate="WALK" target="StopTime" allow_loops="false">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+            </relations>
+            <attributes>
+            </attributes>
+        </type>
+        <type name="StopTime">
+            <count>
+                <proportion>
+                    0.66
+                </proportion>
+            </count>
+        </type>
+    </types>
+    <predicates>
+        <predicate name="WALK">
+            <attributes>
+                <attribute name="walking_time" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </predicate>
+        <predicate name="DRT">
+            <attributes>
+                <attribute name="inter_time" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="waiting_time" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="DRT_time" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </predicate>
+    </predicates>
+</pgmark>

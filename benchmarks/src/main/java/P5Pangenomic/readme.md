@@ -11,7 +11,7 @@ The repositoy implements a pipeline which operates on a unified graph dataset co
 The repository uses the Neo4J graph database to perform complex analysises. 
 
 The schema which is used:
-![Sample code](../../../../../docs/media/benchmarks/P10/1.png)
+![Sample code](../../../../../../../docs/media/benchmarks/P8/1.png)
 
 The relevant functions can be found at the following locations: 
 - [translate.py line 19](https://github.com/jpjarnoux/PanGraph-DB/blob/main/script/python/translate.py)
