@@ -19,7 +19,6 @@ public class GraphGenerator {
     private static final String DEFAULT_OUTPUT_FILENAME2 = "simple.json";
 
 
-
     private static final int DEFAULT_GENERATION_TRIES = 1000;
 
     private static final Random r = new Random();
@@ -192,7 +191,6 @@ public class GraphGenerator {
     }
 
 
-
     private static void copyGraphFromPGMARK() {
         String input_extension = ".csv";
         String output_extension = ".ser";
@@ -208,7 +206,7 @@ public class GraphGenerator {
             }
         }
         GraphSchema gs = null;
-        if(schema_files.size() == 1) {
+        if (schema_files.size() == 1) {
             gs = GraphSchema.readFromFile(schema_files.get(0).getPath());
         } else {
             System.err.printf("found [%s] schemas in the input folder. Please add single schema, ending with [schema.json] \n", schema_files.size());
@@ -222,8 +220,8 @@ public class GraphGenerator {
             MyGraph g = MyGraph.readGraphFromPGMARK(f.getPath());
             g.setSchema(gs);
 
-            String output_file_name =f.getPath().replace(input_extension, output_extension);
-            String output_file_name2 =f.getPath().replace(input_extension, output_extension2);
+            String output_file_name = f.getPath().replace(input_extension, output_extension);
+            String output_file_name2 = f.getPath().replace(input_extension, output_extension2);
 
             output_file_name = output_file_name.replace(input_dir.getPath(), OUTPUT_DIR);
             output_file_name2 = output_file_name2.replace(input_dir.getPath(), OUTPUT_DIR);
@@ -234,6 +232,7 @@ public class GraphGenerator {
         }
 
     }
+
     private static void copyGraphFromGMARK() {
         String input_extension = ".txt";
         String output_extension = ".ser";
@@ -249,7 +248,7 @@ public class GraphGenerator {
             }
         }
         GraphSchema gs = null;
-        if(schema_files.size() == 1) {
+        if (schema_files.size() == 1) {
             gs = GraphSchema.readFromFile(schema_files.get(0).getPath());
         } else {
             System.err.printf("found [%s] schemas in the input folder. Please add single schema, ending with [schema.json]", schema_files.size());
@@ -263,8 +262,8 @@ public class GraphGenerator {
             MyGraph g = MyGraph.readGraphFromGMARK(f.getPath());
             g.setSchema(gs);
 
-            String output_file_name =f.getPath().replace(input_extension, output_extension);
-            String output_file_name2 =f.getPath().replace(input_extension, output_extension2);
+            String output_file_name = f.getPath().replace(input_extension, output_extension);
+            String output_file_name2 = f.getPath().replace(input_extension, output_extension2);
 
             output_file_name = output_file_name.replace(input_dir.getPath(), OUTPUT_DIR);
             output_file_name2 = output_file_name2.replace(input_dir.getPath(), OUTPUT_DIR);
@@ -284,10 +283,11 @@ public class GraphGenerator {
 
             MyGraph g = MyGraph.readGraphFromJSON(f.getPath());
 
-            String output_file_name =f.getPath().replace(input_extension, output_extension);
+            String output_file_name = f.getPath().replace(input_extension, output_extension);
             MyGraph.writeGraphToFile(output_file_name, g);
         }
     }
+
     private static void copyGraphFromSer() {
         String input_extension = ".ser";
         String output_extension = ".json";
@@ -296,7 +296,7 @@ public class GraphGenerator {
                 files) {
             MyGraph g = MyGraph.readGraphFromFile(f.getPath());
 
-            String output_file_name =f.getPath().replace(input_extension, output_extension);
+            String output_file_name = f.getPath().replace(input_extension, output_extension);
             MyGraph.writeGraphToJSON(output_file_name, g);
         }
     }
@@ -404,7 +404,7 @@ public class GraphGenerator {
 
     public static String generatePropertyValue(Property p) {
         if (p == null) {
-            byte[] array = new byte[10]; // length is bounded by 7
+            byte[] array = new byte[50]; // length is bounded by 7
             r.nextBytes(array);
             return new String(array, StandardCharsets.UTF_8);
         }
@@ -412,8 +412,17 @@ public class GraphGenerator {
         if (p.type == Type.INT) {
             int random_val = r.nextInt(Integer.MAX_VALUE) - (Integer.MIN_VALUE / 2);
             return random_val + "";
+        } else if (p.type == Type.DOUBLE) {
+            double random_val = r.nextDouble(Double.MAX_VALUE) - (Double.MIN_VALUE / 2);
+            return random_val + "";
+        } else if (p.type == Type.FLOAT) {
+            float random_val = r.nextFloat(Float.MAX_VALUE) - (Float.MIN_VALUE / 2);
+            return random_val + "";
+        } else if (p.type == Type.BOOLEAN) {
+            boolean random_val = r.nextBoolean();
+            return random_val + "";
         } else {
-            byte[] array = new byte[10]; // length is bounded by 7
+            byte[] array = new byte[50]; // length is bounded by 7
             r.nextBytes(array);
             return new String(array, StandardCharsets.UTF_8);
         }
