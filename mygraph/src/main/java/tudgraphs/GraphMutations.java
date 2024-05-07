@@ -18,6 +18,7 @@ public class GraphMutations {
 
     private static final boolean addNodeActive = true;
     private static final boolean removeNodeActive = true;
+    private static final boolean copyNodeActive = true;
 
     private static final boolean changePropertyValueActive = true;
     private static final boolean removePropertyActive = true;
@@ -36,6 +37,7 @@ public class GraphMutations {
     private static final float copySubsetBias = 1f;
     private static final float addNodeBias = 1f;
     private static final float removeNodeBias = 1f;
+    private static final float copyNodeBias = 1f;
     private static final float addEdgeBias = 1f;
     private static final float removeEdgeBias = 1f;
     private static final float changeEdgeLabelBias = 1f;
@@ -58,6 +60,7 @@ public class GraphMutations {
         CopySubset,    // Select subset of nodes and copy them
         AddNode,
         RemoveNode,
+        CopyNode,
 
         AddEdge,
         RemoveEdge,
@@ -93,6 +96,9 @@ public class GraphMutations {
             }
             case RemoveNode -> {
                 return removeNodeBias;
+            }
+            case CopyNode -> {
+                return copyNodeBias;
             }
             case AddEdge -> {
                 return addEdgeBias;
@@ -164,6 +170,8 @@ public class GraphMutations {
                 return addNodeActive;
             case RemoveNode:
                 return removeNodeActive;
+            case CopyNode:
+                return copyNodeActive;
             case AddEdge:
                 return addEdgeActive;
             case RemoveEdge:

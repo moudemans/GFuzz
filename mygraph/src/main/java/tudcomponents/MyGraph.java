@@ -984,4 +984,19 @@ public class MyGraph implements Serializable {
         }
         return res;
     }
+
+    public Node addCopyNode(Node n) {
+        Node copy_node = addNewNode();
+        copy_node.label = n.label;
+        copy_node.properties = (HashMap<String, String>) n.properties.clone();
+        int id_mask = copy_node.id;
+        for (Edge e : n.getEdges()) {
+            int new_from = e.from == n.id ? id_mask : e.from;
+            int new_to = e.to == n.id ? id_mask : e.to;
+            Edge copy_edge = new Edge(e.label,new_from, new_to );
+            copy_edge.properties = (HashMap<String, String>) e.properties.clone();
+            addEdge(copy_edge);
+        }
+        return copy_node;
+    }
 }

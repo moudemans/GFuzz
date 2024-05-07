@@ -78,6 +78,7 @@ public class GraphMutator {
             case CopySubset -> applyCopySubSetMutation(g);
             case AddNode -> addNodeMutation(g);
             case RemoveNode -> removeNodeMutation(g);
+            case CopyNode -> copyNodeMutation(g);
 
             case ChangePropertyValue -> changePropertyValue(g);
             case RemoveProperty -> removePropertyKey(g);
@@ -706,6 +707,14 @@ public class GraphMutator {
         Node n = g.getNodeOnIndex(random_node_index);
         printString(String.format("Removed Node [%s] \n", n.id), System.Logger.Level.INFO);
         g.removeNode(n.id);
+    }
+
+    private static void copyNodeMutation(MyGraph g) {
+        ArrayList<Node> nodes = g.getNodes();
+        int random_node_index = r.nextInt(nodes.size());
+        Node n = g.getNodeOnIndex(random_node_index);
+        Node copy = g.addCopyNode(n);
+        printString(String.format("Copy Node [%s] --> [%s]\n", n.id, copy.id), System.Logger.Level.INFO);
     }
 
     private static void addNodeMutation(MyGraph g) {
