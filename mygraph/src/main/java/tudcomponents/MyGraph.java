@@ -600,6 +600,26 @@ public class MyGraph implements Serializable {
         return connected_nodes;
     }
 
+    public ArrayList<Node> getConnectedNodes(Node prevItem, String valueRelationshipName, boolean isIncoming) {
+        ArrayList<Node> connected_nodes = new ArrayList<>();
+        for (Node n :
+                nodes) {
+            if (n.equals(prevItem)) {
+                Set<Edge> edges = isIncoming ? n.getIncomingEdges() : n.getOutgoingEdges();
+
+                for (Edge e :
+                        edges) {
+                    if (e.label.equals(valueRelationshipName)) {
+                        connected_nodes.add(getNode(e.to));
+                        break;
+                    }
+                }
+            }
+
+        }
+        return connected_nodes;
+    }
+
     public ArrayList<Node> getConnectedNodes(Node n, ArrayList<String> connectedStudyValueRelName) {
         ArrayList<Node> conn_nodes = new ArrayList<>();
         for (Edge e :
