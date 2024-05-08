@@ -189,7 +189,7 @@ public class GraphGuidance implements Guidance {
             if (!file.isFile()) {
                 continue;
             }
-            if (!file.getName().endsWith(".ser")) {
+            if (!file.getName().endsWith(".json")) {
                 continue;
             }
 
