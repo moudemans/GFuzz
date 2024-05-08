@@ -806,8 +806,11 @@ public class GraphMutator {
             String prop_key = properties.get(random_property_index);
 
             String old_value = e.properties.get(prop_key);
+            Property p = null;
+            if (g.getSchema().getEdgeProperties() != null && g.getSchema().getEdgeProperties().get(e.label) != null) {
+                p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            }
 
-            Property p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
 
             // No property defined in schema
             String new_value = GraphGenerator.generatePropertyValue(p);

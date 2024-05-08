@@ -1,9 +1,11 @@
 #!/bin/bash
 
+PATH1="benchmarksFuzzable/P2/"
+ProgramName="P2"
 
-#PATH1="benchmarks/src/main/java/P9Constraint/"
-PATH1="benchmarksFuzzable/P8/"
-ProgramName="P8"
+DEFAULT_PATH="benchmarksFuzzable/"
+#program_name=$1
+#PATH1="${DEFAULT_PATH}${program_name}/"
 
 
 class_name="${ProgramName}Driver"

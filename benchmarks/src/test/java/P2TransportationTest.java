@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class P2TransportationTest {
     String input_path ="src/main/resources/P2/";
     boolean run_json = true;
-    boolean run_ser = false;
+    boolean run_ser = true;
 
 
     @org.junit.Test
@@ -27,7 +27,7 @@ public class P2TransportationTest {
     @org.junit.Test
     public void testMUTATED2() {
 
-        String path = input_path + "PGMark-MUTATED2/";
+        String path = input_path + "MUTATED/";
         testFilesInDir(path);
     }
 
@@ -51,7 +51,7 @@ public class P2TransportationTest {
             if (run_json && f.getPath().contains("json")) {
                 g = MyGraph.readGraphFromJSON(f.getPath());
             } else if (run_ser && f.getPath().contains("ser")) {
-                g = MyGraph.readGraphFromFile(f.getPath());
+                g = MyGraph.readGraphFromJSON(f.getPath());
             } else {
                 continue;
             }

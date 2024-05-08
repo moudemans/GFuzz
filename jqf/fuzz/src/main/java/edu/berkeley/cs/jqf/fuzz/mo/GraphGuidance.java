@@ -79,7 +79,7 @@ public class GraphGuidance implements Guidance {
 
 
     private static String currentInputFile = "";
-    private static String nextInputFileLocation = WORKING_DIR + RUNNING_DIR + "mutated.ser";
+    private static String nextInputFileLocation = WORKING_DIR + RUNNING_DIR + "mutated.json";
 
 
     private static ArrayList<String> seed_files = new ArrayList<>();
@@ -484,7 +484,7 @@ public class GraphGuidance implements Guidance {
 
     private void saveCurrentInput(String type) {
         String dest_folder = savedInputsDirectory.getPath();
-        String new_file_name = type + "_" + numTrials + ".ser";
+        String new_file_name = type + "_" + numTrials + ".json";
 
         try {
             System.out.printf("Saving last used input [%s] to [%s] \n", nextInputFileLocation, new_file_name);
