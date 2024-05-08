@@ -15,8 +15,13 @@ public class P3Logic {
 
 
     public void run(MyGraph g) {
+//        int paper_id = g.getNodes("paper").get(0).id;
+//        int author_id = g.getNodes("author").get(0).id;
+//
+//        getPaper(g, paper_id + "");
+//        getAuthor(g, author_id + "");
         getPaper(g, "5");
-        getAuthor(g, "2");
+        getAuthor(g, "1");
 
     }
 
@@ -25,7 +30,7 @@ public class P3Logic {
             return -1;
         }
 
-        Node paper = g.getNodes(id).getFirst();
+        Node paper = g.getNode(Integer.parseInt(id));
         HashMap<String, String> paperProps = paper.properties;
         if (!paperProps.containsKey("title")) {
             return -1;
