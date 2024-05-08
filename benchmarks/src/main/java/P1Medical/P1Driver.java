@@ -16,13 +16,13 @@ public class P1Driver {
     public void test1(String fileName) throws IOException {
         P1Logic analysis = new P1Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
-        MyGraph g = MyGraph.readGraphFromFile(fileName);
+        MyGraph g = MyGraph.readGraphFromJSON(fileName);
         analysis.function_1(g, 0, "Data1", 2, false, false);
-        MyGraph g2 = MyGraph.readGraphFromFile(fileName);
+        MyGraph g2 = MyGraph.readGraphFromJSON(fileName);
         analysis.function_1(g2, 0, "Data1", 2, true, false);
-        MyGraph g3 = MyGraph.readGraphFromFile(fileName);
+        MyGraph g3 = MyGraph.readGraphFromJSON(fileName);
         analysis.function_1(g3, 0, "Data1", 2, false, true);
-        MyGraph g4 = MyGraph.readGraphFromFile(fileName);
+        MyGraph g4 = MyGraph.readGraphFromJSON(fileName);
         analysis.function_1(g4, 0, "Data1", 2, true, true);
     }
 }

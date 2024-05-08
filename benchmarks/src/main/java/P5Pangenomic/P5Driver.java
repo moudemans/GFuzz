@@ -17,7 +17,7 @@ public class P5Driver {
     public void test1(String fileName) throws IOException {
         P5Logic analysis = new P5Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
-        MyGraph g = MyGraph.readGraphFromFile(fileName);
+        MyGraph g = MyGraph.readGraphFromJSON(fileName);
 
         analysis.run(g);
     }

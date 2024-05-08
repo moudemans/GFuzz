@@ -17,7 +17,7 @@ public class P6Driver {
     public void test1(String fileName) throws IOException {
         P6Logic analysis = new P6Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
-        MyGraph g = MyGraph.readGraphFromFile(fileName);
+        MyGraph g = MyGraph.readGraphFromJSON(fileName);
 
         analysis.run(g);
     }

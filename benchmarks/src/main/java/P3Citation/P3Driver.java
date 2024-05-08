@@ -17,7 +17,7 @@ public class P3Driver {
     public void test1(String fileName) throws IOException {
         P3Logic analysis = new P3Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
-        MyGraph g = MyGraph.readGraphFromFile(fileName);
+        MyGraph g = MyGraph.readGraphFromJSON(fileName);
 
         analysis.run(g);
     }
