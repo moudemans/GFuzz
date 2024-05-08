@@ -294,7 +294,8 @@ public class GraphGuidance implements Guidance {
 
         MyGraph currentGraph;
         try {
-            currentGraph = MyGraph.readGraphFromFile(currentInputFile);
+//            currentGraph = MyGraph.readGraphFromFile(currentInputFile);
+            currentGraph = MyGraph.readGraphFromJSON(currentInputFile);
         } catch (Exception e) {
             System.err.printf("An error occured while loading graph from [%s] \n", currentInputFile);
             important_files.remove(currentInputFile);
@@ -345,7 +346,8 @@ public class GraphGuidance implements Guidance {
             failedMutation++;
         }
 
-        MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
+//        MyGraph.writeGraphToFile(nextInputFileLocation, currentGraph);
+        MyGraph.writeGraphToJSON(nextInputFileLocation, currentGraph);
 
         if (!mutation_counts.containsKey(mutation_applied)) {
             mutation_counts.put(mutation_applied, 0);
