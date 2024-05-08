@@ -23,6 +23,7 @@ public class GraphMutations {
     private static final boolean changePropertyValueActive = true;
     private static final boolean removePropertyActive = true;
     private static final boolean addPropertyActive = false;
+    private static final boolean changePropertyTypeActive = false;
 
     private static final boolean breakSchemaActive = true;
     private static final boolean breakCardinalityActive = false;
@@ -44,6 +45,7 @@ public class GraphMutations {
     private static final float changePropertyValueBias = 1f;
     private static final float addPropertyBias = 1f;
     private static final float removePropertyBias = 1f;
+    private static final float changePropertyTypeBias = 1f;
     private static final float insertCycleBias = 1f;
     private static final float breakCardinalityBias = 1f;
     private static final float breakUniqueBias = 1f;
@@ -69,6 +71,7 @@ public class GraphMutations {
         ChangePropertyValue,
         RemoveProperty,
         AddProperty,
+        ChangePropertyType,
         BreakSchema,
         BreakCardinality,
         BreakUnique,
@@ -117,6 +120,9 @@ public class GraphMutations {
             }
             case AddProperty -> {
                 return addPropertyBias;
+            }
+            case ChangePropertyType -> {
+                return changePropertyTypeBias;
             }
             case BreakCardinality -> {
                 return breakCardinalityBias;
@@ -184,6 +190,8 @@ public class GraphMutations {
                 return addPropertyActive;
             case RemoveProperty:
                 return removePropertyActive;
+            case ChangePropertyType:
+                return changePropertyTypeActive;
             case BreakCardinality:
                 return breakCardinalityActive;
             case BreakUnique:
