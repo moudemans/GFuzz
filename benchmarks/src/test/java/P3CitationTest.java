@@ -7,7 +7,7 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
-public class P3Citation {
+public class P3CitationTest {
 
     String input_path ="src/main/resources/P3/";
     boolean run_json = true;

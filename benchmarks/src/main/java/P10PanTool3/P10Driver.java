@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 @RunWith(JQF.class)
-public class P9Driver {
+public class P10Driver {
 
     @Fuzz
     public void test1(String fileName) throws IOException {
