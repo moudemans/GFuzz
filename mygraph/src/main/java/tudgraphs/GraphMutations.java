@@ -9,28 +9,28 @@ import java.util.Random;
 public class GraphMutations {
 
     // Indicates whether a mutation is active or not
-    private static final boolean noMutationActive = false;  // Boolean is used to generate mutation list that can be applied. NoMutation is an indication that no Graphs.Mutation can be performed and does not match a specific mutation approach
-    private static final boolean copySubsetActive = false;
+    public static final boolean noMutationActive = false;  // Boolean is used to generate mutation list that can be applied. NoMutation is an indication that no Graphs.Mutation can be performed and does not match a specific mutation approach
+    public static final boolean copySubsetActive = false;
 
-    private static final boolean addEdgeActive = true;
-    private static final boolean removeEdgeActive = true;
-    private static final boolean changeEdgeLabelActive = true;
+    public static  boolean addEdgeActive = true;
+    public static  boolean removeEdgeActive = true;
+    public static  boolean changeEdgeLabelActive = true;
 
-    private static final boolean addNodeActive = true;
-    private static final boolean removeNodeActive = true;
-    private static final boolean copyNodeActive = true;
+    public static  boolean addNodeActive = true;
+    public static  boolean removeNodeActive = true;
+    public static  boolean copyNodeActive = true;
 
-    private static final boolean changePropertyValueActive = true;
-    private static final boolean removePropertyActive = true;
-    private static final boolean addPropertyActive = false;
-    private static final boolean changePropertyTypeActive = false;
+    public static  boolean changePropertyValueActive = true;
+    public static  boolean removePropertyActive = true;
+    public static  boolean addPropertyActive = false;
+    public static  boolean changePropertyTypeActive = false;
 
-    private static final boolean breakSchemaActive = true;
-    private static final boolean breakCardinalityActive = false;
-    private static final boolean breakUniqueActive = false;
-    private static final boolean breakNullActive = false;
-    private static final boolean bitMutationActive = false;
-    private static final boolean byteMutationActive = false;
+    public static  boolean breakSchemaActive = true;
+    public static  boolean breakCardinalityActive = false;
+    public static  boolean breakUniqueActive = false;
+    public static  boolean breakNullActive = false;
+    public static  boolean bitMutationActive = false;
+    public static  boolean byteMutationActive = false;
     private static ArrayList<MutationMethod> activeMutations;
 
     // Indicates a bias towards the mutation method

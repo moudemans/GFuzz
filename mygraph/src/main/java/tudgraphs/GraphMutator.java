@@ -117,11 +117,7 @@ public class GraphMutator {
 
         if (nullprops.isEmpty()) {
             printString(String.format("Could not perform a break null property mutation. There are no unique properties"), System.Logger.Level.WARNING);
-            return "";
-        }
-
-        if (nullprops.isEmpty()) {
-            printString(String.format("Could not perform a break unique property mutation. There are no unique properties"), System.Logger.Level.WARNING);
+            GraphMutations.breakNullActive = false;
             return "";
         }
 
@@ -180,6 +176,7 @@ public class GraphMutator {
 
         if (uniqueprops.isEmpty()) {
             printString(String.format("Could not perform a break unique property mutation. There are no unique properties"), System.Logger.Level.WARNING);
+            GraphMutations.breakUniqueActive = false;
             return "";
         }
 
@@ -242,6 +239,7 @@ public class GraphMutator {
 
         if (relationships_with_cardinality.isEmpty()) {
             printString(String.format("There are no relationships with cardinality which can be broken, no cardinality mutation performed"), System.Logger.Level.WARNING);
+            GraphMutations.breakCardinalityActive = false;
             return "";
         }
 
@@ -441,6 +439,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node which can be removed", System.Logger.Level.WARNING);
+            GraphMutations.removePropertyActive = false;
             return;
         }
 
@@ -491,7 +490,7 @@ public class GraphMutator {
     private static Edge getRandomEdge(Node random_node) {
         ArrayList<Edge> edges = new ArrayList<>(random_node.getEdges());
 
-        if (edges == null || edges.isEmpty()) {
+        if (edges.isEmpty()) {
             return null;
         }
 
@@ -504,7 +503,7 @@ public class GraphMutator {
         ArrayList<Node> nodes = g.getNodes();
         ArrayList<Node> filtered_nodes = new ArrayList<>(nodes.stream().filter(node -> !node.getEdges().isEmpty()).toList());
 
-        if (filtered_nodes == null || filtered_nodes.isEmpty()) {
+        if (filtered_nodes.isEmpty()) {
             printString("There are no nodes with edges that can be removed", System.Logger.Level.WARNING);
             return null;
         }
@@ -643,6 +642,7 @@ public class GraphMutator {
 
         if (rels.isEmpty()) {
             printString(String.format("Add edge mutation failed, no relationships defined in schema"), System.Logger.Level.WARNING);
+            GraphMutations.addEdgeActive = false;
             return;
         }
 
@@ -693,6 +693,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node/edge which a property can be changed", System.Logger.Level.WARNING);
+            GraphMutations.changePropertyTypeActive = false;
             return;
         }
 
@@ -774,6 +775,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node which a property can be changed", System.Logger.Level.WARNING);
+            GraphMutations.changePropertyValueActive = false;
             return;
         }
 
@@ -852,6 +854,11 @@ public class GraphMutator {
 
     private static void removeNodeMutation(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
+
+        if (nodes == null || nodes.isEmpty()) {
+            return;
+        }
+
         int random_node_index = r.nextInt(nodes.size());
         Node n = g.getNodeOnIndex(random_node_index);
         printString(String.format("Removed Node [%s] \n", n.id), System.Logger.Level.INFO);
@@ -860,6 +867,11 @@ public class GraphMutator {
 
     private static void copyNodeMutation(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
+
+        if (nodes == null || nodes.isEmpty()) {
+            return;
+        }
+
         int random_node_index = r.nextInt(nodes.size());
         Node n = g.getNodeOnIndex(random_node_index);
         Node copy = g.addCopyNode(n);
