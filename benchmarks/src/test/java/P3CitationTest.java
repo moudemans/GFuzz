@@ -18,6 +18,13 @@ public class P3Citation {
         String path = input_path + "MANUAL/";
         testFilesInDir(path);
     }
+    @org.junit.Test
+    public void testSeed() {
+        String path = input_path + "PGMark-FIXED/";
+        testFilesInDir(path);
+    }
+
+
     public void testFilesInDir(String path) {
         P3Logic analysis = new P3Logic();
 
