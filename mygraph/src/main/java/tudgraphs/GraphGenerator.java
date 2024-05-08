@@ -205,6 +205,18 @@ public class GraphGenerator {
                 schema_files.add(file);
             }
         }
+        if (schema_files.size() == 0) {
+            File input_dir_up = new File("../"+INPUT_DIR_PATH);
+            File[] listOfFiles_up = input_dir_up.listFiles();
+            assert listOfFiles_up != null;
+            for (File file : listOfFiles_up) {
+                if (file.getName().endsWith("Schema.json") || file.getName().endsWith("schema.json")) {
+                    schema_files.add(file);
+                }
+            }
+        }
+
+
         GraphSchema gs = null;
         if (schema_files.size() == 1) {
             gs = GraphSchema.readFromFile(schema_files.get(0).getPath());
