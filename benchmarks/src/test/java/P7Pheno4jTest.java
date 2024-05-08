@@ -12,7 +12,7 @@ public class P7Pheno4jTest {
 
     String input_path ="src/main/resources/P7/";
     boolean run_json = true;
-    boolean run_ser = true;
+    boolean run_ser = false;
 
     @org.junit.Test
     public void testManual() {

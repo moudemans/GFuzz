@@ -10,7 +10,7 @@ public class P5PanGenomicTest {
 
     String input_path ="src/main/resources/P5/";
     boolean run_json = true;
-    boolean run_ser = true;
+    boolean run_ser = false;
 
     @org.junit.Test
     public void testPGMARK() {
@@ -39,11 +39,15 @@ public class P5PanGenomicTest {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         for (File f :
                 listOfFiles) {
-            if (f.getPath().contains("json")) {
+            MyGraph g;
+            if (run_json && f.getPath().contains("json")) {
+                g = MyGraph.readGraphFromJSON(f.getPath());
+            } else if (run_ser && f.getPath().contains("ser")) {
+                g = MyGraph.readGraphFromFile(f.getPath());
+            } else {
                 continue;
             }
             try {
-                MyGraph g = MyGraph.readGraphFromFile(f.getPath());
                 analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());

@@ -11,7 +11,7 @@ public class P8PanToolTest {
 
     String input_path ="src/main/resources/P8/";
     boolean run_json = true;
-    boolean run_ser = true;
+    boolean run_ser = false;
 
     @org.junit.Test
     public void testManual() {

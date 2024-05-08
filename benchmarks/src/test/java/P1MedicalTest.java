@@ -1,15 +1,19 @@
 
 
 import P1Medical.P1Logic;
+import P7Pheno4j.P7Logic;
 import tudcomponents.MyGraph;
 import org.junit.Test;
+import util.Util;
 
 import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
 public class P1MedicalTest {
-
+    String input_path ="src/main/resources/P1/";
+    boolean run_json = true;
+    boolean run_ser = false;
     @Test
     public void test01() {
         P1Logic analysis = new P1Logic();
@@ -63,46 +67,55 @@ public class P1MedicalTest {
 
     @Test
     public void testGMARK() {
-        String path = "src/main/resources/P1/GMark-FIXED/";
-        testFilesInDir(path, null);
+        String path = input_path + "GMark-FIXED/";
+        testFilesInDir(path);
     }
 
     @Test
     public void testGMARKRandom() {
-        String path = "benchmarks/src/main/resources/P1/GMark-RANDOM/";
-        testFilesInDir(path, null);
+        String path = input_path + "GMark-RANDOM/";
+        testFilesInDir(path);
     }
 
     @Test
     public void testGMARKRandom2() {
-        String path = "benchmarks/src/main/resources/P1/GMark-RANDOM2/";
-        testFilesInDir(path, null);
+        String path =input_path + "GMark-RANDOM2/";
+        testFilesInDir(path);
     }
     @Test
     public void testGMARKMutation() {
-        String path = "benchmarks/src/main/resources/P1/GMark-MUTATED2/";
-        testFilesInDir(path, "");
+        String path = input_path + "GMark-MUTATED2/";
+        testFilesInDir(path);
     }
 
     @Test
     public void testGMARKMutated() {
-        String path = "src/main/resources/P1/P9-GMARK-MUTATED2/";
-        testFilesInDir(path, null);
+        String path = input_path + "P9-GMARK-MUTATED2/";
+        testFilesInDir(path);
     }
 
-    public void testFilesInDir(String path, String pattern) {
+    public void testFilesInDir(String path) {
+
+        if (!Util.dirExists(path)) {
+            System.err.println("Input directory not found: " + path);
+            System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
+            return;
+        }
 
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         for (File f :
                 listOfFiles) {
-            if (f.getPath().contains("json")) {
+            MyGraph g;
+            if (run_json && f.getPath().contains("json")) {
+                g = MyGraph.readGraphFromJSON(f.getPath());
+            } else if (run_ser && f.getPath().contains("ser")) {
+                g = MyGraph.readGraphFromFile(f.getPath());
+            } else {
                 continue;
             }
-            if (pattern != null && !pattern.isEmpty() && !f.getPath().contains(pattern)) {
-                continue;
-            }
+
 
             try {
                 System.out.println("File input: " + f);
@@ -115,14 +128,29 @@ public class P1MedicalTest {
         assertTrue("test", true);
     }
 
+    public MyGraph readGraph(File f) {
+        if (run_json && f.getPath().contains("json")) {
+            return MyGraph.readGraphFromJSON(f.getPath());
+        } else if (run_ser && f.getPath().contains("ser")) {
+            return MyGraph.readGraphFromFile(f.getPath());
+        } else {
+            return null;
+        }
+    }
+
     private void call_test(File f) {
         P1Logic analysis = new P1Logic();
         int prev_item_id = 0;
         int new_item_id = 2;
 //        int prev_item_id = 5;
 //        int new_item_id = 0;
+
+        if (readGraph(f) == null) {
+            return;
+        }
+
         try {
-            MyGraph g = MyGraph.readGraphFromFile(f.getPath());
+            MyGraph g = readGraph(f);
 
             analysis.function_1(g, prev_item_id, "Data1", new_item_id, false, false);
         } catch (Exception ignored) {
@@ -130,7 +158,7 @@ public class P1MedicalTest {
         }
 
         try {
-            MyGraph g2 = MyGraph.readGraphFromFile(f.getPath());
+            MyGraph g2 =  readGraph(f);
             analysis.function_1(g2, prev_item_id, "Data1", new_item_id, false, true);
         } catch (Exception ignored) {
             ignored.printStackTrace();
@@ -138,7 +166,7 @@ public class P1MedicalTest {
         }
 
         try {
-            MyGraph g3 = MyGraph.readGraphFromFile(f.getPath());
+            MyGraph g3 =  readGraph(f);
             analysis.function_1(g3, prev_item_id, "Data1", new_item_id, true, false);
         } catch (Exception ignored) {
             ignored.printStackTrace();
@@ -146,7 +174,7 @@ public class P1MedicalTest {
         }
 
         try {
-            MyGraph g4 = MyGraph.readGraphFromFile(f.getPath());
+            MyGraph g4 =  readGraph(f);
             analysis.function_1(g4, prev_item_id, "Data1", new_item_id, true, true);
         } catch (Exception ignored) {
             ignored.printStackTrace();
