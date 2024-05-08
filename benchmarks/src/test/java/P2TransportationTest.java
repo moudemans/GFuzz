@@ -43,6 +43,7 @@ public class P2TransportationTest {
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        int counter = 0;
         for (File f :
                 listOfFiles) {
             MyGraph g;
@@ -55,12 +56,14 @@ public class P2TransportationTest {
                 continue;
             }
             try {
+                counter++;
                 analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());
                 e.printStackTrace();
             }
         }
+        System.out.println("Number of files processed: " + counter);
         assertTrue("test", true);
     }
 

@@ -105,6 +105,7 @@ public class P1MedicalTest {
 
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
+        int counter = 0;
         for (File f :
                 listOfFiles) {
             MyGraph g;
@@ -124,7 +125,9 @@ public class P1MedicalTest {
                 System.err.println("Caught exception: " + e.getMessage());
                 e.printStackTrace();
             }
+            counter++;
         }
+        System.out.println("Executed " + counter + " tests" );
         assertTrue("test", true);
     }
 
