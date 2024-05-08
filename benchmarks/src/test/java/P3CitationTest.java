@@ -24,6 +24,12 @@ public class P3CitationTest {
         testFilesInDir(path);
     }
 
+    @org.junit.Test
+    public void testMutated() {
+        String path = input_path + "PGMark-FUZZED/";
+        testFilesInDir(path);
+    }
+
 
     public void testFilesInDir(String path) {
         P3Logic analysis = new P3Logic();
