@@ -12,7 +12,7 @@ public class P7Logic {
     private HashMap<String, String[]> phasingInfoMap;
 
     public void run(MyGraph g) {
-
+        func1(g);
     }
 
     private static String variant_id;
@@ -147,9 +147,10 @@ public class P7Logic {
         most_severe_consequence = n.properties.get("most_severe_consequence");
         strand = Integer.valueOf(n.properties.get("strand"));
 
-        ArrayList<Node> inputs = g.getConnectedNodes(n, "input");
+        ArrayList<Node> inputs = g.getConnectedNodes(n, "inputs");
 
-        if ((inputs != null)) {
+        if (!inputs.isEmpty()) {
+
             Node input = inputs.get(0);
             HashMap<String, String> fields = input.properties;
             InbreedingCoeff = Double.valueOf(fields.get("inbreedingCoeff"));
@@ -169,7 +170,8 @@ public class P7Logic {
 
         ArrayList<Node> exomes = g.getConnectedNodes(n, "exomes");
 
-        if ((exomes != null)) {
+        if (!exomes.isEmpty()) {
+
             Node gnomad_exome = exomes.get(0);
             HashMap<String, String> fields = gnomad_exome.properties;
 
@@ -220,7 +222,7 @@ public class P7Logic {
 
         ArrayList<Node> genomes = g.getConnectedNodes(n, "genomes");
 
-        if ((genomes != null)) {
+        if (!genomes.isEmpty()) {
             Node gnomad_genome = genomes.get(0);
             HashMap<String, String> fields = gnomad_genome.properties;
 
@@ -268,9 +270,10 @@ public class P7Logic {
         }
 
 
-        ArrayList<Node> kaviars = g.getConnectedNodes(n, "kaviar");
+        ArrayList<Node> kaviars = g.getConnectedNodes(n, "kaviars");
 
-        if ((kaviars != null)) {
+        if (!kaviars.isEmpty()) {
+
             Node kaviar = kaviars.get(0);
             HashMap<String, String> fields = kaviar.properties;
 

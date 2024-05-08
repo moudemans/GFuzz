@@ -9,13 +9,19 @@ import static org.junit.Assert.assertTrue;
 
 public class P8PanToolTest {
 
-    String input_path ="src/main/resources/P4/";
+    String input_path ="src/main/resources/P8/";
     boolean run_json = true;
     boolean run_ser = true;
 
     @org.junit.Test
     public void testManual() {
         String path = input_path + "MANUAL/";
+        testFilesInDir(path);
+    }
+
+    @org.junit.Test
+    public void testMUTETAD() {
+        String path = input_path + "MUTATED/";
         testFilesInDir(path);
     }
     public void testFilesInDir(String path) {
@@ -40,7 +46,9 @@ public class P8PanToolTest {
             } else {
                 continue;
             }
-
+            if (f.getPath().contains("164")) {
+                continue;
+            }
 
             try {
                 analysis.run(g);

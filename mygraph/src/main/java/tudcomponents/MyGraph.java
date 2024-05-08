@@ -645,8 +645,12 @@ public class MyGraph implements Serializable {
     public void addEdge(Edge e) {
         Node n = getNode(e.from);
         Node n2 = getNode(e.to);
-        n.addEdge(e);
-        n2.addEdge(e);
+        if(n != null) {
+            n.addEdge(e);
+        }
+        if (n2 != null) {
+            n2.addEdge(e);
+        }
     }
 
     public void addNewNodes(int nodeCount) {

@@ -298,7 +298,7 @@ public class GraphMutator {
 
 
         if (from_nodes.size() < 2) {
-            System.err.printf("Not enough from nodes found to break many2One cardinality for relationship [%s]", rel);
+            System.err.printf("Not enough from nodes found to break one2Many cardinality for relationship [%s]", rel);
             return;
         }
 
@@ -576,6 +576,7 @@ public class GraphMutator {
 
         if (rels.isEmpty()) {
             printString(String.format("Add edge mutation failed, no relationships defined in schema"), System.Logger.Level.WARNING);
+            return;
         }
 
         // Select random relationship to generate

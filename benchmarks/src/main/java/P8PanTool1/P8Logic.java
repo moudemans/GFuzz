@@ -124,14 +124,14 @@ public class P8Logic {
                                                HashMap<String, ArrayList<String>> sequencesPerChromosomeMap) {
 
         if (phasingInfoMap == null || sequencesPerChromosomeMap.isEmpty()) { // no phasing
-            System.out.println("\r No phasing information found (for the sequence selection)");
+//            System.out.println("\r No phasing information found (for the sequence selection)");
             return;
         }
 
         int seqCounter = 0;
         for (String sequenceId : mrnaNodesPerSequence.keySet()) {
             seqCounter++;
-            System.out.print("\r Checking chromosome presence: " + seqCounter + "/" + mrnaNodesPerSequence.size() + "  ");
+//            System.out.print("\r Checking chromosome presence: " + seqCounter + "/" + mrnaNodesPerSequence.size() + "  ");
             String[] phasingInfo = phasingInfoMap.get(sequenceId); // example [1, D, 1D, 1_D]
             if (phasingInfo == null) {
                 continue;
@@ -195,7 +195,7 @@ public class P8Logic {
                 blockNr++;
             }
         }
-        System.out.println("");
+//        System.out.println("");
     }
 
     public int preparePhasedGenomeInformation(MyGraph g) {
@@ -241,14 +241,17 @@ public class P8Logic {
             }
             phasingInfoMap.put(sequenceId, phasing_info); // [1, B, 1B, 1_B]
         }
-        System.out.println(""); // to print nicely on next line. TODO remove with progress bar
+//        System.out.println(""); // to print nicely on next line. TODO remove with progress bar
 
         if (genomesWithPhasing.size() == 1) {
-            System.out.println("One genome with chromosome/phasing information");
+            phasingInfoMap.isEmpty();
+//            System.out.println("One genome with chromosome/phasing information");
         } else if (genomesWithPhasing.size() > 1) {
-            System.out.println(genomesWithPhasing.size() + " genomes with chromosome/phasing information");
+            phasingInfoMap.isEmpty();
+            //            System.out.println(genomesWithPhasing.size() + " genomes with chromosome/phasing information");
         } else {
-            System.out.println("No phased genomes are present");
+            phasingInfoMap.isEmpty();
+            //            System.out.println("No phased genomes are present");
         }
         return genomesWithPhasing.size();
     }

@@ -196,6 +196,8 @@ public class GraphGenerator {
         String output_extension = ".ser";
         String output_extension2 = ".json";
 
+        System.out.println("Current working directory: " + System.getProperty("user.dir"));
+        System.out.println("Input dir path: " + INPUT_DIR_PATH );
         File input_dir = new File(INPUT_DIR_PATH);
         File[] listOfFiles = input_dir.listFiles();
         ArrayList<File> schema_files = new ArrayList<>();
@@ -205,16 +207,16 @@ public class GraphGenerator {
                 schema_files.add(file);
             }
         }
-        if (schema_files.size() == 0) {
-            File input_dir_up = new File("../"+INPUT_DIR_PATH);
-            File[] listOfFiles_up = input_dir_up.listFiles();
-            assert listOfFiles_up != null;
-            for (File file : listOfFiles_up) {
-                if (file.getName().endsWith("Schema.json") || file.getName().endsWith("schema.json")) {
-                    schema_files.add(file);
-                }
-            }
-        }
+//        if (schema_files.size() == 0) {
+//            File input_dir_up = new File("../"+INPUT_DIR_PATH);
+//            File[] listOfFiles_up = input_dir_up.listFiles();
+//            assert listOfFiles_up != null;
+//            for (File file : listOfFiles_up) {
+//                if (file.getName().endsWith("Schema.json") || file.getName().endsWith("schema.json")) {
+//                    schema_files.add(file);
+//                }
+//            }
+//        }
 
 
         GraphSchema gs = null;

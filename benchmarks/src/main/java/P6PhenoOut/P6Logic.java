@@ -14,9 +14,9 @@ public class P6Logic {
         getHeaderForCsvFile(g, g.getNodes().getFirst());
     }
 
-    static String id_label = "";
-    static String start_label = "";
-    static String end_label = "";
+    static String id_label = "id_label";
+    static String start_label = "start_label";
+    static String end_label = "end_label";
 
     public String[] getHeaderForCsvFile(MyGraph g, Node n) {
         List<String> fields = new ArrayList<>();

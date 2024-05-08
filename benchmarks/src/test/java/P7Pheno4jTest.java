@@ -1,4 +1,5 @@
 
+import P6PhenoOut.P6Logic;
 import P7Pheno4j.P7Logic;
 import tudcomponents.MyGraph;
 import util.Util;
@@ -9,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class P7Pheno4jTest {
 
-    String input_path ="src/main/resources/P5/";
+    String input_path ="src/main/resources/P7/";
     boolean run_json = true;
     boolean run_ser = true;
 
@@ -18,6 +19,19 @@ public class P7Pheno4jTest {
         String path = input_path + "MANUAL/";
         testFilesInDir(path);
     }
+    @org.junit.Test
+    public void testSeed() {
+        String path = input_path + "PGMark-FIXED/";
+        testFilesInDir(path);
+    }
+
+    @org.junit.Test
+    public void testMutated() {
+        String path = input_path + "PGMark-FUZZED/";
+        testFilesInDir(path);
+    }
+
+
     public void testFilesInDir(String path) {
         P7Logic analysis = new P7Logic();
 

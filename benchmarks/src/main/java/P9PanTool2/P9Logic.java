@@ -421,7 +421,7 @@ public class P9Logic {
         HashMap<Integer, ArrayList<Node>> temp_genes_per_genome = new HashMap<>();
         HashMap<Integer, Node[]> genes_per_genome = new HashMap<>();
 
-        String NODE_ID = "8, 12, 23";
+        String NODE_ID = "2,2";
 
         String[] gene_array;
         if (NODE_ID.contains(",")) { // string file provided on command line
