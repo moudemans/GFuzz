@@ -21,7 +21,6 @@ public class GraphMutator {
     static private Random r = new Random(SEED_FOR_RANDOM);
 
     private static HashMap<Relationship, Boolean> cardinalityMutationsPerformed = new HashMap<>();
-    private static HashSet<Property> propertyUniqueMutationPerformed = new HashSet<>();
     private static HashSet<Property> propertyNullMutationPerformed = new HashSet<>();
 
 
