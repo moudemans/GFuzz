@@ -639,7 +639,7 @@ public class GraphGuidance implements Guidance {
 
 
         try {
-            FileWriter myWriter = new FileWriter(SAVED_INPUTS_DIR + "fuzz-log.txt");
+            FileWriter myWriter = new FileWriter(savedInputsDirectory.getPath() + "fuzz-log.txt");
             myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n");
             for (String s : output) {
                 myWriter.write(s);

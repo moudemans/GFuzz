@@ -15,7 +15,7 @@ public class P4Logic {
 
 
     public void run(MyGraph g) {
-        getCitationNetwork(g, "test");
+        getCitationNetwork(g, "5");
 
     }
 
@@ -46,7 +46,8 @@ public class P4Logic {
         // for each paper, how many times has it been cited in this subgraph?
         Map<String, Integer> citationMap = new HashMap<>();
         // for the starting vertex, let's assign a default value being one
-        Node paper = g.getNodes("paper").get(0);
+//        Node paper = g.getNodes("paper").get(0);
+        Node paper = g.getNode(Integer.parseInt(vid));
         citationMap.put(vid, 1);
 
         // step 0: get title of current vertex
@@ -70,7 +71,7 @@ public class P4Logic {
         for (Node oneHopVertex : oneHopVertices) {
             String id = (String) (oneHopVertex.id + "");
 //            List<Object> neighbors = oneHopVertex.getOutgoingEdges()..out("cites").id().toList();
-            List<Node> neighbors = oneHopVertex.getOutgoingEdges().stream().filter(edge -> edge.label.equals("cites")).map(edge -> g.getNode(edge.to)).toList();
+            List<Integer> neighbors = oneHopVertex.getOutgoingEdges().stream().filter(edge -> edge.label.equals("cites")).map(edge -> edge.to).toList();
             for (Object neighbor : neighbors) {
                 twoHopVerticesAndEdges.computeIfAbsent(neighbor.toString(), k -> new ArrayList<>()).add(id);
             }

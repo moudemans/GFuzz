@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class P4CitationTest {
 
-    String input_path ="src/main/resources/P3/";
+    String input_path ="src/main/resources/P4/";
     boolean run_json = true;
     boolean run_ser = false;
 
