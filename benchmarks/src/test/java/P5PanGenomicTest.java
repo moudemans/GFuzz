@@ -19,7 +19,7 @@ public class P5PanGenomicTest {
     }
     @org.junit.Test
     public void testMUTATED() {
-        String path = input_path + "PGMark-GFUZZ/";
+        String path = input_path + "GFUZZ/";
         testFilesInDir(path);
     }
 

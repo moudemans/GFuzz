@@ -186,7 +186,7 @@ public class GraphGenerator {
                 break;
         }
 
-        MyGraph.writeGraphToFile(OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME, g);
+//        MyGraph.writeGraphToFile(OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME, g);
         MyGraph.writeGraphToJSON(OUTPUT_DIR + DEFAULT_OUTPUT_FILENAME2, g);
     }
 
@@ -240,7 +240,7 @@ public class GraphGenerator {
             output_file_name = output_file_name.replace(input_dir.getPath(), OUTPUT_DIR);
             output_file_name2 = output_file_name2.replace(input_dir.getPath(), OUTPUT_DIR);
 
-            MyGraph.writeGraphToFile(output_file_name, g);
+//            MyGraph.writeGraphToFile(output_file_name, g);
             MyGraph.writeGraphToJSON(output_file_name2, g);
             System.out.println();
         }
@@ -282,7 +282,7 @@ public class GraphGenerator {
             output_file_name = output_file_name.replace(input_dir.getPath(), OUTPUT_DIR);
             output_file_name2 = output_file_name2.replace(input_dir.getPath(), OUTPUT_DIR);
 
-            MyGraph.writeGraphToFile(output_file_name, g);
+//            MyGraph.writeGraphToFile(output_file_name, g);
             MyGraph.writeGraphToJSON(output_file_name2, g);
         }
 

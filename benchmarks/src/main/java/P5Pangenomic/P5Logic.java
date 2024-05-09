@@ -12,6 +12,7 @@ import java.util.HashSet;
 
 public class P5Logic {
     MyGraph my_g;
+    HashSet<String> fam_visit = new HashSet<>();
 
     public void run(MyGraph g) {
         write_families(g);
@@ -82,7 +83,6 @@ public class P5Logic {
 
     public String get_neighbor(MyGraph g, Node family) {
         ArrayList<HashMap<String, String>> neighbors = new ArrayList<>();
-        HashSet<String> fam_visit = new HashSet<>();
 
         for (Edge e :
                 family.getEdges()) {

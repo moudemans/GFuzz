@@ -24,6 +24,35 @@ public class GraphMutator {
     private static HashSet<Property> propertyNullMutationPerformed = new HashSet<>();
 
 
+    private static String applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm, Set<String> breaking_mutations) {
+        String mutation_message = "";
+        switch (mm) {
+            case AddEdge -> addEdgeMutation(g);
+            case RemoveEdge -> removeEdgeMutation(g);
+            case ChangeLabelEdge -> changeEdgeMutation(g);
+
+            case CopySubset -> applyCopySubSetMutation(g);
+            case AddNode -> addNodeMutation(g);
+            case RemoveNode -> removeNodeMutation(g);
+            case CopyNode -> copyNodeMutation(g);
+
+            case ChangePropertyKey -> changePropertyKey(g);
+            case ChangePropertyValue -> changePropertyValue(g);
+            case RemoveProperty -> removePropertyKey(g);
+            case AddProperty -> addPropertyKey(g);
+            case ChangePropertyType -> changePropertyType(g);
+
+            case BreakSchema -> mutation_message = breakSchemaMutation(g, breaking_mutations);
+
+            case BreakCardinality -> mutation_message = breakCardinalityMutation(g, breaking_mutations);
+            case BreakUnique -> mutation_message = breakUniqueMutation(g, breaking_mutations);
+            case BreakNull -> mutation_message = breakNullMutation(g, breaking_mutations);
+            default ->
+                    printString(String.format("Mutation method not implemented: " + mm), System.Logger.Level.WARNING);
+        }
+        return mutation_message;
+    }
+
     /**
      * Mutate a serialized file which is stored in the given path+input file. The file is written to the output path + file
      */
@@ -67,47 +96,31 @@ public class GraphMutator {
     }
 
 
-    private static String applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm, Set<String> breaking_mutations) {
-        String mutation_message = "";
-        switch (mm) {
-            case AddEdge -> addEdgeMutation(g);
-            case RemoveEdge -> removeEdgeMutation(g);
-            case ChangeLabelEdge -> changeEdgeMutation(g);
-
-            case CopySubset -> applyCopySubSetMutation(g);
-            case AddNode -> addNodeMutation(g);
-            case RemoveNode -> removeNodeMutation(g);
-            case CopyNode -> copyNodeMutation(g);
-
-            case ChangePropertyValue -> changePropertyValue(g);
-            case RemoveProperty -> removePropertyKey(g);
-            case AddProperty -> addPropertyKey(g);
-            case ChangePropertyType -> changePropertyType(g);
-
-            case BreakSchema -> mutation_message = breakSchemaMutation(g, breaking_mutations);
-
-            case BreakCardinality -> mutation_message = breakCardinalityMutation(g, breaking_mutations);
-            case BreakUnique -> mutation_message = breakUniqueMutation(g, breaking_mutations);
-            case BreakNull -> mutation_message = breakNullMutation(g, breaking_mutations);
-            default ->
-                    printString(String.format("Mutation method not implemented: " + mm), System.Logger.Level.WARNING);
-        }
-        return mutation_message;
-    }
-
 
     private static String breakSchemaMutation(MyGraph g, Set<String> breaking_mutations) {
         // There are 2 types of constraint that can be broken, relationship or property
-        int random_schema_break_mutation = r.nextInt(3);
-        GraphMutations.MutationMethod[] breaking_mutations_methods = new GraphMutations.MutationMethod[]{
-                GraphMutations.MutationMethod.BreakUnique, GraphMutations.MutationMethod.BreakCardinality, GraphMutations.MutationMethod.BreakNull
-        };
+        ArrayList<GraphMutations.MutationMethod> breaking_mutations_methods = new ArrayList<>();
+        breaking_mutations_methods.add(GraphMutations.MutationMethod.BreakCardinality);
+        breaking_mutations_methods.add(GraphMutations.MutationMethod.BreakNull);
+        breaking_mutations_methods.add(GraphMutations.MutationMethod.BreakUnique);
+
+        ArrayList<GraphMutations.MutationMethod> active_mutations = GraphMutations.getActiveMutationMethodList();
+        List<GraphMutations.MutationMethod> active_breaking_mutations = breaking_mutations_methods.stream().filter(mutationMethod -> active_mutations.contains(mutationMethod)).toList();
+        if (active_breaking_mutations.isEmpty()) {
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakSchema, false);
+            return "";
+        }
+        int random_schema_break_mutation = r.nextInt(active_breaking_mutations.size());
+
+
+
+
         if (breaking_mutations == null) {
             breaking_mutations = new HashSet<>();
         }
-        String constraint = applyMutationMethod(g, breaking_mutations_methods[random_schema_break_mutation], breaking_mutations);
+        String constraint = applyMutationMethod(g, active_breaking_mutations.get(random_schema_break_mutation), breaking_mutations);
 
-        return breaking_mutations_methods[random_schema_break_mutation] + "$" + constraint;
+        return active_breaking_mutations.get(random_schema_break_mutation) + "$" + constraint;
     }
 
     private static String breakNullMutation(MyGraph g, Set<String> breaking_mutations) {
@@ -115,8 +128,8 @@ public class GraphMutator {
 
 
         if (nullprops.isEmpty()) {
-            printString(String.format("Could not perform a break null property mutation. There are no unique properties"), System.Logger.Level.WARNING);
-            GraphMutations.breakNullActive = false;
+            printString(String.format("Could not perform a break null property mutation. There are no null properties"), System.Logger.Level.WARNING);
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakNull, false);
             return "";
         }
 
@@ -175,7 +188,7 @@ public class GraphMutator {
 
         if (uniqueprops.isEmpty()) {
             printString(String.format("Could not perform a break unique property mutation. There are no unique properties"), System.Logger.Level.WARNING);
-            GraphMutations.breakUniqueActive = false;
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakUnique, false);
             return "";
         }
 
@@ -238,7 +251,7 @@ public class GraphMutator {
 
         if (relationships_with_cardinality.isEmpty()) {
             printString(String.format("There are no relationships with cardinality which can be broken, no cardinality mutation performed"), System.Logger.Level.WARNING);
-            GraphMutations.breakCardinalityActive = false;
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakCardinality, false);
             return "";
         }
 
@@ -299,12 +312,12 @@ public class GraphMutator {
 
 
         if (from_nodes.size() < 2) {
-            System.err.printf("Not enough from nodes found to break one2Many cardinality for relationship [%s]", rel);
+            printString(String.format("Not enough from nodes found to break one2Many cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
             return;
         }
 
         if (to_nodes.isEmpty()) {
-            System.err.printf("No to nodes found to break many2One cardinality for relationship [%s]", rel);
+            printString(String.format("No to nodes found to break one2Many cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
             return;
         }
 
@@ -342,12 +355,12 @@ public class GraphMutator {
 
 
         if (from_nodes.isEmpty()) {
-            printString(String.format("No from nodes found to break many2One cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
+            printString(String.format("No from nodes found to break many2One cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
             return;
         }
 
         if (to_nodes.size() < 2) {
-            printString(String.format("Not enough to nodes found to break many2One cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
+            printString(String.format("Not enough to nodes found to break many2One cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
             return;
         }
 
@@ -438,7 +451,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node which can be removed", System.Logger.Level.WARNING);
-            GraphMutations.removePropertyActive = false;
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.RemoveProperty, false);
             return;
         }
 
@@ -641,7 +654,7 @@ public class GraphMutator {
 
         if (rels.isEmpty()) {
             printString(String.format("Add edge mutation failed, no relationships defined in schema"), System.Logger.Level.WARNING);
-            GraphMutations.addEdgeActive = false;
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.AddEdge, false);
             return;
         }
 
@@ -692,7 +705,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node/edge which a property can be changed", System.Logger.Level.WARNING);
-            GraphMutations.changePropertyTypeActive = false;
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyType, false);
             return;
         }
 
@@ -755,6 +768,67 @@ public class GraphMutator {
         }
     }
 
+    private static void changePropertyKey(MyGraph g) {
+        ArrayList<Node> nodes = getNodesWithProperties(g);
+        ArrayList<Edge> edges = getEdgesWithProperties(g);
+
+        int pool_size = 0;
+        int node_pool_size = 0;
+        int edge_pool_size = 0;
+
+        if (nodes != null) {
+            node_pool_size = nodes.size();
+            pool_size += node_pool_size;
+        }
+        if (edges != null) {
+            edge_pool_size = edges.size();
+            pool_size += edge_pool_size;
+        }
+
+        if (pool_size == 0) {
+            printString("No properties on node whith a property key that can be changed", System.Logger.Level.WARNING);
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyKey, false);
+            return;
+        }
+
+        int random_index = r.nextInt(pool_size);
+
+        if (random_index < node_pool_size) {
+            Node n = nodes.get(random_index);
+            ArrayList<String> properties = new ArrayList<>(n.properties.keySet());
+            int random_property_index = r.nextInt(properties.size());
+            String prop_key = properties.get(random_property_index);
+
+            String new_prop_key = generateString(prop_key.length() * 2);
+
+            String value = n.properties.get(prop_key);
+            n.properties.put(new_prop_key, value);
+            n.properties.remove(prop_key);
+
+            printString(String.format("Changed Property key [%s] with value [%s] to  new key:  [%s] for node [%s] \n", prop_key, value, new_prop_key, n.id), System.Logger.Level.INFO);
+
+        } else {
+            Edge e = edges.get(random_index - node_pool_size);
+            ArrayList<String> properties = new ArrayList<>(e.properties.keySet());
+            int random_property_index = r.nextInt(properties.size());
+            String prop_key = properties.get(random_property_index);
+
+            String old_value = e.properties.get(prop_key);
+            Property p = null;
+            if (g.getSchema().getEdgeProperties() != null && g.getSchema().getEdgeProperties().get(e.label) != null) {
+                p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            }
+
+
+            // No property defined in schema
+            String new_value = GraphGenerator.generatePropertyValue(p);
+
+            e.properties.put(prop_key, new_value);
+
+            printString(String.format("Changed Property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.label, e.to), System.Logger.Level.INFO);
+        }
+    }
+
     private static void changePropertyValue(MyGraph g) {
         ArrayList<Node> nodes = getNodesWithProperties(g);
         ArrayList<Edge> edges = getEdgesWithProperties(g);
@@ -774,7 +848,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node which a property can be changed", System.Logger.Level.WARNING);
-            GraphMutations.changePropertyValueActive = false;
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyValue, false);
             return;
         }
 
@@ -1088,7 +1162,17 @@ public class GraphMutator {
     }
 
     public static void printString(String s, System.Logger.Level isInfo) {
-        if (false) {
+        boolean print_info = false;
+        boolean print_debug = false;
+        boolean print_warning = true;
+
+        if (print_info && isInfo == System.Logger.Level.INFO) {
+            System.out.println(s);
+        }
+        if (print_debug && isInfo == System.Logger.Level.DEBUG) {
+            System.out.println(s);
+        }
+        if (print_warning && isInfo == System.Logger.Level.WARNING) {
             System.out.println(s);
         }
     }

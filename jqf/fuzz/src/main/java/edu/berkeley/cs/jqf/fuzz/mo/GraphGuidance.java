@@ -100,6 +100,10 @@ public class GraphGuidance implements Guidance {
     private static final boolean PRINT_UNIQUE_ERRORS = true;
     protected HashMap<GraphMutations.MutationMethod, Integer> mutation_counts = new HashMap<>();
     protected HashMap<String, GraphMutations.MutationMethod> coverage_by_mutation = new HashMap<>();
+
+    protected HashMap<String, HashMap<GraphMutations.MutationMethod, Integer>> error_caused_by_mutation = new HashMap<>();
+
+
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
     protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
@@ -471,6 +475,14 @@ public class GraphGuidance implements Guidance {
             traceElementsString += testProgramTraceElements.get(i).toString();
         }
 
+        if (!error_caused_by_mutation.containsKey(traceElementsString)) {
+            error_caused_by_mutation.put(traceElementsString, new HashMap<>());
+        }
+        if(!error_caused_by_mutation.get(traceElementsString).containsKey(last_mutation_applied)) {
+            error_caused_by_mutation.get(traceElementsString).put(last_mutation_applied, 0);
+        }
+        error_caused_by_mutation.get(traceElementsString).put(last_mutation_applied, error_caused_by_mutation.get(traceElementsString).get(last_mutation_applied) + 1);
+
         //   Attempt to add this to the set of unique failures
         if (!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
@@ -570,10 +582,19 @@ public class GraphGuidance implements Guidance {
             console.printf("\tSaved inputs:       \n");
             ArrayList<String> sorted_keys = new ArrayList<>(coverage_by_mutation.keySet());
             sorted_keys.sort(String.CASE_INSENSITIVE_ORDER);
-            for (String f :
-                    sorted_keys) {
-                console.printf("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f));
 
+            if (sorted_keys.size() <= 5) {
+                for (String f :
+                        sorted_keys) {
+                    console.printf("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f));
+
+                }
+            } else {
+                console.printf("\t\t ...\n");
+                for (int i = sorted_keys.size() - 5; i < sorted_keys.size(); i++) {
+                    String f = sorted_keys.get(i);
+                    console.printf("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f));
+                }
             }
         }
 
@@ -637,9 +658,28 @@ public class GraphGuidance implements Guidance {
             }
         }
 
+        if (PRINT_UNIQUE_ERRORS) {
+            output.add("\n*** UniqueErrors caused by: ***       \n");
+            ArrayList<Long> sorted_keys = new ArrayList<>(uniqueFailuresAtTrial.keySet());
+            Collections.sort(sorted_keys);
+
+            for (Long f :
+                    sorted_keys) {
+                output.add(String.format("\tUnique error: [%s]\n", uniqueFailuresAtTrial.get(f)));
+                if (!error_caused_by_mutation.containsKey(uniqueFailuresAtTrial.get(f))) {
+                    output.add("\t\tCould not find mutations that caused this error\n");
+                    continue;
+                }
+                ArrayList<GraphMutations.MutationMethod> caused_by_mutations = new ArrayList<>(error_caused_by_mutation.get(uniqueFailuresAtTrial.get(f)).keySet());
+                for (GraphMutations.MutationMethod mm: caused_by_mutations) {
+                    output.add(String.format("\t\t [%s]: %s\n", mm.toString(), error_caused_by_mutation.get(uniqueFailuresAtTrial.get(f)).get(mm)));
+                }
+            }
+        }
+
 
         try {
-            FileWriter myWriter = new FileWriter(savedInputsDirectory.getPath() + "fuzz-log.txt");
+            FileWriter myWriter = new FileWriter(savedInputsDirectory.getPath() + "/fuzz-log.txt");
             myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n");
             for (String s : output) {
                 myWriter.write(s);

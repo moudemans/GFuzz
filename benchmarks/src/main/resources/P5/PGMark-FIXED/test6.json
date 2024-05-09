@@ -1,26 +1,27 @@
 {
   "GraphSchema": {
     "NodeLabels": [
-      "Pangenome",
+      "PanGenome",
       "Family",
       "Gene"
     ],
     "EdgeLabels": [
-      "DRT",
-      "WALK"
+      "P1",
+      "P2",
+      "P3"
     ],
     "Relationships": [
       {
         "Label": "P1",
         "From": "Family",
-        "To": "Pangenome",
+        "To": "PanGenome",
         "Cardinality": "ONE2MANY"
       },
       {
         "Label": "P2",
         "From": "Family",
         "To": "Family",
-        "Cardinality": "ONE2ONE"
+        "Cardinality": "MULTI"
       },
       {
         "Label": "P3",

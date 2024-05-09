@@ -10,7 +10,7 @@ public class GraphMutations {
 
     // Indicates whether a mutation is active or not
     public static final boolean noMutationActive = false;  // Boolean is used to generate mutation list that can be applied. NoMutation is an indication that no Graphs.Mutation can be performed and does not match a specific mutation approach
-    public static final boolean copySubsetActive = false;
+    public static  boolean copySubsetActive = false;
 
     public static  boolean addEdgeActive = true;
     public static  boolean removeEdgeActive = true;
@@ -20,6 +20,7 @@ public class GraphMutations {
     public static  boolean removeNodeActive = true;
     public static  boolean copyNodeActive = true;
 
+    public static  boolean changePropertyKeyActive = true;
     public static  boolean changePropertyValueActive = true;
     public static  boolean removePropertyActive = true;
     public static  boolean addPropertyActive = false;
@@ -42,6 +43,7 @@ public class GraphMutations {
     private static final float addEdgeBias = 1f;
     private static final float removeEdgeBias = 1f;
     private static final float changeEdgeLabelBias = 1f;
+    private static final float changePropertyKeyBias = 1f;
     private static final float changePropertyValueBias = 1f;
     private static final float addPropertyBias = 1f;
     private static final float removePropertyBias = 1f;
@@ -68,9 +70,11 @@ public class GraphMutations {
         RemoveEdge,
         ChangeLabelEdge,
 
+        ChangePropertyKey,
         ChangePropertyValue,
         RemoveProperty,
         AddProperty,
+
         ChangePropertyType,
         BreakSchema,
         BreakCardinality,
@@ -111,6 +115,9 @@ public class GraphMutations {
             }
             case ChangeLabelEdge -> {
                 return changeEdgeLabelBias;
+            }
+            case ChangePropertyKey -> {
+                return changePropertyKeyBias;
             }
             case ChangePropertyValue -> {
                 return changePropertyValueBias;
@@ -184,6 +191,8 @@ public class GraphMutations {
                 return removeEdgeActive;
             case ChangeLabelEdge:
                 return changeEdgeLabelActive;
+            case ChangePropertyKey:
+                return changePropertyKeyActive;
             case ChangePropertyValue:
                 return changePropertyValueActive;
             case AddProperty:
@@ -207,6 +216,71 @@ public class GraphMutations {
             default:
                 System.out.println("No activation boolean defined for: " + m);
                 return false;
+        }
+
+    }
+
+    private static void setMutationStatus(MutationMethod m, boolean b) {
+        switch (m) {
+            case NoMutation:
+                return;
+            case CopySubset:
+                copySubsetActive = b;
+                return;
+            case AddNode:
+                 addNodeActive = b;
+                return;
+            case RemoveNode:
+                 removeNodeActive = b;
+                return;
+            case CopyNode:
+                 copyNodeActive = b;
+                return;
+            case AddEdge:
+                 addEdgeActive = b;
+                return;
+            case RemoveEdge:
+                 removeEdgeActive = b;
+                return;
+            case ChangeLabelEdge:
+                 changeEdgeLabelActive = b;
+                return;
+            case ChangePropertyKey:
+                changePropertyKeyActive = b;
+                return;
+            case ChangePropertyValue:
+                 changePropertyValueActive = b;
+                return;
+            case AddProperty:
+                 addPropertyActive = b;
+                return;
+            case RemoveProperty:
+                 removePropertyActive = b;
+                return;
+            case ChangePropertyType:
+                 changePropertyTypeActive = b;
+                return;
+            case BreakCardinality:
+                 breakCardinalityActive = b;
+                return;
+            case BreakUnique:
+                 breakUniqueActive = b;
+                return;
+            case BreakNull:
+                 breakNullActive = b;
+                return;
+            case BreakSchema:
+                 breakSchemaActive = b;
+                return;
+            case BitMutation:
+                 bitMutationActive = b;
+                return;
+            case ByteMutation:
+                 byteMutationActive = b;
+                return;
+            default:
+                System.out.println("No activation boolean defined for: " + m);
+                return;
         }
 
     }
@@ -286,6 +360,15 @@ public class GraphMutations {
 
 
         return activeMutations;
+    }
+
+    public static void changeMutationStatus(MutationMethod m, boolean new_status) {
+        boolean current_status = isMutationActive(m);
+        if (current_status != new_status) {
+            setMutationStatus(m , new_status);
+            activeMutations = null;
+        }
+
     }
 
 
