@@ -595,7 +595,7 @@ public class GraphMutator {
         ArrayList<Edge> filtered_edges = new ArrayList<>(edges.stream().filter(e -> !e.properties.isEmpty()).toList());
 
         if (filtered_edges.isEmpty()) {
-            printString("There are no edges with properties", System.Logger.Level.WARNING);
+            printString("There are no edges with properties", System.Logger.Level.INFO);
             return null;
         }
         return filtered_edges;
