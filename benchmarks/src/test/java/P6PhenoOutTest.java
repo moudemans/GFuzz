@@ -26,7 +26,13 @@ public class P6PhenoOutTest {
 
     @org.junit.Test
     public void testMutated() {
-        String path = input_path + "PGMark-FUZZED/";
+        String path = input_path + "GFUZZ/";
+        testFilesInDir(path);
+    }
+
+    @org.junit.Test
+    public void testMutated2() {
+        String path = input_path + "GFUZZ2/";
         testFilesInDir(path);
     }
 
