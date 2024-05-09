@@ -79,7 +79,8 @@ public class GraphGuidance implements Guidance {
 
 
     private static String currentInputFile = "";
-    private static String nextInputFileLocation = WORKING_DIR + RUNNING_DIR + "mutated.json";
+    private static String default_mutated_file_location = WORKING_DIR + RUNNING_DIR + "mutated.json";
+    private static String nextInputFileLocation = default_mutated_file_location;
 
 
     private static ArrayList<String> seed_files = new ArrayList<>();
@@ -89,12 +90,14 @@ public class GraphGuidance implements Guidance {
 
     protected Set<List<StackTraceElement>> uniqueFailures = new HashSet<>();
     protected Set<String> uniqueFailuresString = new HashSet<>();
+    protected HashMap<Long, String> uniqueFailuresAtTrial = new HashMap<>();
 
 
     protected HashMap<String, Set<String>> files_mutated = new HashMap<>();
 
     private static final boolean PRINT_MUTATION_COUNT = true;
     private static final boolean PRINT_MUTATION_RESPONSIBILITY = true;
+    private static final boolean PRINT_UNIQUE_ERRORS = true;
     protected HashMap<GraphMutations.MutationMethod, Integer> mutation_counts = new HashMap<>();
     protected HashMap<String, GraphMutations.MutationMethod> coverage_by_mutation = new HashMap<>();
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
@@ -156,9 +159,9 @@ public class GraphGuidance implements Guidance {
      * @param testMethodName
      */
     public GraphGuidance(long maxTrials, PrintStream out, String testClassName, String testMethodName, Duration duration) {
-        if (maxTrials <= 0) {
-            throw new IllegalArgumentException("maxTrials must be greater than 0");
-        }
+//        if (maxTrials <= 0) {
+//            throw new IllegalArgumentException("maxTrials must be greater than 0");
+//        }
         this.maxTrials = maxTrials;
         this.maxDurationMillis = duration != null ? duration.toMillis() : Long.MAX_VALUE;
 
@@ -277,7 +280,7 @@ public class GraphGuidance implements Guidance {
             int random_seed = random.nextInt(important_files.size());
             currentInputFile = important_files.get(random_seed);
             // Mutate said file
-            String nextInputLocation = mutate_current_file();
+            mutate_current_file();
         } else {
             int random_seed = random.nextInt(seed_files.size());
             currentInputFile = seed_files.get(random_seed);
@@ -309,6 +312,7 @@ public class GraphGuidance implements Guidance {
             files_mutated.put(currentInputFile, new HashSet<>());
         }
 
+        nextInputFileLocation = default_mutated_file_location;
         if (mutation_framework == -1) {
             mutation_applied = GraphMutations.MutationMethod.NoMutation;
         } else if (mutation_framework == 0) {
@@ -417,7 +421,7 @@ public class GraphGuidance implements Guidance {
 
     private void process_stopping_criteria() {
         // Stopping criteria
-        if (numTrials >= maxTrials) {
+        if (maxTrials > 0 && numTrials >= maxTrials) {
             System.out.println("Max trials has been reached");
             this.keepGoing = false;
         }
@@ -471,6 +475,7 @@ public class GraphGuidance implements Guidance {
         if (!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
             uniqueFailuresString.add(traceElementsString);
+            uniqueFailuresAtTrial.put(numTrials,traceElementsString);
             System.out.println("New unique error found!");
             System.out.println(traceElementsString);
             System.out.println("****");
@@ -487,7 +492,7 @@ public class GraphGuidance implements Guidance {
         String new_file_name = type + "_" + numTrials + ".json";
 
         try {
-            System.out.printf("Saving last used input [%s] to [%s] \n", nextInputFileLocation, new_file_name);
+            System.out.printf("Saving last used input [%s], applied mutation [%s] to [%s] \n", nextInputFileLocation, last_mutation_applied, new_file_name);
             FileUtils.copyFile(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
 //            Files.copy(new File(nextInputFileLocation), new File(dest_folder, new_file_name));
 //            copy_file(nextInputFileLocation, dest_folder + "/" + new_file_name);
@@ -563,8 +568,10 @@ public class GraphGuidance implements Guidance {
         }
         if (PRINT_MUTATION_RESPONSIBILITY) {
             console.printf("\tSaved inputs:       \n");
+            ArrayList<String> sorted_keys = new ArrayList<>(coverage_by_mutation.keySet());
+            sorted_keys.sort(String.CASE_INSENSITIVE_ORDER);
             for (String f :
-                    coverage_by_mutation.keySet()) {
+                    sorted_keys) {
                 console.printf("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f));
 
             }
@@ -619,8 +626,20 @@ public class GraphGuidance implements Guidance {
         }
 
 
+        if (PRINT_UNIQUE_ERRORS) {
+            output.add("\n\tUniqueErrors:       \n");
+            ArrayList<Long> sorted_keys = new ArrayList<>(uniqueFailuresAtTrial.keySet());
+            Collections.sort(sorted_keys);
+
+            for (Long f :
+                    sorted_keys) {
+                output.add(String.format("\t\t Unique error at [%s], error message: %s\n", f, uniqueFailuresAtTrial.get(f)));
+            }
+        }
+
+
         try {
-            FileWriter myWriter = new FileWriter(WORKING_DIR + "fuzz-log.txt");
+            FileWriter myWriter = new FileWriter(SAVED_INPUTS_DIR + "fuzz-log.txt");
             myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n");
             for (String s : output) {
                 myWriter.write(s);

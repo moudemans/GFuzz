@@ -21,12 +21,12 @@ public class P3Logic {
 //        getPaper(g, paper_id + "");
 //        getAuthor(g, author_id + "");
         getPaper(g, "5");
-        getAuthor(g, "1");
+        getAuthor(g, "70");
 
     }
 
     public int getPaper(MyGraph g, String id) {
-        if (g.getNodes(id) == null || g.getNodes(id).isEmpty()) {
+        if (g.getNode(Integer.parseInt(id)) == null ) {
             return -1;
         }
 
@@ -112,17 +112,12 @@ public class P3Logic {
     }
 
     public int getAuthor(MyGraph g, String id) {
-        if (g.getNodes(id) == null || g.getNodes(id).isEmpty()) {
+        if (g.getNode(Integer.parseInt(id)) == null ) {
             return -1;
         }
 
-        Node paper = g.getNodes(id).getFirst();
-        HashMap<String, String> paperProps = paper.properties;
-        if (!paperProps.containsKey("title")) {
-            return -1;
-        }
 
-        Node author = g.getNodes(id).getFirst();
+        Node author = g.getNode(Integer.parseInt(id));
 //        Vertex author = g.V().hasId(id).next();
         Map<String, String> authorProps = author.properties;
         if (!authorProps.containsKey("name")) {
@@ -172,8 +167,9 @@ public class P3Logic {
         for (Edge referee : referees) {
             int refCount = Integer.parseInt(referee.properties.get("refCount"));
             String refereeId = (String) (referee.from + "");
-            String refereeName = (String) referee.properties.get("name");
-            double refereePagerank = Double.parseDouble(referee.properties.get("pagerank"));
+            Node referee_node = g.getNode(Integer.parseInt(refereeId));
+            String refereeName = (String) referee_node.properties.get("name");
+            double refereePagerank = Double.parseDouble(referee_node.properties.get("pagerank"));
             CitationResponse citationResponse = new CitationResponse(new AuthorResponse(refereeName, refereeId, refereePagerank), refCount);
             refereeResponse.add(citationResponse);
         }
@@ -183,9 +179,12 @@ public class P3Logic {
         List<CitationResponse> refererResponse = new ArrayList<>(referers.size());
         for (Edge referer : referers) {
             int refCount =  Integer.parseInt(referer.properties.getOrDefault("refCount", "1"));
+
             String refererId =  (String) (referer.from + "");
-            String refererName =  (String) referer.properties.get("name");
-            double refererPagerank =  Double.parseDouble(referer.properties.get("pagerank"));
+            Node referer_node = g.getNode(Integer.parseInt(refererId));
+
+            String refererName =  (String) referer_node.properties.get("name");
+            double refererPagerank =  Double.parseDouble(referer_node.properties.get("pagerank"));
             CitationResponse citationResponse = new CitationResponse(new AuthorResponse(refererName, refererId, refererPagerank), refCount);
             refererResponse.add(citationResponse);
         }
@@ -197,8 +196,10 @@ public class P3Logic {
             int collaborationCount = Integer.parseInt(edge.properties.getOrDefault("collaborateCount", "1"));
             Node otherVertex = edge.to == author.id ? g.getNode(edge.from) : g.getNode(edge.to);
             String coauthorId = (String) (otherVertex.id + "");
-            String coauthorName = (String) edge.properties.get("name");
-            double coauthorPagerank = Double.parseDouble(edge.properties.get("pagerank"));
+            Node co_author = g.getNode(Integer.parseInt(coauthorId));
+
+            String coauthorName = (String) co_author.properties.get("name");
+            double coauthorPagerank = Double.parseDouble(co_author.properties.get("pagerank"));
             CollaborationResponse collaborationResponse = new CollaborationResponse(new AuthorResponse(coauthorName, coauthorId, coauthorPagerank), collaborationCount);
             coauthorResponse.add(collaborationResponse);
         }

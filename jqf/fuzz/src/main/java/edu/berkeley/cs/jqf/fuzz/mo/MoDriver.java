@@ -55,7 +55,7 @@ public class MoDriver {
         try {
             // Load the guidance
             Duration maxDuration = Duration.of(10, ChronoUnit.MINUTES);
-            maxTrials = 5000L;
+            maxTrials = 0L;
 //            NoGuidance guidance = new NoGuidance(maxTrials, System.err);
             GraphGuidance guidance = new GraphGuidance(maxTrials, System.out, testClassName, testMethodName, maxDuration);
 

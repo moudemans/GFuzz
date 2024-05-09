@@ -32,6 +32,13 @@ public class P2TransportationTest {
     }
 
     @org.junit.Test
+    public void testMUTATED() {
+
+        String path = input_path + "MUTATED2/";
+        testFilesInDir(path);
+    }
+
+    @org.junit.Test
     public void testMANUAL2() {
         String path = input_path + "PGMark-Random/";
         testFilesInDir(path);
