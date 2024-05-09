@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<pgmark>
+    <types>
+        <type name="pangenome">
+            <count>
+                <proportion>
+                    0.1
+                </proportion>
+            </count>
+            <relations>
+
+            </relations>
+            <attributes>
+                <attribute name="num_genomes" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </type>
+        <type name="genome">
+            <count>
+                <proportion>
+                    0.3
+                </proportion>
+            </count>
+            <relations>
+
+            </relations>
+            <attributes>
+                <attribute name="number" unique="true" required="true">
+                </attribute>
+                <attribute name="num_sequences" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </type>
+        <type name="mRNA">
+            <count>
+                <proportion>
+                    0.3
+                </proportion>
+            </count>
+            <relations>
+
+            </relations>
+            <attributes>
+                <attribute name="gnome" unique="true" required="true">
+                    <numeric min="0" max="500">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="sequence" unique="false" required="true">
+                    <numeric min="0" max="500">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="longest_transcript" unique="false" required="true">
+                    <numeric min="0" max="500">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="protein_ID" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="length" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </type>
+        <type name="sequence">
+            <count>
+                <proportion>
+                    0.3
+                </proportion>
+            </count>
+            <relations>
+
+            </relations>
+            <attributes>
+                <attribute name="phasing_assigned" unique="false" required="true">
+                    <categorical>
+                        <category>true</category>
+                        <category>false</category>
+                    </categorical>
+                </attribute>
+                <attribute name="identifier" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="genome" unique="false" required="true">
+                    <numeric min="0" max="500">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="number" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="phasing_chromosome" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="phasing_ID" unique="false" required="true">
+                    <regex>\d{1}_(unphased|[a-z])</regex>
+                </attribute>
+            </attributes>
+        </type>
+
+
+
+    </types>
+    <predicates>
+        <predicate name="has_homolog">
+
+        </predicate>
+        <predicate name="genomes">
+
+        </predicate>
+        <predicate name="kaviars">
+
+    </predicate>
+        <predicate name="inputs">
+
+        </predicate>
+    </predicates>
+</pgmark>

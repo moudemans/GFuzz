@@ -107,9 +107,6 @@ public class GraphGuidance implements Guidance {
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
     protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
-    HashSet<GraphMutations.MutationMethod> schema_breaking_mutations = new HashSet<>(List.of(new GraphMutations.MutationMethod[]{
-            GraphMutations.MutationMethod.BreakSchema
-    }));
 
 
     /**

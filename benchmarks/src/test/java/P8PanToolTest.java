@@ -20,6 +20,12 @@ public class P8PanToolTest {
     }
 
     @org.junit.Test
+    public void testPGMARK() {
+        String path = input_path + "PGMark-FIXED/";
+        testFilesInDir(path);
+    }
+
+    @org.junit.Test
     public void testMUTETAD() {
         String path = input_path + "MUTATED/";
         testFilesInDir(path);

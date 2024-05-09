@@ -618,7 +618,7 @@ public class GraphMutator {
         }
 
         if (non_string_properties_per_edge.isEmpty()) {
-            printString("There are no edges with non string properties in schema", System.Logger.Level.WARNING);
+            printString("There are no edges with non string properties in schema", System.Logger.Level.INFO);
             return null;
         }
 
@@ -626,7 +626,7 @@ public class GraphMutator {
         ArrayList<Edge> filtered_edges = new ArrayList<>(edges.stream().filter(e -> non_string_properties_per_edge.containsKey(e.label)).toList());
 
         if (filtered_edges.isEmpty()) {
-            printString("There are no edges with properties in graph", System.Logger.Level.WARNING);
+            printString("There are no edges with properties in graph", System.Logger.Level.INFO);
             return null;
         }
         return filtered_edges;

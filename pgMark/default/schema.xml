@@ -1,361 +1,18 @@
 <?xml version="1.0"?>
 <pgmark>
     <types>
-        <type name="label">
+        <type name="pangenome">
             <count>
-                <proportion>
-                    1.0
-                </proportion>
+                <fixed>
+                    1
+                </fixed>
             </count>
             <relations>
-                <relation predicate="inputs" target="input" allow_loops="false">
-                    <inDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </inDistribution>
-                    <outDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </outDistribution>
-                </relation>
-                <relation predicate="genomes" target="genome" allow_loops="false">
-                    <inDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </inDistribution>
-                    <outDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </outDistribution>
-                </relation>
-                <relation predicate="exomes" target="exome" allow_loops="false">
-                    <inDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </inDistribution>
-                    <outDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </outDistribution>
-                </relation>
-                <relation predicate="kaviars" target="kaviar" allow_loops="false">
-                    <inDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </inDistribution>
-                    <outDistribution>
-                        <zipfianDistribution exponent="2.5"/>
-                    </outDistribution>
-                </relation>
+
             </relations>
             <attributes>
-                <attribute name="variant_id" unique="false" required="true">
-                    <regex>[A-Z][a-z]{1,40}</regex>
-                </attribute>
-                <attribute name="allele" unique="false" required="true">
-                    <regex>[A-Z][a-z]{1,40}</regex>
-                </attribute>
-                <attribute name="start" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="end" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="seq_region" unique="false" required="true">
-                    <regex>[A-Z][a-z]{1,40}</regex>
-                </attribute>
-                <attribute name="most_severe_consequence" unique="false" required="true">
-                    <regex>[A-Z][a-z]{1,40}</regex>
-                </attribute>
-                <attribute name="strand" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-            </attributes>
-        </type>
-        <type name="input">
-            <count>
-                <proportion>
-                    1.0
-                </proportion>
-            </count>
-            <attributes>
-                <attribute name="culprit" unique="false" required="true">
-                    <regex>[A-Z][a-z]{1,40}</regex>
-                </attribute>
-                <attribute name="allele" unique="false" required="true">
-                    <regex>[A-Z][a-z]{1,40}</regex>
-                </attribute>
-                <attribute name="inbreedingCoeff" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="allele_freq" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="fs" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="mleac" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="readposranksum" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="vqslod" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="mleaf" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="excesshet" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="mqranksum" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="mq" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-
-            </attributes>
-        </type>
-        <type name="exome">
-            <count>
-                <proportion>
-                    1.0
-                </proportion>
-            </count>
-            <attributes>
-                <attribute name="ac_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom" unique="false" required="true">
-                    <numeric min="0" max="2025">
+                <attribute name="num_genomes" unique="false" required="true">
+                    <numeric min="0" max="5">
                         <exponentialDistribution scale="26000"/>
                     </numeric>
                 </attribute>
@@ -363,256 +20,108 @@
         </type>
         <type name="genome">
             <count>
-                <proportion>
-                    1.0
-                </proportion>
+                <fixed>
+                    100
+                </fixed>
             </count>
+            <relations>
+
+            </relations>
             <attributes>
-                <attribute name="ac_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
+                <attribute name="number" unique="true" required="true">
+                    <numeric>
+                        <uniformDistribution min="0" max="100"/>
                     </numeric>
                 </attribute>
-                <attribute name="ac_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="ac_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="af_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="an_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_afr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_amr" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_asj" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_eas" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_fin" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_female" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_male" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_nfe" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_oth" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom_raw" unique="false" required="true">
-                    <numeric min="0" max="2025">
-                        <exponentialDistribution scale="26000"/>
-                    </numeric>
-                </attribute>
-                <attribute name="hom" unique="false" required="true">
-                    <numeric min="0" max="2025">
+                <attribute name="num_sequences" unique="false" required="true">
+                    <numeric min="0" max="5">
                         <exponentialDistribution scale="26000"/>
                     </numeric>
                 </attribute>
             </attributes>
         </type>
-        <type name="kaviar">
+        <type name="mRNA">
             <count>
-                <proportion>
-                    1.0
-                </proportion>
+                <fixed>
+                    100
+                </fixed>
             </count>
+            <relations>
+
+            </relations>
             <attributes>
-                <attribute name="an" unique="false" required="true">
-                    <numeric min="0" max="2025">
+                <attribute name="gnome" unique="true" required="true">
+                    <numeric>
+                        <uniformDistribution min="0" max="10"/>
+                    </numeric>
+                </attribute>
+                <attribute name="sequence" unique="false" required="true">
+                    <numeric>
+                        <uniformDistribution min="0" max="10"/>
+                    </numeric>
+                </attribute>
+                <attribute name="longest_transcript" unique="false" required="true">
+                    <numeric min="0" max="500">
                         <exponentialDistribution scale="26000"/>
                     </numeric>
                 </attribute>
-                <attribute name="ac" unique="false" required="true">
-                    <numeric min="0" max="2025">
+                <attribute name="protein_ID" unique="false" required="true">
+                    <numeric min="0" max="5">
                         <exponentialDistribution scale="26000"/>
                     </numeric>
                 </attribute>
-                <attribute name="af" unique="false" required="true">
-                    <numeric min="0" max="2025">
+                <attribute name="length" unique="false" required="true">
+                    <numeric min="0" max="5">
                         <exponentialDistribution scale="26000"/>
                     </numeric>
                 </attribute>
             </attributes>
         </type>
+        <type name="sequence">
+            <count>
+                <fixed>
+                    100
+                </fixed>
+            </count>
+            <relations>
+
+            </relations>
+            <attributes>
+                <attribute name="phasing_assigned" unique="false" required="true">
+                    <categorical>
+                        <category>true</category>
+                        <category>false</category>
+                    </categorical>
+                </attribute>
+                <attribute name="identifier" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="genome" unique="false" required="true">
+                    <numeric>
+                        <uniformDistribution min="0" max="100"/>
+                    </numeric>
+                </attribute>
+                <attribute name="number" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="phasing_chromosome" unique="false" required="true">
+                    <numeric min="0" max="5">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="phasing_ID" unique="false" required="true">
+                    <regex>\d{1}_(unphased|[a-z])</regex>
+                </attribute>
+            </attributes>
+        </type>
+
 
 
     </types>
     <predicates>
-        <predicate name="exomes">
-
-        </predicate>
-        <predicate name="genomes">
-
-        </predicate>
-        <predicate name="kaviars">
-
-        </predicate>
-        <predicate name="inputs">
+        <predicate name="has_homolog">
 
         </predicate>
     </predicates>

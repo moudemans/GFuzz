@@ -2,8 +2,7 @@ package tudgraphs;/*
  * Created by Melchior Oudemans for the bachelors research project at the TUDelft. Adopted for master thesis project at the TU Delft.
  */
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 
 public class GraphMutations {
@@ -24,15 +23,25 @@ public class GraphMutations {
     public static  boolean changePropertyValueActive = true;
     public static  boolean removePropertyActive = true;
     public static  boolean addPropertyActive = false;
-    public static  boolean changePropertyTypeActive = false;
+    public static  boolean changePropertyTypeActive = true;
 
     public static  boolean breakSchemaActive = true;
-    public static  boolean breakCardinalityActive = false;
-    public static  boolean breakUniqueActive = false;
-    public static  boolean breakNullActive = false;
+    public static  boolean breakCardinalityActive = true;
+    public static  boolean breakUniqueActive = true;
+    public static  boolean breakNullActive = true;
     public static  boolean bitMutationActive = false;
     public static  boolean byteMutationActive = false;
     private static ArrayList<MutationMethod> activeMutations;
+
+    private static Set<MutationMethod> breakingMutations = new HashSet<>(List.of(
+            MutationMethod.BreakCardinality,
+            MutationMethod.BreakUnique,
+            MutationMethod.BreakNull,
+            MutationMethod.ChangePropertyType,
+            MutationMethod.ChangePropertyKey,
+            MutationMethod.ChangeLabelEdge
+    ));
+
 
     // Indicates a bias towards the mutation method
     private static final boolean biasEnabled = false;
