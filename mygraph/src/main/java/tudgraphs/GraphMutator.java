@@ -805,6 +805,13 @@ public class GraphMutator {
             n.properties.put(new_prop_key, value);
             n.properties.remove(prop_key);
 
+            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+
+            if (p != null) {
+                Property new_prop = new Property(new_prop_key, p.type, p.isUnique, p.isNotNull);
+                g.getSchema().getNodeProperties().get(n.label).add(new_prop);
+            }
+
             printString(String.format("Changed Property key [%s] with value [%s] to  new key:  [%s] for node [%s] \n", prop_key, value, new_prop_key, n.id), System.Logger.Level.INFO);
 
         } else {
@@ -813,19 +820,20 @@ public class GraphMutator {
             int random_property_index = r.nextInt(properties.size());
             String prop_key = properties.get(random_property_index);
 
-            String old_value = e.properties.get(prop_key);
-            Property p = null;
-            if (g.getSchema().getEdgeProperties() != null && g.getSchema().getEdgeProperties().get(e.label) != null) {
-                p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            String new_prop_key = generateString(prop_key.length() * 2);
+
+            String value = e.properties.get(prop_key);
+            e.properties.put(new_prop_key, value);
+            e.properties.remove(prop_key);
+
+            Property p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+
+            if (p != null) {
+                Property new_prop = new Property(new_prop_key, p.type, p.isUnique, p.isNotNull);
+                g.getSchema().getEdgeProperties().get(e.label).add(new_prop);
             }
 
-
-            // No property defined in schema
-            String new_value = GraphGenerator.generatePropertyValue(p);
-
-            e.properties.put(prop_key, new_value);
-
-            printString(String.format("Changed Property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.label, e.to), System.Logger.Level.INFO);
+            printString(String.format("Changed Property key [%s] with value [%s] to  new key:  [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, value, new_prop_key, e.from, e.label, e.to), System.Logger.Level.INFO);
         }
     }
 
