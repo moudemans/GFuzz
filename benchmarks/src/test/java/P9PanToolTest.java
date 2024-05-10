@@ -19,6 +19,14 @@ public class P9PanToolTest {
         String path = input_path + "MANUAL/";
         testFilesInDir(path);
     }
+    @org.junit.Test
+    public void testPGMARK() {
+        String path = input_path + "PGMark-FIXED/";
+        testFilesInDir(path);
+    }
+
+
+
     public void testFilesInDir(String path) {
         P9Logic analysis = new P9Logic();
 

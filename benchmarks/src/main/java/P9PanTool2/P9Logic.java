@@ -141,7 +141,7 @@ public class P9Logic {
 
                 ArrayList<Node> signalps = g.getConnectedNodes(mrna_node, "has_signalp");
 
-                if (!signalps.isEmpty() ) {
+                if (!signalps.isEmpty()) {
                     function_found = true;
                     Node signalp = signalps.get(0);
                     if (signalp.properties.containsKey("signalp_signal_peptide")) { // type can be 'yes', 'SP(Sec/SPI)', 'LIPO(Sec/SPII)' or 'TAT(Tat/SPI)'
@@ -429,19 +429,27 @@ public class P9Logic {
         HashMap<Integer, ArrayList<Node>> temp_genes_per_genome = new HashMap<>();
         HashMap<Integer, Node[]> genes_per_genome = new HashMap<>();
 
-        String NODE_ID = "2,2";
+//        String NODE_ID = "2,2";
+        ArrayList<Node> mrnas = g.getNodes("mRNA");
+        String NODE_ID = "";
+        for (int i = 0; i < mrnas.size(); i++) {
+            if (i + 1 == mrnas.size()) {
+                NODE_ID += mrnas.get(i).id;
+            } else {
+                NODE_ID += mrnas.get(i).id + ",";
+            }
+        }
+
 
         String[] gene_array;
         if (NODE_ID.contains(",")) { // string file provided on command line
-            if (NODE_ID.contains(", ")) {
-                gene_array = NODE_ID.split(", ");
-            } else {
-                gene_array = NODE_ID.split(",");
-            }
-            for (String gene_str: gene_array) {
+
+            gene_array = NODE_ID.split(",");
+
+            for (String gene_str : gene_array) {
                 long id = Long.parseLong(gene_str);
                 Node mrna_node = g.getNode((int) id);
-                if(!mrna_node.label.equals("mRNA")) {
+                if (!mrna_node.label.equals("mRNA")) {
                     throw new RuntimeException();
                 }
 //                test_if_correct_label(mrna_node, MRNA_LABEL, true);
@@ -455,7 +463,7 @@ public class P9Logic {
         for (Map.Entry<Integer, ArrayList<Node>> entry : temp_genes_per_genome.entrySet()) {
             int key = entry.getKey();
             ArrayList<Node> value_list = entry.getValue();
-            counter ++;
+            counter++;
             Node[] node_array = value_list.toArray(new Node[value_list.size()]);
             genes_per_genome.put(key, node_array);
         }
