@@ -14,6 +14,7 @@ public class GraphMutations {
     public static  boolean addEdgeActive = true;
     public static  boolean removeEdgeActive = true;
     public static  boolean changeEdgeLabelActive = true;
+    public static  boolean changeEdgeActive = true;
 
     public static  boolean addNodeActive = true;
     public static  boolean removeNodeActive = true;
@@ -52,6 +53,7 @@ public class GraphMutations {
     private static final float addEdgeBias = 1f;
     private static final float removeEdgeBias = 1f;
     private static final float changeEdgeLabelBias = 1f;
+    private static final float changeEdgeBias = 1f;
     private static final float changePropertyKeyBias = 1f;
     private static final float changePropertyValueBias = 1f;
     private static final float addPropertyBias = 1f;
@@ -78,6 +80,7 @@ public class GraphMutations {
         AddEdge,
         RemoveEdge,
         ChangeLabelEdge,
+        ChangeEdge,
 
         ChangePropertyKey,
         ChangePropertyValue,
@@ -124,6 +127,9 @@ public class GraphMutations {
             }
             case ChangeLabelEdge -> {
                 return changeEdgeLabelBias;
+            }
+            case ChangeEdge -> {
+                return changeEdgeBias;
             }
             case ChangePropertyKey -> {
                 return changePropertyKeyBias;
@@ -200,6 +206,8 @@ public class GraphMutations {
                 return removeEdgeActive;
             case ChangeLabelEdge:
                 return changeEdgeLabelActive;
+            case ChangeEdge:
+                return changeEdgeActive;
             case ChangePropertyKey:
                 return changePropertyKeyActive;
             case ChangePropertyValue:
@@ -253,6 +261,9 @@ public class GraphMutations {
                 return;
             case ChangeLabelEdge:
                  changeEdgeLabelActive = b;
+                return;
+            case ChangeEdge:
+                changeEdgeActive = b;
                 return;
             case ChangePropertyKey:
                 changePropertyKeyActive = b;

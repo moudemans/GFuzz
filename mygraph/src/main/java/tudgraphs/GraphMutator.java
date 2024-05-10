@@ -29,7 +29,8 @@ public class GraphMutator {
         switch (mm) {
             case AddEdge -> addEdgeMutation(g);
             case RemoveEdge -> removeEdgeMutation(g);
-            case ChangeLabelEdge -> changeEdgeMutation(g);
+            case ChangeLabelEdge -> changeEdgeLabelMutation(g);
+            case ChangeEdge -> changeEdgeMutation(g);
 
             case CopySubset -> applyCopySubSetMutation(g);
             case AddNode -> addNodeMutation(g);
@@ -525,7 +526,7 @@ public class GraphMutator {
         return g.getNode(node_id);
     }
 
-    private static void changeEdgeMutation(MyGraph g) {
+    private static void changeEdgeLabelMutation(MyGraph g) {
         Node n = getRandomNodeWithEdges(g);
 
         if (n == null) {
@@ -544,6 +545,37 @@ public class GraphMutator {
         e.label = generateString(e.label.length() * 2);
 
         printString(String.format("Changed Edge label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.label, old_label, e.label), System.Logger.Level.INFO);
+    }
+
+    private static void changeEdgeMutation(MyGraph g) {
+        Node n = getRandomNodeWithEdges(g);
+
+        if (n == null) {
+            printString("Could not apply changeEdgeMutation an edge due to there not being nodes with edge", System.Logger.Level.WARNING);
+            return;
+        }
+
+        Edge e = getRandomEdge(n);
+
+        if (e == null) {
+            printString("Could not apply changeEdgeMutation an edge due to there not being edges on the selected node", System.Logger.Level.WARNING);
+            return;
+        }
+
+        int old_from = e.from;
+        int old_to = e.to;
+        int new_from = old_from;
+        int new_to = old_to;
+        while (new_from == old_from) {
+            new_from = r.nextInt(g.getMaxID().orElse(old_from + 1));
+        }
+        while (new_to == old_to) {
+            new_to = r.nextInt(g.getMaxID().orElse(old_to + 1));
+        }
+        e.from = new_from;
+        e.to = new_to;
+
+        printString(String.format("Changed Edge reference on Node [%s], from [%s] --> [%s] to [%s] --> [%s] \n", n.id + "_" + n.label, old_from, new_from, old_to, new_to), System.Logger.Level.INFO);
     }
 
 
