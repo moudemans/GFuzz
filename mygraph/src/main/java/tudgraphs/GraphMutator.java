@@ -729,9 +729,31 @@ public class GraphMutator {
 
             String old_value = n.properties.get(prop_key);
 
+            Property old_prop = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
 
-            Property p = new Property(prop_key, Type.STRING);
-            String new_value = GraphGenerator.generatePropertyValue(p);
+            Property new_prop = null;
+            if (old_prop != null) {
+                Type[] possible_types = Type.values();
+                Type new_type = possible_types[r.nextInt(possible_types.length)];
+                int tries = 0;
+                while(new_type == old_prop.type) {
+                    new_type = possible_types[r.nextInt(possible_types.length)];
+                    tries++;
+                    if (tries > 50) {
+                        printString("Could not produce a new type for the change type mutation", System.Logger.Level.WARNING);
+                        break;
+                    }
+                }
+
+                new_prop = new Property(prop_key, new_type, old_prop.isUnique, old_prop.isNotNull);
+                int old_index = g.getSchema().getNodeProperties().get(n.label).indexOf(old_prop);
+                g.getSchema().getNodeProperties().get(n.label).set(old_index,new_prop);
+            } else {
+                new_prop = new Property(prop_key, Type.STRING);
+                g.getSchema().getNodeProperties().get(n.label).add(new_prop);
+            }
+
+            String new_value = GraphGenerator.generatePropertyValue(new_prop);
 
             n.properties.put(prop_key, new_value);
 
@@ -757,10 +779,33 @@ public class GraphMutator {
 
             String old_value = e.properties.get(prop_key);
 
-            Property p = new Property(prop_key, Type.STRING);
+            Property old_prop = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+
+            Property new_prop = null;
+            if (old_prop != null) {
+                Type[] possible_types = Type.values();
+                Type new_type = possible_types[r.nextInt(possible_types.length)];
+                int tries = 0;
+                while(new_type == old_prop.type) {
+                    new_type = possible_types[r.nextInt(possible_types.length)];
+                    tries++;
+                    if (tries > 50) {
+                        printString("Could not produce a new type for the change type mutation", System.Logger.Level.WARNING);
+                        break;
+                    }
+                }
+
+                new_prop = new Property(prop_key, new_type, old_prop.isUnique, old_prop.isNotNull);
+                int old_index = g.getSchema().getEdgeProperties().get(e.label).indexOf(old_prop);
+                g.getSchema().getEdgeProperties().get(e.label).set(old_index,new_prop);
+            } else {
+                new_prop = new Property(prop_key, Type.STRING);
+                g.getSchema().getEdgeProperties().get(e.label).add(new_prop);
+            }
+
 
             // No property defined in schema
-            String new_value = GraphGenerator.generatePropertyValue(p);
+            String new_value = GraphGenerator.generatePropertyValue(new_prop);
 
             e.properties.put(prop_key, new_value);
 
