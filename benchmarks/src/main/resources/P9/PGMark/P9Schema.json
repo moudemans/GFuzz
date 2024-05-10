@@ -1,0 +1,198 @@
+{
+  "NodeLabels": [
+    "pangenome",
+    "genome",
+    "mRNA",
+    "sequence",
+    "GO",
+    "interpro",
+    "tigrfam",
+    "pfam",
+    "phobius",
+    "signalp",
+    "cog",
+    "gene"
+  ],
+  "EdgeLabels": [
+    "has_homolog",
+    "has_go",
+    "has_tigrfam",
+    "has_pfam",
+    "has_interpro",
+    "has_phobius",
+    "has_signalp",
+    "has_cog",
+    "codes_for",
+    "part_of"
+  ],
+  "Relationships": [
+    {
+      "Label": "has_go",
+      "From": "mRNA",
+      "To": "GO",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "has_interpro",
+      "From": "mRNA",
+      "To": "interpro",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "has_tigrfam",
+      "From": "mRNA",
+      "To": "tigrfam",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "has_pfam",
+      "From": "mRNA",
+      "To": "pfam",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "has_phobius",
+      "From": "mRNA",
+      "To": "phobius",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "has_signalp",
+      "From": "mRNA",
+      "To": "signalp",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "has_cog",
+      "From": "mRNA",
+      "To": "cog",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "part_of",
+      "From": "mRNA",
+      "To": "bgc",
+      "Cardinality": "ONE2MANY"
+    }
+  ],
+  "NodeProperties": {
+    "pangenome": [
+      {
+        "Name": "num_genomes",
+        "Type": "INT"
+      }
+    ],
+    "genome": [
+      {
+        "Name": "number",
+        "Type": "STRING"
+      },
+      {
+        "Name": "num_sequences",
+        "Type": "INT"
+      }
+    ],
+    "mRNA": [
+      {
+        "Name": "gnome",
+        "Type": "INT"
+      },
+      {
+        "Name": "sequence",
+        "Type": "INT"
+      },
+      {
+        "Name": "longest_transcript",
+        "Type": "INT"
+      },
+      {
+        "Name": "protein_ID",
+        "Type": "INT"
+      },
+      {
+        "Name": "length",
+        "Type": "INT"
+      }
+    ],
+    "sequence": [
+      {
+        "Name": "phasing_assigned",
+        "Type": "BOOLEAN"
+      },
+      {
+        "Name": "identifier",
+        "Type": "STRING"
+      },
+      {
+        "Name": "genome",
+        "Type": "INT"
+      },
+      {
+        "Name": "number",
+        "Type": "INT"
+      },
+      {
+        "Name": "phasing_chromosome",
+        "Type": "INT"
+      },
+      {
+        "Name": "phasing_ID",
+        "Type": "STRING"
+      }
+    ],
+    "phobius": [
+      {
+        "Name": "phobius_signal_peptide",
+        "Type": "STRING"
+      },
+      {
+        "Name": "phobius_transmembrane",
+        "Type": "STRING"
+      }
+    ],
+    "signalp": [
+      {
+        "Name": "signalp_signal_peptide",
+        "Type": "STRING"
+      }
+    ],
+    "cog": [
+      {
+        "Name": "COG_category",
+        "Type": "STRING"
+      },
+      {
+        "Name": "COG_id",
+        "Type": "STRING"
+      },
+      {
+        "Name": "COG_description",
+        "Type": "STRING"
+      }
+    ],
+    "gene": [
+      {
+        "Name": "id",
+        "Type": "STRING"
+      }
+    ],
+    "bgc": [
+      {
+        "Name": "type",
+        "Type": "STRING"
+      },
+      {
+        "Name": "length",
+        "Type": "INT"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "part_of": [
+      {
+        "Name": "position",
+        "Type": "INT"
+      }
+    ]
+  }
+}
