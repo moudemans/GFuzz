@@ -26,6 +26,11 @@ public class GraphMutator {
 
     private static String applyMutationMethod(MyGraph g, GraphMutations.MutationMethod mm, Set<String> breaking_mutations) {
         String mutation_message = "";
+
+        if (breaking_mutations == null) {
+            breaking_mutations = new HashSet<>();
+        }
+
         switch (mm) {
             case AddEdge -> addEdgeMutation(g);
             case RemoveEdge -> removeEdgeMutation(g);
@@ -746,7 +751,7 @@ public class GraphMutator {
         if (random_index < node_pool_size) {
             Node n = nodes.get(random_index);
 
-            Set<String> non_string_property_labels = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property.type != Type.STRING).map(property -> property.name).collect(Collectors.toSet());
+            Set<String> non_string_property_labels = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.type != Type.STRING).map(property -> property.name).collect(Collectors.toSet());
             HashMap<String, String> non_string_properties = new HashMap<>();
             for (String p_label: n.properties.keySet()) {
                 if (non_string_property_labels.contains(p_label)) {
@@ -761,7 +766,7 @@ public class GraphMutator {
 
             String old_value = n.properties.get(prop_key);
 
-            Property old_prop = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            Property old_prop = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null &&  property.name.equals(prop_key)).findFirst().orElse(null);
 
             Property new_prop = null;
             if (old_prop != null) {
@@ -793,7 +798,7 @@ public class GraphMutator {
             Edge e = edges.get(random_index - node_pool_size);
 
 
-            Set<String> non_string_property_labels = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.type != Type.STRING).map(property -> property.name).collect(Collectors.toSet());
+            Set<String> non_string_property_labels = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.type != Type.STRING).map(property -> property.name).collect(Collectors.toSet());
             HashMap<String, String> non_string_properties = new HashMap<>();
             for (String p_label: e.properties.keySet()) {
                 if (non_string_property_labels.contains(p_label)) {
@@ -809,7 +814,7 @@ public class GraphMutator {
 
             String old_value = e.properties.get(prop_key);
 
-            Property old_prop = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            Property old_prop = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             Property new_prop = null;
 
@@ -877,7 +882,7 @@ public class GraphMutator {
             n.properties.put(new_prop_key, value);
             n.properties.remove(prop_key);
 
-            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property ->property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             if (p != null) {
                 Property new_prop = new Property(new_prop_key, p.type, p.isUnique, p.isNotNull);
@@ -898,7 +903,7 @@ public class GraphMutator {
             e.properties.put(new_prop_key, value);
             e.properties.remove(prop_key);
 
-            Property p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            Property p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             if (p != null) {
                 Property new_prop = new Property(new_prop_key, p.type, p.isUnique, p.isNotNull);
@@ -943,7 +948,7 @@ public class GraphMutator {
 
             String old_value = n.properties.get(prop_key);
 
-            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             // No property defined in schema
             String new_value = GraphGenerator.generatePropertyValue(p);
@@ -962,7 +967,7 @@ public class GraphMutator {
             String old_value = e.properties.get(prop_key);
             Property p = null;
             if (g.getSchema().getEdgeProperties() != null && g.getSchema().getEdgeProperties().get(e.label) != null) {
-                p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property.name.equals(prop_key)).findFirst().orElse(null);
+                p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
             }
 
 
