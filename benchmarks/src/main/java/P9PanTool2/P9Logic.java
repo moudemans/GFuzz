@@ -68,7 +68,7 @@ public class P9Logic {
                     return;
                 }
 
-                Node gene_node = g.getConnectedNode(mrna_node.id, "has_homolog", true);
+                Node gene_node = g.getConnectedNode(mrna_node.id, "codes_for", true);
 //                Node gene_node = gene_rel.getStartNode();
 
 
@@ -115,10 +115,13 @@ public class P9Logic {
                     function_found = true;
                 }
 
-                if (mrna_node.label.equals("phobius")) {
+                ArrayList<Node> phobiuss = g.getConnectedNodes(mrna_node, "has_phobius");
+
+                if (!phobiuss.isEmpty()) {
                     function_found = true;
-                    if (mrna_node.properties.containsKey("phobius_signal_peptide")) {
-                        String phobius_signalpep = (String) mrna_node.getProperty("phobius_signal_peptide");
+                    Node phobius = phobiuss.get(0);
+                    if (phobius.properties.containsKey("phobius_signal_peptide")) {
+                        String phobius_signalpep = (String) phobius.getProperty("phobius_signal_peptide");
                         if (phobius_signalpep.equals("yes")) {
                             function_count_map.merge("Phobius signal peptide", 1, Integer::sum);
                             info_per_mrna.append(" Phobius signal peptide").append("\n");
@@ -126,8 +129,8 @@ public class P9Logic {
                         }
                     }
 
-                    if (mrna_node.properties.containsKey("phobius_transmembrane")) {
-                        int transmem_domains = Integer.parseInt(mrna_node.getProperty("phobius_transmembrane"));
+                    if (phobius.properties.containsKey("phobius_transmembrane")) {
+                        int transmem_domains = Integer.parseInt(phobius.getProperty("phobius_transmembrane"));
                         if (transmem_domains > 0) {
                             function_count_map.merge("Phobius transmembrane domains", 1, Integer::sum);
                             info_per_mrna.append(transmem_domains).append(" Phobius transmembrane domains").append("\n");
@@ -136,10 +139,13 @@ public class P9Logic {
                     }
                 }
 
-                if (mrna_node.label.equals("signalp")) {
+                ArrayList<Node> signalps = g.getConnectedNodes(mrna_node, "has_signalp");
+
+                if (!signalps.isEmpty() ) {
                     function_found = true;
-                    if (mrna_node.properties.containsKey("signalp_signal_peptide")) { // type can be 'yes', 'SP(Sec/SPI)', 'LIPO(Sec/SPII)' or 'TAT(Tat/SPI)'
-                        String signalp_signalpep = (String) mrna_node.getProperty("signalp_signal_peptide");
+                    Node signalp = signalps.get(0);
+                    if (signalp.properties.containsKey("signalp_signal_peptide")) { // type can be 'yes', 'SP(Sec/SPI)', 'LIPO(Sec/SPII)' or 'TAT(Tat/SPI)'
+                        String signalp_signalpep = (String) signalp.getProperty("signalp_signal_peptide");
                         if (signalp_signalpep.equals("yes")) {
                             signalp_signalpep = "(no type)";
                         }
@@ -148,16 +154,18 @@ public class P9Logic {
                         mrnas_with_function[8]++;
                     }
                 }
+                ArrayList<Node> cogs = g.getConnectedNodes(mrna_node, "has_cog");
 
-                if (mrna_node.label.equals("COG")) {
-                    Map<String, String> props = mrna_node.properties;
+                if (!cogs.isEmpty()) {
+                    Node cog = cogs.get(0);
+                    Map<String, String> props = cog.properties;
                     function_found = true;
                     mrnas_with_function[4]++;
-                    String cog_cat = (String) mrna_node.getProperty("COG_category");
-                    String cogId = (String) mrna_node.getProperty("COG_id");
+                    String cog_cat = (String) cog.getProperty("COG_category");
+                    String cogId = (String) cog.getProperty("COG_id");
                     String cogDescription = "";
-                    if (mrna_node.properties.containsKey("COG_description")) {
-                        cogDescription = "," + (String) mrna_node.getProperty("COG_description");
+                    if (cog.properties.containsKey("COG_description")) {
+                        cogDescription = "," + (String) cog.getProperty("COG_description");
                     }
                     info_per_mrna.append(" COG category ").append(cog_cat).append(",").append(cogId).append(cogDescription).append("\n");
                     function_count_map.merge("COG category " + cog_cat + "," + cogId, 1, Integer::sum);

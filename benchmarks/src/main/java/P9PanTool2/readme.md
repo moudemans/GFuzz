@@ -11,5 +11,7 @@ The repo has a large code base with 10s of packages and 10s of thousands lines o
 
 ![Sample code](../../../../../docs/media/benchmarks/P4/full_schema.png)
 
+The program requires multilabel nodes, which we do not support.
+We added extra nodes and relationships to support this functionality
 
 ****
