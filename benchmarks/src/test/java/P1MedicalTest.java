@@ -70,6 +70,11 @@ public class P1MedicalTest {
         String path = input_path + "GMark-FIXED/";
         testFilesInDir(path);
     }
+    @Test
+    public void testGMARKINV() {
+        String path = input_path + "GMark-INV-FIXED/";
+        testFilesInDir(path);
+    }
 
     @Test
     public void testGMARKRandom() {
@@ -145,6 +150,7 @@ public class P1MedicalTest {
         P1Logic analysis = new P1Logic();
         int prev_item_id = 0;
         int new_item_id = 2;
+        String value = "Data1";
 //        int prev_item_id = 5;
 //        int new_item_id = 0;
 
@@ -155,14 +161,14 @@ public class P1MedicalTest {
         try {
             MyGraph g = readGraph(f);
 
-            analysis.function_1(g, prev_item_id, "Data1", new_item_id, false, false);
+            analysis.function_1(g, prev_item_id, value, new_item_id, false, false);
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
 
         try {
             MyGraph g2 =  readGraph(f);
-            analysis.function_1(g2, prev_item_id, "Data1", new_item_id, false, true);
+            analysis.function_1(g2, prev_item_id, value, new_item_id, false, true);
         } catch (Exception ignored) {
             ignored.printStackTrace();
 
@@ -170,7 +176,7 @@ public class P1MedicalTest {
 
         try {
             MyGraph g3 =  readGraph(f);
-            analysis.function_1(g3, prev_item_id, "Data1", new_item_id, true, false);
+            analysis.function_1(g3, prev_item_id, value, new_item_id, true, false);
         } catch (Exception ignored) {
             ignored.printStackTrace();
 
@@ -178,7 +184,7 @@ public class P1MedicalTest {
 
         try {
             MyGraph g4 =  readGraph(f);
-            analysis.function_1(g4, prev_item_id, "Data1", new_item_id, true, true);
+            analysis.function_1(g4, prev_item_id, value, new_item_id, true, true);
         } catch (Exception ignored) {
             ignored.printStackTrace();
 

@@ -38,11 +38,14 @@ function_1 (
     addRelationships( [new_node -- relationship_name --> connected_nodes] )
     
     # Check cardinality new_item, old_item for all previous relationships 
-    isSingle (previous_item, relationships_to_maintain)
-    isSingle (new_item, relationships_to_maintain)
+    if !isSingle (previous_item, relationships_to_maintain)
+      throw error
+    if !isSingle (new_item, relationships_to_maintain)
+      throw error
     
     
-    isSingle (value_relationship_name)
+    if !isSingle (value_relationship_name)
+      throw error
     RemoveRelationship (previous_node -- relationship_name --> value_node) 
 
 	

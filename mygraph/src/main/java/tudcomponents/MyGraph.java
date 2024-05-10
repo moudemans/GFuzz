@@ -704,7 +704,7 @@ public class MyGraph implements Serializable {
             if (e.label.equals(edgeLabel)) {
                 String node_label = getNode(e.to).label;
 
-                if (node_label.equals(n.label)) {
+                if (e.to == n.id) {
                     node_label = getNode(e.from).label;
                 }
 
@@ -715,7 +715,7 @@ public class MyGraph implements Serializable {
             }
 
         }
-        return counter == 1;
+        return counter == 0;
     }
 
     public OptionalInt getMaxID() {
