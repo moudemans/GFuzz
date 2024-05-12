@@ -36,6 +36,12 @@ public class P6PhenoOutTest {
         testFilesInDir(path);
     }
 
+    @org.junit.Test
+    public void testMutated3() {
+        String path = input_path + "GFUZZ-NEW/";
+        testFilesInDir(path);
+    }
+
 
     public void testFilesInDir(String path) {
         P6Logic analysis = new P6Logic();
@@ -65,7 +71,7 @@ public class P6PhenoOutTest {
                 analysis.run(g);
             } catch (Exception e) {
                 System.err.println("Caught exception: " + e.getMessage());
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
         assertTrue("test", true);

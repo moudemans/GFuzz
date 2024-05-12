@@ -43,12 +43,9 @@ public class P6Logic {
 
     private String addTypeToField(MyGraph g, String node_label, String property_label) {
         final String value;
-        Property p = g.getSchema().getNodeProperties().get(node_label).stream().filter(property ->  property != null && property.name.equals(property_label)).findFirst().orElse(null);
+        Property p = g.getSchema().getNodeProperties().get(node_label).stream().filter(property -> property.name.equals(property_label)).findFirst().orElse(null);
 
 
-        if (p == null) {
-            return "";
-        }
         if (p.type == Type.INT) {
             value = "int";
         } else if (p.type == Type.DOUBLE) {
