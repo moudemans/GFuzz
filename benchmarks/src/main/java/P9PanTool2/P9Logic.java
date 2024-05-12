@@ -1,15 +1,10 @@
 package P9PanTool2;
 
 
-import tudcomponents.Edge;
-import tudcomponents.MyGraph;
-import tudcomponents.Node;
-import tudcomponents.Relationship;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Edge;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Node;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class P9Logic {

@@ -1,13 +1,10 @@
 package P10PanTool3;
 
 
-import tudcomponents.Edge;
-import tudcomponents.MyGraph;
-import tudcomponents.Node;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Edge;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Node;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 

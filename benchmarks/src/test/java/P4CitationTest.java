@@ -1,7 +1,6 @@
 
-import P3Citation.P3Logic;
 import P4CitationNetwork.P4Logic;
-import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
 import util.Util;
 
 import java.io.File;

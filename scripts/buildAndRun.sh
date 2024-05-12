@@ -68,8 +68,8 @@ then
   echo "Java files found in dir:"
   echo "${javaFiles}"
   echo ""
-  javac -cp .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) ${javaFiles}
+  javac -cp .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh) ${javaFiles}
 fi
 
 
-${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method
+${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh) $class_name $class_method

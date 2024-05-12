@@ -1,8 +1,7 @@
 
 
 import P1Medical.P1Logic;
-import P7Pheno4j.P7Logic;
-import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
 import org.junit.Test;
 import util.Util;
 

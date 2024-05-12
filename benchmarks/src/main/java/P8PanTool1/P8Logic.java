@@ -1,8 +1,8 @@
 package P8PanTool1;
 
 
-import tudcomponents.MyGraph;
-import tudcomponents.Node;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Node;
 
 import java.util.*;
 

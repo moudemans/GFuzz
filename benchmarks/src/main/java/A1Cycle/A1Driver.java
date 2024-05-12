@@ -4,7 +4,7 @@ package A1Cycle;
 import edu.berkeley.cs.jqf.fuzz.Fuzz;
 import edu.berkeley.cs.jqf.fuzz.JQF;
 import org.junit.runner.RunWith;
-import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
 
 import java.io.IOException;
 

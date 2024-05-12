@@ -1,6 +1,6 @@
 
 import P6PhenoOut.P6Logic;
-import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
 import util.Util;
 
 import java.io.File;

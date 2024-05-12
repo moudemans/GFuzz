@@ -1,7 +1,6 @@
 
-import P8PanTool1.P8Logic;
 import P9PanTool2.P9Logic;
-import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
 import util.Util;
 
 import java.io.File;

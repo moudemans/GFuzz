@@ -1,6 +1,6 @@
 
 import P2Transportation.P2Logic;
-import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
 
 import java.io.File;
 

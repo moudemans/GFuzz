@@ -1,8 +1,8 @@
 package P1Medical;
 
-import tudcomponents.Edge;
-import tudcomponents.MyGraph;
-import tudcomponents.Node;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Edge;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Node;
 
 import java.util.ArrayList;
 import java.util.Set;

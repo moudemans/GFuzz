@@ -1,7 +1,10 @@
 package P6PhenoOut;
 
 
-import tudcomponents.*;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Node;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Property;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Type;
 
 import java.util.ArrayList;
 import java.util.List;

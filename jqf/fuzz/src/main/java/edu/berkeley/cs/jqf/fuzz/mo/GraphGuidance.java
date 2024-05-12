@@ -28,16 +28,15 @@
  */
 package edu.berkeley.cs.jqf.fuzz.mo;
 
-import tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.guidance.GuidanceException;
 import edu.berkeley.cs.jqf.fuzz.guidance.Result;
 import edu.berkeley.cs.jqf.fuzz.util.Coverage;
 import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
 import org.apache.commons.io.FileUtils;
-import tudgraphs.GraphMutations;
-import tudgraphs.GraphMutator;
-import util.GraphUtil;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudgraphs.GraphMutations;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudgraphs.GraphMutator;
 
 import java.io.*;
 import java.time.Duration;

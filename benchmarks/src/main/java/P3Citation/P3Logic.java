@@ -1,6 +1,9 @@
 package P3Citation;
 
 
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Edge;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.MyGraph;
+import edu.berkeley.cs.jqf.fuzz.mo.mygraph.tudcomponents.Node;
 import tudcomponents.*;
 
 import java.util.ArrayList;
