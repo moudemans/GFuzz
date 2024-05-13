@@ -253,7 +253,7 @@ public class GraphMutator {
 
 
         if (relationships_with_cardinality.isEmpty()) {
-            printString(String.format("There are no relationships with cardinality which can be broken, no cardinality mutation performed"), System.Logger.Level.WARNING);
+            printString(String.format("There are no relationships with cardinality which can be broken, no cardinality mutation performed"), System.Logger.Level.DEBUG);
             GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakCardinality, false);
             return "";
         }
@@ -262,7 +262,7 @@ public class GraphMutator {
         ArrayList<Relationship> filtered_relationships = new ArrayList<>(relationships_with_cardinality.stream().filter(relationship -> !cardinality_mutations_applied.contains(relToConstraintString(relationship))).toList());
 
         if (filtered_relationships.isEmpty()) {
-            printString(String.format("All relationships with cardinality have already been broken, no mutation performed"), System.Logger.Level.WARNING);
+            printString(String.format("All relationships with cardinality have already been broken, no mutation performed"), System.Logger.Level.DEBUG);
             return "";
         }
 
@@ -315,12 +315,12 @@ public class GraphMutator {
 
 
         if (from_nodes.size() < 2) {
-            printString(String.format("Not enough from nodes found to break one2Many cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
+            printString(String.format("Not enough from nodes found to break one2Many cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
             return;
         }
 
         if (to_nodes.isEmpty()) {
-            printString(String.format("No to nodes found to break one2Many cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
+            printString(String.format("No to nodes found to break one2Many cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
             return;
         }
 
@@ -358,12 +358,15 @@ public class GraphMutator {
 
 
         if (from_nodes.isEmpty()) {
-            printString(String.format("No from nodes found to break many2One cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
+            printString(String.format("No from nodes found to break many2One cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
+                // TODO: make from node
             return;
         }
 
         if (to_nodes.size() < 2) {
-            printString(String.format("Not enough to nodes found to break many2One cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.WARNING);
+            //TODO: make to node
+
+            printString(String.format("Not enough to nodes found to break many2One cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
             return;
         }
 
@@ -396,12 +399,12 @@ public class GraphMutator {
         ArrayList<Node> to_nodes = g.getNodes(to_label);
 
         if (from_nodes.isEmpty()) {
-            printString(String.format("No from nodes found to break simple cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
+            printString(String.format("No from nodes found to break simple cardinality for relationship [%s]", rel), System.Logger.Level.DEBUG);
             return;
         }
 
         if (to_nodes.isEmpty()) {
-            printString(String.format("No to nodes found to break simple cardinality for relationship [%s]", rel), System.Logger.Level.WARNING);
+            printString(String.format("No to nodes found to break simple cardinality for relationship [%s]", rel), System.Logger.Level.DEBUG);
             return;
         }
 
@@ -586,7 +589,7 @@ public class GraphMutator {
         ArrayList<Node> filtered_nodes = new ArrayList<>(nodes.stream().filter(node -> !node.properties.isEmpty()).toList());
 
         if (filtered_nodes.isEmpty()) {
-            printString("There are no nodes with properties", System.Logger.Level.WARNING);
+            printString("There are no nodes with properties", System.Logger.Level.INFO);
             return null;
         }
         return filtered_nodes;
@@ -703,7 +706,7 @@ public class GraphMutator {
         ArrayList<Node> to_candidates = g.getNodes(to_label);
 
         if (from_candidates.isEmpty() || to_candidates.isEmpty()) {
-            printString(String.format("Could not add a new edge, to few available nodes - from=[%s]:[%s], to=[%s]:[%s] \n", from_label, from_candidates.size(), to_label, to_candidates.size()), System.Logger.Level.WARNING);
+            printString(String.format("Could not add a new edge, to few available nodes - from=[%s]:[%s], to=[%s]:[%s] \n", from_label, from_candidates.size(), to_label, to_candidates.size()), System.Logger.Level.DEBUG);
             return;
         }
 
@@ -722,8 +725,8 @@ public class GraphMutator {
 
 
     private static void changePropertyType(MyGraph g) {
-        ArrayList<Node> nodes = getNodesWithNonStringProperties(g);
-        ArrayList<Edge> edges = getEdgesWithNonStringProperties(g);
+        ArrayList<Node> nodes = getNodesWithProperties(g);
+        ArrayList<Edge> edges = getEdgesWithProperties(g);
 
         int pool_size = 0;
         int node_pool_size = 0;
@@ -749,14 +752,9 @@ public class GraphMutator {
         if (random_index < node_pool_size) {
             Node n = nodes.get(random_index);
 
-            Set<String> non_string_property_labels = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.type != Type.STRING).map(property -> property.name).collect(Collectors.toSet());
             HashMap<String, String> non_string_properties = new HashMap<>();
             for (String p_label : n.properties.keySet()) {
-//                if (non_string_property_labels.contains(p_label)) {
-//                    non_string_properties.put(p_label, n.properties.get(p_label));
-//                }
                 non_string_properties.put(p_label, n.properties.get(p_label));
-
             }
 
             ArrayList<String> properties = new ArrayList<>(non_string_properties.keySet());
@@ -766,29 +764,24 @@ public class GraphMutator {
 
             String old_value = n.properties.get(prop_key);
 
-            Property old_prop = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
+            Type old_prop = g.getNodeProperty(n, prop_key);
 
-            Property new_prop = null;
-            if (old_prop != null) {
-                Type[] possible_types = Type.values();
-                Type new_type = possible_types[r.nextInt(possible_types.length)];
+            Type[] possible_types = Type.values();
+            Type new_type = possible_types[r.nextInt(possible_types.length)];
 
-//                while (new_type == old_prop.type) {
-//                    new_type = possible_types[r.nextInt(possible_types.length)];
-//                }
-
-                new_prop = new Property(prop_key, new_type, old_prop.isUnique, old_prop.isNotNull);
-
-                int old_index = g.getSchema().getNodeProperties().get(n.label).indexOf(old_prop);
-                g.getSchema().getNodeProperties().get(n.label).set(old_index, new_prop);
-            } else {
-                new_prop = new Property(prop_key, Type.STRING);
-                g.getSchema().getNodeProperties().get(n.label).add(new_prop);
+            while (new_type == old_prop) {
+                new_type = possible_types[r.nextInt(possible_types.length)];
             }
 
+            Property new_prop = new Property(prop_key, new_type);
             String new_value = GraphGenerator.generatePropertyValue(new_prop);
 
             n.properties.put(prop_key, new_value);
+
+            if (n.propertyTypes == null) {
+                n.propertyTypes = new HashMap<>();
+            }
+            n.propertyTypes.put(prop_key, new_type);
 
             printString(String.format("Changed Property type of property [%s] with value [%s] to value [%s] for node [%s] \n", prop_key, old_value, new_value, n.id), System.Logger.Level.INFO);
 
@@ -796,12 +789,10 @@ public class GraphMutator {
             Edge e = edges.get(random_index - node_pool_size);
 
 
-            Set<String> non_string_property_labels = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.type != Type.STRING).map(property -> property.name).collect(Collectors.toSet());
             HashMap<String, String> non_string_properties = new HashMap<>();
             for (String p_label : e.properties.keySet()) {
-                if (non_string_property_labels.contains(p_label)) {
-                    non_string_properties.put(p_label, e.properties.get(p_label));
-                }
+                non_string_properties.put(p_label, e.properties.get(p_label));
+
             }
 
 
@@ -811,31 +802,24 @@ public class GraphMutator {
 
             String old_value = e.properties.get(prop_key);
 
-            Property old_prop = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
+            Type old_prop = g.getEdgeProperty(e, prop_key);
 
-            Property new_prop = null;
+            Type[] possible_types = Type.values();
+            Type new_type = possible_types[r.nextInt(possible_types.length)];
 
-            if (old_prop != null) {
-                Type[] possible_types = Type.values();
-                Type new_type = possible_types[r.nextInt(possible_types.length)];
-
-//                while (new_type == old_prop.type) {
-//                    new_type = possible_types[r.nextInt(possible_types.length)];
-//                }
-                new_prop = new Property(prop_key, new_type, old_prop.isUnique, old_prop.isNotNull);
-
-                int old_index = g.getSchema().getEdgeProperties().get(e.label).indexOf(old_prop);
-                g.getSchema().getEdgeProperties().get(e.label).set(old_index, new_prop);
-            } else {
-                new_prop = new Property(prop_key, Type.STRING);
-                g.getSchema().getEdgeProperties().get(e.label).add(new_prop);
+            while (new_type == old_prop) {
+                new_type = possible_types[r.nextInt(possible_types.length)];
             }
 
 
-            // No property defined in schema
+            Property new_prop = new Property(prop_key, new_type);
             String new_value = GraphGenerator.generatePropertyValue(new_prop);
 
             e.properties.put(prop_key, new_value);
+            if (e.propertyTypes == null) {
+                e.propertyTypes = new HashMap<>();
+            }
+            e.propertyTypes.put(prop_key, new_type);
 
             printString(String.format("Changed Property type of property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.label, e.to), System.Logger.Level.INFO);
         }
@@ -878,6 +862,17 @@ public class GraphMutator {
             n.properties.put(new_prop_key, value);
             n.properties.remove(prop_key);
 
+
+            if (n.propertyTypes == null) {
+                n.propertyTypes = new HashMap<>();
+            }
+            n.propertyTypes.put(new_prop_key, g.getNodeProperty(n, prop_key));
+            n.propertyTypes.remove(prop_key);
+
+            if (g.getSchema().getNodeProperties().get(n.label) == null) {
+                printString("No properties in schema on node " + n.label, System.Logger.Level.WARNING);
+                return;
+            }
             Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             if (p != null) {
@@ -896,9 +891,20 @@ public class GraphMutator {
             String new_prop_key = generateString(prop_key.length() * 2);
 
             String value = e.properties.get(prop_key);
+
             e.properties.put(new_prop_key, value);
             e.properties.remove(prop_key);
 
+            if (e.propertyTypes == null) {
+                e.propertyTypes = new HashMap<>();
+            }
+            e.propertyTypes.put(new_prop_key, g.getEdgeProperty(e, prop_key));
+            e.propertyTypes.remove(prop_key);
+
+            if (g.getSchema().getEdgeProperties().get(e.label) == null) {
+                printString("No properties in schema on edge " + e.label, System.Logger.Level.WARNING);
+                return;
+            }
             Property p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             if (p != null) {
@@ -944,8 +950,8 @@ public class GraphMutator {
 
             String old_value = n.properties.get(prop_key);
 
-            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
-
+//            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
+            Property p = new Property(prop_key, g.getNodeProperty(n, prop_key));
             // No property defined in schema
             String new_value = GraphGenerator.generatePropertyValue(p);
 
@@ -961,11 +967,7 @@ public class GraphMutator {
             String prop_key = properties.get(random_property_index);
 
             String old_value = e.properties.get(prop_key);
-            Property p = null;
-            if (g.getSchema().getEdgeProperties() != null && g.getSchema().getEdgeProperties().get(e.label) != null) {
-                p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
-            }
-
+            Property p = new Property(prop_key, g.getEdgeProperty(e, prop_key));
 
             // No property defined in schema
             String new_value = GraphGenerator.generatePropertyValue(p);

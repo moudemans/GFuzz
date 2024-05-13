@@ -2,9 +2,9 @@
 
 #cd "C:\Users\moude\IdeaProjects\myJQF"
 
-PATH1="benchmarks/src/main/java/P9Constraint/"
+PATH1="benchmarks/src/main/java/P1Constraint/"
 #PATH1="tutorial/src/main/java/P10/"
-FILES="P9ConstraintLogic.java P9Driver.java"
+FILES="P9ConstraintLogic.java P1Driver.java"
 #FILES="intLogic.java intGenerator.java intTest.java"
 
 PATH_TO_ROOT="../../../../../"

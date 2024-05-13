@@ -1,0 +1,109 @@
+FUZZ LOG: P5Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         10m 0s 
+	Number of executions: 4,051
+	Total coverage:       1,555 branches (2.37% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+	mutation counts:       
+		 RemoveEdge: 262
+		 BreakCardinality: 302
+		 RemoveProperty: 307
+		 ChangeLabelEdge: 329
+		 ChangePropertyKey: 290
+		 ChangePropertyType: 331
+		 ChangeEdge: 293
+		 AddNode: 313
+		 CopyNode: 306
+		 BreakSchema: 317
+		 RemoveNode: 312
+		 ChangePropertyValue: 360
+		 AddEdge: 260
+	Saved inputs:       
+		 Coverage_773.json, created by mutation: ChangePropertyType
+		 Coverage_25.json, created by mutation: RemoveProperty
+		 Coverage_2913.json, created by mutation: ChangePropertyKey
+		 Coverage_64.json, created by mutation: ChangeEdge
+		 Coverage_36.json, created by mutation: BreakSchema
+		 Coverage_2578.json, created by mutation: AddNode
+		 Coverage_47.json, created by mutation: RemoveNode
+		 Coverage_98.json, created by mutation: ChangeEdge
+		 Coverage_442.json, created by mutation: BreakCardinality
+		 Coverage_131.json, created by mutation: AddEdge
+		 Coverage_42.json, created by mutation: ChangePropertyType
+		 Coverage_231.json, created by mutation: ChangePropertyKey
+		 Coverage_2902.json, created by mutation: ChangePropertyType
+		 Coverage_200.json, created by mutation: CopyNode
+		 error_1142.json, created by mutation: RemoveNode
+		 Coverage_27.json, created by mutation: AddEdge
+		 Coverage_311.json, created by mutation: RemoveNode
+		 Coverage_1419.json, created by mutation: ChangePropertyType
+		 Coverage_70.json, created by mutation: ChangePropertyValue
+		 Coverage_109.json, created by mutation: RemoveNode
+		 error_144.json, created by mutation: ChangePropertyKey
+		 Coverage_38.json, created by mutation: ChangePropertyValue
+		 Coverage_62.json, created by mutation: AddNode
+		 Coverage_122.json, created by mutation: ChangePropertyType
+		 Coverage_51.json, created by mutation: ChangeLabelEdge
+		 error_615.json, created by mutation: ChangePropertyKey
+		 Coverage_40.json, created by mutation: BreakSchema
+		 Coverage_2.json, created by mutation: NoMutation
+		 Coverage_713.json, created by mutation: ChangePropertyKey
+		 Coverage_49.json, created by mutation: RemoveNode
+		 Coverage_105.json, created by mutation: ChangePropertyKey
+		 Coverage_32.json, created by mutation: CopyNode
+		 Coverage_178.json, created by mutation: ChangePropertyType
+		 Coverage_23.json, created by mutation: ChangePropertyValue
+		 Coverage_60.json, created by mutation: BreakSchema
+		 Coverage_3887.json, created by mutation: ChangePropertyKey
+		 Coverage_2853.json, created by mutation: ChangePropertyType
+		 Coverage_34.json, created by mutation: RemoveEdge
+		 Coverage_163.json, created by mutation: ChangePropertyType
+		 Coverage_446.json, created by mutation: BreakSchema
+		 Coverage_45.json, created by mutation: RemoveProperty
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_56.json, created by mutation: AddNode
+		 error_161.json, created by mutation: CopyNode
+		 Coverage_86.json, created by mutation: AddNode
+		 Coverage_72.json, created by mutation: ChangePropertyType
+		 Coverage_75.json, created by mutation: RemoveNode
+		 Coverage_30.json, created by mutation: BreakSchema
+
+
+ Unique failures found: 
+	
+	tudcomponents.MyGraph.updateOutgoingIncommingEdges(MyGraph.java:485)tudcomponents.MyGraph.readGraphFromJSON(MyGraph.java:474)P5Driver.test1(P5Driver.java:19)
+	P5Logic.get_neighbor(P5Logic.java:90)P5Logic.write_families(P5Logic.java:33)P5Logic.run(P5Logic.java:17)P5Driver.test1(P5Driver.java:21)
+	P5Logic.get_neighbor(P5Logic.java:109)P5Logic.write_families(P5Logic.java:33)P5Logic.run(P5Logic.java:17)P5Driver.test1(P5Driver.java:21)
+	UniqueErrors:       
+		 Unique error at [144], error message: P5Logic.get_neighbor(P5Logic.java:90)P5Logic.write_families(P5Logic.java:33)P5Logic.run(P5Logic.java:17)P5Driver.test1(P5Driver.java:21)
+		 Unique error at [161], error message: 
+		 Unique error at [615], error message: P5Logic.get_neighbor(P5Logic.java:109)P5Logic.write_families(P5Logic.java:33)P5Logic.run(P5Logic.java:17)P5Driver.test1(P5Driver.java:21)
+		 Unique error at [1142], error message: tudcomponents.MyGraph.updateOutgoingIncommingEdges(MyGraph.java:485)tudcomponents.MyGraph.readGraphFromJSON(MyGraph.java:474)P5Driver.test1(P5Driver.java:19)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [P5Logic.get_neighbor(P5Logic.java:90)P5Logic.write_families(P5Logic.java:33)P5Logic.run(P5Logic.java:17)P5Driver.test1(P5Driver.java:21)]
+		 [NoMutation]: 1
+		 [ChangePropertyKey]: 2
+	Unique error: []
+		 [NoMutation]: 1
+		 [RemoveEdge]: 16
+		 [BreakCardinality]: 18
+		 [RemoveProperty]: 53
+		 [ChangeLabelEdge]: 21
+		 [ChangePropertyKey]: 45
+		 [ChangePropertyType]: 15
+		 [ChangeEdge]: 43
+		 [AddNode]: 22
+		 [CopyNode]: 20
+		 [BreakSchema]: 24
+		 [RemoveNode]: 18
+		 [ChangePropertyValue]: 31
+		 [AddEdge]: 17
+	Unique error: [P5Logic.get_neighbor(P5Logic.java:109)P5Logic.write_families(P5Logic.java:33)P5Logic.run(P5Logic.java:17)P5Driver.test1(P5Driver.java:21)]
+		 [NoMutation]: 1
+		 [ChangePropertyKey]: 1
+	Unique error: [tudcomponents.MyGraph.updateOutgoingIncommingEdges(MyGraph.java:485)tudcomponents.MyGraph.readGraphFromJSON(MyGraph.java:474)P5Driver.test1(P5Driver.java:19)]
+		 [NoMutation]: 1
+		 [RemoveNode]: 1

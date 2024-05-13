@@ -1,12 +1,13 @@
 
 
 import P1Medical.P1Logic;
-import P7Pheno4j.P7Logic;
 import tudcomponents.MyGraph;
 import org.junit.Test;
 import util.Util;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import static org.junit.Assert.assertTrue;
 
@@ -68,38 +69,39 @@ public class P1MedicalTest {
     @Test
     public void testGMARK() {
         String path = input_path + "GMark-FIXED/";
-        testFilesInDir(path);
+        testFilesInDir(path, 0);
     }
     @Test
     public void testGMARKINV() {
         String path = input_path + "GMark-INV-FIXED/";
-        testFilesInDir(path);
+        testFilesInDir(path, 0);
     }
 
     @Test
     public void testGMARKRandom() {
         String path = input_path + "GMark-RANDOM/";
-        testFilesInDir(path);
+        testFilesInDir(path, 0);
     }
 
     @Test
     public void testGMARKRandom2() {
         String path =input_path + "GMark-RANDOM2/";
-        testFilesInDir(path);
+        testFilesInDir(path, 0);
     }
     @Test
     public void testGMARKMutation() {
         String path = input_path + "GMark-MUTATED2/";
-        testFilesInDir(path);
+        testFilesInDir(path, 0);
     }
 
     @Test
-    public void testGMARKMutated() {
-        String path = input_path + "P9-GMARK-MUTATED2/";
-        testFilesInDir(path);
+    public void testres() {
+        int limit = 30;
+        String path = input_path +"saved-inputs_3/";
+        testFilesInDir(path, limit);
     }
 
-    public void testFilesInDir(String path) {
+    public void testFilesInDir(String path, int limit) {
 
         if (!Util.dirExists(path)) {
             System.err.println("Input directory not found: " + path);
@@ -110,9 +112,29 @@ public class P1MedicalTest {
 
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
+        Arrays.sort(listOfFiles, new Comparator<File>() {
+            public int compare(File str1, File str2) {
+                if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
+                    return 1;
+                }
+                String[] tmp1 = str1.getName().split("_");
+                String[] tmp2 = tmp1[1].split("\\.");
+
+
+                String substr1 = str1.getName().split("_")[1].split("\\.")[0];
+                String substr2 = str2.getName().split("_")[1].split("\\.")[0];
+
+                return Integer.valueOf(substr1).compareTo(Integer.valueOf(substr2));
+            }
+        });
+
         int counter = 0;
         for (File f :
                 listOfFiles) {
+
+            if (limit > 0 && counter >= limit) {
+                break;
+            }
             MyGraph g;
             if (run_json && f.getPath().contains("json")) {
                 g = MyGraph.readGraphFromJSON(f.getPath());

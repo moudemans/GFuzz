@@ -10,6 +10,7 @@ public class Node implements Serializable {
     public String label;
 
     public HashMap<String, String> properties = new HashMap<>();
+    public HashMap<String, Type> propertyTypes = new HashMap<>();
 
     Set<Edge> edges = new HashSet<>();
 
@@ -87,6 +88,13 @@ public class Node implements Serializable {
             }
         }
         return res;
+    }
+
+    public Type getPropertyType(String label) {
+        if (propertyTypes != null) {
+            return propertyTypes.getOrDefault(label, null);
+        }
+        return null;
     }
 
 

@@ -1,0 +1,128 @@
+FUZZ LOG: P1Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         10m 0s 
+	Number of executions: 30,457
+	Total coverage:       1,402 branches (2.14% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+	mutation counts:       
+		 AddEdge: 3,288
+		 RemoveEdge: 3,424
+		 BreakUnique: 1
+		 ChangePropertyType: 1
+		 ChangePropertyValue: 1
+		 ChangeEdge: 3,389
+		 RemoveProperty: 1
+		 BreakCardinality: 3,354
+		 BreakSchema: 3,306
+		 RemoveNode: 3,463
+		 ChangeLabelEdge: 3,354
+		 ChangePropertyKey: 1
+		 CopyNode: 3,387
+		 AddNode: 3,426
+	Saved inputs:       
+		 Coverage_61.json, created by mutation: BreakCardinality
+		 Coverage_196.json, created by mutation: AddNode
+		 error_514.json, created by mutation: ChangeLabelEdge
+		 Coverage_44.json, created by mutation: ChangePropertyType
+		 Coverage_2410.json, created by mutation: ChangeLabelEdge
+		 Coverage_70.json, created by mutation: AddNode
+		 Coverage_3.json, created by mutation: NoMutation
+		 Coverage_109.json, created by mutation: ChangeLabelEdge
+		 error_152.json, created by mutation: ChangeEdge
+		 Coverage_35.json, created by mutation: ChangePropertyValue
+		 Coverage_711.json, created by mutation: ChangeLabelEdge
+		 Coverage_211.json, created by mutation: RemoveEdge
+		 Coverage_256.json, created by mutation: AddNode
+		 Coverage_5.json, created by mutation: NoMutation
+		 Coverage_2.json, created by mutation: NoMutation
+		 Coverage_93.json, created by mutation: RemoveNode
+		 Coverage_413.json, created by mutation: ChangeLabelEdge
+		 Coverage_57.json, created by mutation: CopyNode
+		 Coverage_169.json, created by mutation: ChangeLabelEdge
+		 error_1530.json, created by mutation: ChangeEdge
+		 Coverage_30.json, created by mutation: RemoveNode
+		 Coverage_22.json, created by mutation: ChangeLabelEdge
+		 Coverage_115.json, created by mutation: BreakCardinality
+		 Coverage_64.json, created by mutation: ChangeLabelEdge
+		 Coverage_33.json, created by mutation: RemoveEdge
+		 error_339.json, created by mutation: ChangeEdge
+		 Coverage_107.json, created by mutation: AddNode
+		 Coverage_42.json, created by mutation: ChangePropertyKey
+		 Coverage_50.json, created by mutation: CopyNode
+		 Coverage_1133.json, created by mutation: ChangeLabelEdge
+		 Coverage_24.json, created by mutation: BreakSchema
+		 Coverage_1410.json, created by mutation: ChangeLabelEdge
+		 Coverage_16.json, created by mutation: RemoveProperty
+		 Coverage_20.json, created by mutation: BreakUnique
+		 Coverage_38.json, created by mutation: BreakCardinality
+		 Coverage_1008.json, created by mutation: ChangeLabelEdge
+		 Coverage_305.json, created by mutation: ChangeLabelEdge
+		 Coverage_40.json, created by mutation: ChangeEdge
+		 Coverage_394.json, created by mutation: AddNode
+		 Coverage_26.json, created by mutation: AddEdge
+		 error_251.json, created by mutation: RemoveNode
+		 Coverage_18.json, created by mutation: BreakCardinality
+		 Coverage_192.json, created by mutation: ChangeEdge
+		 Coverage_1168.json, created by mutation: RemoveEdge
+		 Coverage_7.json, created by mutation: NoMutation
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_86.json, created by mutation: AddNode
+		 Coverage_146.json, created by mutation: ChangeLabelEdge
+		 Coverage_285.json, created by mutation: RemoveNode
+		 Coverage_59.json, created by mutation: RemoveNode
+
+
+ Unique failures found: 
+	
+	P1Logic.function_1(P1Logic.java:15)P1Driver.test1(P1Driver.java:19)
+	tudcomponents.MyGraph.updateOutgoingIncommingEdges(MyGraph.java:485)tudcomponents.MyGraph.readGraphFromJSON(MyGraph.java:474)P1Driver.test1(P1Driver.java:18)
+	tudcomponents.MyGraph.checkSingle(MyGraph.java:708)P1Logic.function_1(P1Logic.java:54)P1Driver.test1(P1Driver.java:19)
+	P1Logic.function_1(P1Logic.java:23)P1Driver.test1(P1Driver.java:19)
+	UniqueErrors:       
+		 Unique error at [152], error message: tudcomponents.MyGraph.checkSingle(MyGraph.java:708)P1Logic.function_1(P1Logic.java:54)P1Driver.test1(P1Driver.java:19)
+		 Unique error at [251], error message: P1Logic.function_1(P1Logic.java:15)P1Driver.test1(P1Driver.java:19)
+		 Unique error at [339], error message: P1Logic.function_1(P1Logic.java:23)P1Driver.test1(P1Driver.java:19)
+		 Unique error at [514], error message: 
+		 Unique error at [1530], error message: tudcomponents.MyGraph.updateOutgoingIncommingEdges(MyGraph.java:485)tudcomponents.MyGraph.readGraphFromJSON(MyGraph.java:474)P1Driver.test1(P1Driver.java:18)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [tudcomponents.MyGraph.checkSingle(MyGraph.java:708)P1Logic.function_1(P1Logic.java:54)P1Driver.test1(P1Driver.java:19)]
+		 [ChangeEdge]: 2
+		 [BreakCardinality]: 3
+		 [AddEdge]: 1
+		 [RemoveEdge]: 1
+		 [RemoveNode]: 1
+		 [ChangeLabelEdge]: 1
+		 [NoMutation]: 1
+		 [CopyNode]: 2
+		 [AddNode]: 1
+	Unique error: [P1Logic.function_1(P1Logic.java:15)P1Driver.test1(P1Driver.java:19)]
+		 [ChangeEdge]: 3
+		 [BreakSchema]: 5
+		 [AddEdge]: 1
+		 [RemoveNode]: 2
+		 [NoMutation]: 1
+		 [AddNode]: 4
+	Unique error: [P1Logic.function_1(P1Logic.java:23)P1Driver.test1(P1Driver.java:19)]
+		 [ChangeEdge]: 5
+		 [RemoveNode]: 1
+		 [ChangeLabelEdge]: 1
+		 [NoMutation]: 1
+		 [CopyNode]: 2
+		 [AddNode]: 2
+	Unique error: []
+		 [ChangeEdge]: 284
+		 [BreakCardinality]: 228
+		 [BreakSchema]: 222
+		 [AddEdge]: 246
+		 [RemoveEdge]: 260
+		 [RemoveNode]: 440
+		 [ChangeLabelEdge]: 236
+		 [NoMutation]: 1
+		 [CopyNode]: 255
+		 [AddNode]: 254
+	Unique error: [tudcomponents.MyGraph.updateOutgoingIncommingEdges(MyGraph.java:485)tudcomponents.MyGraph.readGraphFromJSON(MyGraph.java:474)P1Driver.test1(P1Driver.java:18)]
+		 [ChangeEdge]: 1
+		 [NoMutation]: 1

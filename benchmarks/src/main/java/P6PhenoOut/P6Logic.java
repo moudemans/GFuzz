@@ -33,7 +33,7 @@ public class P6Logic {
                 String annotation = n.properties.get(key);
                 value = "test3" + annotation;
             } else {
-                value = addTypeToField(g, node_label, key);
+                value = addTypeToField(g, n, key);
             }
             fields.add(value);
         }
@@ -41,22 +41,22 @@ public class P6Logic {
         return fields.toArray(new String[0]);
     }
 
-    private String addTypeToField(MyGraph g, String node_label, String property_label) {
+    private String addTypeToField(MyGraph g, Node n, String property_label) {
         final String value;
-        Property p = g.getSchema().getNodeProperties().get(node_label).stream().filter(property -> property.name.equals(property_label)).findFirst().orElse(null);
+//        Property p = g.getSchema().getNodeProperties().get(node_label).stream().filter(property -> property.name.equals(property_label)).findFirst().orElse(null);
+        Type t = g.getNodeProperty(n, property_label);
 
-
-        if (p.type == Type.INT) {
+        if (t == Type.INT) {
             value = "int";
-        } else if (p.type == Type.DOUBLE) {
+        } else if (t == Type.DOUBLE) {
             value = "double";
-        } else if (p.type == Type.BOOLEAN) {
+        } else if (t == Type.BOOLEAN) {
 
             value = "boolean";
-        } else if (p.type == Type.STRING) {
+        } else if (t == Type.STRING) {
             value = "string";
         } else {
-            throw new IllegalStateException("Unknown type: " + p.type);
+            throw new IllegalStateException("Unknown type: " + t);
         }
         return value;
 

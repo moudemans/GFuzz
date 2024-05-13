@@ -779,8 +779,14 @@ public class MyGraph implements Serializable {
     }
 
     public void removeEdge(Edge e) {
-        getNode(e.from).removeEdge(e);
-        getNode(e.to).removeEdge(e);
+        Node from = getNode(e.from);
+        Node to = getNode(e.to);
+        if (from != null) {
+            from.removeEdge(e);
+        }
+        if (to != null) {
+            to.removeEdge(e);
+        }
     }
 
     /**
@@ -1002,5 +1008,38 @@ public class MyGraph implements Serializable {
             addEdge(copy_edge);
         }
         return copy_node;
+    }
+
+    public Type getEdgeProperty(Edge e, String label) {
+        Type t = e.getPropertyType(label);
+        if (t == null) {
+            if (           getSchema().getEdgeProperties().get(e.label) != null) {
+                ArrayList<Property> props = getSchema().getEdgeProperties().get(e.label);
+                Property p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
+                if ( p != null) {
+                    t = p.type;
+                }
+            }
+        }
+        if (t == null) {
+            return Type.STRING;
+        }
+        return t;
+    }
+    public Type getNodeProperty(Node n, String label) {
+        Type t = n.getPropertyType(label);
+        if (t == null) {
+            if (           getSchema().getNodeProperties().get(n.label) != null) {
+                ArrayList<Property> props = getSchema().getNodeProperties().get(n.label);
+                Property p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
+                if ( p != null) {
+                    t = p.type;
+                }
+            }
+        }
+        if (t == null) {
+            return Type.STRING;
+        }
+        return t;
     }
 }

@@ -13,6 +13,8 @@ public class Edge implements Serializable {
     public int weight = 0;
 
     public HashMap<String, String> properties = new HashMap<>();
+    public HashMap<String, Type> propertyTypes = new HashMap<>();
+
 
     public Edge(int from, int to) {
         this.from = from;
@@ -47,6 +49,13 @@ public class Edge implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Edge edge = (Edge) o;
         return from == edge.from && to == edge.to && Objects.equals(label, edge.label);
+    }
+
+    public Type getPropertyType(String label) {
+        if (propertyTypes != null) {
+            return propertyTypes.getOrDefault(label, null);
+        }
+        return null;
     }
 
     @Override
