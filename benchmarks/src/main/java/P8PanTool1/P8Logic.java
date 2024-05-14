@@ -36,6 +36,8 @@ public class P8Logic {
 
         HashMap<String, Node[]> mrnaNodesPerSequence = new HashMap<>();
         int total_genomes = Integer.parseInt(g.getNodes("pangenome").getFirst().getProperty("num_genomes"));
+
+
         for (int i = 1; i <= total_genomes; i++) { // i is a genome number
             int total_mrna_counter = 0;
             ArrayList<Node> genome_nodes = g.getNodes("genome", "number", i + "");
@@ -145,9 +147,8 @@ public class P8Logic {
             for (Node mrnaNode : mrnaNodes) {
                 // TODO INT ARRAY
 //                int[] address = (int[]) mrnaNode.getProperty("address");
-                int[] address = new int[]{
-                        1,2,3,4
-                };
+                String[] address = mrnaNode.getProperty("address").split(",");
+
                 if (!mrnaNode.isSingleRelationship("has_homolog", true)) {
 //                    throw new Exception("is not single");
                     return;
@@ -161,9 +162,9 @@ public class P8Logic {
 
                 // TODO INT ARRAY
 //                int[] copyNumberArray = (int[]) hmNode.getProperty("copy_number");
-                int[] copyNumberArray = new int[]{1, 1};
+                String[] copyNumberArray = hmNode.getProperty("copy_number").split(",");
                 String inOtherChromosome = "Other chromosome";
-                if (copyNumberArray[genomeNr] == 1) { // only found once in genome
+                if (Integer.parseInt(copyNumberArray[genomeNr]) == 1) { // only found once in genome
                     inOtherChromosome = "Single copy";
                 } else { // found multiple times, check if it occurs in same chromosome
                     if (!hmNode.properties.containsKey("copy_number_genome_" + genomeNr)) {

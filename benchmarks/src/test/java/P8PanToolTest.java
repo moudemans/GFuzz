@@ -23,6 +23,13 @@ public class P8PanToolTest {
     }
 
     @org.junit.Test
+
+    public void testManual2() {
+        String path = input_path + "MANUAL_FUZZ/";
+        testFilesInDir(path, 0);
+    }
+
+    @org.junit.Test
     public void testPGMARK() {
         String path = input_path + "PGMark-FIXED/";
         testFilesInDir(path, 0);
@@ -55,17 +62,19 @@ public class P8PanToolTest {
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
 
-        Arrays.sort(listOfFiles, new Comparator<File>() {
-            public int compare(File str1, File str2) {
-                if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
-                    return 1;
-                }
-                String substr1 = str1.getName().split("_")[1].split("\\.")[0];
-                String substr2 = str2.getName().split("_")[1].split("\\.")[0];
+        if (!input_dir.getPath().contains("MANUAL")) {
+            Arrays.sort(listOfFiles, new Comparator<File>() {
+                public int compare(File str1, File str2) {
+                    if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
+                        return 1;
+                    }
+                    String substr1 = str1.getName().split("_")[1].split("\\.")[0];
+                    String substr2 = str2.getName().split("_")[1].split("\\.")[0];
 
-                return Integer.valueOf(substr1).compareTo(Integer.valueOf(substr2));
-            }
-        });
+                    return Integer.valueOf(substr1).compareTo(Integer.valueOf(substr2));
+                }
+            });
+        }
         int counter = 1;
         for (File f :
                 listOfFiles) {

@@ -46,6 +46,13 @@ public class P3CitationTest {
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void testrand() {
+        int limit = 0;
+        String path = input_path +"saved-inputs_rand/";
+        testFilesInDir(path, limit);
+    }
+
 
     public void testFilesInDir(String path, int limit) {
         P3Logic analysis = new P3Logic();

@@ -106,7 +106,7 @@ public class GraphGuidance implements Guidance {
 
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
-    protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
+    protected int mutation_framework = 0; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
 
 
     /**
@@ -318,10 +318,18 @@ public class GraphGuidance implements Guidance {
             mutation_applied = GraphMutations.MutationMethod.NoMutation;
         } else if (mutation_framework == 0) {
 
-            try {
-                GraphMutator.ByteMutationToFile(currentGraph, nextInputFileLocation);
+//            try {
+////                GraphMutator.ByteMutationToFile(currentGraph, nextInputFileLocation);
+//                currentGraph = GraphMutator.ByteMutationLimit(currentGraph);
+//                mutation_applied = GraphMutations.MutationMethod.ByteMutation;
+//            } catch (IOException e) {
+//                mutation_applied = GraphMutations.MutationMethod.NoMutation;
+//                invalidStates++;
+//            }
+            boolean succes = GraphMutator.ByteMutationLimit(currentGraph);
+            if (succes) {
                 mutation_applied = GraphMutations.MutationMethod.ByteMutation;
-            } catch (IOException e) {
+            } else {
                 mutation_applied = GraphMutations.MutationMethod.NoMutation;
                 invalidStates++;
             }
@@ -330,7 +338,7 @@ public class GraphGuidance implements Guidance {
             }
             mutation_counts.put(mutation_applied, mutation_counts.get(mutation_applied) + 1);
             last_mutation_applied = mutation_applied;
-            return nextInputFileLocation;
+//            return nextInputFileLocation;
 
         } else if (mutation_framework == 1) { // no restrictions on mutations
             mutation_applied = GraphMutator.mutateGraph(currentGraph, null);

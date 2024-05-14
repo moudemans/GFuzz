@@ -55,6 +55,13 @@ public class P6PhenoOutTest {
     }
 
 
+    @Test
+    public void testrand() {
+        int limit = 0;
+        String path = input_path +"saved-inputs_rand/";
+        testFilesInDir(path, limit);
+    }
+
     public void testFilesInDir(String path, int limit) {
         P6Logic analysis = new P6Logic();
 

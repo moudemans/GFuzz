@@ -101,10 +101,18 @@
                         <zipfianDistribution exponent="2.5"/>
                     </outDistribution>
                 </relation>
+                <relation predicate="has_homolog" target="homolog" allow_loops="true">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
 
             </relations>
             <attributes>
-                <attribute name="gnome" unique="true" required="true">
+                <attribute name="genome" unique="true" required="true">
                     <numeric min="0" max="500">
                         <exponentialDistribution scale="26000"/>
                     </numeric>
@@ -321,6 +329,20 @@
                         <exponentialDistribution scale="26000"/>
                     </numeric>
                 </attribute>
+
+            </attributes>
+        </type>
+        <type name="homolog">
+            <count>
+                <proportion>
+                    0.1
+                </proportion>
+            </count>
+            <relations>
+
+            </relations>
+            <attributes>
+
 
             </attributes>
         </type>

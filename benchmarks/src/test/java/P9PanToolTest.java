@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class P9PanToolTest {
 
-    String input_path ="src/main/resources/P8/";
+    String input_path ="src/main/resources/P9/";
     boolean run_json = true;
     boolean run_ser = false;
 

@@ -359,7 +359,7 @@ public class GraphMutator {
 
         if (from_nodes.isEmpty()) {
             printString(String.format("No from nodes found to break many2One cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
-                // TODO: make from node
+            // TODO: make from node
             return;
         }
 
@@ -1236,6 +1236,88 @@ public class GraphMutator {
             return GraphMutations.MutationMethod.NoMutation;
         }
         return filtered.get(0);
+    }
+
+    public static boolean ByteMutationLimit(MyGraph currentGraph) {
+        int rand_mutation_selection = r.nextInt(6);
+        if (rand_mutation_selection == 0) {
+            Node n = getRandomNode(currentGraph);
+            if (n == null) {
+                return false;
+            }
+            n.label = generateString(n.label.length() * 2);
+        } else if (rand_mutation_selection == 1) {
+            Node n = getRandomNode(currentGraph);
+            if (n == null) {
+                return false;
+            }
+            Edge e = getRandomEdge(n);
+            if (e == null) {
+                return false;
+            }
+            e.label = generateString(e.label.length() * 2);
+        } else if (rand_mutation_selection == 2) {
+            Node n = getRandomNode(currentGraph);
+            if (n == null) {
+                return false;
+            }
+            if (n.properties == null || n.properties.isEmpty()) {
+                return false;
+            }
+            int random_prop = r.nextInt(n.properties.size());
+            List<String> keys = new ArrayList<>(n.properties.keySet());
+            String key = keys.get(random_prop);
+            n.properties.put(key, generateString(n.properties.get(key).length() * 2));
+        } else if (rand_mutation_selection == 3) {
+            Node n = getRandomNode(currentGraph);
+            if (n == null) {
+                return false;
+            }
+            Edge e = getRandomEdge(n);
+            if (e == null) {
+                return false;
+            }
+            if (e.properties == null || e.properties.isEmpty()) {
+                return false;
+            }
+            int random_prop = r.nextInt(e.properties.size());
+            List<String> keys = new ArrayList<>(e.properties.keySet());
+            String key = keys.get(random_prop);
+            e.properties.put(key, generateString(e.properties.get(key).length() * 2));
+        } else if (rand_mutation_selection == 4) {
+            Node n = getRandomNode(currentGraph);
+            if (n == null) {
+                return false;
+            }
+            if (n.properties == null || n.properties.isEmpty()) {
+                return false;
+            }
+            int random_prop = r.nextInt(n.properties.size());
+            List<String> keys = new ArrayList<>(n.properties.keySet());
+            String key = keys.get(random_prop);
+            String value = n.properties.get(key);
+            n.properties.remove(key);
+            n.properties.put(generateString(key.length() * 2), value);
+        } else if (rand_mutation_selection == 5) {
+            Node n = getRandomNode(currentGraph);
+            if (n == null) {
+                return false;
+            }
+            Edge e = getRandomEdge(n);
+            if (e == null) {
+                return false;
+            }
+            if (e.properties == null || e.properties.isEmpty()) {
+                return false;
+            }
+            int random_prop = r.nextInt(e.properties.size());
+            List<String> keys = new ArrayList<>(e.properties.keySet());
+            String key = keys.get(random_prop);
+            String value = e.properties.get(key);
+            e.properties.remove(key);
+            e.properties.put(generateString(key.length() * 2), value);
+        }
+        return true;
     }
 
 

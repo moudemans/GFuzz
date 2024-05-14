@@ -11,7 +11,8 @@
     "phobius",
     "signalp",
     "cog",
-    "gene"
+    "gene",
+    "homolog"
   ],
   "EdgeLabels": [
     "has_homolog",
@@ -69,6 +70,12 @@
       "Cardinality": "ONE2MANY"
     },
     {
+      "Label": "has_homolog",
+      "From": "mRNA",
+      "To": "homolog",
+      "Cardinality": "ONE2MANY"
+    },
+    {
       "Label": "part_of",
       "From": "mRNA",
       "To": "bgc",
@@ -94,7 +101,7 @@
     ],
     "mRNA": [
       {
-        "Name": "gnome",
+        "Name": "genome",
         "Type": "INT"
       },
       {
