@@ -482,6 +482,9 @@ public class MyGraph implements Serializable {
         for (Node n : nodes) {
             for (Edge e : n.getOutgoingEdges()) {
                 Node to = getNode(e.to);
+                if(to == null || to.getEdges() == null) {
+                    continue;
+                }
                 if (!to.getEdges().contains(e)) {
                     to.addEdge(e);
                 }
