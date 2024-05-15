@@ -37,7 +37,6 @@ import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
 import org.apache.commons.io.FileUtils;
 import tudgraphs.GraphMutations;
 import tudgraphs.GraphMutator;
-import util.GraphUtil;
 
 import java.io.*;
 import java.time.Duration;
@@ -289,17 +288,37 @@ public class GraphGuidance implements Guidance {
             mutate_current_file();
         }
 
-//        if (numTrials < 2) {
-//            initialise_classes();
-//        }
+        if (numTrials < 2) {
+            initialise_classes();
+        }
 
         // DEFAULT TO: WORKING_DIR + RUNNING_DIR + "mutated.ser"
         InputStream targetStream = new ByteArrayInputStream(nextInputFileLocation.getBytes());
         return targetStream;
     }
 
-//    private void initialise_classes() {
-//    }
+    // Method to touch each branch to prevent incorrect code coverage
+    private void initialise_classes() {
+        MyGraph currentGraph;
+        try {
+//            currentGraph = MyGraph.readGraphFromFile(currentInputFile);
+            currentGraph = MyGraph.readGraphFromJSON(currentInputFile);
+        } catch (Exception e) {
+            return;
+        }
+        if (mutation_framework == 0) {
+            GraphMutator.ByteMutationLimit(currentGraph, 0);
+            GraphMutator.ByteMutationLimit(currentGraph, 1);
+            GraphMutator.ByteMutationLimit(currentGraph, 2);
+            GraphMutator.ByteMutationLimit(currentGraph, 3);
+            GraphMutator.ByteMutationLimit(currentGraph, 4);
+            GraphMutator.ByteMutationLimit(currentGraph, 5);
+        } else if (mutation_framework == 1) {
+            for (GraphMutations.MutationMethod mm : GraphMutations.getActiveMutationMethodList()) {
+                GraphMutator.mutateGraph(currentGraph, mm);
+            }
+        }
+    }
 
     private String mutate_current_file() {
 
@@ -333,7 +352,7 @@ public class GraphGuidance implements Guidance {
 //                mutation_applied = GraphMutations.MutationMethod.NoMutation;
 //                invalidStates++;
 //            }
-            boolean succes = GraphMutator.ByteMutationLimit(currentGraph);
+            boolean succes = GraphMutator.ByteMutationLimit(currentGraph, -1);
             if (succes) {
                 mutation_applied = GraphMutations.MutationMethod.ByteMutation;
             } else {
@@ -490,7 +509,7 @@ public class GraphGuidance implements Guidance {
         if (!error_caused_by_mutation.containsKey(traceElementsString)) {
             error_caused_by_mutation.put(traceElementsString, new HashMap<>());
         }
-        if(!error_caused_by_mutation.get(traceElementsString).containsKey(last_mutation_applied)) {
+        if (!error_caused_by_mutation.get(traceElementsString).containsKey(last_mutation_applied)) {
             error_caused_by_mutation.get(traceElementsString).put(last_mutation_applied, 0);
         }
         error_caused_by_mutation.get(traceElementsString).put(last_mutation_applied, error_caused_by_mutation.get(traceElementsString).get(last_mutation_applied) + 1);
@@ -499,7 +518,7 @@ public class GraphGuidance implements Guidance {
         if (!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
             uniqueFailuresString.add(traceElementsString);
-            uniqueFailuresAtTrial.put(numTrials,traceElementsString);
+            uniqueFailuresAtTrial.put(numTrials, traceElementsString);
             System.out.println("New unique error found!");
             System.out.println(traceElementsString);
             System.out.println("****");
@@ -683,7 +702,7 @@ public class GraphGuidance implements Guidance {
                     continue;
                 }
                 ArrayList<GraphMutations.MutationMethod> caused_by_mutations = new ArrayList<>(error_caused_by_mutation.get(uniqueFailuresAtTrial.get(f)).keySet());
-                for (GraphMutations.MutationMethod mm: caused_by_mutations) {
+                for (GraphMutations.MutationMethod mm : caused_by_mutations) {
                     output.add(String.format("\t\t [%s]: %s\n", mm.toString(), error_caused_by_mutation.get(uniqueFailuresAtTrial.get(f)).get(mm)));
                 }
             }

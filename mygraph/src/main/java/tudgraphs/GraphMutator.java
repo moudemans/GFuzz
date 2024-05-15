@@ -1238,8 +1238,11 @@ public class GraphMutator {
         return filtered.get(0);
     }
 
-    public static boolean ByteMutationLimit(MyGraph currentGraph) {
-        int rand_mutation_selection = r.nextInt(6);
+    public static boolean ByteMutationLimit(MyGraph currentGraph, int mm) {
+        int rand_mutation_selection = mm;
+        if (mm < 0) {
+            rand_mutation_selection = r.nextInt(6);
+        }
         if (rand_mutation_selection == 0) {
             Node n = getRandomNode(currentGraph);
             if (n == null) {
