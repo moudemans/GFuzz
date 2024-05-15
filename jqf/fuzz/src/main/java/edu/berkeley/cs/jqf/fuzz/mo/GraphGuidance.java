@@ -289,10 +289,17 @@ public class GraphGuidance implements Guidance {
             mutate_current_file();
         }
 
+//        if (numTrials < 2) {
+//            initialise_classes();
+//        }
+
         // DEFAULT TO: WORKING_DIR + RUNNING_DIR + "mutated.ser"
         InputStream targetStream = new ByteArrayInputStream(nextInputFileLocation.getBytes());
         return targetStream;
     }
+
+//    private void initialise_classes() {
+//    }
 
     private String mutate_current_file() {
 
