@@ -50,15 +50,15 @@ public class P6PhenoOutTest {
     @Test
     public void testres() {
         int limit = 0;
-        String path = input_path +"saved-inputs_3/";
+        String path = input_path +"saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
 
     @Test
     public void testrand() {
-        int limit = 0;
-        String path = input_path +"saved-inputs_rand/";
+        int limit = 10;
+        String path = input_path +"saved-inputs_rand3/";
         testFilesInDir(path, limit);
     }
 

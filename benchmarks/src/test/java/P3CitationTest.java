@@ -41,15 +41,15 @@ public class P3CitationTest {
 
     @Test
     public void testres() {
-        int limit = 0;
+        int limit = 21;
         String path = input_path +"saved-inputs_3/";
         testFilesInDir(path, limit);
     }
 
     @Test
     public void testrand() {
-        int limit = 0;
-        String path = input_path +"saved-inputs_rand/";
+        int limit = 27;
+        String path = input_path +"saved-inputs_rand3/";
         testFilesInDir(path, limit);
     }
 

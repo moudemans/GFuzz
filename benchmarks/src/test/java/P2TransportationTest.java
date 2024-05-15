@@ -57,7 +57,7 @@ public class P2TransportationTest {
     @Test
     public void testrand() {
         int limit = 0;
-        String path = input_path +"saved-inputs_rand/";
+        String path = input_path +"saved-inputs_rand3/";
         testFilesInDir(path, limit);
     }
 

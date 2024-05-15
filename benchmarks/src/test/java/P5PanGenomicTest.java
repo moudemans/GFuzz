@@ -48,7 +48,7 @@ public class P5PanGenomicTest {
     @Test
     public void testrand() {
         int limit = 0;
-        String path = input_path +"saved-inputs_random/";
+        String path = input_path +"saved-inputs_rand3/";
         testFilesInDir(path, limit);
     }
 
