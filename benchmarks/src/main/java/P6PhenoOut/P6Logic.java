@@ -56,7 +56,7 @@ public class P6Logic {
         } else if (t == Type.STRING) {
             value = "string";
         } else {
-            throw new IllegalStateException("Unknown type: " + t);
+            value = "ERROR";
         }
         return value;
 

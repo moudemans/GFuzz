@@ -550,7 +550,14 @@ public class GraphGenerator {
         for (Property p :
                 properties) {
             String value = generatePropertyValue(p);
-            newNode.properties.put(p.name, value);
+            if (newNode.properties == null) {
+                newNode.properties = new HashMap<>();
+            }
+            String key = value;
+            if (p != null) {
+                key = p.name;
+            }
+            newNode.properties.put(key, value);
         }
 
     }

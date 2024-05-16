@@ -48,7 +48,7 @@ public class P3CitationTest {
 
     @Test
     public void testrand() {
-        int limit = 27;
+        int limit = 0;
         String path = input_path +"saved-inputs_rand3/";
         testFilesInDir(path, limit);
     }

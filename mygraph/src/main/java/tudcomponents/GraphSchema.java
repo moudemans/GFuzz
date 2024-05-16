@@ -141,6 +141,9 @@ public class GraphSchema implements Serializable {
             ArrayList<Property> properties = nodeProperties.get(s);
             ArrayList<Property> uniqueProps = new ArrayList<>();
             for (Property p : properties) {
+                if (p == null) {
+                    throw new RuntimeException(String.format("p is null for property key:  [%s]", s ));
+                }
                 if (p.isUnique) {
                     uniqueProps.add(p);
                 }
@@ -160,6 +163,9 @@ public class GraphSchema implements Serializable {
             ArrayList<Property> properties = nodeProperties.get(s);
             ArrayList<Property> uniqueProps = new ArrayList<>();
             for (Property p : properties) {
+                if (p == null) {
+                    throw new RuntimeException(String.format("p is null for property key:  [%s]", s ));
+                }
                 if (p.isNotNull) {
                     uniqueProps.add(p);
                 }

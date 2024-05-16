@@ -85,6 +85,7 @@ public class GraphGuidance implements Guidance {
     private static ArrayList<String> seed_files = new ArrayList<>();
     Queue<String> priorityFiles = new LinkedList<>();
     private static ArrayList<String> important_files = new ArrayList<>(); // List of files which increase coverage / produce error. This is used to mutate
+    private static HashMap<String, Integer> important_files_usage_count = new HashMap<>(); // List of files which increase coverage / produce error. This is used to mutate
 
 
     protected Set<List<StackTraceElement>> uniqueFailures = new HashSet<>();
@@ -95,6 +96,7 @@ public class GraphGuidance implements Guidance {
     protected HashMap<String, Set<String>> files_mutated = new HashMap<>();
 
     private static final boolean PRINT_MUTATION_COUNT = true;
+    private static final boolean PRINT_FILE_COUNT = true;
     private static final boolean PRINT_MUTATION_RESPONSIBILITY = true;
     private static final boolean PRINT_UNIQUE_ERRORS = true;
     protected HashMap<GraphMutations.MutationMethod, Integer> mutation_counts = new HashMap<>();
@@ -279,6 +281,13 @@ public class GraphGuidance implements Guidance {
             //select random file from files which discovered new coverage
             int random_seed = random.nextInt(important_files.size());
             currentInputFile = important_files.get(random_seed);
+
+            if (!important_files_usage_count.containsKey(currentInputFile)) {
+                important_files_usage_count.put(currentInputFile, 0);
+            }
+
+            important_files_usage_count.put(currentInputFile, important_files_usage_count.get(currentInputFile)+1);
+
             // Mutate said file
             mutate_current_file();
         } else {
@@ -545,9 +554,10 @@ public class GraphGuidance implements Guidance {
         }
 
         coverage_by_mutation.put(new_file_name, last_mutation_applied);
-
-        important_files.add(dest_folder + "/" + new_file_name);
-        priorityFiles.add(dest_folder + "/" + new_file_name);
+        if (!type.equals("error")) {
+            important_files.add(dest_folder + "/" + new_file_name);
+            priorityFiles.add(dest_folder + "/" + new_file_name);
+        }
     }
 
     public void copy_file(String src, String dst) throws IOException {
@@ -606,6 +616,29 @@ public class GraphGuidance implements Guidance {
             for (GraphMutations.MutationMethod mm :
                     mutation_counts.keySet()) {
                 console.printf("\t\t %s: %,d\n", mm.toString(), mutation_counts.get(mm));
+
+            }
+        }
+        if (PRINT_FILE_COUNT) {
+            console.printf("\tfiles used counts:       \n");
+            List<String> files = new ArrayList<>(important_files_usage_count.keySet());
+            String[] files_array = files.toArray(new String[important_files_usage_count.size()]);
+            Arrays.sort(files_array, new Comparator<String>() {
+                public int compare(String str1, String str2) {
+                    if (!str1.contains("_") || !str2.contains("_")) {
+                        return 1;
+                    }
+                    String substr1 = str1.split("_")[1].split("\\.")[0];
+                    String substr2 = str2.split("_")[1].split("\\.")[0];
+
+
+                    return Integer.valueOf(substr1).compareTo(Integer.valueOf(substr2));
+                }
+            });
+
+            for (String f :
+                    files_array) {
+                console.printf("\t\t %s: %,d\n", f, important_files_usage_count.get(f));
 
             }
         }
@@ -705,6 +738,30 @@ public class GraphGuidance implements Guidance {
                 for (GraphMutations.MutationMethod mm : caused_by_mutations) {
                     output.add(String.format("\t\t [%s]: %s\n", mm.toString(), error_caused_by_mutation.get(uniqueFailuresAtTrial.get(f)).get(mm)));
                 }
+            }
+        }
+
+        if (PRINT_FILE_COUNT) {
+            output.add(String.format(("\tfiles used counts:       \n")));
+            List<String> files = new ArrayList<>(important_files_usage_count.keySet());
+            String[] files_array = files.toArray(new String[important_files_usage_count.size()]);
+            Arrays.sort(files_array, new Comparator<String>() {
+                public int compare(String str1, String str2) {
+                    if (!str1.contains("_") || !str2.contains("_")) {
+                        return 1;
+                    }
+                    String substr1 = str1.split("_")[1].split("\\.")[0];
+                    String substr2 = str2.split("_")[1].split("\\.")[0];
+
+
+                    return Integer.valueOf(substr1).compareTo(Integer.valueOf(substr2));
+                }
+            });
+
+            for (String f :
+                    files_array) {
+                output.add(String.format("\t\t %s: %,d\n", f, important_files_usage_count.get(f)));
+
             }
         }
 

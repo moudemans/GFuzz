@@ -23,8 +23,8 @@ public class P10Logic {
         // TODO
         ArrayList<String> genes = new ArrayList<>();
         genes.add("1");
-        genes.add("2");
-        genes.add("3");
+//        genes.add("2");
+//        genes.add("3");
         findGenesByName(g, genes);
 //        report_found_genes(g, )
 //        retrieve_gene_seq_check_presence_hmgroup(g, "", new ArrayList<>(), new StringBuilder());
@@ -43,8 +43,9 @@ public class P10Logic {
 //        int hm_nodes = (int) count_nodes(HOMOLOGY_GROUP_LABEL);
         int hm_nodes = (int) g.getNodes("homology_group").size();
         if (hm_nodes == 0) {
-            System.out.println("\rMust first cluster the protein sequences with 'group'\n");
-            System.exit(1);
+//            System.out.println("\rMust first cluster the protein sequences with 'group'\n");
+//            System.exit(1);
+            return;
         }
 
         ArrayList<String> annotation_identifiers = get_annotation_identifiers(g);
@@ -406,7 +407,7 @@ public class P10Logic {
 
         int pheno_node_count = (int) g.getNodes("phenotype").size();
         if (pheno_node_count == 0) {
-            System.exit(1);
+            return;
         }
 //        ResourceIterator<Node> pheno_nodes = GRAPH_DB.findNodes(PHENOTYPE_LABEL);
         Iterator<Node> pheno_nodes = g.getNodes("phenotype").iterator();
@@ -418,7 +419,7 @@ public class P10Logic {
             if (pheno_node.properties.containsKey("species")) {
                 value = pheno_node.getProperty("species");
             } else {
-                System.exit(1);
+//                System.exit(1);
                 continue;
             }
 
@@ -439,7 +440,8 @@ public class P10Logic {
                 geno_pheno_map.put(current_genome, value_str);
                 temp_phenotype_map.computeIfAbsent(value_str, s -> new ArrayList<>()).add(current_genome);
             } else {
-                System.exit(1);
+//                System.exit(1);
+                return;
             }
         }
 
@@ -553,7 +555,9 @@ public class P10Logic {
 
             // TODO no arrays support
 //            String[] nameArray = (String[]) geneNode.getProperty("name");
-            String[] nameArray = new String[]{"a"};
+            String names =geneNode.getProperty("name");
+            String[] nameArray = names.split(",");
+//            String[] nameArray = new String[]{"a"};
 
             // value of "name" property has become a String[] as of v3.4
             for (String name : nameArray) {

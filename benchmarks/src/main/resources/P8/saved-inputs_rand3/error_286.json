@@ -1,0 +1,251 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "Pangenome",
+      "Family",
+      "Gene",
+      "mRNA",
+      "hmNode",
+      "sequence"
+    ],
+    "EdgeLabels": [
+      "has_homolog"
+    ],
+    "Relationships": [
+      {
+        "Label": "P1",
+        "From": "Family",
+        "To": "Pangenome",
+        "Cardinality": "ONE2MANY"
+      },
+      {
+        "Label": "P2",
+        "From": "Family",
+        "To": "Family",
+        "Cardinality": "ONE2ONE"
+      },
+      {
+        "Label": "P3",
+        "From": "Gene",
+        "To": "Family",
+        "Cardinality": "MANY2ONE"
+      }
+    ],
+    "NodeProperties": {
+      "pangenome": [
+        {
+          "Name": "num_genomes",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": true
+        }
+      ],
+      "Family": [
+        {
+          "Name": "name",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "annotation",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ],
+      "genome": [
+        {
+          "Name": "number",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "num_sequences",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ],
+      "mRNA": [
+        {
+          "Name": "gnome",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "sequence",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "longest_transcript",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "protein_ID",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "address",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "length",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ],
+      "homology_group": [
+        {
+          "Name": "copy_number",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "copy_number_genome_",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ],
+      "sequence": [
+        {
+          "Name": "phasing_assigned",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "identifier",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "genome",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "number",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "Phasing_ID",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false
+        },
+        {
+          "Name": "phasing_chromosone",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false
+        }
+      ]
+    },
+    "EdgeProperties": {},
+    "Patterns": []
+  },
+  "Nodes": [
+    {
+      "Id": 0,
+      "Label": "pangenome",
+      "Properties": {
+        "num_genomes": "1",
+        "name": "Ijho"
+      },
+      "PropertyTypes": null,
+      "Edges": []
+    },
+    {
+      "Id": 1,
+      "Label": "genome",
+      "Properties": {
+        "number": "1",
+        "num_sequences": "1"
+      },
+      "PropertyTypes": null,
+      "Edges": []
+    },
+    {
+      "Id": 2,
+      "Label": "mRNA",
+      "Properties": {
+        ".k\r�by?iQ���\u000e": "1",
+        "genome": "1",
+        "sequence": "1",
+        "address": "1",
+        "length": "1",
+        "longest_transcript": "1"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "hD��%p\u00185��Y����",
+          "From": 3,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {},
+          "PropertyTypes": null
+        },
+        {
+          "Label": "has_homolog",
+          "From": 3,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {},
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "Label": "homology_group",
+      "Properties": {
+        "copy_number": "1",
+        "copy_number_genome_1": "1"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "has_homolog",
+          "From": 3,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {},
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "Label": "sequence",
+      "Properties": {
+        "genome": "1",
+        "number": "1",
+        "phasing_assigned": "1",
+        "phasing_chromosome": "1",
+        "|\u000eD���\u0002O\u001d|l�": "a_a",
+        "phasing_ID": "1_unphased"
+      },
+      "PropertyTypes": null,
+      "Edges": []
+    }
+  ]
+}

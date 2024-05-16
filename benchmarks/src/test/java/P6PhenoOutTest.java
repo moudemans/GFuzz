@@ -41,7 +41,7 @@ public class P6PhenoOutTest {
 
     @org.junit.Test
     public void testMutated3() {
-        int limit = 35;
+        int limit = 0;
         String path = input_path + "GFUZZ-NEW/";
         testFilesInDir(path, limit);
     }
@@ -49,8 +49,8 @@ public class P6PhenoOutTest {
 
     @Test
     public void testres() {
-        int limit = 0;
-        String path = input_path +"saved-inputs_1/";
+        int limit = 21;
+        String path = input_path +"saved-inputs_3/";
         testFilesInDir(path, limit);
     }
 
@@ -79,6 +79,9 @@ public class P6PhenoOutTest {
         Arrays.sort(listOfFiles, new Comparator<File>() {
             public int compare(File str1, File str2) {
                 if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
+                    return 1;
+                }
+                if (!str1.getName().contains("_") || !str2.getName().contains("_")) {
                     return 1;
                 }
                 String substr1 = str1.getName().split("_")[1].split("\\.")[0];

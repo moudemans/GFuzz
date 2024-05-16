@@ -37,12 +37,11 @@ public class P8Logic {
         HashMap<String, Node[]> mrnaNodesPerSequence = new HashMap<>();
         int total_genomes = Integer.parseInt(g.getNodes("pangenome").getFirst().getProperty("num_genomes"));
 
-
         for (int i = 1; i <= total_genomes; i++) { // i is a genome number
             int total_mrna_counter = 0;
             ArrayList<Node> genome_nodes = g.getNodes("genome", "number", i + "");
 
-            if(genome_nodes.size() > 1) {
+            if(genome_nodes == null || genome_nodes.size() != 1) {
                 // This is handled in the neo4j library throwing an error, seeGraphDatabaseFacade.findNode(label, key, value)
                 return null;
             }

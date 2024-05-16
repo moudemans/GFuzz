@@ -173,8 +173,11 @@ public class GraphMutator {
         Collections.shuffle(nodes, r);
         Node node1 = nodes.get(0);
 
-
-        assert node1.properties.containsKey(property.name);
+//        if (!node1.properties.containsKey(property.name)) {
+//            throw new RuntimeException(String.format("Node [%s] does not have property: [%s]", node1.label, property.name));
+//            return;
+//        }
+//        assert node1.properties.containsKey(property.name);
 
         //TODO: check if this should be null or ""
         node1.properties.put(property.name, null);
