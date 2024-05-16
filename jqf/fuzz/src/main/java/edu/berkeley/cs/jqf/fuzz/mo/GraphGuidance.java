@@ -74,6 +74,7 @@ public class GraphGuidance implements Guidance {
     private static final String SAVED_INPUTS_DIR = "saved-inputs/";
     private static final String RUNNING_DIR = "run-files/";
     private static final String SEED_DIR = "seeds/";
+    private static final String NEW_INPUTS_DIR = "new-inputs/";
     private static boolean CLEAR_ALL_PREVIOUS_RESULTS_ON_START = true;
 
 
@@ -134,6 +135,7 @@ public class GraphGuidance implements Guidance {
     protected File seedDirectory;
     protected File runningDirectory;
     protected File savedInputsDirectory;
+    protected File newInputsDirectory;
 
     /**
      * Coverage statistics for a single run.
@@ -248,6 +250,12 @@ public class GraphGuidance implements Guidance {
         if (!savedInputsDirectory.exists() && !this.savedInputsDirectory.mkdirs()) {
             System.out.println("!! Could not create directory: " + savedInputsDirectory);
         }
+
+        this.newInputsDirectory = new File(outputDirectory, NEW_INPUTS_DIR);
+        if (!newInputsDirectory.exists() && !this.newInputsDirectory.mkdirs()) {
+            System.out.println("!! Could not create directory: " + newInputsDirectory);
+        }
+
         if (CLEAR_ALL_PREVIOUS_RESULTS_ON_START && outputDirectory.isDirectory()) {
             try {
                 System.out.println("\t Clearing previous output results");

@@ -43,9 +43,20 @@ echo "Schema: " $SCHEMA_PATH
 echo "Output location: " ${DIR_PATH}${FILE_NAME}${i}".txt"
 echo "Graph size: " $2
 
-
-
-for i in $(seq 1 $3);
+x=1
+i=1
+while [ $x -ge 1 ]
 do
-    ./pgMark $SCHEMA_PATH $2 --output=${DIR_PATH}${FILE_NAME}${i}".csv"
+  file_count=$(find ${DIR_PATH} -name "*.csv" -type f | wc -l)
+    echo "files $file_count"
+
+  if [ $file_count -lt 40 ]
+  then
+      echo "Generating graph"
+      ./pgMark $SCHEMA_PATH $2 --output=${DIR_PATH}${FILE_NAME}${i}".csv"
+      i=$((i + 1))
+  fi
+
 done
+
+
