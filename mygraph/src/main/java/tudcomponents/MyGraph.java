@@ -163,7 +163,7 @@ public class MyGraph implements Serializable {
             }
             boolean stop = false;
             if (holder == null || !holder.startsWith("###")) {
-                System.err.println("Only relationships found in the PG Mark file");
+//                System.err.println("Only relationships found in the PG Mark file");
                 stop = true;
             } else {
                 holder = reader.readLine();

@@ -65,6 +65,12 @@ public class GraphGuidance implements Guidance {
     private final long maxTrials;
     protected final long maxDurationMillis;
     private final float maxDiscardRatio = 0.9f;
+
+    int MAX_MUTATION_DEPTH = 500;
+    boolean USE_MAX_DEPTH = false;
+    boolean USE_GENERATION_FOLDER = true;
+    int graph_generator = 1; // 0: GMARK, 1: PGMARK
+
     private final PrintStream out;
     private Random random = new Random();
     private Coverage coverage;
@@ -108,7 +114,7 @@ public class GraphGuidance implements Guidance {
 
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
-    protected int mutation_framework = 0; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
+    protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
 
 
     /**
@@ -296,9 +302,59 @@ public class GraphGuidance implements Guidance {
 
             important_files_usage_count.put(currentInputFile, important_files_usage_count.get(currentInputFile)+1);
 
+            if (USE_MAX_DEPTH && important_files_usage_count.get(currentInputFile) > MAX_MUTATION_DEPTH) {
+                important_files.remove(currentInputFile);
+            }
+
             // Mutate said file
             mutate_current_file();
-        } else {
+        } else if (USE_GENERATION_FOLDER) {
+            File[] sample_inputs = newInputsDirectory.listFiles();
+            if (sample_inputs == null || sample_inputs.length == 0) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.err.println("Waiting for new inputs was interupted");
+                }
+            }
+            File[] new_inputs = newInputsDirectory.listFiles();
+            if (new_inputs == null || new_inputs.length == 0) {
+                System.err.printf("No new inputs from the input folder found, is the generator running? Otherwise disable new inputs variable\n");
+                keepGoing = false;
+            } else {
+                int random_input_index = random.nextInt(new_inputs.length);
+
+                MyGraph g = null;
+                try {
+                    if (graph_generator == 0) {
+                        g = MyGraph.readGraphFromGMARK(new_inputs[random_input_index].getPath());
+                    } else {
+                        g = MyGraph.readGraphFromPGMARK(new_inputs[random_input_index].getPath());
+                    }
+                } catch (Exception e) {
+                    System.err.println("Could not load new file from new input folder: " + new_inputs[random_input_index].getPath());
+                }
+
+                if (g == null) {
+                    System.err.println("Could not load new file from new input folder: " + new_inputs[random_input_index].getPath());
+                }
+                String output_file_name = new_inputs[random_input_index].getName().split("\\.")[0] + ".json";
+                String output_folder = WORKING_DIR + RUNNING_DIR;
+                System.out.println("Writing new input to: " + output_folder + output_file_name);
+                MyGraph.writeGraphToJSON(output_folder + output_file_name, g);
+
+                if (new_inputs[random_input_index].exists()){
+                    boolean succes = new_inputs[random_input_index].delete();
+                    if (!succes) {
+                        System.err.println("Could not delete old input file: " + new_inputs[random_input_index].getPath());
+                    }
+                }
+
+                currentInputFile = output_folder + output_file_name;
+            }
+
+        }
+        else {
             int random_seed = random.nextInt(seed_files.size());
             currentInputFile = seed_files.get(random_seed);
             // Mutate said file
