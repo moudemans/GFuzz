@@ -1,0 +1,93 @@
+FUZZ LOG: P11Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         10m 0s 
+	Number of executions: 25,998
+	Total coverage:       1,356 branches (2.07% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+	mutation counts:       
+		 ChangePropertyKey: 8
+		 ChangeEdge: 3,727
+		 RemoveNode: 3,636
+		 RemoveProperty: 4
+		 AddNode: 3,652
+		 CopyNode: 3,798
+		 RemoveNodesOfLabel: 3,729
+		 RemoveEdge: 3,691
+		 ChangePropertyValue: 10
+		 ChangeLabelEdge: 3,703
+	Saved inputs:       
+		 error_114.json, created by mutation: ChangePropertyKey
+		 error_37.json, created by mutation: ChangePropertyKey
+		 Coverage_429.json, created by mutation: RemoveNode
+		 Coverage_44.json, created by mutation: RemoveProperty
+		 Coverage_89.json, created by mutation: ChangePropertyValue
+		 error_130.json, created by mutation: ChangePropertyKey
+		 error_40.json, created by mutation: AddNode
+		 Coverage_145.json, created by mutation: RemoveNode
+		 Coverage_27.json, created by mutation: RemoveProperty
+		 Coverage_24.json, created by mutation: CopyNode
+		 Coverage_35.json, created by mutation: RemoveProperty
+		 Coverage_172.json, created by mutation: RemoveNode
+		 Coverage_175.json, created by mutation: CopyNode
+		 Coverage_2.json, created by mutation: NoMutation
+		 Coverage_93.json, created by mutation: AddNode
+		 Coverage_32.json, created by mutation: ChangePropertyKey
+		 Coverage_141.json, created by mutation: ChangePropertyKey
+		 Coverage_452.json, created by mutation: RemoveNode
+		 Coverage_68.json, created by mutation: ChangePropertyValue
+		 error_950.json, created by mutation: AddNode
+		 Coverage_48.json, created by mutation: AddNode
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_4.json, created by mutation: NoMutation
+		 Coverage_30.json, created by mutation: RemoveNodesOfLabel
+		 Coverage_59.json, created by mutation: ChangePropertyKey
+
+
+ Unique failures found: 
+	
+	java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:38)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+	java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:45)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+	java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:37)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+	P11Logic.preparePhasedGenomeInformation(P11Logic.java:54)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+	UniqueErrors:       
+		 Unique error at [37], error message: java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:38)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+		 Unique error at [40], error message: P11Logic.preparePhasedGenomeInformation(P11Logic.java:54)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+		 Unique error at [114], error message: java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:45)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+		 Unique error at [130], error message: java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:37)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)
+		 Unique error at [950], error message: 
+
+*** UniqueErrors caused by: ***       
+	Unique error: [java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:38)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)]
+		 [ChangePropertyKey]: 1
+	Unique error: [P11Logic.preparePhasedGenomeInformation(P11Logic.java:54)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)]
+		 [AddNode]: 113
+		 [ChangePropertyValue]: 2
+	Unique error: [java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:45)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)]
+		 [ChangePropertyKey]: 1
+	Unique error: [java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.parseInt(Integer.java:778)P11Logic.preparePhasedGenomeInformation(P11Logic.java:37)P11Logic.run(P11Logic.java:16)P11Driver.test1(P11Driver.java:21)]
+		 [ChangePropertyKey]: 1
+	Unique error: []
+		 [AddNode]: 2934
+	files used counts:       
+		 fuzz-dir/saved-inputs/Coverage_1.json: 1,284
+		 fuzz-dir/saved-inputs/Coverage_2.json: 1,320
+		 fuzz-dir/saved-inputs/Coverage_4.json: 1,346
+		 fuzz-dir/saved-inputs/Coverage_24.json: 1,344
+		 fuzz-dir/saved-inputs/Coverage_27.json: 1,245
+		 fuzz-dir/saved-inputs/Coverage_30.json: 1,323
+		 fuzz-dir/saved-inputs/Coverage_32.json: 1,274
+		 fuzz-dir/saved-inputs/Coverage_35.json: 1,265
+		 fuzz-dir/saved-inputs/Coverage_44.json: 1,273
+		 fuzz-dir/saved-inputs/Coverage_48.json: 1,258
+		 fuzz-dir/saved-inputs/Coverage_59.json: 1,287
+		 fuzz-dir/saved-inputs/Coverage_68.json: 1,370
+		 fuzz-dir/saved-inputs/Coverage_89.json: 1,264
+		 fuzz-dir/saved-inputs/Coverage_93.json: 1,259
+		 fuzz-dir/saved-inputs/Coverage_141.json: 1,277
+		 fuzz-dir/saved-inputs/Coverage_145.json: 1,325
+		 fuzz-dir/saved-inputs/Coverage_172.json: 1,297
+		 fuzz-dir/saved-inputs/Coverage_175.json: 1,250
+		 fuzz-dir/saved-inputs/Coverage_429.json: 1,362
+		 fuzz-dir/saved-inputs/Coverage_452.json: 1,335

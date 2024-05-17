@@ -1,6 +1,6 @@
 
-import P10PanTool3.P10Logic;
 import P11PanTool4.P11Logic;
+import P12PanTool5.P12Logic;
 import org.junit.Test;
 import tudcomponents.MyGraph;
 import util.Util;
@@ -11,9 +11,9 @@ import java.util.Comparator;
 
 import static org.junit.Assert.assertTrue;
 
-public class P11PanToolTest {
+public class P12PanToolTest {
 
-    String input_path ="src/main/resources/P11/";
+    String input_path ="src/main/resources/P12/";
     boolean run_json = true;
     boolean run_ser = false;
 
@@ -39,7 +39,7 @@ public class P11PanToolTest {
     @Test
     public void testmutated() {
         int limit = 0;
-        String path = input_path +"saved-inputs_5/";
+        String path = input_path +"saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
@@ -51,7 +51,7 @@ public class P11PanToolTest {
     }
 
     public void testFilesInDir(String path, int limit) {
-        P11Logic analysis = new P11Logic();
+        P12Logic analysis = new P12Logic();
 
         if (!Util.dirExists(path)) {
             System.err.println("Input directory not found: " + path);
