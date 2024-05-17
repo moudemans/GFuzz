@@ -68,7 +68,7 @@ public class GraphGuidance implements Guidance {
 
     int MAX_MUTATION_DEPTH = 500;
     boolean USE_MAX_DEPTH = false;
-    boolean USE_GENERATION_FOLDER = true;
+    boolean USE_GENERATION_FOLDER = false;
     int graph_generator = 1; // 0: GMARK, 1: PGMARK
 
     private final PrintStream out;
@@ -708,10 +708,25 @@ public class GraphGuidance implements Guidance {
         }
         if (PRINT_MUTATION_RESPONSIBILITY) {
             console.printf("\tSaved inputs:       \n");
-            ArrayList<String> sorted_keys = new ArrayList<>(coverage_by_mutation.keySet());
-            sorted_keys.sort(String.CASE_INSENSITIVE_ORDER);
+            String[] sorted_keys = coverage_by_mutation.keySet().toArray(new String[0]);
+//            sorted_keys.sort(String.CASE_INSENSITIVE_ORDER);
+            Arrays.sort(sorted_keys, new Comparator<String>() {
+                public int compare(String str1, String str2) {
+                    if (str1.contains("fuzz") || str2.contains("fuzz")) {
+                        return 1;
+                    }
 
-            if (sorted_keys.size() <= 5) {
+                    if (!str1.contains("_") || !str2.contains("_")) {
+                        return -1;
+                    }
+                    String substr1 = str1.split("_")[1].split("\\.")[0];
+                    String substr2 = str2.split("_")[1].split("\\.")[0];
+
+                    return Integer.valueOf(substr1).compareTo(Integer.valueOf(substr2));
+                }
+            });
+
+            if (sorted_keys.length <= 5) {
                 for (String f :
                         sorted_keys) {
                     console.printf("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f));
@@ -719,8 +734,8 @@ public class GraphGuidance implements Guidance {
                 }
             } else {
                 console.printf("\t\t ...\n");
-                for (int i = sorted_keys.size() - 5; i < sorted_keys.size(); i++) {
-                    String f = sorted_keys.get(i);
+                for (int i = sorted_keys.length - 5; i < sorted_keys.length; i++) {
+                    String f = sorted_keys[i];
                     console.printf("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f));
                 }
             }

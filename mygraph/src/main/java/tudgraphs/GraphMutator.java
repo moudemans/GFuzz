@@ -48,6 +48,9 @@ public class GraphMutator {
             case AddProperty -> addPropertyKey(g);
             case ChangePropertyType -> changePropertyType(g);
 
+            case RemoveNodesOfLabel -> removeNodesOfLabelMutation(g);
+            case RemoveEdgesOfLabel -> removeEdgesOfLabelMutation(g);
+
             case BreakSchema -> mutation_message = breakSchemaMutation(g, breaking_mutations);
 
             case BreakCardinality -> mutation_message = breakCardinalityMutation(g, breaking_mutations);
@@ -1054,6 +1057,45 @@ public class GraphMutator {
         // Select random other nodes to connect said node to
         ArrayList<Relationship> relationships = selectRelationships(random_node_label, gs);
         createEdgesForNode(g, new_node, relationships);
+    }
+
+    private static void removeNodesOfLabelMutation(MyGraph g) {
+        GraphSchema gs = g.getSchema();
+        ArrayList<String> labels = new ArrayList<>(gs.getNodeLabels());
+        if (gs.getNodeLabels() == null || labels.isEmpty()) {
+            printString("No node labels defined, nodes of label mutation disabled", System.Logger.Level.WARNING);
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.RemoveNodesOfLabel, false);
+            return;
+        }
+        String random_node_label = labels.get(r.nextInt(labels.size()));
+        ArrayList<Node> nodes = g.getNodes(random_node_label);
+        for (Node n : nodes) {
+            g.removeNode(n.id);
+        }
+    }
+
+
+    private static void removeEdgesOfLabelMutation(MyGraph g) {
+        GraphSchema gs = g.getSchema();
+        ArrayList<String> labels = new ArrayList<>(gs.getEdgeLabels());
+        if (gs.getEdgeLabels() == null || labels.isEmpty()) {
+            printString("No edge labels defined, edges of label mutation disabled", System.Logger.Level.WARNING);
+            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.RemoveEdgesOfLabel, false);
+            return;
+        }
+        String random_edge_label = labels.get(r.nextInt(labels.size()));
+        ArrayList<Node> nodes = g.getNodes();
+        for (Node n : nodes) {
+            Set<Edge> edges = n.getEdges();
+            for (Edge e : edges) {
+                if (e.label.equals(random_edge_label)) {
+                    n.removeEdge(e);
+                }
+
+            }
+        }
+
+
     }
 
     private static void createEdgesForNode(MyGraph g, Node newNode, ArrayList<Relationship> relationships) {

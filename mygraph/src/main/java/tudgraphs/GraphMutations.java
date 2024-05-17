@@ -26,6 +26,10 @@ public class GraphMutations {
     public static  boolean addPropertyActive = false;
     public static  boolean changePropertyTypeActive = true;
 
+    public static  boolean removeNodesOfLabelActive = true;
+    public static  boolean removeEdgesOfLabelActive = true;
+
+
     public static  boolean breakSchemaActive = true;
     public static  boolean breakCardinalityActive = true;
     public static  boolean breakUniqueActive = true;
@@ -59,6 +63,9 @@ public class GraphMutations {
     private static final float addPropertyBias = 1f;
     private static final float removePropertyBias = 1f;
     private static final float changePropertyTypeBias = 1f;
+    private static final  float removeNodesOfLabelBias = 1f;
+    private static final  float removeEdgesOfLabelBias = 1f;
+
     private static final float insertCycleBias = 1f;
     private static final float breakCardinalityBias = 1f;
     private static final float breakUniqueBias = 1f;
@@ -86,6 +93,9 @@ public class GraphMutations {
         ChangePropertyValue,
         RemoveProperty,
         AddProperty,
+
+        RemoveNodesOfLabel,
+        RemoveEdgesOfLabel,
 
         ChangePropertyType,
         BreakSchema,
@@ -145,6 +155,12 @@ public class GraphMutations {
             }
             case ChangePropertyType -> {
                 return changePropertyTypeBias;
+            }
+            case RemoveNodesOfLabel -> {
+                return removeNodesOfLabelBias;
+            }
+            case RemoveEdgesOfLabel -> {
+                return removeEdgesOfLabelBias;
             }
             case BreakCardinality -> {
                 return breakCardinalityBias;
@@ -218,6 +234,10 @@ public class GraphMutations {
                 return removePropertyActive;
             case ChangePropertyType:
                 return changePropertyTypeActive;
+            case RemoveNodesOfLabel:
+                return removeNodesOfLabelActive;
+            case RemoveEdgesOfLabel:
+                return removeEdgesOfLabelActive;
             case BreakCardinality:
                 return breakCardinalityActive;
             case BreakUnique:
@@ -279,6 +299,12 @@ public class GraphMutations {
                 return;
             case ChangePropertyType:
                  changePropertyTypeActive = b;
+                return;
+            case RemoveNodesOfLabel:
+                removeNodesOfLabelActive = b;
+                return;
+            case RemoveEdgesOfLabel:
+                removeEdgesOfLabelActive = b;
                 return;
             case BreakCardinality:
                  breakCardinalityActive = b;
