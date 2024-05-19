@@ -1,45 +1,80 @@
 {
   "NodeLabels": [
-
-    "Account",
-    "Payment"
+    "User",
+    "Product"
   ],
   "EdgeLabels": [
-    "Transfer"
+    "OWNS"
   ],
   "Relationships": [
     {
-      "Label": "Send",
-      "From": "Account",
-      "To": "Payment",
-      "Cardinality": "MANY2ONE"
-    },
-    {
-      "Label": "Receive",
-      "From": "Payment",
-      "To": "Account",
-      "Cardinality": "MANY2ONE"
+      "Label": "OWNS",
+      "From": "User",
+      "To": "Product",
+      "Cardinality": "MULTI"
     }
   ],
   "NodeProperties": {
-    "Account": [
+    "User": [
       {
         "Name": "name",
-        "Type": "STRING"
+        "Type": "STRING",
+        "IsUnique": false,
+        "IsNotNull": false,
+        "ValueIsConstraint": false,
+        "Min": 0,
+        "Max": 0
+      },
+      {
+        "Name": "adult",
+        "Type": "BOOLEAN",
+        "IsUnique": false,
+        "IsNotNull": false,
+        "ValueIsConstraint": false,
+        "Min": 0,
+        "Max": 0
       }
     ],
-    "Payment": [
+    "Product": [
       {
-        "Name": "amount",
-        "Type": "INT"
+        "Name": "name",
+        "Type": "STRING",
+        "IsUnique": false,
+        "IsNotNull": false,
+        "ValueIsConstraint": false,
+        "Min": 0,
+        "Max": 0
+      },
+      {
+        "Name": "price",
+        "Type": "INT",
+        "IsUnique": false,
+        "IsNotNull": false,
+        "ValueIsConstraint": false,
+        "Min": 0,
+        "Max": 0
       }
     ]
   },
   "EdgeProperties": {
-    "Transfer": [
+    "OWNS": [
       {
-        "Name": "date",
-        "Type": "DATE"
+        "Name": "active",
+        "Type": "BOOLEAN",
+        "IsUnique": false,
+        "IsNotNull": false,
+        "ValueIsConstraint": true,
+        "Min": -10,
+        "Max": 10
+      },
+      {
+        "Name": "test",
+        "Type": null,
+        "IsUnique": false,
+        "IsNotNull": false,
+        "ValueIsConstraint": false,
+        "Min": 0,
+        "Max": 0
       }
     ]
   },
@@ -47,19 +82,13 @@
     {
       "Relationships": [
         {
-          "Label": "Send",
-          "From": "Account",
-          "To": "Payment",
-          "Cardinality": "ONE2MANY"
-        },
-        {
-          "Label": "Receive",
-          "From": "Payment",
-          "To": "Account",
-          "Cardinality": "ONE2ONE"
+          "Label": "OWNS",
+          "From": "User",
+          "To": "Product",
+          "Cardinality": "MULTI"
         }
       ],
-      "MaxSize": 12
+      "MaxSize": 2
     }
   ]
 }

@@ -482,7 +482,7 @@ public class MyGraph implements Serializable {
         for (Node n : nodes) {
             for (Edge e : n.getOutgoingEdges()) {
                 Node to = getNode(e.to);
-                if(to == null || to.getEdges() == null) {
+                if (to == null || to.getEdges() == null) {
                     continue;
                 }
                 if (!to.getEdges().contains(e)) {
@@ -648,7 +648,7 @@ public class MyGraph implements Serializable {
     public void addEdge(Edge e) {
         Node n = getNode(e.from);
         Node n2 = getNode(e.to);
-        if(n != null) {
+        if (n != null) {
             n.addEdge(e);
         }
         if (n2 != null) {
@@ -1006,43 +1006,52 @@ public class MyGraph implements Serializable {
         for (Edge e : n.getEdges()) {
             int new_from = e.from == n.id ? id_mask : e.from;
             int new_to = e.to == n.id ? id_mask : e.to;
-            Edge copy_edge = new Edge(e.label,new_from, new_to );
+            Edge copy_edge = new Edge(e.label, new_from, new_to);
             copy_edge.properties = (HashMap<String, String>) e.properties.clone();
             addEdge(copy_edge);
         }
         return copy_node;
     }
 
-    public Type getEdgeProperty(Edge e, String label) {
+    public Property getEdgeProperty(Edge e, String label) {
         Type t = e.getPropertyType(label);
-        if (t == null) {
-            if (           getSchema().getEdgeProperties().get(e.label) != null) {
-                ArrayList<Property> props = getSchema().getEdgeProperties().get(e.label);
-                Property p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
-                if ( p != null) {
-                    t = p.type;
-                }
+        Property p = null;
+        if (getSchema().getEdgeProperties().get(e.label) != null) {
+            ArrayList<Property> props = getSchema().getEdgeProperties().get(e.label);
+            p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
+
+            if (p != null && t != null) {
+                t = p.type;
             }
         }
         if (t == null) {
-            return Type.STRING;
+            return new Property(label, Type.STRING);
         }
-        return t;
+        if (p == null) {
+            return new Property(label, t);
+        } else {
+            return new Property(label, t, p.isUnique, p.isNotNull, p.valueIsConstraint, p.min, p.max);
+        }
     }
-    public Type getNodeProperty(Node n, String label) {
+
+    public Property getNodeProperty(Node n, String label) {
         Type t = n.getPropertyType(label);
-        if (t == null) {
-            if (           getSchema().getNodeProperties().get(n.label) != null) {
-                ArrayList<Property> props = getSchema().getNodeProperties().get(n.label);
-                Property p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
-                if ( p != null) {
-                    t = p.type;
-                }
+        Property p = null;
+        if (getSchema().getNodeProperties().get(n.label) != null) {
+            ArrayList<Property> props = getSchema().getNodeProperties().get(n.label);
+            p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
+            if (p != null && t != null) {
+                t = p.type;
             }
         }
+
         if (t == null) {
-            return Type.STRING;
+            return new Property(label, Type.STRING);
         }
-        return t;
+        if (p == null) {
+            return new Property(label, t);
+        } else {
+            return new Property(label, t, p.isUnique, p.isNotNull, p.valueIsConstraint, p.min, p.max);
+        }
     }
 }

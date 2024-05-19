@@ -423,14 +423,31 @@ public class GraphGenerator {
             return new String(array, StandardCharsets.UTF_8);
         }
 
+
         if (p.type == Type.INT) {
-            int random_val = r.nextInt(Integer.MAX_VALUE) - (Integer.MIN_VALUE / 2);
+            int min = 0;
+            int max = 0;
+            if(p.valueIsConstraint) {
+                min = p.min;
+                max = p.max;
+            } else {
+                min = Integer.MIN_VALUE;
+                max = Integer.MAX_VALUE;
+            }
+            int random_val = r.nextInt(min, max);
             return random_val + "";
         } else if (p.type == Type.DOUBLE) {
-            double random_val = r.nextDouble(Double.MAX_VALUE) - (Double.MIN_VALUE / 2);
+            double random_val = r.nextDouble(Double.MAX_VALUE) - (Double.MIN_VALUE );
+            if(p.valueIsConstraint) {
+                random_val = Math.max(Math.min(random_val, p.max), p.min);
+            }
             return random_val + "";
         } else if (p.type == Type.FLOAT) {
-            float random_val = r.nextFloat(Float.MAX_VALUE) - (Float.MIN_VALUE / 2);
+            float random_val = r.nextFloat(Float.MAX_VALUE) - (Float.MIN_VALUE );
+            if(p.valueIsConstraint) {
+                random_val = Math.max(Math.min(random_val, p.max), p.min);
+            }
+
             return random_val + "";
         } else if (p.type == Type.BOOLEAN) {
             boolean random_val = r.nextBoolean();

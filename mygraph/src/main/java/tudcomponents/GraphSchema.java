@@ -87,7 +87,7 @@ public class GraphSchema implements Serializable {
 
 
         ArrayList<Property> ownsProperties = new ArrayList<>();
-        ownsProperties.add(new Property("active", Type.BOOLEAN));
+        ownsProperties.add(new Property("active", Type.BOOLEAN, true, -10, 10));
         ownsProperties.add(new Property("test", null));
 
         eProperties.put("OWNS", ownsProperties);
