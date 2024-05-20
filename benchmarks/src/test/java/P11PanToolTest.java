@@ -1,6 +1,5 @@
 
-import P10PanTool3.P10Logic;
-import P11PanTool4.P11Logic;
+import P8PanTool1.P8Logic;
 import org.junit.Test;
 import tudcomponents.MyGraph;
 import util.Util;
@@ -51,7 +50,7 @@ public class P11PanToolTest {
     }
 
     public void testFilesInDir(String path, int limit) {
-        P11Logic analysis = new P11Logic();
+        P8Logic analysis = new P8Logic();
 
         if (!Util.dirExists(path)) {
             System.err.println("Input directory not found: " + path);

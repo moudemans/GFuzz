@@ -46,27 +46,36 @@ public class GraphByteAnalysis {
         MyGraph.writeGraphToJSON("mygraph/src/main/resources/graphs/random/empty.json",g);
         MyGraph.writeGraphToFile("mygraph/src/main/resources/graphs/random/empty.ser",g);
 
-        empty_graph_example(out);
-        out.add("\n");
-        new_node_differences(out);
-        out.add("\n");
-
-        new_edge_example(out);
-        out.add("\n");
-        label_edge_example(out);
-        out.add("\n");
-
-        new_property_example(out);
-        out.add("\n");
-        property_change_example(out);
-
-        out.add("\n");
-        example_byte_mutation(out);
+        ArrayList<String> tmp_out = new ArrayList<>();
+        MyGraph tmp1 = MyGraph.readGraphFromJSON("benchmarksFuzzable/P12/fuzz-dir/saved-inputs/Coverage_309.json");
+        MyGraph tmp2 = MyGraph.readGraphFromJSON("benchmarksFuzzable/P12/fuzz-dir/run-files/mutated.json");
+        list_changes_graph(tmp1,tmp2, tmp_out);
 
         for (String s :
-                out) {
+                tmp_out) {
             System.out.print(s);
         }
+//        empty_graph_example(out);
+//        out.add("\n");
+//        new_node_differences(out);
+//        out.add("\n");
+//
+//        new_edge_example(out);
+//        out.add("\n");
+//        label_edge_example(out);
+//        out.add("\n");
+//
+//        new_property_example(out);
+//        out.add("\n");
+//        property_change_example(out);
+//
+//        out.add("\n");
+//        example_byte_mutation(out);
+//
+//        for (String s :
+//                out) {
+//            System.out.print(s);
+//        }
     }
 
     private static void example_byte_mutation(ArrayList<String> out) {

@@ -1034,24 +1034,24 @@ public class MyGraph implements Serializable {
         }
     }
 
-    public Property getNodeProperty(Node n, String label) {
-        Type t = n.getPropertyType(label);
+    public Property getNodeProperty(Node n, String prop_label) {
+        Type t = n.getPropertyType(prop_label);
         Property p = null;
         if (getSchema().getNodeProperties().get(n.label) != null) {
             ArrayList<Property> props = getSchema().getNodeProperties().get(n.label);
-            p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
+            p = props.stream().filter(property -> property.name.equals(prop_label)).findFirst().orElse(null);
             if (p != null && t != null) {
                 t = p.type;
             }
         }
 
         if (t == null) {
-            return new Property(label, Type.STRING);
+            return new Property(prop_label, Type.STRING);
         }
         if (p == null) {
-            return new Property(label, t);
+            return new Property(prop_label, t);
         } else {
-            return new Property(label, t, p.isUnique, p.isNotNull, p.valueIsConstraint, p.min, p.max);
+            return new Property(prop_label, t, p.isUnique, p.isNotNull, p.valueIsConstraint, p.min, p.max);
         }
     }
 }

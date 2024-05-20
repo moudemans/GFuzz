@@ -351,6 +351,7 @@ public class GraphGuidance implements Guidance {
                 }
 
                 currentInputFile = output_folder + output_file_name;
+//                System.out.println("File used: " + currentInputFile);
             }
 
         }
@@ -364,6 +365,12 @@ public class GraphGuidance implements Guidance {
         if (numTrials < 2) {
             initialise_classes();
         }
+
+        ArrayList<String> out_debug = new ArrayList<>();
+        out_debug.add("file_used: " + currentInputFile);
+        out_debug.add("last_mutation_applied: " + last_mutation_applied);
+        out_debug.add("next_file: " + nextInputFileLocation);
+        write_array_to_file(out_debug );
 
         // DEFAULT TO: WORKING_DIR + RUNNING_DIR + "mutated.ser"
         InputStream targetStream = new ByteArrayInputStream(nextInputFileLocation.getBytes());
@@ -466,6 +473,7 @@ public class GraphGuidance implements Guidance {
         }
         mutation_counts.put(mutation_applied, mutation_counts.get(mutation_applied) + 1);
         last_mutation_applied = mutation_applied;
+//        System.out.println("mutation applied: " + mutation_applied);
 
         return nextInputFileLocation;
     }
@@ -743,6 +751,21 @@ public class GraphGuidance implements Guidance {
 
         console.println();
 
+    }
+
+    public void write_array_to_file(ArrayList<String> text) {
+        try {
+            FileWriter myWriter = new FileWriter(runningDirectory.getPath() + "/last_mutation.txt");
+            myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n");
+            for (String s : text) {
+                myWriter.write(s + "\n");
+            }
+            myWriter.close();
+//            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public void write_log_to_file() {

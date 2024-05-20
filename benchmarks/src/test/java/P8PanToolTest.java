@@ -1,5 +1,5 @@
 
-import P8PanTool1.P8Logic;
+import P21PanTool1.P8Logic;
 import org.junit.Test;
 import tudcomponents.MyGraph;
 import util.Util;

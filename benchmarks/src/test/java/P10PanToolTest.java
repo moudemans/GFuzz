@@ -1,7 +1,5 @@
 
 import P10PanTool3.P10Logic;
-import P7Pheno4j.P7Logic;
-import P9PanTool2.P9Logic;
 import org.junit.Test;
 import tudcomponents.MyGraph;
 import util.Util;

@@ -770,16 +770,17 @@ public class GraphMutator {
 
             String old_value = n.properties.get(prop_key);
 
-            Type old_prop = g.getNodeProperty(n, prop_key).type;
+            Property old_prop = g.getNodeProperty(n, prop_key);
+            Type old_type = old_prop.type;
 
             Type[] possible_types = Type.values();
             Type new_type = possible_types[r.nextInt(possible_types.length)];
 
-            while (new_type == old_prop) {
+            while (new_type == old_type) {
                 new_type = possible_types[r.nextInt(possible_types.length)];
             }
 
-            Property new_prop = new Property(prop_key, new_type);
+            Property new_prop = new Property(prop_key, new_type, old_prop.isUnique, old_prop.isNotNull, old_prop.valueIsConstraint, old_prop.min, old_prop.max);
             String new_value = GraphGenerator.generatePropertyValue(new_prop);
 
             n.properties.put(prop_key, new_value);

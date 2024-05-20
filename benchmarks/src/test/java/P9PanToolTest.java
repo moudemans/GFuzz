@@ -1,6 +1,5 @@
 
-import P8PanTool1.P8Logic;
-import P9PanTool2.P9Logic;
+import P22PanTool2.P9Logic;
 import tudcomponents.MyGraph;
 import util.Util;
 
