@@ -1,5 +1,5 @@
 
-import P10PanTool3.P10Logic;
+import P23PanTool3.P10Logic;
 import org.junit.Test;
 import tudcomponents.MyGraph;
 import util.Util;

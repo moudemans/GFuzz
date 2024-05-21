@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PATH1="benchmarksFuzzable/P12/"
-ProgramName="P12"
+PATH1="benchmarksFuzzable/P9/"
+ProgramName="P9"
 
 DEFAULT_PATH="benchmarksFuzzable/"
 #program_name=$1
