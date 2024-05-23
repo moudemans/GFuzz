@@ -1,85 +1,179 @@
 <?xml version="1.0"?>
 <pgmark>
     <types>
-        <type name="pangenome">
+        <type name="paper">
             <count>
-                <fixed>
-                    1
-                </fixed>
+                <proportion>
+                    0.7
+                </proportion>
             </count>
             <relations>
-
+                <relation predicate="cites" target="paper" allow_loops="false">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
             </relations>
             <attributes>
-                <attribute name="num_genomes" unique="false" required="true">
-                    <numeric min="0" max="10">
-                        <exponentialDistribution scale="10"/>
+                <attribute name="title" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="year" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
                     </numeric>
+                </attribute>
+                <attribute name="pagerank" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="numOfPaperReferees" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="numOfPaperReferers" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="venue" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="keywords" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="field" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="docType" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="volume" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="issue" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="issn" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="isbn" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="doi" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="abstract" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
                 </attribute>
             </attributes>
         </type>
-        <type name="genome">
+        <type name="author">
             <count>
                 <proportion>
                     0.3
                 </proportion>
             </count>
             <relations>
-
+                <relation predicate="writes" target="paper" allow_loops="false">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+                <relation predicate="refers" target="author" allow_loops="false">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+                <relation predicate="collaborates" target="author" allow_loops="false">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
             </relations>
             <attributes>
-                <attribute name="number" unique="true" required="true">
-                    <regex>\d{1}|\d{2}|\d{3}</regex>
+                <attribute name="name" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
                 </attribute>
-                <attribute name="num_sequences" unique="false" required="true">
-                    <numeric min="0" max="500">
-                        <exponentialDistribution scale="100"/>
+                <attribute name="pagerank" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
                     </numeric>
+                </attribute>
+                <attribute name="numOfPapers" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="numOfAuthorReferees" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="numOfAuthorReferers" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="numOfPaperReferees" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="numOfPaperReferers" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="numOfCoworkers" unique="false" required="true">
+                    <numeric min="0" max="2025">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="org" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
                 </attribute>
             </attributes>
         </type>
-        <type name="mRNA">
-            <count>
-                <proportion>
-                    0.3
-                </proportion>
-            </count>
-            <relations>
-            </relations>
-            <attributes>
-                <attribute name="genome" unique="true" required="true">
-                    <numeric min="0" max="500">
-                        <exponentialDistribution scale="100"/>
-                    </numeric>
-                </attribute>
-                <attribute name="sequence" unique="false" required="true">
-                    <numeric min="0" max="500">
-                        <exponentialDistribution scale="100"/>
-                    </numeric>
-                </attribute>
-                <attribute name="longest_transcript" unique="false" required="true">
-                    <numeric min="0" max="500">
-                        <exponentialDistribution scale="100"/>
-                    </numeric>
-                </attribute>
-                <attribute name="protein_ID" unique="false" required="true">
-                    <numeric min="0" max="500">
-                        <exponentialDistribution scale="100"/>
-                    </numeric>
-                </attribute>
-                <attribute name="length" unique="false" required="true">
-                    <numeric min="0" max="500">
-                        <exponentialDistribution scale="100"/>
-                    </numeric>
-                </attribute>
-                <attribute name="address" unique="false" required="true">
-                    <regex>\d{1},\d{1},\d{1},\d{1}</regex>
-                </attribute>
-            </attributes>
-        </type>
-
-
     </types>
     <predicates>
+        <predicate name="cites">
+
+        </predicate>
+        <predicate name="writes">
+
+        </predicate>
+        <predicate name="refers">
+            <attributes>
+                <attribute name="refCount" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </predicate>
+        <predicate name="collaborates">
+            <attributes>
+                <attribute name="collaborateCount" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </predicate>
     </predicates>
 </pgmark>

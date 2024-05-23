@@ -62,6 +62,13 @@ public class P6PhenoOutTest {
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void testpgmark() {
+        int limit = 1;
+        String path = input_path +"saved-inputs_gen1/";
+        testFilesInDir(path, limit);
+    }
+
     public void testFilesInDir(String path, int limit) {
         P6Logic analysis = new P6Logic();
 

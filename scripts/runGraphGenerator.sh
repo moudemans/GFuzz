@@ -4,10 +4,14 @@
 cd pgMark/
 if [[ ! $1 ]]
 then
-  echo "Schema not provided"
+  echo "Program not provided, using default"
   SCHEMA_PATH="default/schema.xml"
+  DIR_PATH="default/output/"
+
 else
-  SCHEMA_PATH=$1
+  SCHEMA_PATH="../benchmarksFuzzable/"$1"/fuzz-dir/GenSchema.xml"
+  DIR_PATH="../benchmarksFuzzable/"$1"/fuzz-dir/new-inputs/"
+
 fi
 
 if [[ ! $2 ]]
@@ -16,19 +20,6 @@ then
   exit
 fi
 
-if [[ ! $3 ]]
-then
-  echo "Amount of DB states not provided"
-  exit
-fi
-
-if [[ ! $4 ]]
-then
-  echo "no output directory provided"
-  DIR_PATH="default/output/"
-else
-  DIR_PATH=$4
-fi
 
 if [[ ! $5 ]]
 then
@@ -39,6 +30,7 @@ else
 fi
 
 echo "** Generating [${3}] DB states **"
+echo "current working dir: " $(pwd)
 echo "Schema: " $SCHEMA_PATH
 echo "Output location: " ${DIR_PATH}${FILE_NAME}${i}".txt"
 echo "Graph size: " $2
@@ -50,7 +42,7 @@ do
   file_count=$(find ${DIR_PATH} -name "*.csv" -type f | wc -l)
     echo "files $file_count"
 
-  if [ $file_count -lt 40 ]
+  if [ $file_count -lt 100 ]
   then
       echo "Generating graph"
       ./pgMark $SCHEMA_PATH $2 --output=${DIR_PATH}${FILE_NAME}${i}".csv"

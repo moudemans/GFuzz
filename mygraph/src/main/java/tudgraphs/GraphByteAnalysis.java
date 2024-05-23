@@ -8,10 +8,14 @@ import tudcomponents.Node;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static tudgraphs.GraphMutator.changePropertyKey;
+import static tudgraphs.GraphMutator.getNodesWithProperties;
 
 public class GraphByteAnalysis {
 
@@ -47,10 +51,12 @@ public class GraphByteAnalysis {
         MyGraph.writeGraphToFile("mygraph/src/main/resources/graphs/random/empty.ser",g);
 
         ArrayList<String> tmp_out = new ArrayList<>();
-        MyGraph tmp1 = MyGraph.readGraphFromJSON("benchmarksFuzzable/P12/fuzz-dir/saved-inputs/Coverage_309.json");
-        MyGraph tmp2 = MyGraph.readGraphFromJSON("benchmarksFuzzable/P12/fuzz-dir/run-files/mutated.json");
-        list_changes_graph(tmp1,tmp2, tmp_out);
+        MyGraph tmp1 = MyGraph.readGraphFromJSON("benchmarksFuzzable/P8/fuzz-dir/run-files/mutated.json");
+//        MyGraph tmp2 = MyGraph.readGraphFromJSON("benchmarksFuzzable/P12/fuzz-dir/run-files/mutated.json");
+//        list_changes_graph(tmp1,tmp2, tmp_out);
 
+        List<Node> a = getNodesWithProperties(tmp1);
+        changePropertyKey(tmp1);
         for (String s :
                 tmp_out) {
             System.out.print(s);

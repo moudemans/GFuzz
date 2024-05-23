@@ -107,6 +107,13 @@ public class P1MedicalTest {
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void testgmark2() {
+        int limit = 5;
+        String path = input_path +"saved-inputs_gen1/";
+        testFilesInDir(path, limit);
+    }
+
     public void testFilesInDir(String path, int limit) {
 
         if (!Util.dirExists(path)) {
@@ -121,6 +128,9 @@ public class P1MedicalTest {
         Arrays.sort(listOfFiles, new Comparator<File>() {
             public int compare(File str1, File str2) {
                 if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
+                    return 1;
+                }
+                if (!str1.getName().contains("_") || !str2.getName().contains("_")) {
                     return 1;
                 }
                 String[] tmp1 = str1.getName().split("_");

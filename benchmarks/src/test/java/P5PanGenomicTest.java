@@ -52,6 +52,13 @@ public class P5PanGenomicTest {
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void testgen() {
+        int limit = 2;
+        String path = input_path +"saved-inputs_gen1/";
+        testFilesInDir(path, limit);
+    }
+
 
 
     public void testFilesInDir(String path, int limit) {

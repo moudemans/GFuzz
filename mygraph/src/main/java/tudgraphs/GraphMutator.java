@@ -40,6 +40,7 @@ public class GraphMutator {
             case CopySubset -> applyCopySubSetMutation(g);
             case AddNode -> addNodeMutation(g);
             case RemoveNode -> removeNodeMutation(g);
+            case ChangeLabelNode -> changeNodeLabelMutation(g);
             case CopyNode -> copyNodeMutation(g);
 
             case ChangePropertyKey -> changePropertyKey(g);
@@ -111,6 +112,7 @@ public class GraphMutator {
         breaking_mutations_methods.add(GraphMutations.MutationMethod.BreakCardinality);
         breaking_mutations_methods.add(GraphMutations.MutationMethod.BreakNull);
         breaking_mutations_methods.add(GraphMutations.MutationMethod.BreakUnique);
+        breaking_mutations_methods.add(GraphMutations.MutationMethod.ChangePropertyType);
 
         ArrayList<GraphMutations.MutationMethod> active_mutations = GraphMutations.getActiveMutationMethodList();
         List<GraphMutations.MutationMethod> active_breaking_mutations = breaking_mutations_methods.stream().filter(mutationMethod -> active_mutations.contains(mutationMethod)).toList();
@@ -432,16 +434,44 @@ public class GraphMutator {
 
     // TODO
     private static void addPropertyKey(MyGraph g) {
-//        String property_label;
-//        GraphSchema gs = g.getSchema();
-//        ArrayList<String> node_labels = new ArrayList<>(gs.getNodeProperties().keySet());
-//        ArrayList<String> edge_labels = new ArrayList<>(gs.getEdgeProperties().keySet());
-//
-//        int pool_size = node_labels.size() + edge_labels.size();
-//        int random_index = r.nextInt(pool_size);
-//        String random_label = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index - node_labels.size());
-//        Property random_property = (random_index < node_labels.size()) ? gs.getNodeProperties().get(random_label) : gs.getEdgeProperties().get(random_label);
-////        Property random_property = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index);
+        GraphSchema gs = g.getSchema();
+        ArrayList<String> node_labels = new ArrayList<>(gs.getNodeProperties().keySet());
+        ArrayList<String> edge_labels = new ArrayList<>(gs.getEdgeProperties().keySet());
+
+        String label = generateString(50);
+        String value = generateString(15);
+
+        int pool_size = node_labels.size() + edge_labels.size();
+
+        if (pool_size > 0 && r.nextBoolean()) {
+            int random_index = r.nextInt(pool_size);
+
+            String random_element_label = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index - node_labels.size());
+            ArrayList<Property> random_element = (random_index < node_labels.size()) ? gs.getNodeProperties().get(random_element_label) : gs.getEdgeProperties().get(random_element_label);
+            if (random_element.size() > 0) {
+                Property random_property = random_element.get(r.nextInt(random_element.size()));
+                label = random_property.name;
+                value = GraphGenerator.generatePropertyValue(random_property);
+            }
+        }
+        ArrayList<Node> nodes = g.getNodes();
+        int random_index = r.nextInt(nodes.size());
+        Node random_node = nodes.get(random_index);
+
+        //if true, add to node properties, otherwise to edge
+        ArrayList<Edge> edges = new ArrayList<>(random_node.getEdges());
+        if (r.nextBoolean() && !edges.isEmpty()) {
+            Edge edge = edges.get(r.nextInt(edges.size()));
+            if (edge.properties == null) {
+                edge.properties = new HashMap<>();
+            }
+            edge.properties.put(label, value);
+        } else {
+            if (random_node.properties == null) {
+                random_node.properties = new HashMap<>();
+            }
+            random_node.properties.put(label, value);
+        }
     }
 
     private static void removePropertyKey(MyGraph g) {
@@ -463,7 +493,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node which can be removed", System.Logger.Level.WARNING);
-            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.RemoveProperty, false);
+//            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.RemoveProperty, false);
             return;
         }
 
@@ -537,6 +567,20 @@ public class GraphMutator {
         return g.getNode(node_id);
     }
 
+    private static void changeNodeLabelMutation(MyGraph g) {
+        Node n = getRandomNode(g);
+
+        if (n == null) {
+            printString("Could not apply change node label due to not being nodes ", System.Logger.Level.INFO);
+            return;
+        }
+
+        String old_label = n.label;
+        n.label = generateString(n.label.length() * 2);
+
+        printString(String.format("Changed label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.label, old_label, n.label), System.Logger.Level.INFO);
+    }
+
     private static void changeEdgeLabelMutation(MyGraph g) {
         Node n = getRandomNodeWithEdges(g);
 
@@ -590,7 +634,7 @@ public class GraphMutator {
     }
 
 
-    private static ArrayList<Node> getNodesWithProperties(MyGraph g) {
+    public  static ArrayList<Node> getNodesWithProperties(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
         ArrayList<Node> filtered_nodes = new ArrayList<>(nodes.stream().filter(node -> !node.properties.isEmpty()).toList());
 
@@ -749,7 +793,8 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node/edge which a property can be changed", System.Logger.Level.WARNING);
-            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyType, false);
+//            System.exit(-1);
+//            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyType, false);
             return;
         }
 
@@ -832,7 +877,7 @@ public class GraphMutator {
         }
     }
 
-    private static void changePropertyKey(MyGraph g) {
+    public static void changePropertyKey(MyGraph g) {
         ArrayList<Node> nodes = getNodesWithProperties(g);
         ArrayList<Edge> edges = getEdgesWithProperties(g);
 
@@ -851,7 +896,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node whith a property key that can be changed", System.Logger.Level.WARNING);
-            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyKey, false);
+//            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyKey, false);
             return;
         }
 
@@ -942,7 +987,7 @@ public class GraphMutator {
 
         if (pool_size == 0) {
             printString("No properties on node which a property can be changed", System.Logger.Level.WARNING);
-            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyValue, false);
+//            GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.ChangePropertyValue, false);
             return;
         }
 
@@ -1088,11 +1133,16 @@ public class GraphMutator {
         ArrayList<Node> nodes = g.getNodes();
         for (Node n : nodes) {
             Set<Edge> edges = n.getEdges();
+            Set<Edge> remove_edges = new HashSet<>();
             for (Edge e : edges) {
                 if (e.label.equals(random_edge_label)) {
-                    n.removeEdge(e);
+                    remove_edges.add(e);
                 }
 
+            }
+            for (Edge e : remove_edges) {
+
+                n.removeEdge(e);
             }
         }
 

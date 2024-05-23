@@ -60,6 +60,12 @@ public class P2TransportationTest {
         String path = input_path +"saved-inputs_rand3/";
         testFilesInDir(path, limit);
     }
+    @Test
+    public void testgen() {
+        int limit = 1;
+        String path = input_path +"saved-inputs_gen1/";
+        testFilesInDir(path, limit);
+    }
 
     public void testFilesInDir(String path, int limit) {
         P2Logic analysis = new P2Logic();

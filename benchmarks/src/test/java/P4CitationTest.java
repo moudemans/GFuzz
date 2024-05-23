@@ -35,8 +35,8 @@ public class P4CitationTest {
 
     @Test
     public void testres() {
-        int limit = 0;
-        String path = input_path +"saved-inputs_1/";
+        int limit = 10;
+        String path = input_path +"saved-inputs_0/";
         testFilesInDir(path, limit);
     }
 

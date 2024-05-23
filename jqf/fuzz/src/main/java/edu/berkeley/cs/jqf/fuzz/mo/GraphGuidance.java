@@ -28,6 +28,7 @@
  */
 package edu.berkeley.cs.jqf.fuzz.mo;
 
+import tudcomponents.GraphSchema;
 import tudcomponents.MyGraph;
 import edu.berkeley.cs.jqf.fuzz.guidance.Guidance;
 import edu.berkeley.cs.jqf.fuzz.guidance.GuidanceException;
@@ -43,6 +44,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * A front-end that only generates random inputs.
@@ -66,10 +68,11 @@ public class GraphGuidance implements Guidance {
     protected final long maxDurationMillis;
     private final float maxDiscardRatio = 0.9f;
 
-    int MAX_MUTATION_DEPTH = 500;
-    boolean USE_MAX_DEPTH = false;
-    boolean USE_GENERATION_FOLDER = false;
+    int MAX_MUTATION_DEPTH = 200;
+    boolean USE_MAX_DEPTH = true;
+    boolean USE_GENERATION_FOLDER = true;
     int graph_generator = 1; // 0: GMARK, 1: PGMARK
+    GraphSchema generator_schema;
 
     private final PrintStream out;
     private Random random = new Random();
@@ -97,13 +100,14 @@ public class GraphGuidance implements Guidance {
 
     protected Set<List<StackTraceElement>> uniqueFailures = new HashSet<>();
     protected Set<String> uniqueFailuresString = new HashSet<>();
+    protected ArrayList<String> uniqueFailuresStringReduced = new ArrayList<>();
     protected HashMap<Long, String> uniqueFailuresAtTrial = new HashMap<>();
 
 
     protected HashMap<String, Set<String>> files_mutated = new HashMap<>();
 
-    private static final boolean PRINT_MUTATION_COUNT = true;
-    private static final boolean PRINT_FILE_COUNT = true;
+    private static final boolean PRINT_MUTATION_COUNT = false;
+    private static final boolean PRINT_FILE_COUNT = false;
     private static final boolean PRINT_MUTATION_RESPONSIBILITY = true;
     private static final boolean PRINT_UNIQUE_ERRORS = true;
     protected HashMap<GraphMutations.MutationMethod, Integer> mutation_counts = new HashMap<>();
@@ -114,7 +118,7 @@ public class GraphGuidance implements Guidance {
 
     GraphMutations.MutationMethod last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
 
-    protected int mutation_framework = 0; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
+    protected int mutation_framework = 1; // -1 no muitation, 0 random bit mutations, 1 graph mutations, 2 limited graph breaking mutations
 
 
     /**
@@ -128,7 +132,7 @@ public class GraphGuidance implements Guidance {
     /**
      * Minimum amount of time (in millis) between two stats refreshes.
      */
-    protected static final long STATS_REFRESH_TIME_PERIOD = 10000;
+    protected static final long STATS_REFRESH_TIME_PERIOD = 60000;
     /**
      * Total execs at last stats refresh.
      */
@@ -163,12 +167,14 @@ public class GraphGuidance implements Guidance {
      * Creates a NoGuidance instance that will run a maximum number
      * of trials.
      *
-     * @param maxTrials      the maximum number of runs to execute
-     * @param out            an optional stream for logging error traces
+     * @param maxTrials          the maximum number of runs to execute
+     * @param out                an optional stream for logging error traces
      * @param testClassName
      * @param testMethodName
+     * @param mutation_framework
+     * @param new_input_enables
      */
-    public GraphGuidance(long maxTrials, PrintStream out, String testClassName, String testMethodName, Duration duration) {
+    public GraphGuidance(long maxTrials, PrintStream out, String testClassName, String testMethodName, Duration duration, int mutation_framework, boolean new_input_enables) {
 //        if (maxTrials <= 0) {
 //            throw new IllegalArgumentException("maxTrials must be greater than 0");
 //        }
@@ -178,6 +184,10 @@ public class GraphGuidance implements Guidance {
         this.out = out;
         this.testClassName = testClassName;
         this.testMethodName = testMethodName;
+
+        this.mutation_framework = mutation_framework;
+        this.USE_MAX_DEPTH = new_input_enables;
+        this.USE_GENERATION_FOLDER = new_input_enables;
 
 
         try {
@@ -190,7 +200,30 @@ public class GraphGuidance implements Guidance {
         }
 
         load_seeds();
+        load_generator_file();
 
+    }
+
+    private void load_generator_file() {
+        if (!USE_GENERATION_FOLDER) {
+            return;
+        }
+        File[] listOfFiles = outputDirectory.listFiles();
+        List<File> schema_files = new ArrayList<>();
+        for (File file : listOfFiles) {
+            if (file.getName().endsWith("Schema.json") || file.getName().endsWith("schema.json")) {
+                schema_files.add(file);
+            }
+        }
+
+        GraphSchema gs = null;
+        if (schema_files.size() == 1) {
+            gs = GraphSchema.readFromFile(schema_files.get(0).getPath());
+        } else {
+            System.err.printf("found [%s] schemas in the input folder. Please add single schema, ending with [schema.json] \n", schema_files.size());
+            System.exit(-1);
+        }
+        this.generator_schema = gs;
     }
 
     private void load_seeds() {
@@ -269,6 +302,8 @@ public class GraphGuidance implements Guidance {
                 FileUtils.cleanDirectory(inputs);
                 File saved = new File(outputDirectory, SAVED_INPUTS_DIR);
                 FileUtils.cleanDirectory(saved);
+                File new_inputs = new File(outputDirectory, NEW_INPUTS_DIR);
+                FileUtils.cleanDirectory(new_inputs);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -284,7 +319,9 @@ public class GraphGuidance implements Guidance {
      */
     @Override
     public InputStream getInput() {
-
+        if (mutation_framework == -1 ) {
+            important_files.clear();
+        }
         // If the queue of input files is empty, use the relevant files for a new mutation
         if (!priorityFiles.isEmpty()) {
             currentInputFile = priorityFiles.poll();
@@ -312,6 +349,7 @@ public class GraphGuidance implements Guidance {
             File[] sample_inputs = newInputsDirectory.listFiles();
             if (sample_inputs == null || sample_inputs.length == 0) {
                 try {
+//                    System.out.println("No new inputs are found in the input dir, waiting for inputs");
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     System.err.println("Waiting for new inputs was interupted");
@@ -337,10 +375,15 @@ public class GraphGuidance implements Guidance {
 
                 if (g == null) {
                     System.err.println("Could not load new file from new input folder: " + new_inputs[random_input_index].getPath());
+                } else {
+
+                    g.setSchema(generator_schema);
                 }
-                String output_file_name = new_inputs[random_input_index].getName().split("\\.")[0] + ".json";
+//                String output_file_name = new_inputs[random_input_index].getName().split("\\.")[0] + ".json";
+
+                String output_file_name = "new_input.json";
                 String output_folder = WORKING_DIR + RUNNING_DIR;
-                System.out.println("Writing new input to: " + output_folder + output_file_name);
+//                System.out.println("Writing new input to: " + output_folder + output_file_name);
                 MyGraph.writeGraphToJSON(output_folder + output_file_name, g);
 
                 if (new_inputs[random_input_index].exists()){
@@ -350,7 +393,10 @@ public class GraphGuidance implements Guidance {
                     }
                 }
 
+
+
                 currentInputFile = output_folder + output_file_name;
+                nextInputFileLocation = currentInputFile;
 //                System.out.println("File used: " + currentInputFile);
             }
 
@@ -382,11 +428,12 @@ public class GraphGuidance implements Guidance {
         MyGraph currentGraph;
         try {
 //            currentGraph = MyGraph.readGraphFromFile(currentInputFile);
-            currentGraph = MyGraph.readGraphFromJSON(currentInputFile);
+
         } catch (Exception e) {
             return;
         }
         if (mutation_framework == 0) {
+            currentGraph = MyGraph.readGraphFromJSON(currentInputFile);
             GraphMutator.ByteMutationLimit(currentGraph, 0);
             GraphMutator.ByteMutationLimit(currentGraph, 1);
             GraphMutator.ByteMutationLimit(currentGraph, 2);
@@ -395,6 +442,7 @@ public class GraphGuidance implements Guidance {
             GraphMutator.ByteMutationLimit(currentGraph, 5);
         } else if (mutation_framework == 1) {
             for (GraphMutations.MutationMethod mm : GraphMutations.getActiveMutationMethodList()) {
+                currentGraph = MyGraph.readGraphFromJSON(currentInputFile);
                 GraphMutator.mutateGraph(currentGraph, mm);
             }
         }
@@ -474,7 +522,7 @@ public class GraphGuidance implements Guidance {
         mutation_counts.put(mutation_applied, mutation_counts.get(mutation_applied) + 1);
         last_mutation_applied = mutation_applied;
 //        System.out.println("mutation applied: " + mutation_applied);
-
+//        System.out.println("using input: " + nextInputFileLocation);
         return nextInputFileLocation;
     }
 
@@ -568,6 +616,7 @@ public class GraphGuidance implements Guidance {
 
         // Only check the Stack trace elements until the program driver that is being tested
         ArrayList<StackTraceElement> testProgramTraceElements = new ArrayList<>();
+        ArrayList<StackTraceElement> testProgramTraceElements_reduced = new ArrayList<>();
         boolean testClassFound = false;
         for (int i = 0; i < rootCause.getStackTrace().length; i++) {
             // If the test class has been found in the stacktrace, but this element is no longer said test class then the stacktrace will only contain the test framework, not the test program.
@@ -577,6 +626,10 @@ public class GraphGuidance implements Guidance {
 
             testProgramTraceElements.add(rootCause.getStackTrace()[i]);
 
+            if (rootCause.getStackTrace()[i].getClassName().contains("Logic") || rootCause.getStackTrace()[i].getClassName().contains("Driver")) {
+                testProgramTraceElements_reduced.add(rootCause.getStackTrace()[i]);
+            }
+
             // Check the correct element of the stacktrace if it originated from the test class.
             if (rootCause.getStackTrace()[i].getClassName().equals(testClassName)) {
                 testClassFound = true;
@@ -585,6 +638,11 @@ public class GraphGuidance implements Guidance {
         String traceElementsString = "";
         for (int i = 0; i < testProgramTraceElements.size(); i++) {
             traceElementsString += testProgramTraceElements.get(i).toString();
+        }
+
+        String traceElementsStringReduced = "";
+        for (int i = 0; i < testProgramTraceElements_reduced.size(); i++) {
+            traceElementsStringReduced += testProgramTraceElements_reduced.get(i).toString();
         }
 
         if (!error_caused_by_mutation.containsKey(traceElementsString)) {
@@ -599,7 +657,9 @@ public class GraphGuidance implements Guidance {
         if (!uniqueFailuresString.contains(traceElementsString)) {
             uniqueFailures.add(testProgramTraceElements);
             uniqueFailuresString.add(traceElementsString);
+            uniqueFailuresStringReduced.add(traceElementsStringReduced);
             uniqueFailuresAtTrial.put(numTrials, traceElementsString);
+
             System.out.println("New unique error found!");
             System.out.println(traceElementsString);
             System.out.println("****");
@@ -683,6 +743,8 @@ public class GraphGuidance implements Guidance {
         console.printf("\tFailed mutations:       %,d\n", failedMutation);
         console.printf("\tInvalid states:       %,d\n", invalidStates);
         console.printf("\tNum discards:       %,d\n", numDiscards);
+        console.printf("\t active mutations: %s\n",GraphMutations.getActiveMutationMethodList().stream().map(Object::toString)
+                .collect(Collectors.joining(", ")));
         if (PRINT_MUTATION_COUNT) {
             console.printf("\tmutation counts:       \n");
             for (GraphMutations.MutationMethod mm :
@@ -789,22 +851,19 @@ public class GraphGuidance implements Guidance {
         output.add(String.format("\tFailed mutations:       %,d\n", failedMutation));
         output.add(String.format("\tInvalid states:       %,d\n", invalidStates));
         output.add(String.format("\tNum discards:       %,d\n", numDiscards));
-        if (PRINT_MUTATION_COUNT) {
+
             output.add(String.format("\tmutation counts:       \n"));
             for (GraphMutations.MutationMethod mm :
                     mutation_counts.keySet()) {
                 output.add(String.format("\t\t %s: %,d\n", mm.toString(), mutation_counts.get(mm)));
 
             }
-        }
-        if (PRINT_MUTATION_RESPONSIBILITY) {
             output.add(String.format("\tSaved inputs:       \n"));
             for (String f :
                     coverage_by_mutation.keySet()) {
                 output.add(String.format("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f)));
 
             }
-        }
 
         output.add("\n\n Unique failures found: ");
         for (String s :
@@ -812,6 +871,15 @@ public class GraphGuidance implements Guidance {
             output.add("\n\t" + s);
         }
 
+        if (PRINT_UNIQUE_ERRORS) {
+            output.add("\n\tUniqueErrors Redyced:       \n");
+
+
+            for (String f :
+                    uniqueFailuresStringReduced) {
+                output.add(String.format("\t\t Unique error: %s\n", f));
+            }
+        }
 
         if (PRINT_UNIQUE_ERRORS) {
             output.add("\n\tUniqueErrors:       \n");
@@ -866,6 +934,8 @@ public class GraphGuidance implements Guidance {
 
             }
         }
+
+
 
 
         try {

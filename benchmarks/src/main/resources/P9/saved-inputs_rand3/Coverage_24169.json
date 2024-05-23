@@ -1,0 +1,257 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "pangenome",
+      "genome",
+      "mRNA"
+    ],
+    "EdgeLabels": [],
+    "Relationships": [],
+    "NodeProperties": {
+      "pangenome": [
+        {
+          "Name": "num_genomes",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ],
+      "genome": [
+        {
+          "Name": "number",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": true,
+          "Min": 0,
+          "Max": 100
+        },
+        {
+          "Name": "num_sequences",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": true,
+          "Min": 0,
+          "Max": 100
+        }
+      ],
+      "mRNA": [
+        {
+          "Name": "genome",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": true,
+          "Min": 0,
+          "Max": 100
+        },
+        {
+          "Name": "sequence",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": true,
+          "Min": 0,
+          "Max": 100
+        },
+        {
+          "Name": "longest_transcript",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "protein_ID",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "length",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "address",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ]
+    },
+    "EdgeProperties": {},
+    "Patterns": []
+  },
+  "Nodes": [
+    {
+      "Id": 0,
+      "Label": "genome",
+      "Properties": {
+        "number": "931",
+        "num_sequences": "101"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 1,
+      "Label": "genome",
+      "Properties": {
+        "number": "636",
+        "num_sequences": "10"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 2,
+      "Label": "genome",
+      "Properties": {
+        "number": "68",
+        "num_sequences": "50"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 3,
+      "Label": "genome",
+      "Properties": {
+        "number": "349",
+        "num_sequences": "82"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 4,
+      "Label": "genome",
+      "Properties": {
+        "number": "673",
+        "num_sequences": "84"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 5,
+      "Label": "genome",
+      "Properties": {
+        "number": "74",
+        "num_sequences": "120"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 6,
+      "Label": "mRNA",
+      "Properties": {
+        "genome": "274",
+        "sequence": "19",
+        "protein_ID": "80",
+        "address": "6,7,8,5",
+        "length": "53",
+        "longest_transcript": "68"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 7,
+      "Label": "mRNA",
+      "Properties": {
+        "genome": "296",
+        "sequence": "29",
+        "protein_ID": "47",
+        "address": "0,3,1,4",
+        "length": "23",
+        "longest_transcript": "24"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 8,
+      "Label": "mRNA",
+      "Properties": {
+        "genome": "207",
+        "sequence": "48",
+        "protein_ID": "5",
+        "address": "3,1,4,6",
+        "length": "64",
+        "longest_transcript": "153"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 9,
+      "Label": "mRNA",
+      "Properties": {
+        "genome": "7",
+        "sequence": "75",
+        "protein_ID": "42",
+        "address": "3,1,4,1",
+        "length": "126",
+        "longest_transcript": "1"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 10,
+      "Label": "mRNA",
+      "Properties": {
+        "genome": "34",
+        "sequence": "98",
+        "protein_ID": "19",
+        "address": "1,9,4,7",
+        "length": "60",
+        "longest_transcript": "125"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 11,
+      "Label": "mRNA",
+      "Properties": {
+        "genome": "23",
+        "sequence": "128",
+        "protein_ID": "51",
+        "address": "7,8,2,8",
+        "length": "67",
+        "longest_transcript": "15"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 12,
+      "Label": "pangenome",
+      "Properties": {
+        "num_genomes": "9"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    }
+  ]
+}

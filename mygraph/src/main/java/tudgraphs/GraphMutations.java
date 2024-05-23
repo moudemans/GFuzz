@@ -9,7 +9,7 @@ public class GraphMutations {
 
     // Indicates whether a mutation is active or not
     public static final boolean noMutationActive = false;  // Boolean is used to generate mutation list that can be applied. NoMutation is an indication that no Graphs.Mutation can be performed and does not match a specific mutation approach
-    public static  boolean copySubsetActive = false;
+    public static  boolean copySubsetActive = true;
 
     public static  boolean addEdgeActive = true;
     public static  boolean removeEdgeActive = true;
@@ -18,6 +18,7 @@ public class GraphMutations {
 
     public static  boolean addNodeActive = true;
     public static  boolean removeNodeActive = true;
+    public static  boolean changeNodeLabelActive = true;
     public static  boolean copyNodeActive = true;
 
     public static  boolean changePropertyKeyActive = true;
@@ -53,6 +54,7 @@ public class GraphMutations {
     private static final float copySubsetBias = 1f;
     private static final float addNodeBias = 1f;
     private static final float removeNodeBias = 1f;
+    private static final float changeNodeLabelBias = 1f;
     private static final float copyNodeBias = 1f;
     private static final float addEdgeBias = 1f;
     private static final float removeEdgeBias = 1f;
@@ -82,6 +84,7 @@ public class GraphMutations {
         CopySubset,    // Select subset of nodes and copy them
         AddNode,
         RemoveNode,
+        ChangeLabelNode,
         CopyNode,
 
         AddEdge,
@@ -125,6 +128,9 @@ public class GraphMutations {
             }
             case RemoveNode -> {
                 return removeNodeBias;
+            }
+            case ChangeLabelNode -> {
+                return changeNodeLabelBias;
             }
             case CopyNode -> {
                 return copyNodeBias;
@@ -214,6 +220,8 @@ public class GraphMutations {
                 return addNodeActive;
             case RemoveNode:
                 return removeNodeActive;
+            case ChangeLabelNode:
+                return changeNodeLabelActive;
             case CopyNode:
                 return copyNodeActive;
             case AddEdge:
@@ -269,6 +277,9 @@ public class GraphMutations {
                 return;
             case RemoveNode:
                  removeNodeActive = b;
+                return;
+            case ChangeLabelNode:
+                changeNodeLabelActive = b;
                 return;
             case CopyNode:
                  copyNodeActive = b;
@@ -411,6 +422,7 @@ public class GraphMutations {
     public static void changeMutationStatus(MutationMethod m, boolean new_status) {
         boolean current_status = isMutationActive(m);
         if (current_status != new_status) {
+            System.out.println("CHANGING MUTATION STATUS TO " + new_status + " FOR MURATION METHOD " + m);
             setMutationStatus(m , new_status);
             activeMutations = null;
         }

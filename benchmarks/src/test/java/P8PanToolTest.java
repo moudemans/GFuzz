@@ -1,5 +1,5 @@
 
-import P21PanTool1.P8Logic;
+import P8PanTool1.P8Logic;
 import org.junit.Test;
 import tudcomponents.MyGraph;
 import util.Util;
@@ -45,15 +45,22 @@ public class P8PanToolTest {
     @Test
     public void testres() {
         int limit = 0;
-        String path = input_path +"saved-inputs_3/";
+        String path = input_path +"saved-inputs_2/";
         testFilesInDir(path, limit);
     }
 
 
     @Test
     public void testrand() {
-        int limit = 0;
+        int limit =31 ;
         String path = input_path +"saved-inputs_rand3/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void testgen() {
+        int limit = 0;
+        String path = input_path +"saved-inputs_gen1/";
         testFilesInDir(path, limit);
     }
 

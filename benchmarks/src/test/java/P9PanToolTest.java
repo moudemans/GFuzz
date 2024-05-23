@@ -37,8 +37,8 @@ public class P9PanToolTest {
 
     @Test
     public void testmutated() {
-        int limit = 0;
-        String path = input_path +"saved-inputs_3/";
+        int limit =0;
+        String path = input_path +"saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
@@ -46,6 +46,13 @@ public class P9PanToolTest {
     public void testrandom() {
         int limit = 0;
         String path = input_path +"saved-inputs_rand3/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void testgen() {
+        int limit = 3;
+        String path = input_path +"saved-inputs_gen1/";
         testFilesInDir(path, limit);
     }
 
@@ -100,11 +107,16 @@ public class P9PanToolTest {
 
 
             try {
-                System.out.println("File"+counter+": " + f.getPath());
+                if (counter >= limit - 5) {
+                    System.out.println("File" + counter + ": " + f.getPath());
+                }
                 analysis.run(g);
             } catch (Exception e) {
-                System.err.println("Caught exception: " + e.getMessage());
-                e.printStackTrace();
+                if (counter >= limit - 5) {
+
+                    System.err.println("Caught exception: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
 
             counter++;

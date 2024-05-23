@@ -48,6 +48,13 @@ public class P7Pheno4jTest {
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void testgen() {
+        int limit = 0;
+        String path = input_path +"saved-inputs_gen1/";
+        testFilesInDir(path, limit);
+    }
+
     public void testFilesInDir(String path, int limit) {
         P7Logic analysis = new P7Logic();
 
