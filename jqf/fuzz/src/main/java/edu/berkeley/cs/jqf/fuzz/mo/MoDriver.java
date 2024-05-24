@@ -169,7 +169,7 @@ public class MoDriver {
                 GraphMutations.MutationMethod.RemoveEdge, GraphMutations.MutationMethod.RemoveNode, GraphMutations.MutationMethod.RemoveProperty
         };
         GraphMutations.MutationMethod[] mm3 = new GraphMutations.MutationMethod[]{
-                GraphMutations.MutationMethod.ChangeLabelEdge, GraphMutations.MutationMethod.ChangeLabelNode, GraphMutations.MutationMethod.ChangePropertyKey
+                GraphMutations.MutationMethod.ChangeLabelEdge, GraphMutations.MutationMethod.ChangeLabelNode, GraphMutations.MutationMethod.ChangePropertyKey, GraphMutations.MutationMethod.ChangeEdge
         };
         GraphMutations.MutationMethod[] mm4 = new GraphMutations.MutationMethod[]{
                 GraphMutations.MutationMethod.ChangePropertyValue

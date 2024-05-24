@@ -68,10 +68,10 @@ public class GraphGuidance implements Guidance {
     protected final long maxDurationMillis;
     private final float maxDiscardRatio = 0.9f;
 
-    int MAX_MUTATION_DEPTH = 200;
+    int MAX_MUTATION_DEPTH = 10;
     boolean USE_MAX_DEPTH = true;
     boolean USE_GENERATION_FOLDER = true;
-    int graph_generator = 1; // 0: GMARK, 1: PGMARK
+    int graph_generator = 0; // 0: GMARK, 1: PGMARK
     GraphSchema generator_schema;
 
     private final PrintStream out;
@@ -371,10 +371,19 @@ public class GraphGuidance implements Guidance {
                     }
                 } catch (Exception e) {
                     System.err.println("Could not load new file from new input folder: " + new_inputs[random_input_index].getPath());
+                    try {
+                        FileUtils.copyFile(new_inputs[random_input_index], new File(runningDirectory.getPath(), new_inputs[random_input_index].getName()));
+                    } catch (IOException ex) {
+                        System.err.println("Culd not save the input which is producing an error"
+                        );
+                    }
+
+                    e.printStackTrace();
+
                 }
 
                 if (g == null) {
-                    System.err.println("Could not load new file from new input folder: " + new_inputs[random_input_index].getPath());
+                    System.err.println("Loading graphfrom  new file from new input folder failed: " + new_inputs[random_input_index].getPath());
                 } else {
 
                     g.setSchema(generator_schema);

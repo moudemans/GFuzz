@@ -100,6 +100,14 @@ public class P1MedicalTest {
         String path = input_path +"saved-inputs_3/";
         testFilesInDir(path, limit);
     }
+
+    @Test
+    public void testmm() {
+        int limit = 0;
+        String path = input_path +"mm/saved-inputs_4/";
+        testFilesInDir(path, limit);
+    }
+
     @Test
     public void testrand() {
         int limit = 10;

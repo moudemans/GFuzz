@@ -52,7 +52,7 @@ do
     then
       for i in $(seq 1 $1);
       do
-        ./test -c ../use-cases/P1.xml -g ../examples/P1/test-$i- -a
+        ./test -c ../use-cases/GenSchema.xml -g ../examples/P1/test-$i- -a
       done
 
     else

@@ -55,6 +55,13 @@ public class P2TransportationTest {
     }
 
     @Test
+    public void testmm() {
+        int limit = 0;
+        String path = input_path +"mm/saved-inputs_4/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
     public void testrand() {
         int limit = 0;
         String path = input_path +"saved-inputs_rand3/";
@@ -75,6 +82,9 @@ public class P2TransportationTest {
         Arrays.sort(listOfFiles, new Comparator<File>() {
             public int compare(File str1, File str2) {
                 if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
+                    return 1;
+                }
+                if (!str1.getName().contains("_") || !str2.getName().contains("_")) {
                     return 1;
                 }
 

@@ -1,0 +1,6496 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "Centroid",
+      "Stop"
+    ],
+    "EdgeLabels": [
+      "DRT",
+      "WALK"
+    ],
+    "Relationships": [
+      {
+        "Label": "DRT",
+        "From": "Centroid",
+        "To": "Stop",
+        "Cardinality": "SIMPLE"
+      },
+      {
+        "Label": "WALK",
+        "From": "Centroid",
+        "To": "STOP",
+        "Cardinality": "SIMPLE"
+      }
+    ],
+    "NodeProperties": {},
+    "EdgeProperties": {
+      "DRT": [
+        {
+          "Name": "inter_times",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "waiting_time",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "DRT_time",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ],
+      "WALK": [
+        {
+          "Name": "walking_time",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ]
+    },
+    "Patterns": []
+  },
+  "Nodes": [
+    {
+      "Id": 0,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10267",
+            "waiting_time": "15313",
+            "inter_time": "4511"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16222",
+            "waiting_time": "19060",
+            "inter_time": "6263"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 0,
+          "To": 127,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8542"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 3,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "39426",
+            "waiting_time": "24456",
+            "inter_time": "30173"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16222",
+            "waiting_time": "19060",
+            "inter_time": "6263"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 67,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "32843"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 2,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10267",
+            "waiting_time": "15313",
+            "inter_time": "4511"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 0,
+          "To": 3,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "39426",
+            "waiting_time": "24456",
+            "inter_time": "30173"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 4,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "24327",
+            "waiting_time": "12026",
+            "inter_time": "3844"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 4,
+          "To": 5,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "3534",
+            "waiting_time": "10085",
+            "inter_time": "20378"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 4,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "52327"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 4,
+          "To": 7,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5525",
+            "waiting_time": "9382",
+            "inter_time": "388"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 4,
+          "To": 5,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "3534",
+            "waiting_time": "10085",
+            "inter_time": "20378"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 6,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 4,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "24327",
+            "waiting_time": "12026",
+            "inter_time": "3844"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 52,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "43071",
+            "waiting_time": "19164",
+            "inter_time": "1775"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 37,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "68786",
+            "waiting_time": "69349",
+            "inter_time": "32845"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 10,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "19251",
+            "waiting_time": "51055",
+            "inter_time": "44479"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 67,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "6952"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 145,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "22627",
+            "waiting_time": "43980",
+            "inter_time": "35131"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 7,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 4,
+          "To": 7,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5525",
+            "waiting_time": "9382",
+            "inter_time": "388"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 8,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 8,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9603",
+            "waiting_time": "83",
+            "inter_time": "495"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 8,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4202"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 9,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 57,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "76027",
+            "waiting_time": "8575",
+            "inter_time": "32933"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 8,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9603",
+            "waiting_time": "83",
+            "inter_time": "495"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 28,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10986"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 128,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "39707"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 49,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "41919"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 10,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 10,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "19251",
+            "waiting_time": "51055",
+            "inter_time": "44479"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 10,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "14015"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 11,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 11,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "7898",
+            "waiting_time": "33168",
+            "inter_time": "57597"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 11,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "1614"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 11,
+          "To": 12,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "33394",
+            "waiting_time": "15092",
+            "inter_time": "17088"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 11,
+          "To": 163,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "27200"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 12,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 11,
+          "To": 12,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "33394",
+            "waiting_time": "15092",
+            "inter_time": "17088"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 16,
+          "To": 12,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "13234",
+            "waiting_time": "23199",
+            "inter_time": "3931"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 13,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 11,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "7898",
+            "waiting_time": "33168",
+            "inter_time": "57597"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 10,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "14015"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 136,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1334",
+            "waiting_time": "18386",
+            "inter_time": "213"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 14,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 14,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "7015"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 14,
+          "To": 15,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6652",
+            "waiting_time": "12378",
+            "inter_time": "6852"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 15,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 14,
+          "To": 15,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6652",
+            "waiting_time": "12378",
+            "inter_time": "6852"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 16,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 16,
+          "To": 164,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "16593"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 16,
+          "To": 17,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "8045",
+            "waiting_time": "5449",
+            "inter_time": "16485"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 16,
+          "To": 12,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "13234",
+            "waiting_time": "23199",
+            "inter_time": "3931"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 17,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 16,
+          "To": 17,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "8045",
+            "waiting_time": "5449",
+            "inter_time": "16485"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 17,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "4065",
+            "waiting_time": "12669",
+            "inter_time": "4584"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 18,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 18,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "27651",
+            "waiting_time": "53372",
+            "inter_time": "23279"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 18,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8484"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 19,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 63,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "223"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 18,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "27651",
+            "waiting_time": "53372",
+            "inter_time": "23279"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5335",
+            "waiting_time": "19654",
+            "inter_time": "103294"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 53,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "37743",
+            "waiting_time": "9969",
+            "inter_time": "26885"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 69,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "15037",
+            "waiting_time": "4155",
+            "inter_time": "1447"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 20,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 20,
+          "To": 21,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17586",
+            "waiting_time": "7870",
+            "inter_time": "6310"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 20,
+          "To": 165,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "5992"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 21,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 20,
+          "To": 21,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17586",
+            "waiting_time": "7870",
+            "inter_time": "6310"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 22,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 22,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18750",
+            "waiting_time": "40662",
+            "inter_time": "29609"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 22,
+          "To": 166,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "16133"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 23,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 22,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18750",
+            "waiting_time": "40662",
+            "inter_time": "29609"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 65,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "51858"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1445",
+            "waiting_time": "4950",
+            "inter_time": "14376"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 49,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1729",
+            "waiting_time": "116157",
+            "inter_time": "21972"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "20975",
+            "waiting_time": "11403",
+            "inter_time": "4261"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 24,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 24,
+          "To": 25,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "29972",
+            "waiting_time": "38786",
+            "inter_time": "15352"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 24,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "15016"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 25,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 24,
+          "To": 25,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "29972",
+            "waiting_time": "38786",
+            "inter_time": "15352"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 74,
+          "To": 25,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "21207"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 26,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 26,
+          "To": 27,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10695",
+            "waiting_time": "28810",
+            "inter_time": "41252"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 26,
+          "To": 45,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "20170"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 27,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 26,
+          "To": 27,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10695",
+            "waiting_time": "28810",
+            "inter_time": "41252"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 28,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 28,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "46256",
+            "waiting_time": "3978",
+            "inter_time": "7789"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 28,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10986"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 29,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 28,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "46256",
+            "waiting_time": "3978",
+            "inter_time": "7789"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "85448",
+            "waiting_time": "46318",
+            "inter_time": "44522"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "60346",
+            "waiting_time": "50691",
+            "inter_time": "1766"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "23969",
+            "waiting_time": "47800",
+            "inter_time": "25842"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 30,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 30,
+          "To": 163,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "5968"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 30,
+          "To": 31,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "488",
+            "waiting_time": "3351",
+            "inter_time": "29451"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 31,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 30,
+          "To": 31,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "488",
+            "waiting_time": "3351",
+            "inter_time": "29451"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 32,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 32,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "26764"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 32,
+          "To": 33,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "58921",
+            "waiting_time": "39707",
+            "inter_time": "1641"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 32,
+          "To": 105,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "41167"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 33,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 33,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14777",
+            "waiting_time": "247",
+            "inter_time": "46128"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 32,
+          "To": 33,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "58921",
+            "waiting_time": "39707",
+            "inter_time": "1641"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 33,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "12399"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 34,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 34,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "169949",
+            "waiting_time": "16456",
+            "inter_time": "8710"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 34,
+          "To": 35,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "38009",
+            "waiting_time": "25375",
+            "inter_time": "19751"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 34,
+          "To": 94,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "7450"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 35,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 34,
+          "To": 35,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "38009",
+            "waiting_time": "25375",
+            "inter_time": "19751"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 36,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 116,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "829",
+            "waiting_time": "38575",
+            "inter_time": "16373"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 34,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "169949",
+            "waiting_time": "16456",
+            "inter_time": "8710"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30392",
+            "waiting_time": "81137",
+            "inter_time": "45814"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 151,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16476",
+            "waiting_time": "33778",
+            "inter_time": "28768"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 53,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "959"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 142,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "76678",
+            "waiting_time": "17253",
+            "inter_time": "15337"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 37,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 37,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "68786",
+            "waiting_time": "69349",
+            "inter_time": "32845"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 37,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4256"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 38,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 38,
+          "To": 39,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17208",
+            "waiting_time": "28628",
+            "inter_time": "8663"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 38,
+          "To": 167,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "1929"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 39,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 38,
+          "To": 39,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17208",
+            "waiting_time": "28628",
+            "inter_time": "8663"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 42,
+          "To": 39,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13350"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 40,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 40,
+          "To": 41,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "22574",
+            "waiting_time": "45690",
+            "inter_time": "9577"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 40,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "42306"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 41,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 40,
+          "To": 41,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "22574",
+            "waiting_time": "45690",
+            "inter_time": "9577"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 42,
+          "To": 41,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10586"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 42,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 42,
+          "To": 43,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "31124",
+            "waiting_time": "15677",
+            "inter_time": "14373"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 42,
+          "To": 39,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13350"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 42,
+          "To": 41,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10586"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 43,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 42,
+          "To": 43,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "31124",
+            "waiting_time": "15677",
+            "inter_time": "14373"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 44,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 44,
+          "To": 64,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2064"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11330",
+            "waiting_time": "6790",
+            "inter_time": "8969"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 45,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "44456",
+            "waiting_time": "185",
+            "inter_time": "23560"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1445",
+            "waiting_time": "4950",
+            "inter_time": "14376"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 48,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "37509",
+            "waiting_time": "5176",
+            "inter_time": "1985"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 47,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2256",
+            "waiting_time": "3321",
+            "inter_time": "2396"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 45,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 45,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "44456",
+            "waiting_time": "185",
+            "inter_time": "23560"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 77,
+          "To": 45,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13392"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 26,
+          "To": 45,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "20170"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 46,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 57,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "40834"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11330",
+            "waiting_time": "6790",
+            "inter_time": "8969"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 70,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5249",
+            "waiting_time": "13269",
+            "inter_time": "2862"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 161,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2398"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 18,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8484"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21851",
+            "waiting_time": "7945",
+            "inter_time": "54684"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 47,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 47,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2256",
+            "waiting_time": "3321",
+            "inter_time": "2396"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 48,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 48,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14856",
+            "waiting_time": "66435",
+            "inter_time": "26369"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 44,
+          "To": 48,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "37509",
+            "waiting_time": "5176",
+            "inter_time": "1985"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 49,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 49,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "19356"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 49,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "9835"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 49,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "41919"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 49,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1729",
+            "waiting_time": "116157",
+            "inter_time": "21972"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 50,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 50,
+          "To": 134,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "32363"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 50,
+          "To": 51,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "79660",
+            "waiting_time": "23410",
+            "inter_time": "37458"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 51,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 50,
+          "To": 51,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "79660",
+            "waiting_time": "23410",
+            "inter_time": "37458"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 135,
+          "To": 51,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "34379",
+            "waiting_time": "27547",
+            "inter_time": "62715"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 52,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 52,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "43071",
+            "waiting_time": "19164",
+            "inter_time": "1775"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 52,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "37828"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 53,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 53,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "49014",
+            "waiting_time": "29628",
+            "inter_time": "8686"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 53,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "37743",
+            "waiting_time": "9969",
+            "inter_time": "26885"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 53,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "959"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 54,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 53,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "49014",
+            "waiting_time": "29628",
+            "inter_time": "8686"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 158,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "43739",
+            "waiting_time": "60548",
+            "inter_time": "14611"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21407",
+            "waiting_time": "10712",
+            "inter_time": "4867"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 135,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "55761"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 55,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 55,
+          "To": 56,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10734",
+            "waiting_time": "35411",
+            "inter_time": "26507"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 55,
+          "To": 68,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "28401"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 56,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 55,
+          "To": 56,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10734",
+            "waiting_time": "35411",
+            "inter_time": "26507"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 57,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 57,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "76027",
+            "waiting_time": "8575",
+            "inter_time": "32933"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 57,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "40834"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 58,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 60,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14356",
+            "waiting_time": "69969",
+            "inter_time": "13635"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 59,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "49578",
+            "waiting_time": "104482",
+            "inter_time": "12800"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 58,
+          "To": 168,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "69713"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 62,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2884",
+            "waiting_time": "9735",
+            "inter_time": "19365"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21851",
+            "waiting_time": "7945",
+            "inter_time": "54684"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 61,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "32388",
+            "waiting_time": "25958",
+            "inter_time": "11340"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "60346",
+            "waiting_time": "50691",
+            "inter_time": "1766"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 58,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "26549"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 59,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 59,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "49578",
+            "waiting_time": "104482",
+            "inter_time": "12800"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 60,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 88,
+          "To": 60,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "6213"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 60,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14356",
+            "waiting_time": "69969",
+            "inter_time": "13635"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 61,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 61,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "32388",
+            "waiting_time": "25958",
+            "inter_time": "11340"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 62,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 58,
+          "To": 62,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2884",
+            "waiting_time": "9735",
+            "inter_time": "19365"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 63,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 63,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "223"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 63,
+          "To": 64,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "70707",
+            "waiting_time": "6833",
+            "inter_time": "25689"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 64,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 44,
+          "To": 64,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2064"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 63,
+          "To": 64,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "70707",
+            "waiting_time": "6833",
+            "inter_time": "25689"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 65,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 65,
+          "To": 66,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6141",
+            "waiting_time": "36874",
+            "inter_time": "344"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 65,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "51858"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 66,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 65,
+          "To": 66,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6141",
+            "waiting_time": "36874",
+            "inter_time": "344"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 66,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "34658"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 67,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 67,
+          "To": 68,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16198",
+            "waiting_time": "1712",
+            "inter_time": "26312"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 67,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "6952"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 67,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "32843"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 68,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 67,
+          "To": 68,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16198",
+            "waiting_time": "1712",
+            "inter_time": "26312"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 55,
+          "To": 68,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "28401"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 68,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16447",
+            "waiting_time": "6130",
+            "inter_time": "16580"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 69,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 69,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "15037",
+            "waiting_time": "4155",
+            "inter_time": "1447"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 69,
+          "To": 127,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "68974"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 70,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 70,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "46412",
+            "waiting_time": "8031",
+            "inter_time": "93822"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 169,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "79413"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 70,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5249",
+            "waiting_time": "13269",
+            "inter_time": "2862"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 66,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "34658"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "23197"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 100,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "16315"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 71,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 70,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "46412",
+            "waiting_time": "8031",
+            "inter_time": "93822"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 124,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "39569"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "28426",
+            "waiting_time": "40312",
+            "inter_time": "66349"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 72,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 72,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "52357",
+            "waiting_time": "42034",
+            "inter_time": "38317"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 72,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "21140"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 73,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 72,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "52357",
+            "waiting_time": "42034",
+            "inter_time": "38317"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 49,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "9835"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 74,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 74,
+          "To": 76,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6860",
+            "waiting_time": "15346",
+            "inter_time": "30018"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 74,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "27294",
+            "waiting_time": "27661",
+            "inter_time": "4965"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 74,
+          "To": 25,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "21207"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 75,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 74,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "27294",
+            "waiting_time": "27661",
+            "inter_time": "4965"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2235"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 76,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 136,
+          "To": 76,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "60880"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 74,
+          "To": 76,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6860",
+            "waiting_time": "15346",
+            "inter_time": "30018"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 77,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 77,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30298",
+            "waiting_time": "41507",
+            "inter_time": "2434"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 77,
+          "To": 45,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13392"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 78,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 77,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30298",
+            "waiting_time": "41507",
+            "inter_time": "2434"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 79,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 81,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6090",
+            "waiting_time": "20995",
+            "inter_time": "11142"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "36760",
+            "waiting_time": "102254",
+            "inter_time": "19495"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "85448",
+            "waiting_time": "46318",
+            "inter_time": "44522"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18425",
+            "waiting_time": "9925",
+            "inter_time": "23423"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 79,
+          "To": 108,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "36869"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21407",
+            "waiting_time": "10712",
+            "inter_time": "4867"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 86,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14275",
+            "waiting_time": "37725",
+            "inter_time": "17372"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 83,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "80440",
+            "waiting_time": "1242",
+            "inter_time": "29643"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "50556",
+            "waiting_time": "3639",
+            "inter_time": "64486"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "47083",
+            "waiting_time": "31507",
+            "inter_time": "5219"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "7190",
+            "waiting_time": "4512",
+            "inter_time": "93652"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 68,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16447",
+            "waiting_time": "6130",
+            "inter_time": "16580"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 80,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "36760",
+            "waiting_time": "102254",
+            "inter_time": "19495"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21329",
+            "waiting_time": "60627",
+            "inter_time": "6127"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 8,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4202"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 81,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 81,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6090",
+            "waiting_time": "20995",
+            "inter_time": "11142"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 82,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 11,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "1614"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "6037"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 52,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "37828"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "50556",
+            "waiting_time": "3639",
+            "inter_time": "64486"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 58,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "26549"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 24,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "15016"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11476",
+            "waiting_time": "3229",
+            "inter_time": "24519"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 158,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "3625"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 123,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "20882"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "23197"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 131,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "45288"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 4,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "52327"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 72,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "21140"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 136,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "54002"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 83,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 83,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "80440",
+            "waiting_time": "1242",
+            "inter_time": "29643"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 84,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 32,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "26764"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "41653",
+            "waiting_time": "30037",
+            "inter_time": "2629"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "7190",
+            "waiting_time": "4512",
+            "inter_time": "93652"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 85,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 49,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "19356"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "47083",
+            "waiting_time": "31507",
+            "inter_time": "5219"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 86,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 86,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14275",
+            "waiting_time": "37725",
+            "inter_time": "17372"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 87,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 79,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18425",
+            "waiting_time": "9925",
+            "inter_time": "23423"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 40,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "42306"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 88,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 88,
+          "To": 60,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "6213"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 88,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30901",
+            "waiting_time": "4661",
+            "inter_time": "35335"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 89,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 88,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30901",
+            "waiting_time": "4661",
+            "inter_time": "35335"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "23518"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 90,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2926",
+            "waiting_time": "22277",
+            "inter_time": "11618"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21982",
+            "waiting_time": "4920",
+            "inter_time": "15549"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 17,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "4065",
+            "waiting_time": "12669",
+            "inter_time": "4584"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 94,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9257",
+            "waiting_time": "29005",
+            "inter_time": "21670"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 29,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "23969",
+            "waiting_time": "47800",
+            "inter_time": "25842"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 93,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "91443",
+            "waiting_time": "12833",
+            "inter_time": "44406"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 90,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8381"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 91,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 116,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "33777"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21982",
+            "waiting_time": "4920",
+            "inter_time": "15549"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 92,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2926",
+            "waiting_time": "22277",
+            "inter_time": "11618"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 140,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "37770"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 93,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 93,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "91443",
+            "waiting_time": "12833",
+            "inter_time": "44406"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 94,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 34,
+          "To": 94,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "7450"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 90,
+          "To": 94,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9257",
+            "waiting_time": "29005",
+            "inter_time": "21670"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 95,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 33,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14777",
+            "waiting_time": "247",
+            "inter_time": "46128"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1606",
+            "waiting_time": "28",
+            "inter_time": "3273"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 96,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6635",
+            "waiting_time": "78127",
+            "inter_time": "22954"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21329",
+            "waiting_time": "60627",
+            "inter_time": "6127"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 95,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "17860"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 96,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 96,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "6635",
+            "waiting_time": "78127",
+            "inter_time": "22954"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 97,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 95,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1606",
+            "waiting_time": "28",
+            "inter_time": "3273"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 98,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 100,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "3358",
+            "waiting_time": "15156",
+            "inter_time": "29328"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30392",
+            "waiting_time": "81137",
+            "inter_time": "45814"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14744",
+            "waiting_time": "5382",
+            "inter_time": "11130"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 106,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "4162",
+            "waiting_time": "2187",
+            "inter_time": "36838"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 105,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "28985",
+            "waiting_time": "65246",
+            "inter_time": "29139"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 108,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "19243",
+            "waiting_time": "78992",
+            "inter_time": "26664"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 107,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5716",
+            "waiting_time": "4598",
+            "inter_time": "20153"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 102,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21182",
+            "waiting_time": "13154",
+            "inter_time": "7894"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "3930",
+            "waiting_time": "29898",
+            "inter_time": "65245"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 104,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "15913",
+            "waiting_time": "47178",
+            "inter_time": "23744"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 103,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "44920",
+            "waiting_time": "5284",
+            "inter_time": "35484"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 114,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11179",
+            "waiting_time": "24283",
+            "inter_time": "4851"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 113,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "49478",
+            "waiting_time": "38998",
+            "inter_time": "25814"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 115,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10113",
+            "waiting_time": "9961",
+            "inter_time": "676"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 110,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "7693",
+            "waiting_time": "2545",
+            "inter_time": "54721"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 109,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9399",
+            "waiting_time": "5446",
+            "inter_time": "54476"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 48,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14856",
+            "waiting_time": "66435",
+            "inter_time": "26369"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 112,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "35311",
+            "waiting_time": "32359",
+            "inter_time": "13034"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 111,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "42352",
+            "waiting_time": "6606",
+            "inter_time": "20803"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 98,
+          "To": 129,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "21842"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "28426",
+            "waiting_time": "40312",
+            "inter_time": "66349"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11476",
+            "waiting_time": "3229",
+            "inter_time": "24519"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "41653",
+            "waiting_time": "30037",
+            "inter_time": "2629"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 19,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5335",
+            "waiting_time": "19654",
+            "inter_time": "103294"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 23,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "20975",
+            "waiting_time": "11403",
+            "inter_time": "4261"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 99,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14744",
+            "waiting_time": "5382",
+            "inter_time": "11130"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 37,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4256"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 120,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "33779"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 100,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 100,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "3358",
+            "waiting_time": "15156",
+            "inter_time": "29328"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 100,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "16315"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 101,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 117,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11444",
+            "waiting_time": "70494",
+            "inter_time": "48798"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 95,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "17860"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "3930",
+            "waiting_time": "29898",
+            "inter_time": "65245"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 146,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5633",
+            "waiting_time": "11724",
+            "inter_time": "11829"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 102,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 102,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21182",
+            "waiting_time": "13154",
+            "inter_time": "7894"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 103,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 103,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "44920",
+            "waiting_time": "5284",
+            "inter_time": "35484"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 104,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 104,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "15913",
+            "waiting_time": "47178",
+            "inter_time": "23744"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 105,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 105,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "28985",
+            "waiting_time": "65246",
+            "inter_time": "29139"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 32,
+          "To": 105,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "41167"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 106,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 148,
+          "To": 106,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "3832"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 143,
+          "To": 106,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "115313",
+            "waiting_time": "4408",
+            "inter_time": "23919"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 106,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "4162",
+            "waiting_time": "2187",
+            "inter_time": "36838"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 107,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 107,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5716",
+            "waiting_time": "4598",
+            "inter_time": "20153"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 108,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 79,
+          "To": 108,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "36869"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 108,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "19243",
+            "waiting_time": "78992",
+            "inter_time": "26664"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 109,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 109,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9399",
+            "waiting_time": "5446",
+            "inter_time": "54476"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 110,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 110,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "7693",
+            "waiting_time": "2545",
+            "inter_time": "54721"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 111,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 142,
+          "To": 111,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "40763",
+            "waiting_time": "9021",
+            "inter_time": "45369"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 111,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "42352",
+            "waiting_time": "6606",
+            "inter_time": "20803"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 123,
+          "To": 111,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9494",
+            "waiting_time": "4716",
+            "inter_time": "12782"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 112,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 112,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "35311",
+            "waiting_time": "32359",
+            "inter_time": "13034"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 113,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 113,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "49478",
+            "waiting_time": "38998",
+            "inter_time": "25814"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 114,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 114,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11179",
+            "waiting_time": "24283",
+            "inter_time": "4851"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 159,
+          "To": 114,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8650"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 115,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 98,
+          "To": 115,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "10113",
+            "waiting_time": "9961",
+            "inter_time": "676"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 116,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 116,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "829",
+            "waiting_time": "38575",
+            "inter_time": "16373"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 116,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "33777"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 117,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 117,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "11444",
+            "waiting_time": "70494",
+            "inter_time": "48798"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 117,
+          "To": 170,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10408"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 117,
+          "To": 119,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18345",
+            "waiting_time": "29414",
+            "inter_time": "26933"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 117,
+          "To": 118,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5144",
+            "waiting_time": "13450",
+            "inter_time": "8459"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 118,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 117,
+          "To": 118,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5144",
+            "waiting_time": "13450",
+            "inter_time": "8459"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 119,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 117,
+          "To": 119,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18345",
+            "waiting_time": "29414",
+            "inter_time": "26933"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 133,
+          "To": 119,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "53925"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 120,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 120,
+          "To": 122,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14052",
+            "waiting_time": "5947",
+            "inter_time": "110564"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 120,
+          "To": 121,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18698",
+            "waiting_time": "45034",
+            "inter_time": "64781"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 120,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "33779"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 121,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 120,
+          "To": 121,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "18698",
+            "waiting_time": "45034",
+            "inter_time": "64781"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 122,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 120,
+          "To": 122,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14052",
+            "waiting_time": "5947",
+            "inter_time": "110564"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 123,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 123,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "20882"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 123,
+          "To": 111,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "9494",
+            "waiting_time": "4716",
+            "inter_time": "12782"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 124,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 124,
+          "To": 126,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "34329",
+            "waiting_time": "39157",
+            "inter_time": "14007"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 124,
+          "To": 125,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "28677",
+            "waiting_time": "31435",
+            "inter_time": "65646"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 124,
+          "To": 127,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "12217",
+            "waiting_time": "14581",
+            "inter_time": "123014"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 124,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "39569"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 125,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 124,
+          "To": 125,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "28677",
+            "waiting_time": "31435",
+            "inter_time": "65646"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 126,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 124,
+          "To": 126,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "34329",
+            "waiting_time": "39157",
+            "inter_time": "14007"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 150,
+          "To": 126,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "37708"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 127,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 0,
+          "To": 127,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8542"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 124,
+          "To": 127,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "12217",
+            "waiting_time": "14581",
+            "inter_time": "123014"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 69,
+          "To": 127,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "68974"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 128,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 128,
+          "To": 130,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17414",
+            "waiting_time": "7502",
+            "inter_time": "11173"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 128,
+          "To": 129,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "26450",
+            "waiting_time": "9995",
+            "inter_time": "47801"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 128,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "39707"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 129,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 128,
+          "To": 129,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "26450",
+            "waiting_time": "9995",
+            "inter_time": "47801"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 98,
+          "To": 129,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "21842"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 130,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 128,
+          "To": 130,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17414",
+            "waiting_time": "7502",
+            "inter_time": "11173"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 131,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 131,
+          "To": 132,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17769",
+            "waiting_time": "31735",
+            "inter_time": "18268"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 131,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "45288"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 132,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 131,
+          "To": 132,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "17769",
+            "waiting_time": "31735",
+            "inter_time": "18268"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 133,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 133,
+          "To": 134,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "221224",
+            "waiting_time": "17364",
+            "inter_time": "11597"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 133,
+          "To": 119,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "53925"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 134,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 50,
+          "To": 134,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "32363"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 133,
+          "To": 134,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "221224",
+            "waiting_time": "17364",
+            "inter_time": "11597"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 135,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 135,
+          "To": 51,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "34379",
+            "waiting_time": "27547",
+            "inter_time": "62715"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 135,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "55761"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 136,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 136,
+          "To": 76,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "60880"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 136,
+          "To": 137,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30272",
+            "waiting_time": "55644",
+            "inter_time": "7946"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 136,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "1334",
+            "waiting_time": "18386",
+            "inter_time": "213"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 136,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "54002"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 137,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 136,
+          "To": 137,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30272",
+            "waiting_time": "55644",
+            "inter_time": "7946"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 138,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 138,
+          "To": 139,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21033",
+            "waiting_time": "6391",
+            "inter_time": "30146"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 138,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4245"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 138,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "5796"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 139,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 138,
+          "To": 139,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21033",
+            "waiting_time": "6391",
+            "inter_time": "30146"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 139,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "18493"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 140,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 140,
+          "To": 141,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "36153",
+            "waiting_time": "37098",
+            "inter_time": "65912"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 140,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "37770"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 141,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 140,
+          "To": 141,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "36153",
+            "waiting_time": "37098",
+            "inter_time": "65912"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 142,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 142,
+          "To": 111,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "40763",
+            "waiting_time": "9021",
+            "inter_time": "45369"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 142,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "42229"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 142,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "76678",
+            "waiting_time": "17253",
+            "inter_time": "15337"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 143,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 143,
+          "To": 144,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "47216",
+            "waiting_time": "29742",
+            "inter_time": "22794"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "19719"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 143,
+          "To": 106,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "115313",
+            "waiting_time": "4408",
+            "inter_time": "23919"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "6037"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 33,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "12399"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 172,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4322"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "560"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2235"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 139,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "18493"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 173,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "108484"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "23518"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 144,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 143,
+          "To": 144,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "47216",
+            "waiting_time": "29742",
+            "inter_time": "22794"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 145,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 145,
+          "To": 173,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13318"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 145,
+          "To": 6,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "22627",
+            "waiting_time": "43980",
+            "inter_time": "35131"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 146,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 146,
+          "To": 166,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13143"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 146,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "523",
+            "waiting_time": "23225",
+            "inter_time": "109767"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 146,
+          "To": 101,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "5633",
+            "waiting_time": "11724",
+            "inter_time": "11829"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 147,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 14,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "7015"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 146,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "523",
+            "waiting_time": "23225",
+            "inter_time": "109767"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 150,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14035",
+            "waiting_time": "6269",
+            "inter_time": "12914"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 138,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4245"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 148,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 148,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "8854",
+            "waiting_time": "27532",
+            "inter_time": "38174"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 148,
+          "To": 106,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "3832"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 149,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 148,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "8854",
+            "waiting_time": "27532",
+            "inter_time": "38174"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "19719"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 156,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "14108"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 90,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8381"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 138,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "5796"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 150,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 150,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2599"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 150,
+          "To": 147,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "14035",
+            "waiting_time": "6269",
+            "inter_time": "12914"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 150,
+          "To": 126,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "37708"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 151,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 151,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4194"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 151,
+          "To": 36,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "16476",
+            "waiting_time": "33778",
+            "inter_time": "28768"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 152,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 152,
+          "To": 173,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8414"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 152,
+          "To": 153,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "61",
+            "waiting_time": "49757",
+            "inter_time": "17698"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 153,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 152,
+          "To": 153,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "61",
+            "waiting_time": "49757",
+            "inter_time": "17698"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 154,
+          "To": 153,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "93752"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 154,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 154,
+          "To": 155,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "25213",
+            "waiting_time": "18937",
+            "inter_time": "13158"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 154,
+          "To": 153,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "93752"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 155,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 154,
+          "To": 155,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "25213",
+            "waiting_time": "18937",
+            "inter_time": "13158"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 156,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 156,
+          "To": 157,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21749",
+            "waiting_time": "6672",
+            "inter_time": "7258"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 156,
+          "To": 149,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "14108"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 157,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 156,
+          "To": 157,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "21749",
+            "waiting_time": "6672",
+            "inter_time": "7258"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 158,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 158,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "3625"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 158,
+          "To": 174,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10148"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "DRT",
+          "From": 158,
+          "To": 54,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "43739",
+            "waiting_time": "60548",
+            "inter_time": "14611"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 159,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 159,
+          "To": 160,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2100",
+            "waiting_time": "1116",
+            "inter_time": "13704"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 159,
+          "To": 114,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8650"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 160,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 159,
+          "To": 160,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "2100",
+            "waiting_time": "1116",
+            "inter_time": "13704"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 161,
+      "Label": "Centroid",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 161,
+          "To": 162,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30317",
+            "waiting_time": "27328",
+            "inter_time": "9048"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 161,
+          "To": 46,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2398"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 162,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "DRT",
+          "From": 161,
+          "To": 162,
+          "Weight": 0,
+          "Properties": {
+            "DRT_time": "30317",
+            "waiting_time": "27328",
+            "inter_time": "9048"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 163,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 30,
+          "To": 163,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "5968"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 11,
+          "To": 163,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "27200"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 164,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 16,
+          "To": 164,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "16593"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 165,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 20,
+          "To": 165,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "5992"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 166,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 146,
+          "To": 166,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13143"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 22,
+          "To": 166,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "16133"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 167,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 38,
+          "To": 167,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "1929"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 168,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 58,
+          "To": 168,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "69713"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 169,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 70,
+          "To": 169,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "79413"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 170,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 117,
+          "To": 170,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10408"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 171,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 150,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "2599"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 151,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4194"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 142,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "42229"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 171,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "560"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 172,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 172,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "4322"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 173,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 152,
+          "To": 173,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "8414"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 145,
+          "To": 173,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "13318"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "WALK",
+          "From": 143,
+          "To": 173,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "108484"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 174,
+      "Label": "StopTime",
+      "Properties": {},
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "WALK",
+          "From": 158,
+          "To": 174,
+          "Weight": 0,
+          "Properties": {
+            "walking_time": "10148"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    }
+  ]
+}

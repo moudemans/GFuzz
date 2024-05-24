@@ -99,10 +99,9 @@ public class MyGraph implements Serializable {
         try {
             String holder = reader.readLine();
 
-            if (!holder.startsWith("###")) {
+            if (holder == null || !holder.startsWith("###")) {
                 System.err.println("Expected the file to begin with node relationships, indicated by [### NODE RELATIONS ###]");
                 System.err.println("First Line: " + holder);
-                System.exit(-1);
             }
             holder = reader.readLine();
 
@@ -471,6 +470,9 @@ public class MyGraph implements Serializable {
 
         try {
             MyGraph g = gson.fromJson(new FileReader(fileName), MyGraph.class);
+            if (g == null) {
+                return null;
+            }
             g.updateOutgoingIncommingEdges();
             return g;
         } catch (IOException e) {

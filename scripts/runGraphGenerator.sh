@@ -40,11 +40,11 @@ i=1
 while [ $x -ge 1 ]
 do
   file_count=$(find ${DIR_PATH} -name "*.csv" -type f | wc -l)
-    echo "files $file_count"
+    echo -ne "files $file_count "\\r
 
   if [ $file_count -lt 100 ]
   then
-      echo "Generating graph"
+      echo "Generating graph, current count $file_count"
       ./pgMark $SCHEMA_PATH $2 --output=${DIR_PATH}${FILE_NAME}${i}".csv"
       i=$((i + 1))
   fi
