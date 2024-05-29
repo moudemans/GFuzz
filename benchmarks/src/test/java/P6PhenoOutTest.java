@@ -61,6 +61,13 @@ public class P6PhenoOutTest {
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void testcompound() {
+        int limit = 24;
+        String path = input_path +"compound3/saved-inputs_0/";
+        testFilesInDir(path, limit);
+    }
+
 
 
     @Test

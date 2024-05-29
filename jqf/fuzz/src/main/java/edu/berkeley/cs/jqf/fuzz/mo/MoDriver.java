@@ -176,7 +176,7 @@ public class MoDriver {
         };
         GraphMutations.MutationMethod[] mm5 = new GraphMutations.MutationMethod[]{
                 GraphMutations.MutationMethod.BreakCardinality, GraphMutations.MutationMethod.BreakUnique,
-                GraphMutations.MutationMethod.BreakNull, GraphMutations.MutationMethod.ChangePropertyType};
+                GraphMutations.MutationMethod.BreakNull, GraphMutations.MutationMethod.ChangePropertyType, GraphMutations.MutationMethod.RemoveNodesOfLabel, GraphMutations.MutationMethod.RemoveEdgesOfLabel};
 
         ArrayList< GraphMutations.MutationMethod[]> mm_groups = new ArrayList<>();
         mm_groups.add(mm1);

@@ -68,10 +68,10 @@ public class GraphGuidance implements Guidance {
     protected final long maxDurationMillis;
     private final float maxDiscardRatio = 0.9f;
 
-    int MAX_MUTATION_DEPTH = 10;
+    int MAX_MUTATION_DEPTH = 200;
     boolean USE_MAX_DEPTH = true;
     boolean USE_GENERATION_FOLDER = true;
-    int graph_generator = 0; // 0: GMARK, 1: PGMARK
+    int graph_generator = 1; // 0: GMARK, 1: PGMARK
     GraphSchema generator_schema;
 
     private final PrintStream out;
@@ -364,6 +364,11 @@ public class GraphGuidance implements Guidance {
 
                 MyGraph g = null;
                 try {
+                    if (new_inputs[random_input_index].getPath().endsWith(".txt")) {
+                        graph_generator = 0;
+                    } else if (new_inputs[random_input_index].getPath().endsWith(".csv")) {
+                        graph_generator = 1;
+                    }
                     if (graph_generator == 0) {
                         g = MyGraph.readGraphFromGMARK(new_inputs[random_input_index].getPath());
                     } else {

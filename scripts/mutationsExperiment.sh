@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PATH1="benchmarksFuzzable/P1/"
-ProgramName="P1"
-method="mm"
+PATH1="benchmarksFuzzable/P9/"
+ProgramName="P9"
+method="mm2"
 
 DEFAULT_PATH="benchmarksFuzzable/"
 #program_name=$1
@@ -82,6 +82,7 @@ while [ $i -lt 5 ]
 do
       echo "Start run"
       ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 d5 $i
+#      ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 d5 3
 #      ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 0 1000
 #      cp -r ./fuzz-dir/saved-inputs/ ./fuzz-dir/rand/saved-inputs_$i/
       mkdir -p ./fuzz-dir/${method}/saved-inputs_$i/

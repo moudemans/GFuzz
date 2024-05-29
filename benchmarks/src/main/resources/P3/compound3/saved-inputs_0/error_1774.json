@@ -1,0 +1,2362 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "paper",
+      "author"
+    ],
+    "EdgeLabels": [
+      "writes",
+      "cites",
+      "refers",
+      "collaborates"
+    ],
+    "Relationships": [
+      {
+        "Label": "writes",
+        "From": "author",
+        "To": "paper",
+        "Cardinality": "MULTI"
+      },
+      {
+        "Label": "cites",
+        "From": "paper",
+        "To": "paper",
+        "Cardinality": "MULTI"
+      },
+      {
+        "Label": "refers",
+        "From": "author",
+        "To": "author",
+        "Cardinality": "MULTI"
+      },
+      {
+        "Label": "collaborates",
+        "From": "author",
+        "To": "author",
+        "Cardinality": "MULTI"
+      }
+    ],
+    "NodeProperties": {
+      "author": [
+        {
+          "Name": "name",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "pagerank",
+          "Type": "DOUBLE",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfPapers",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfAuthorReferees",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfAuthorReferers",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfPaperReferees",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfPaperReferers",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfCoworkers",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "org",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ],
+      "paper": [
+        {
+          "Name": "title",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "year",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "pagerank",
+          "Type": "DOUBLE",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfPaperReferees",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "numOfPaperReferers",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "venue",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "keywords",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "field",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "docType",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "volume",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "issue",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "issn",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "isbn",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "doi",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "abstract",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ]
+    },
+    "EdgeProperties": {
+      "refers": [
+        {
+          "Name": "refCount",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ],
+      "collaborates": [
+        {
+          "Name": "collaborateCount",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "\u0018����\u0007L\u0006\u003d.Y\u0007���|",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ]
+    },
+    "Patterns": []
+  },
+  "Nodes": [
+    {
+      "Id": 69,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Iqlj",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Kggtcjmitmmrzciaekrcmxtnfdzjisuchvkqbbnr",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 92,
+          "To": 69,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "24237"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 91,
+          "To": 69,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "8063"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 69,
+          "To": 77,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "25144"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 69,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4767"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 71,
+          "To": 69,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "13794"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 70,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Qxeuxyielgba",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Cqbnkaxeeavxnuhf",
+        "numOfPaperReferers": "2025",
+        "pagerank": "1223",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 74,
+          "To": 70,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "66627"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "22199"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 29,
+          "To": 60,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "49434"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 79,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "20378"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 90,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "151566"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 74,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "6109"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 71,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Xpuasheexghnpjtxb",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Plgpfhvmsdyexutrawtww",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 71,
+          "To": 79,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "16748"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 71,
+          "To": 83,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "73756"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 71,
+          "To": 69,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "13794"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 71,
+          "To": 98,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "7850"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 72,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "33817"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "5183"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 72,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "15139"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 72,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "1001",
+        "numOfPapers": "2025",
+        "org": "Ruj",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Xauomhbwcnizwhjraazwgfxrlmmenqojugepvwmc",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 72,
+          "To": 96,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "75878"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 93,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "23974"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 79,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "39293"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 72,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "33817"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 74,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "19278"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 83,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "6491"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 97,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "36490"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 72,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "15139"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 73,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Kidtqagxhnu",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Qq",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 95,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "42544"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 81,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "724"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 73,
+          "To": 86,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4858"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 73,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "28528"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 89,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "14832"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 85,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "26642"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "24629"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 74,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Xthqbprgndcqzvljlktcehxmkgatzothhh",
+        "numOfAuthorReferers": "455",
+        "numOfCoworkers": "2025",
+        "name": "Yrafqivonfuvzaunoohmxkvlbwzjlcots",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 74,
+          "To": 70,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "66627"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 75,
+          "To": 74,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "2128"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 74,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "19278"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 74,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "6109"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 75,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Omvtjijtdslvotqmcypocqecb",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Vpsbtaepaoyqagbqt",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 98,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "10347"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 82,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "33741"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 75,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "68824"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 75,
+          "To": 74,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "2128"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 76,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Eyebsgmfyygolenidrdmpcmcarkn",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Beirzanuaqkjlblxtidenlyyfpcucqrv",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 76,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "133846"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 89,
+          "To": 76,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "17467"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 77,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Ctpreufzmbjihsszgav",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Rryymtadcaguj",
+        "numOfPaperReferers": "797",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 69,
+          "To": 77,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "25144"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 77,
+          "To": 95,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "8162"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 77,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "15921"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 77,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "46802"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 86,
+          "To": 77,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4412"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 78,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Ynjympizjouaaueuefrpgihuppoidcapsmqtynnxw",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Lnreqnfhgyivutukkuasbed",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "94088"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 88,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "14556"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 73,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "28528"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 77,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "46802"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 78,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "3930"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 96,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "39009"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 78,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "1127"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 79,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Vklzonydsnsklwhjqwpukzdlsrlkbhsenbcjpkxiu",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Ciezuingroccriupudyztwlj",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "1846"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 71,
+          "To": 79,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "16748"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 79,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "\u0018����\u0007L\u0006\u003d.Y\u0007���|": "19594"
+          },
+          "PropertyTypes": {
+            "\u0018����\u0007L\u0006\u003d.Y\u0007���|": "STRING"
+          }
+        },
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 79,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "20378"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 79,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "39293"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 79,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "19348"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 80,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Gmbifdibrpwoamkuaszkfjl",
+        "numOfAuthorReferers": "747",
+        "numOfCoworkers": "2025",
+        "name": "Rsfgsgyopzhnzagknzya",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 86,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "55582"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 80,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "4476"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 80,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "11808"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 77,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "15921"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 80,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "48824"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 79,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "19348"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 81,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Dxakrj",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Kiisvkdndnabhwsburvnsypdcffbjmog",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 81,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "724"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 81,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "182999"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 92,
+          "To": 81,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "26213"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 81,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "84420"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 82,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Ormzfzmzbqjdutnujsxjyuvzqqsspjfdmbm",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Czalbaulaxnddfjlipuobjmawdpvirazygrp",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 88,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "24324"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 82,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "33741"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "94088"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 81,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "182999"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 98,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "84905"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "24629"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 93,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "40477"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 95,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4255"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 88,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "45702"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 83,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Dkkspmarctsrlglfarov",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Yojxgyywwicqwzhbfaqh",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 71,
+          "To": 83,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "73756"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 83,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "6491"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 83,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4095"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 83,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "16267"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 84,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Ypfryptrwizvqiyqaslzaipadnndoqqt",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Vath",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 76,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "133846"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 69,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4767"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 84,
+          "To": 98,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "8050"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 78,
+          "To": 84,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "1127"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 85,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Pqasgoysdnfisbfvdguxvehhlpwkheijgqubysgg",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Hlp",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 85,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "22239"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 95,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "30712"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 83,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4095"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 85,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "26642"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 86,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Gcwqqgdfqnzumowgelfyoovneokngfwct",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Wjdoegzpgbctvppfuhsodyspyrlpjn",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 86,
+          "To": 80,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "55582"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 73,
+          "To": 86,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4858"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 86,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "24131"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 86,
+          "To": 77,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4412"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 87,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "190",
+        "org": "Trsxbjnmrncytolqwwubilzulewobjjfqu",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Qchvtrslhyxkhsxovwsoupwoepa",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 91,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "60501"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 87,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "13746"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 81,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "84420"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 88,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Ikmofmlxskbofhhmojdjjgx",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Cfxroopqj",
+        "numOfPaperReferers": "2025",
+        "pagerank": "1682",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 88,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "24324"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 88,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "14556"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 88,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "59646"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 88,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "7733"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 88,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "45702"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 89,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Vjolntlvnvzjjykmkxyiyihpdni",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Bowybtarhqlotnoalzznnew",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 89,
+          "To": 98,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "8462"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 79,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "19594"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 89,
+          "To": 70,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "49434"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 89,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "14832"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 89,
+          "To": 76,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "17467"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 90,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "74892"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 90,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Vrrixiyytplqxawouiuccwarlbktozgjqgglwsca",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "342",
+        "name": "Nigdxjzgthwnefcstqqbifjupeawnjhxiycuqlaf",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 90,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "151566"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 99,
+          "To": 90,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "18780"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 90,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "19054"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 90,
+          "To": 89,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "74892"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 91,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Lqeewn",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Mffdkvucfnbecnctpwsopaxchpsflhzekmam",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 91,
+          "To": 87,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "60501"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 80,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "4476"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 91,
+          "To": 69,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "8063"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 85,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "22239"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 88,
+          "To": 91,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "7733"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 92,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Xqrqjatdacgyhmhszfctqhuglwkimpxswfzn",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Utnxmdtwgncvquoemrrhobxesxficrnvhcofzhys",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 92,
+          "To": 69,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "24237"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 80,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "11808"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 92,
+          "To": 81,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "26213"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 78,
+          "To": 92,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "3930"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 93,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Zxyulbbwslrbaariemtcz",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Wiiqwolkwepxvwondehoiqjdnfutdzetqysrczn",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 93,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "23974"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 93,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "40477"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 93,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "31474"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 95,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Fqbdqbnskcvte",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Eiexhnkxiovnrykpsrptnoacyugehjc",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 95,
+          "To": 73,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "42544"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 82,
+          "To": 95,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "4255"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 95,
+          "To": 85,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "30712"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 77,
+          "To": 95,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "8162"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 96,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "1170",
+        "org": "Mpdxandxrkeuutdutjdwhqehlqlzpsnsr",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Wayixkdfwktnx",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 96,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "4.2506046E37"
+          },
+          "PropertyTypes": {
+            "refCount": "FLOAT"
+          }
+        },
+        {
+          "Label": "collaborates",
+          "From": 72,
+          "To": 96,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "75878"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 96,
+          "To": 78,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "39009"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 97,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Eyypmfy",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Dddfkcukimkoltfyicivmnqh",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 87,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "13746"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 75,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "68824"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 93,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "31474"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 97,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "18473"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 97,
+          "To": 72,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "36490"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 90,
+          "To": 97,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "19054"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 98,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Dbfahffcgwmvcvzfqmgrh",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Kbmksfkm",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "collaborates",
+          "From": 98,
+          "To": 75,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "10347"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 89,
+          "To": 98,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "8462"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 71,
+          "To": 98,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "7850"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 98,
+          "To": 82,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "84905"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 84,
+          "To": 98,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "8050"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    },
+    {
+      "Id": 99,
+      "Label": "author",
+      "Properties": {
+        "numOfAuthorReferees": "2025",
+        "numOfPapers": "2025",
+        "org": "Oupcproicvxvftjmvo",
+        "numOfAuthorReferers": "2025",
+        "numOfCoworkers": "2025",
+        "name": "Xlbbswhubdu",
+        "numOfPaperReferers": "2025",
+        "pagerank": "2025",
+        "numOfPaperReferees": "2025"
+      },
+      "PropertyTypes": null,
+      "Edges": [
+        {
+          "Label": "refers",
+          "From": 70,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "22199"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 96,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "46673"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 71,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "5183"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 88,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "59646"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 97,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "18473"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 80,
+          "To": 99,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "48824"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 86,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "24131"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "refers",
+          "From": 99,
+          "To": 83,
+          "Weight": 0,
+          "Properties": {
+            "refCount": "16267"
+          },
+          "PropertyTypes": null
+        },
+        {
+          "Label": "collaborates",
+          "From": 99,
+          "To": 90,
+          "Weight": 0,
+          "Properties": {
+            "collaborateCount": "18780"
+          },
+          "PropertyTypes": null
+        }
+      ]
+    }
+  ]
+}

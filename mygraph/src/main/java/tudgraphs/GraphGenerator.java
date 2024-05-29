@@ -418,11 +418,12 @@ public class GraphGenerator {
 
     public static String generatePropertyValue(Property p) {
         if (p == null) {
+            System.out.println("Property value is null !");
             byte[] array = new byte[50]; // length is bounded by 7
             r.nextBytes(array);
             return new String(array, StandardCharsets.UTF_8);
         }
-
+//        System.out.println("Changing property value for property: " + p.name + ", "+  p.type);
 
         if (p.type == Type.INT) {
             int min = 0;
@@ -576,8 +577,29 @@ public class GraphGenerator {
             }
             newNode.properties.put(key, value);
         }
+    }
+
+    public static void generateEdgeProperties(Edge newEdge, GraphSchema gs) {
+        ArrayList<Property> properties = gs.getEdgeProperties().get(newEdge.label);
+        if (properties == null || properties.isEmpty()) {
+            return;
+        }
+
+        for (Property p :
+                properties) {
+            String value = generatePropertyValue(p);
+            if (newEdge.properties == null) {
+                newEdge.properties = new HashMap<>();
+            }
+            String key = value;
+            if (p != null) {
+                key = p.name;
+            }
+            newEdge.properties.put(key, value);
+        }
 
     }
+
 
 
     public static ArrayList<Node> generatePattern(MyGraph g, Pattern p) {

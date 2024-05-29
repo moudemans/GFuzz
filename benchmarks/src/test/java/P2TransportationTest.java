@@ -62,6 +62,13 @@ public class P2TransportationTest {
     }
 
     @Test
+    public void testcompound() {
+        int limit = 12;
+        String path = input_path +"compound3/saved-inputs_1/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
     public void testrand() {
         int limit = 0;
         String path = input_path +"saved-inputs_rand3/";
@@ -114,12 +121,17 @@ public class P2TransportationTest {
             }
             try {
                 counter++;
-                System.out.println("File input: " + f);
+                if (counter >= limit - 3) {
+                    System.out.println("File input: " + f);
+                }
 
                 analysis.run(g);
             } catch (Exception e) {
-                System.err.println("Caught exception: " + e.getMessage());
-                e.printStackTrace();
+                if (counter >= limit - 3) {
+
+                    System.err.println("Caught exception: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
         System.out.println("Number of files processed: " + counter);

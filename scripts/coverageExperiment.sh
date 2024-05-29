@@ -1,0 +1,102 @@
+#!/bin/bash
+
+
+p=1
+while [ $p -lt 10 ]
+do
+  PATH1="benchmarksFuzzable/P${p}/"
+  ProgramName="P${p}"
+  method="compound3"
+  iterations=2
+
+  DEFAULT_PATH="benchmarksFuzzable/"
+  #program_name=$1
+  #PATH1="${DEFAULT_PATH}${program_name}/"
+
+
+  class_name="${ProgramName}Driver"
+  class_method="test1"
+
+  PATH_TO_ROOT="$(./scripts/repoRoot.sh)/"
+
+  build_mvn=false
+  build_benchmark=false
+  copy_benchmark=false
+  while getopts 'mba:' OPTION; do
+    case "$OPTION" in
+      m)
+        echo "MVN flag is set to true"
+        build_mvn=true
+        ;;
+      b)
+        echo "benchmark is compiled"
+        build_benchmark=true
+        ;;
+      c)
+        echo "benchmark is copied"
+        copy_benchmark=true
+        ;;
+      ?)
+        echo "script usage: $(basename \$0) [-l] [-h] [-a somevalue]" >&2
+        exit 1
+        ;;
+    esac
+  done
+  shift "$(($OPTIND -1))"
+
+
+  echo "MVN will be build: " ${build_mvn}
+
+  if $build_mvn
+  then
+  mvn package
+  fi
+
+  echo "program will be copied: " ${copy_benchmark}
+
+  if $copy_benchmark
+  then
+    echo "todo"
+  fi
+
+  echo "Configurations: "
+  echo "Working Directory: " "$PWD"
+  echo "MVN has been build: " ${build_mvn}
+  echo "file path: " $PATH1
+  echo "Method: " $method
+  echo "iterations: " $iterations
+
+  echo ""
+
+
+
+  echo "moving to directory: " $PATH1
+  cd $PATH1 || exit
+
+  if $build_benchmark
+  then
+    javaFiles=`ls ./*.java`
+    echo "Java files found in dir:"
+    echo "${javaFiles}"
+    echo ""
+    javac -cp .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) ${javaFiles}
+  fi
+
+
+  i=0
+  while [ $i -lt $iterations ]
+  do
+        echo "Start run"
+        ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 0 d6 -1
+  #      ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 0 1000
+  #      cp -r ./fuzz-dir/saved-inputs/ ./fuzz-dir/rand/saved-inputs_$i/
+        mkdir -p ./fuzz-dir/${method}/saved-inputs_$i/
+        cp -a ./fuzz-dir/saved-inputs/. ./fuzz-dir/${method}/saved-inputs_$i/
+        i=$((i + 1))
+  done
+
+  p=$((p + 1))
+
+  cd ..
+  cd ..
+done

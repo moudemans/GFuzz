@@ -743,10 +743,14 @@ public class MyGraph implements Serializable {
                 n.edges) {
             if (e.to == n.id) {
                 Node from = getNode(e.from);
-                from.addEdge(e);
+                if(from != null) {
+                    from.addEdge(e);
+                }
             } else {
                 Node to = getNode(e.to);
-                to.addEdge(e);
+                if(to != null) {
+                    to.addEdge(e);
+                }
             }
         }
     }
@@ -1022,11 +1026,12 @@ public class MyGraph implements Serializable {
             ArrayList<Property> props = getSchema().getEdgeProperties().get(e.label);
             p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
 
-            if (p != null && t != null) {
+            if (p != null && t == null) {
                 t = p.type;
             }
         }
         if (t == null) {
+//            System.out.println("Property " + e.label + " not found");
             return new Property(label, Type.STRING);
         }
         if (p == null) {
@@ -1042,7 +1047,7 @@ public class MyGraph implements Serializable {
         if (getSchema().getNodeProperties().get(n.label) != null) {
             ArrayList<Property> props = getSchema().getNodeProperties().get(n.label);
             p = props.stream().filter(property -> property.name.equals(prop_label)).findFirst().orElse(null);
-            if (p != null && t != null) {
+            if (p != null && t == null) {
                 t = p.type;
             }
         }

@@ -41,7 +41,7 @@ public class P3CitationTest {
 
     @Test
     public void testres() {
-        int limit = 21;
+        int limit = 0;
         String path = input_path +"saved-inputs_3/";
         testFilesInDir(path, limit);
     }
@@ -50,6 +50,13 @@ public class P3CitationTest {
     public void testmm() {
         int limit = 0;
         String path = input_path +"mm/saved-inputs_4/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void testcompound() {
+        int limit = 20;
+        String path = input_path +"compound3/saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
@@ -116,11 +123,15 @@ public class P3CitationTest {
 
             try {
 
-                System.out.println("File input ("+counter+"): " + f.getName());
+                if (counter >= limit -3) {
+                    System.out.println("File input (" + counter + "): " + f.getName());
+                }
 
                 analysis.run(g);
             } catch (Exception e) {
-                System.err.println("Caught exception: " + e.getMessage());
+                if (counter >= limit -3) {
+                    System.err.println("Caught exception: " + e.getMessage());
+                }
 //                e.printStackTrace();
             }
             counter++;

@@ -52,7 +52,14 @@ public class P8PanToolTest {
     @Test
     public void testmm() {
         int limit = 0;
-        String path = input_path +"mm/saved-inputs_4/";
+        String path = input_path +"mm/saved-inputs_0/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void testcompound() {
+        int limit = 9;
+        String path = input_path +"compound3/saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 

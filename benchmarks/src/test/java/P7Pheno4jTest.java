@@ -49,6 +49,13 @@ public class P7Pheno4jTest {
     }
 
     @Test
+    public void testcompound() {
+        int limit = 6;
+        String path = input_path +"compound3/saved-inputs_1/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
     public void testrand() {
         int limit = 30;
         String path = input_path +"saved-inputs_rand3/";
@@ -109,11 +116,16 @@ public class P7Pheno4jTest {
 
 
             try {
-                System.out.println("File"+counter+": " + f.getPath());
+                if (counter >= limit -3) {
+                    System.out.println("File" + counter + ": " + f.getPath());
+                }
                 analysis.run(g);
             } catch (Exception e) {
-                System.err.println("Caught exception: " + e.getMessage());
-                e.printStackTrace();
+                if (counter >= limit -3) {
+
+                    System.err.println("Caught exception: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
 
             counter++;

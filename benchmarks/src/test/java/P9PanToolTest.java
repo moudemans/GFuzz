@@ -38,7 +38,7 @@ public class P9PanToolTest {
     @Test
     public void testmutated() {
         int limit =0;
-        String path = input_path +"saved-inputs_1/";
+        String path = input_path +"saved-inputs_3/";
         testFilesInDir(path, limit);
     }
 
@@ -46,6 +46,14 @@ public class P9PanToolTest {
     public void testmm() {
         int limit =0;
         String path = input_path +"mm/saved-inputs_4/";
+        testFilesInDir(path, limit);
+    }
+
+
+    @Test
+    public void testcompound() {
+        int limit =27;
+        String path = input_path +"compound2/saved-inputs_0/";
         testFilesInDir(path, limit);
     }
 

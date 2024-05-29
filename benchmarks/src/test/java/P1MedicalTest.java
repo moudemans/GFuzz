@@ -109,6 +109,13 @@ public class P1MedicalTest {
     }
 
     @Test
+    public void testcompound() {
+        int limit = 0;
+        String path = input_path +"compound3/saved-inputs_1/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
     public void testrand() {
         int limit = 10;
         String path = input_path +"saved-inputs_rand3/";

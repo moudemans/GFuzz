@@ -32,31 +32,38 @@ public class GraphMutator {
         }
 
         switch (mm) {
-            case AddEdge -> addEdgeMutation(g);
-            case RemoveEdge -> removeEdgeMutation(g);
-            case ChangeLabelEdge -> changeEdgeLabelMutation(g);
-            case ChangeEdge -> changeEdgeMutation(g);
+            // C1
+            case AddNode -> addNodeMutation(g); // M1
+            case AddEdge -> addEdgeMutation(g); // M2
+            case AddProperty -> addPropertyKey(g); // M3
 
-            case CopySubset -> applyCopySubSetMutation(g);
-            case AddNode -> addNodeMutation(g);
-            case RemoveNode -> removeNodeMutation(g);
-            case ChangeLabelNode -> changeNodeLabelMutation(g);
-            case CopyNode -> copyNodeMutation(g);
+            // C2
+            case RemoveNode -> removeNodeMutation(g); // M4
+            case RemoveEdge -> removeEdgeMutation(g); // M5
+            case RemoveProperty -> removePropertyKey(g); // M6
 
-            case ChangePropertyKey -> changePropertyKey(g);
-            case ChangePropertyValue -> changePropertyValue(g);
-            case RemoveProperty -> removePropertyKey(g);
-            case AddProperty -> addPropertyKey(g);
-            case ChangePropertyType -> changePropertyType(g);
+            // C3
+            case ChangeLabelNode -> changeNodeLabelMutation(g); // M7
+            case ChangeLabelEdge -> changeEdgeLabelMutation(g); // M8
+            case ChangePropertyKey -> changePropertyKey(g); // M9
+            case ChangeEdge -> changeEdgeMutation(g); // M9
 
-            case RemoveNodesOfLabel -> removeNodesOfLabelMutation(g);
-            case RemoveEdgesOfLabel -> removeEdgesOfLabelMutation(g);
+            // C4
+            case ChangePropertyValue -> changePropertyValue(g); // M10
 
+            // C5
             case BreakSchema -> mutation_message = breakSchemaMutation(g, breaking_mutations);
+            case BreakCardinality -> mutation_message = breakCardinalityMutation(g, breaking_mutations); // M11
+            case BreakUnique -> mutation_message = breakUniqueMutation(g, breaking_mutations); // M12
+            case BreakNull -> mutation_message = breakNullMutation(g, breaking_mutations); // M13
+            case ChangePropertyType -> changePropertyType(g); // M14
+            case RemoveNodesOfLabel -> removeNodesOfLabelMutation(g); // M15
+            case RemoveEdgesOfLabel -> removeEdgesOfLabelMutation(g); // M16
 
-            case BreakCardinality -> mutation_message = breakCardinalityMutation(g, breaking_mutations);
-            case BreakUnique -> mutation_message = breakUniqueMutation(g, breaking_mutations);
-            case BreakNull -> mutation_message = breakNullMutation(g, breaking_mutations);
+            // DEV
+            case CopyNode -> copyNodeMutation(g);
+            case CopySubset -> applyCopySubSetMutation(g);
+
             default ->
                     printString(String.format("Mutation method not implemented: " + mm), System.Logger.Level.WARNING);
         }
@@ -432,7 +439,6 @@ public class GraphMutator {
     }
 
 
-    // TODO
     private static void addPropertyKey(MyGraph g) {
         GraphSchema gs = g.getSchema();
         ArrayList<String> node_labels = new ArrayList<>(gs.getNodeProperties().keySet());
@@ -455,6 +461,9 @@ public class GraphMutator {
             }
         }
         ArrayList<Node> nodes = g.getNodes();
+        if (nodes == null || nodes.isEmpty()) {
+            return;
+        }
         int random_index = r.nextInt(nodes.size());
         Node random_node = nodes.get(random_index);
 
@@ -722,6 +731,9 @@ public class GraphMutator {
 
     private static Node getRandomNode(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
+        if (nodes == null || nodes.isEmpty()) {
+            return null;
+        }
         int random_node_index = r.nextInt(nodes.size());
         Node n = g.getNodeOnIndex(random_node_index);
         return n;
@@ -766,9 +778,11 @@ public class GraphMutator {
         Node from = from_candidates.get(random_from_index);
         Node to = to_candidates.get(random_to_index);
 
-        // TODO: follow cardinality?
-
         Edge new_edge = new Edge(rel.getLabel(), from.id, to.id);
+
+        // Create node, add properties
+        GraphGenerator.generateEdgeProperties(new_edge, gs);
+
         g.addEdge(new_edge);
         printString(String.format("Add Edge [%s], from [%s] --> to [%s] \n", new_edge.label, new_edge.from, new_edge.to), System.Logger.Level.INFO);
     }
@@ -1020,6 +1034,7 @@ public class GraphMutator {
 
             String old_value = e.properties.get(prop_key);
             Property p =  g.getEdgeProperty(e, prop_key);
+//            System.out.println("Property found: " + p.name + ", " + p.type);
 
             // No property defined in schema
             String new_value = GraphGenerator.generatePropertyValue(p);
@@ -1028,39 +1043,6 @@ public class GraphMutator {
 
             printString(String.format("Changed Property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.label, e.to), System.Logger.Level.INFO);
         }
-    }
-
-    private static void changePropertyValue_OLD(MyGraph g) {
-
-
-        if (g.getSchema().getNodeLabels().isEmpty()) {
-            printString("No node labels defined in schema, can't mutate properties", System.Logger.Level.WARNING);
-        }
-        // select random Node label from schema + property
-        ArrayList<String> node_labels = new ArrayList<>(g.getSchema().getNodeLabels());
-        int random_label_index = r.nextInt(node_labels.size());
-        String random_label = new ArrayList<>(g.getSchema().getNodeLabels()).get(random_label_index);
-        ArrayList<Property> properties = g.getSchema().getNodeProperties().get(random_label);
-
-        if (properties == null || properties.isEmpty()) {
-            printString(String.format("No properties defined for node [%s], can't mutate properties \n", random_label), System.Logger.Level.WARNING);
-            return;
-        }
-
-        int random_property_index = r.nextInt(properties.size());
-        Property p = properties.get(random_property_index);
-
-        // select random node from graph with selected label +schema
-        ArrayList<Node> candidates = g.getNodes(random_label);
-        int random_candidate_index = r.nextInt(candidates.size());
-        Node candidate = candidates.get(random_candidate_index);
-
-        // generate new value
-        String old_value = candidate.properties.get(p.name);
-        String new_value = GraphGenerator.generatePropertyValue(p);
-        candidate.properties.put(p.name, new_value);
-
-        printString(String.format("Changed Property [%s] for Node [%s]. [%s] --> [%s] \n", p.name, candidate.id, old_value, new_value), System.Logger.Level.INFO);
     }
 
     private static void removeNodeMutation(MyGraph g) {
@@ -1119,7 +1101,6 @@ public class GraphMutator {
             g.removeNode(n.id);
         }
     }
-
 
     private static void removeEdgesOfLabelMutation(MyGraph g) {
         GraphSchema gs = g.getSchema();
@@ -1252,6 +1233,9 @@ public class GraphMutator {
     private static void applyCopySubSetMutation(MyGraph g) {
         ArrayList<Node> subset_nodes = selectSubGraphNodes(g);
         printString(String.format("Selected [%s] nodes for subgraph%n", subset_nodes.size()), System.Logger.Level.INFO);
+        if (subset_nodes.size() <= 1) {
+            return;
+        }
         HashMap<Integer, Integer> mapping = updateNodeIDs(subset_nodes, g);
         printString("subset mapping: ", System.Logger.Level.DEBUG);
         for (Integer k :
@@ -1300,13 +1284,22 @@ public class GraphMutator {
     private static ArrayList<Node> selectSubGraphNodes(MyGraph g) {
         int graph_node_count = g.getNodes().size();
 
+        if (graph_node_count <= 2 ) {
+            return g.getNodes();
+        }
+
         int sub_graph_size = r.nextInt(graph_node_count - 2) + 2;
 
 
         ArrayList<Node> nodes = new ArrayList<>();
         Set<Integer> indices_selected = new HashSet<>();
 
+        int tries = 0;
         while (indices_selected.size() < sub_graph_size) {
+            tries++;
+            if (tries > graph_node_count*3) {
+                break;
+            }
             int random_node_index = r.nextInt(graph_node_count);
             if (indices_selected.contains(random_node_index)) {
                 continue;
@@ -1322,16 +1315,6 @@ public class GraphMutator {
 
     private static GraphMutations.MutationMethod selectMutationMethod() {
         return GraphMutations.getRandomMutation(r);
-    }
-
-    private static GraphMutations.MutationMethod selectMutationMethod(Set<GraphMutations.MutationMethod> excludeMutations) {
-        ArrayList<GraphMutations.MutationMethod> mutations = GraphMutations.getActiveMutationMethodList();
-        List<GraphMutations.MutationMethod> filtered = new ArrayList<>(mutations.stream().filter(mutationMethod -> !excludeMutations.contains(mutationMethod)).toList());
-        Collections.shuffle(filtered);
-        if (filtered.isEmpty()) {
-            return GraphMutations.MutationMethod.NoMutation;
-        }
-        return filtered.get(0);
     }
 
     public static boolean ByteMutationLimit(MyGraph currentGraph, int mm) {
@@ -1428,7 +1411,7 @@ public class GraphMutator {
     public static void printString(String s, System.Logger.Level isInfo) {
         boolean print_info = false;
         boolean print_debug = false;
-        boolean print_warning = true;
+        boolean print_warning = false;
 
         if (print_info && isInfo == System.Logger.Level.INFO) {
             System.out.println(s);

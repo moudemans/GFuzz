@@ -1,0 +1,71 @@
+FUZZ LOG: P7Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         6m 0s 
+	Number of executions: 1,578
+	Total coverage:       1,660 branches (2.53% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+	mutation counts:       
+		 ChangeEdge: 94
+		 ChangeLabelEdge: 89
+		 ChangeLabelNode: 121
+		 RemoveEdgesOfLabel: 107
+		 ChangePropertyType: 101
+		 CopyNode: 90
+		 AddEdge: 99
+		 CopySubset: 80
+		 RemoveNodesOfLabel: 99
+		 ChangePropertyValue: 97
+		 RemoveNode: 103
+		 RemoveEdge: 93
+		 ChangePropertyKey: 87
+		 AddNode: 102
+		 RemoveProperty: 85
+		 BreakSchema: 92
+	Saved inputs:       
+		 Coverage_82.json, created by mutation: ChangePropertyType
+		 Coverage_2.json, created by mutation: NoMutation
+		 Coverage_25.json, created by mutation: ChangePropertyValue
+		 error_1296.json, created by mutation: ChangePropertyValue
+		 Coverage_57.json, created by mutation: CopyNode
+		 Coverage_29.json, created by mutation: ChangeLabelEdge
+		 Coverage_89.json, created by mutation: ChangePropertyValue
+		 Coverage_107.json, created by mutation: ChangePropertyValue
+		 error_346.json, created by mutation: ChangeEdge
+		 Coverage_31.json, created by mutation: ChangePropertyValue
+		 Coverage_145.json, created by mutation: ChangePropertyKey
+		 Coverage_91.json, created by mutation: RemoveEdgesOfLabel
+		 Coverage_76.json, created by mutation: RemoveNode
+		 Coverage_3.json, created by mutation: NoMutation
+		 Coverage_73.json, created by mutation: BreakSchema
+		 Coverage_294.json, created by mutation: CopySubset
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_35.json, created by mutation: AddNode
+		 Coverage_17.json, created by mutation: NoMutation
+		 Coverage_54.json, created by mutation: ChangePropertyKey
+		 Coverage_114.json, created by mutation: AddEdge
+		 error_121.json, created by mutation: RemoveNodesOfLabel
+
+
+ Unique failures found: 
+	java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1838)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+	java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+	java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:166)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+	UniqueErrors Redyced:       
+		 Unique error: P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error: P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error: P7Logic.func1(P7Logic.java:166)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+
+	UniqueErrors:       
+		 Unique error at [121], error message: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error at [346], error message: java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1838)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error at [1296], error message: java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:166)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
+		 [RemoveNodesOfLabel]: 23
+	Unique error: [java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1838)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
+		 [ChangeEdge]: 1
+	Unique error: [java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:166)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
+		 [ChangePropertyValue]: 1
