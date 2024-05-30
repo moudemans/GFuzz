@@ -1,95 +1,162 @@
 FUZZ LOG: P7Driver - test1
 	Mutation framework used:         1 
 	Elapsed time:         10m 0s 
-	Number of executions: 2,805
-	Total coverage:       1,607 branches (2.45% of map)
+	Number of executions: 2,627
+	Total coverage:       1,547 branches (2.36% of map)
 	Failed mutations:       0
 	Invalid states:       0
 	Num discards:       0
 	mutation counts:       
-		 ChangeLabelNode: 193
-		 BreakSchema: 190
-		 AddNode: 173
-		 RemoveNode: 181
-		 CopyNode: 189
-		 RemoveEdge: 153
-		 ChangeLabelEdge: 206
-		 RemoveProperty: 193
-		 ChangePropertyType: 195
-		 ChangeEdge: 199
-		 RemoveEdgesOfLabel: 190
-		 AddEdge: 183
-		 ChangePropertyKey: 163
-		 ChangePropertyValue: 175
-		 RemoveNodesOfLabel: 182
+		 BreakSchema: 1
+		 ChangePropertyType: 212
+		 AddNode: 210
+		 ChangePropertyValue: 231
+		 BreakNull: 1
+		 ChangePropertyKey: 265
+		 CopyNode: 233
+		 BreakUnique: 1
+		 AddEdge: 236
+		 ChangeEdge: 232
+		 RemoveProperty: 255
+		 BreakCardinality: 1
+		 RemoveNode: 233
+		 RemoveEdge: 238
+		 ChangeLabelEdge: 213
 	Saved inputs:       
-		 error_1613.json, created by mutation: ChangePropertyType
-		 Coverage_157.json, created by mutation: ChangeLabelNode
-		 Coverage_25.json, created by mutation: AddNode
-		 Coverage_33.json, created by mutation: ChangeLabelEdge
-		 Coverage_104.json, created by mutation: BreakSchema
-		 error_1702.json, created by mutation: RemoveProperty
-		 Coverage_50.json, created by mutation: ChangeLabelNode
-		 Coverage_106.json, created by mutation: RemoveNodesOfLabel
-		 Coverage_27.json, created by mutation: AddEdge
-		 Coverage_142.json, created by mutation: ChangePropertyKey
+		 Coverage_196.json, created by mutation: RemoveNode
+		 Coverage_25.json, created by mutation: BreakCardinality
+		 error_1075.json, created by mutation: RemoveProperty
+		 Coverage_33.json, created by mutation: RemoveProperty
+		 Coverage_36.json, created by mutation: ChangePropertyValue
+		 Coverage_53.json, created by mutation: ChangePropertyType
+		 Coverage_129.json, created by mutation: AddNode
+		 error_725.json, created by mutation: RemoveProperty
+		 Coverage_44.json, created by mutation: ChangeEdge
+		 error_386.json, created by mutation: ChangePropertyType
+		 Coverage_42.json, created by mutation: AddEdge
+		 Coverage_50.json, created by mutation: CopyNode
+		 Coverage_215.json, created by mutation: RemoveNode
+		 Coverage_55.json, created by mutation: AddEdge
+		 Coverage_31.json, created by mutation: ChangePropertyType
+		 Coverage_27.json, created by mutation: RemoveEdge
+		 Coverage_66.json, created by mutation: ChangePropertyValue
+		 Coverage_142.json, created by mutation: CopyNode
 		 Coverage_3.json, created by mutation: NoMutation
-		 error_59.json, created by mutation: RemoveNodesOfLabel
-		 Coverage_38.json, created by mutation: ChangeLabelNode
-		 Coverage_54.json, created by mutation: ChangePropertyValue
-		 Coverage_88.json, created by mutation: BreakSchema
-		 Coverage_1724.json, created by mutation: BreakSchema
+		 Coverage_81.json, created by mutation: AddNode
+		 Coverage_180.json, created by mutation: ChangePropertyType
+		 Coverage_38.json, created by mutation: ChangePropertyKey
+		 Coverage_322.json, created by mutation: ChangePropertyKey
+		 Coverage_62.json, created by mutation: ChangePropertyKey
+		 Coverage_122.json, created by mutation: AddNode
+		 Coverage_88.json, created by mutation: RemoveNode
+		 error_782.json, created by mutation: ChangeEdge
+		 Coverage_40.json, created by mutation: ChangeLabelEdge
 		 Coverage_2.json, created by mutation: NoMutation
-		 error_404.json, created by mutation: BreakSchema
-		 error_335.json, created by mutation: ChangePropertyKey
-		 Coverage_241.json, created by mutation: CopyNode
-		 Coverage_29.json, created by mutation: AddNode
-		 Coverage_621.json, created by mutation: ChangePropertyKey
+		 Coverage_46.json, created by mutation: RemoveNode
+		 Coverage_205.json, created by mutation: AddEdge
+		 error_277.json, created by mutation: ChangePropertyKey
+		 error_377.json, created by mutation: ChangePropertyType
+		 Coverage_125.json, created by mutation: RemoveNode
+		 Coverage_57.json, created by mutation: ChangePropertyKey
+		 Coverage_29.json, created by mutation: ChangePropertyType
+		 Coverage_74.json, created by mutation: BreakUnique
+		 Coverage_71.json, created by mutation: ChangePropertyType
+		 Coverage_91.json, created by mutation: BreakSchema
+		 Coverage_94.json, created by mutation: ChangePropertyValue
+		 Coverage_48.json, created by mutation: BreakNull
 		 Coverage_1.json, created by mutation: NoMutation
 		 Coverage_17.json, created by mutation: NoMutation
-		 Coverage_80.json, created by mutation: RemoveNode
-		 error_1283.json, created by mutation: ChangePropertyType
-		 error_2141.json, created by mutation: RemoveProperty
+		 Coverage_135.json, created by mutation: ChangePropertyKey
+		 Coverage_488.json, created by mutation: ChangePropertyType
 
 
  Unique failures found: 
+	
+	java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:144)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
 	java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1838)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-	java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:159)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-	java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:280)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+	java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
 	java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-	java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-	java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
 	java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-	UniqueErrors Redyced:       
-		 Unique error: P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error: P7Logic.func1(P7Logic.java:159)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error: P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error: P7Logic.func1(P7Logic.java:280)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error: P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error: P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error: P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-
 	UniqueErrors:       
-		 Unique error at [59], error message: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error at [335], error message: java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:159)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error at [404], error message: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error at [1283], error message: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:280)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error at [1613], error message: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error at [1702], error message: java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
-		 Unique error at [2141], error message: java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1838)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error at [277], error message: java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error at [377], error message: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error at [386], error message: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error at [725], error message: java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1838)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
+		 Unique error at [782], error message: 
+		 Unique error at [1075], error message: java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:144)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)
 
 *** UniqueErrors caused by: ***       
-	Unique error: [java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)P7Logic.func1(P7Logic.java:139)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
-		 [RemoveNodesOfLabel]: 35
-	Unique error: [java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:159)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
-		 [ChangePropertyKey]: 1
+	Unique error: [java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
+		 [ChangePropertyType]: 7
+		 [AddNode]: 6
+		 [RemoveProperty]: 5
+		 [ChangePropertyValue]: 2
+		 [ChangePropertyKey]: 9
+		 [NoMutation]: 1
+		 [RemoveNode]: 4
+		 [CopyNode]: 5
+		 [RemoveEdge]: 6
+		 [AddEdge]: 1
+		 [ChangeEdge]: 6
+		 [ChangeLabelEdge]: 4
 	Unique error: [java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:143)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
-		 [BreakSchema]: 2
-	Unique error: [java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:280)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
-		 [ChangePropertyType]: 2
+		 [ChangePropertyType]: 8
+		 [AddNode]: 4
+		 [RemoveProperty]: 5
+		 [ChangePropertyValue]: 3
+		 [ChangePropertyKey]: 3
+		 [NoMutation]: 1
+		 [RemoveNode]: 9
+		 [CopyNode]: 6
+		 [RemoveEdge]: 8
+		 [AddEdge]: 2
+		 [ChangeEdge]: 7
+		 [ChangeLabelEdge]: 6
 	Unique error: [java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)java.base/java.lang.Integer.parseInt(Integer.java:662)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
-		 [ChangePropertyType]: 1
-	Unique error: [java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:279)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
-		 [RemoveProperty]: 1
+		 [ChangePropertyType]: 7
+		 [RemoveProperty]: 3
+		 [AddNode]: 3
+		 [ChangePropertyValue]: 4
+		 [ChangePropertyKey]: 11
+		 [NoMutation]: 1
+		 [RemoveNode]: 2
+		 [CopyNode]: 1
+		 [RemoveEdge]: 7
+		 [AddEdge]: 6
+		 [ChangeEdge]: 3
+		 [ChangeLabelEdge]: 6
 	Unique error: [java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1838)java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)java.base/java.lang.Double.parseDouble(Double.java:792)java.base/java.lang.Double.valueOf(Double.java:755)P7Logic.func1(P7Logic.java:155)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
-		 [RemoveProperty]: 1
+		 [RemoveProperty]: 4
+		 [ChangePropertyValue]: 1
+		 [ChangePropertyKey]: 2
+		 [NoMutation]: 1
+		 [RemoveNode]: 2
+		 [CopyNode]: 1
+		 [RemoveEdge]: 2
+		 [ChangeEdge]: 1
+	Unique error: []
+		 [ChangePropertyType]: 5
+		 [AddNode]: 14
+		 [RemoveProperty]: 6
+		 [ChangePropertyValue]: 3
+		 [ChangePropertyKey]: 8
+		 [NoMutation]: 1
+		 [RemoveNode]: 8
+		 [CopyNode]: 5
+		 [AddEdge]: 12
+		 [RemoveEdge]: 6
+		 [ChangeEdge]: 9
+		 [ChangeLabelEdge]: 2
+	Unique error: [java.base/java.lang.Integer.parseInt(Integer.java:624)java.base/java.lang.Integer.valueOf(Integer.java:989)P7Logic.func1(P7Logic.java:144)P7Logic.run(P7Logic.java:14)P7Driver.test1(P7Driver.java:21)]
+		 [ChangePropertyType]: 3
+		 [RemoveProperty]: 3
+		 [AddNode]: 3
+		 [ChangePropertyValue]: 8
+		 [ChangePropertyKey]: 2
+		 [NoMutation]: 1
+		 [RemoveNode]: 4
+		 [CopyNode]: 5
+		 [RemoveEdge]: 2
+		 [AddEdge]: 2
+		 [ChangeLabelEdge]: 3
+		 [ChangeEdge]: 2
