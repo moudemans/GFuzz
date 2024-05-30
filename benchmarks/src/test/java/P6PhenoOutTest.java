@@ -57,20 +57,20 @@ public class P6PhenoOutTest {
     @Test
     public void test2() {
         int limit = 0;
-        String path = input_path +"pgfuzz2/saved-inputs_1/";
+        String path = input_path +"pgfuzz2/saved-inputs_5/";
         testFilesInDir(path, limit);
     }
 
     @Test
     public void testmm() {
-        int limit = 20;
+        int limit = 30;
         String path = input_path +"mm/saved-inputs_4/";
         testFilesInDir(path, limit);
     }
 
     @Test
     public void testcompound() {
-        int limit = 0;
+        int limit = 24;
         String path = input_path +"compound/saved-inputs_1/";
         testFilesInDir(path, limit);
     }

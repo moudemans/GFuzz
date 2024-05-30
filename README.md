@@ -1,127 +1,173 @@
-GDBFuzz
+PGFuzz
 --- 
 
-This repo has been created to store the code written for the MSc thesis at the TU Delft. The main focus is to create a schema aware fuzzer, specifically designed for applicaitons with a graph Database backend.
+This repo contains PGFuzz, a coverage-guided, schema-aware fuzzer for graph process-
+ing applications. PGFuzz has been created for a MSc
+thesis at the TU Delft. Once finished, the paper will be
+added in the docs directory.
 
-The codebase has been copied from the JQF+Zest [repository](https://github.com/rohanpadhye/JQF), publicly available on github.
+## Acknowledgement
 
+- PGFuzz has been created on top of  [JQF+Zest](https://github.com/rohanpadhye/JQF), specifically
+  created for researchers to build their new fuzz methods and publicly available on github.
+- The Graph generator GMark has been copied to this project in order to run its code. The repo
+  it is collected from can be found [here](https://github.com/gbagan/gmark) and has been
+  acknowledged in the thesis report
+- The graph generator [PGMark](https://github.com/ThomHurks/pgMark) (extension of GMark) has been
+  copied from the publicly available
+  repo and extended s.t. edge properties can also be generated
 
 ## Overview repository
 
 ---
-Below is a description of the modules currently in the project and their purpose:
+Below is a description of the directories found in the repository root:
+
 - benchmarks - This module contains the benchmark programs used to evaluate the fuzzer
-- jqf - This module contains the fuzzing framework. It is collected from the JQF repo mentioned above and contains the fuzz loop, mutators and guidance. The guidance for this thesis project can be found in this [folder](jqf/fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/mo/NoGuidance.java)
-- mygraph - graph structure used in the benchmarks and mutators
-- tutorial - tutorial collected from the JQF repo and toy examples
+- benchmarksFuzzable - This folder is automatically generated from the benchmarks folder and
+  contains the compiled code from benchmarks and fuzzing directories (containting seeds and results)
+- jqf - This module contains the JQF fuzzing framework. It is collected from the JQF repo mentioned
+  above and contains the fuzz loop, mutators and guidance. The contributions made for this thesis
+  project can be found in this [folder](jqf/fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/mo)
+- mygraph - This module contains the internal graph structure for the fuzzer and the mutations
+  that are called in the fuzz loop. 
+  - The structures can be
+    found [here](mygraph/src/main/java/tudcomponents), the
+    mutator [here](mygraph/src/main/java/tudgraphs)
+- tutorial - tutorial collected from the JQF repo and toy examples (TODO: Remove!)
 
-## Run fuzzer
+## Run PGFuzz 
+To run PGFuzz on an application, we need the following components:
+- Packaged JQF framework and PGFuzz code, managed by maven
+- Compiled java application with jqf annotations 
+- Seed file, located in the fuzz-dir of the application being tested
+- Running graph generator
+
+We made some bash files, helping with starting up PGFuzz
+
+
+**Package project** \
+Package the project with the following command:
 ```bash 
-scripts/buildAndRun.sh -m
-```
-Add m to include maven package command
-
-## Tranform graph file
-Navigate to the graph generator [file](mygraph/src/main/java/tudgraphs/GraphGenerator.java) and run with the following arguments:
-```bash
-6 pgMark/default/output/ "" 
-```
-where 
-```
-<Method> <input dir> <file pattern> <output dir>
+mvn package
 ```
 
-## Run PG mark
+**Prepare benchmark** \
+Preparing a benchmark can be achieved by running the following script:
+
+```bash 
+bash ./scripts/prepareBenchmark.sh <PATH> <program_name>
+# example:
+bash ./scripts/prepareBenchmark.sh "benchmarks/src/main/java/P1Medical/" "P1"
+```
+Where <PATH> is the path to the application that should be compiled and <program_name> the name 
+of the output folder.
+
+**Run graph generator** \
+To run PGMark, run the following command
+
+```bash 
+todo...
+```
+To run GMark, run the following command
+
+```bash 
+todo...
+```
+Both generators checks the new-input dir in the fuzz-dir to see if there are enough new inputs. If 
+not, new inputs are generated.
+
+**Start fuzz loop** \
+Start the fuzz loop with the following command
+
+```bash 
+TODO
+```
+where :
+- program_name= name of the program that should be tested, located in benchmarksFuzzable
+- method= Fuzz method
+  - -1 | None = no mutation
+  - 0 | Random = Random
+  - 1 | PGFuzz = PGFuzz mutations
+- new_inputs = allow new inputs
+  - 0 = No
+  - 1 = Yes
+- duration = Limit for how long the fuzz loop should run
+  - d<x> = duration of x in minutes
+  - t<x> = amount of trials x
+- Mutation_cat = Enable single specific mutation category
+  - -1 = Use all mutations
+  - 0 = Use category 1
+  - 1 = Use category 2
+  - ...
+- mutation_depth = maximum amount of times an input is mutated
+
+
+## Graph generators
+### Run GMark
+### Run PGMark 
 ```bash
 scripts/pgMarkGenerateGraph.sh "" 100 3 default/output2/
 ```
-where 
+
+where
+
 ``` 
 scripts/pgMarkGenerateGraph.sh <Schema> <graph size> <DS count> <output dir> <output file>
 ```
 
-## How to run
-The following steps describe how the fuzz loop can be run on a program. For the fuzz loop we need the fuzz framework to be built by maven, have a application on which we want to run the fuzzer and start the application with our bash script. 
+## Make changes, extend benchmarks
+
+The following steps describe how the fuzz loop can be run on a program. For the fuzz loop we need
+the fuzz framework to be built by maven, have a application on which we want to run the fuzzer and
+start the application with our bash script.
 
 **maven build**
-If any changes have been made to the fuzzing framework (e.g. guidance, mutations, coverage), then the framework has to be built again with the following command:
+If any changes have been made to the fuzzing framework (e.g. guidance, mutations, coverage), then
+the framework has to be built again with the following command:
+
 ``` bash
 mvn package
 ```
 
-
 **Test application**
-The test application needs to be annotated with the tags @RunWith(JQF.class) and @Fuzz, as shown below:
+The test application needs to be annotated with the tags @RunWith(JQF.class) and @Fuzz, as shown
+below:
+
 ```java
+
 @RunWith(JQF.class)
 public class ExampleTestClass {
 
     @Fuzz
-    public void ExampleTestMethod () {
+    public void ExampleTestMethod() {
         ...
     }
 }
 ```
+
 The java files then need to be compiled with the following command
+
 ```bash
 javac -cp .:$(jqf/scripts/classpath.sh) ExampleTestClass.java
 ```
 
-The fuzzing loop is then started with the following command:
+The fuzzing loop is then started with the following command from the location the compiled program:
+
 ```bash
 ../../../../jqf/bin/jqf-mo -c .:$(../../../../jqf/scripts/classpath.sh) ExampleTestClass ExampleTestMethod
 ```
 
 
-## How to run - toy example
-Created a [directory](tutorial/src/main/java/) with the first tutorial. Tutorial can be found [here](https://github.com/rohanpadhye/JQF/wiki/Fuzzing-with-Zest#step-5-fuzz-with-zest)
-- [Logic](tutorial/src/main/java/CalendarLogic.java)
-- [Test](tutorial/src/test/java/CalendarTest.java)
-- [Generator](tutorial/src/main/java/CalendarGenerator.java)
+### Notes on frequently problems
 
-Compile by:
-```bash
-PATH1="tutorial/src/main/java/"
+- Tutorials/example programs you want to test should not have a package defined, the class loader is
+  not able to find it then. Scripts provided that prepare a benchmark remove the first line, 
+  assuming the package is defined there.
+- If there is a stack overflow of the heap size. It can be adjusted 
+  [here](jqf/scripts/jqf-driver.sh)
+- If the benchmarks require the mygraph framework, add it with autocomplete and then remove it from
+  the pom on project level because there will be a cycle detected otherwise.
 
-javac -cp .:$(jqf/scripts/classpath.sh) ${PATH1}CalendarLogic.java ${PATH1}CalendarGenerator.java ${PATH1}CalendarTest.java
-```
-Build fuzz framework by:
-
-``` bash
-mvn package
-```
-
-Run by going into specific directory, and running command below:
-```bash
-cd tutorial/src/test/java/
-java -cp .:$(jqf/scripts/classpath.sh) org.junit.runner.JUnitCore CalendarTest
-```
-
-
-Fuzz with zest:
-```bash
-../../../../jqf/bin/jqf-zest -c .:$(../../../../jqf/scripts/classpath.sh) CalendarTest testLeapYear
-```
-
-A new guidance file has been made [here](jqf/fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/mo/)
-the program can be run with:
-```bash
-../../../../jqf/bin/jqf-mo -c .:$(../../../../jqf/scripts/classpath.sh) CalendarTest testLeapYear
-```
-
-***
-New file with integers:
-```
-PATH1="tutorial/src/main/java/"
-FILE1="int"
-javac -cp .:$(jqf/scripts/classpath.sh) ${PATH1}${FILE1}Logic.java ${PATH1}${FILE1}Generator.java ${PATH1}${FILE1}Test.java
-```
-
-### Notes on frequentl problems
-- Tutorials/example programs you want to test should not have a package defined, the class loader is not able to find it then.
-- There is a stack overflow of the heap size. It can be adjusted [here](jqf/scripts/jqf-driver.sh) but needs to be fixed. The issue occurs when there are a lot of exceptions...
-  - This is caused due to the random byte mutation for graphs. Reading in the new graph causes a overflow deu to the serialization being corrupted.
-- If the benchmarks require the mygraph framework, add it with autocomplete and then remove it from the pom on project level.
 ---
  
 

@@ -21,4 +21,12 @@ public class P6Driver {
 
         analysis.run(g);
     }
+
+//    public static void main(String[] args) {
+//        P6Logic analysis = new P6Logic();
+////        List<String> fileList = Files.readAllLines(Paths.get(fileName));
+//        MyGraph g = MyGraph.readGraphFromJSON("benchmarks/src/main/resources/P6/pgfuzzNew/saved-inputs_0/Coverage_292.json");
+//
+//        analysis.run(g);
+//    }
 }

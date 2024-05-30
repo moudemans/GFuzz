@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PATH1="benchmarksFuzzable/P9/"
-ProgramName="P9"
+PATH1="benchmarksFuzzable/P5/"
+ProgramName="P5"
 method=$2
 
 DEFAULT_PATH="benchmarksFuzzable/"
@@ -78,21 +78,19 @@ fi
 echo "moving to directory: " $PATH1
 cd $PATH1 || exit
 
-if $build_benchmark
-then
   javaFiles=`ls ./*.java`
   echo "Java files found in dir:"
   echo "${javaFiles}"
   echo ""
   javac -cp .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) ${javaFiles}
-fi
+
 
 i=0
 while [ $i -lt $1 ]
 do
       echo "Start run"
 #      ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method
-        ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 d10 -1 100
+        ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 d10 -1 500
 #      cp -r ./fuzz-dir/saved-inputs/ ./fuzz-dir/rand/saved-inputs_$i/
       mkdir -p ./fuzz-dir/${method}/saved-inputs_$i/
       cp -a ./fuzz-dir/saved-inputs/. ./fuzz-dir/${method}/saved-inputs_$i/

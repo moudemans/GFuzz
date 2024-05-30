@@ -66,8 +66,8 @@ public class P8PanToolTest {
 
     @Test
     public void testcompound() {
-        int limit = 9;
-        String path = input_path +"compound3/saved-inputs_1/";
+        int limit = 49;
+        String path = input_path +"compoundNew/saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
@@ -139,11 +139,17 @@ public class P8PanToolTest {
             }
 
             try {
-                System.out.println("File ("+counter+"): " + f.getPath());
+
+                if (counter >= limit -3) {
+                    System.out.println("File" + counter + ": " + f.getPath());
+                }
                 analysis.run(g);
             } catch (Exception e) {
-                System.err.println("Caught exception: " + e.getMessage());
-                e.printStackTrace();
+                if (counter >= limit -3) {
+
+                    System.err.println("Caught exception: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
             counter++;
         }

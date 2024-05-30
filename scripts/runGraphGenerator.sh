@@ -1,7 +1,9 @@
 #!/bin/bash
 
+generatorPath="./graphGenerators/pgMark/"
+relativeSource="../../"
 
-cd pgMark/
+cd $generatorPath || echo "PGMark graph generator not found" | exit
 if [[ ! $1 ]]
 then
   echo "Program not provided, using default"
@@ -9,8 +11,8 @@ then
   DIR_PATH="default/output/"
 
 else
-  SCHEMA_PATH="../benchmarksFuzzable/"$1"/fuzz-dir/GenSchema.xml"
-  DIR_PATH="../benchmarksFuzzable/"$1"/fuzz-dir/new-inputs/"
+  SCHEMA_PATH=$relativeSource"benchmarksFuzzable/"$1"/fuzz-dir/GenSchema.xml"
+  DIR_PATH=$relativeSource"benchmarksFuzzable/"$1"/fuzz-dir/new-inputs/"
 
 fi
 
@@ -40,7 +42,7 @@ i=1
 while [ $x -ge 1 ]
 do
   file_count=$(find ${DIR_PATH} -name "*.csv" -type f | wc -l)
-    echo -ne "files $file_count "\\r
+    echo -ne "Running generator for $1, files $file_count "\\r
 
   if [ $file_count -lt 100 ]
   then

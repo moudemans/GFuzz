@@ -739,8 +739,9 @@ public class MyGraph implements Serializable {
     }
 
     private void applyEdges(Node n) {
+        ArrayList<Edge> concurrent_edges = new ArrayList<>(n.edges);
         for (Edge e :
-                n.edges) {
+                concurrent_edges) {
             if (e.to == n.id) {
                 Node from = getNode(e.from);
                 if(from != null) {

@@ -59,6 +59,13 @@ public class P5PanGenomicTest {
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void testcompound() {
+        int limit = 13;
+        String path = input_path +"compound/saved-inputs_2/";
+        testFilesInDir(path, limit);
+    }
+
 
     @Test
     public void testrand() {

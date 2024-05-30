@@ -321,7 +321,7 @@ public class GraphGuidance implements Guidance {
      */
     @Override
     public InputStream getInput() {
-        if (mutation_framework == -1 ) {
+        if (mutation_framework == -1) {
             important_files.clear();
         }
         // If the queue of input files is empty, use the relevant files for a new mutation
@@ -339,7 +339,7 @@ public class GraphGuidance implements Guidance {
                 important_files_usage_count.put(currentInputFile, 0);
             }
 
-            important_files_usage_count.put(currentInputFile, important_files_usage_count.get(currentInputFile)+1);
+            important_files_usage_count.put(currentInputFile, important_files_usage_count.get(currentInputFile) + 1);
 
             if (USE_MAX_DEPTH && important_files_usage_count.get(currentInputFile) > MAX_MUTATION_DEPTH) {
                 important_files.remove(currentInputFile);
@@ -402,7 +402,7 @@ public class GraphGuidance implements Guidance {
 //                System.out.println("Writing new input to: " + output_folder + output_file_name);
                 MyGraph.writeGraphToJSON(output_folder + output_file_name, g);
 
-                if (new_inputs[random_input_index].exists()){
+                if (new_inputs[random_input_index].exists()) {
                     boolean succes = new_inputs[random_input_index].delete();
                     if (!succes) {
                         System.err.println("Could not delete old input file: " + new_inputs[random_input_index].getPath());
@@ -410,14 +410,12 @@ public class GraphGuidance implements Guidance {
                 }
 
 
-
                 currentInputFile = output_folder + output_file_name;
                 nextInputFileLocation = currentInputFile;
 //                System.out.println("File used: " + currentInputFile);
             }
 
-        }
-        else {
+        } else {
             int random_seed = random.nextInt(seed_files.size());
             currentInputFile = seed_files.get(random_seed);
             // Mutate said file
@@ -432,7 +430,7 @@ public class GraphGuidance implements Guidance {
         out_debug.add("file_used: " + currentInputFile);
         out_debug.add("last_mutation_applied: " + last_mutation_applied);
         out_debug.add("next_file: " + nextInputFileLocation);
-        write_array_to_file(out_debug );
+        write_array_to_file(out_debug);
 
         // DEFAULT TO: WORKING_DIR + RUNNING_DIR + "mutated.ser"
         InputStream targetStream = new ByteArrayInputStream(nextInputFileLocation.getBytes());
@@ -759,7 +757,7 @@ public class GraphGuidance implements Guidance {
         console.printf("\tFailed mutations:       %,d\n", failedMutation);
         console.printf("\tInvalid states:       %,d\n", invalidStates);
         console.printf("\tNum discards:       %,d\n", numDiscards);
-        console.printf("\t active mutations: %s\n",GraphMutations.getActiveMutationMethodList().stream().map(Object::toString)
+        console.printf("\t active mutations: %s\n", GraphMutations.getActiveMutationMethodList().stream().map(Object::toString)
                 .collect(Collectors.joining(", ")));
         if (PRINT_MUTATION_COUNT) {
             console.printf("\tmutation counts:       \n");
@@ -868,18 +866,20 @@ public class GraphGuidance implements Guidance {
         output.add(String.format("\tInvalid states:       %,d\n", invalidStates));
         output.add(String.format("\tNum discards:       %,d\n", numDiscards));
 
-            output.add(String.format("\tmutation counts:       \n"));
-            for (GraphMutations.MutationMethod mm :
-                    mutation_counts.keySet()) {
-                output.add(String.format("\t\t %s: %,d\n", mm.toString(), mutation_counts.get(mm)));
+        output.add(this.toOutputString());
 
-            }
-            output.add(String.format("\tSaved inputs:       \n"));
-            for (String f :
-                    coverage_by_mutation.keySet()) {
-                output.add(String.format("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f)));
+        output.add(String.format("\tmutation counts:       \n"));
+        for (GraphMutations.MutationMethod mm :
+                mutation_counts.keySet()) {
+            output.add(String.format("\t\t %s: %,d\n", mm.toString(), mutation_counts.get(mm)));
 
-            }
+        }
+        output.add(String.format("\tSaved inputs:       \n"));
+        for (String f :
+                coverage_by_mutation.keySet()) {
+            output.add(String.format("\t\t %s, created by mutation: %s\n", f, coverage_by_mutation.get(f)));
+
+        }
 
         output.add("\n\n Unique failures found: ");
         for (String s :
@@ -952,8 +952,6 @@ public class GraphGuidance implements Guidance {
         }
 
 
-
-
         try {
             FileWriter myWriter = new FileWriter(savedInputsDirectory.getPath() + "/fuzz-log.txt");
             myWriter.write("FUZZ LOG: " + testClassName + " - " + testMethodName + "\n");
@@ -1013,17 +1011,12 @@ public class GraphGuidance implements Guidance {
      */
     @Override
     public Consumer<TraceEvent> generateCallBack(Thread thread) {
-        System.out.println("BBBBBBBBBBBBBBBBBBBBB");
-        System.out.println(String.format("Thread %s produced event", thread.getName()));
-//        return getCoverage()::handleEvent;
-
         return this::handleEvent;
     }
 
 
     protected void handleEvent(TraceEvent e) {
         getCoverage().handleEvent(e);
-
     }
 
     /**
@@ -1036,5 +1029,22 @@ public class GraphGuidance implements Guidance {
             runCoverage = new Coverage();
         }
         return runCoverage;
+    }
+
+
+    public String toOutputString() {
+        return "Parameters:" +
+                "\n\t testClassName='" + testClassName + '\'' +
+                "\n\t testMethodName='" + testMethodName + '\'' +
+                "\n\t maxTrials=" + maxTrials +
+                "\n\t maxDurationMillis=" + maxDurationMillis +
+                "\n\t maxDiscardRatio=" + maxDiscardRatio +
+                "\n\t MAX_MUTATION_DEPTH=" + MAX_MUTATION_DEPTH +
+                "\n\t USE_MAX_DEPTH=" + USE_MAX_DEPTH +
+                "\n\t USE_GENERATION_FOLDER=" + USE_GENERATION_FOLDER +
+                "\n\t graph_generator=" + graph_generator +
+                "\n\t generator_schema=" + generator_schema +
+                "\n\t startTime=" + startTime +
+                "\n";
     }
 }
