@@ -1,0 +1,64 @@
+FUZZ LOG: P6Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         10m 0s 
+	Number of executions: 50,880
+	Total coverage:       1,377 branches (2.10% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+	mutation counts:       
+		 ChangePropertyValue: 3,843
+		 ChangeLabelEdge: 3,923
+		 RemoveNode: 3,894
+		 BreakSchema: 3,881
+		 RemoveProperty: 3,965
+		 ChangePropertyType: 3,886
+		 RemoveEdge: 3,870
+		 CopyNode: 3,951
+		 RemoveNodesOfLabel: 3,798
+		 ChangePropertyKey: 3,914
+		 ChangeLabelNode: 4,022
+		 ChangeEdge: 3,956
+		 AddNode: 3,937
+	Saved inputs:       
+		 Coverage_40.json, created by mutation: BreakSchema
+		 Coverage_272.json, created by mutation: ChangeLabelNode
+		 Coverage_2.json, created by mutation: NoMutation
+		 Coverage_320.json, created by mutation: RemoveNodesOfLabel
+		 Coverage_545.json, created by mutation: ChangePropertyKey
+		 Coverage_29.json, created by mutation: ChangePropertyType
+		 Coverage_23.json, created by mutation: ChangePropertyValue
+		 Coverage_144.json, created by mutation: ChangePropertyKey
+		 Coverage_250.json, created by mutation: ChangePropertyKey
+		 Coverage_126.json, created by mutation: BreakSchema
+		 Coverage_34.json, created by mutation: CopyNode
+		 Coverage_27.json, created by mutation: ChangePropertyValue
+		 error_25.json, created by mutation: RemoveNodesOfLabel
+		 Coverage_45.json, created by mutation: AddNode
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_56.json, created by mutation: BreakSchema
+		 Coverage_361.json, created by mutation: ChangePropertyValue
+		 Coverage_38.json, created by mutation: ChangePropertyType
+		 Coverage_86.json, created by mutation: AddNode
+		 error_374.json, created by mutation: ChangePropertyKey
+		 Coverage_296.json, created by mutation: ChangePropertyKey
+		 Coverage_67.json, created by mutation: ChangePropertyValue
+
+
+ Unique failures found: 
+	java.base/java.util.ArrayList.getFirst(ArrayList.java:439)P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)
+	P6Logic.addTypeToField(P6Logic.java:46)P6Logic.getHeaderForCsvFile(P6Logic.java:35)P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)
+	UniqueErrors Redyced:       
+		 Unique error: P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)
+		 Unique error: P6Logic.addTypeToField(P6Logic.java:46)P6Logic.getHeaderForCsvFile(P6Logic.java:35)P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)
+
+	UniqueErrors:       
+		 Unique error at [25], error message: java.base/java.util.ArrayList.getFirst(ArrayList.java:439)P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)
+		 Unique error at [374], error message: P6Logic.addTypeToField(P6Logic.java:46)P6Logic.getHeaderForCsvFile(P6Logic.java:35)P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [java.base/java.util.ArrayList.getFirst(ArrayList.java:439)P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)]
+		 [RemoveNode]: 356
+		 [RemoveNodesOfLabel]: 3219
+	Unique error: [P6Logic.addTypeToField(P6Logic.java:46)P6Logic.getHeaderForCsvFile(P6Logic.java:35)P6Logic.run(P6Logic.java:13)P6Driver.test1(P6Driver.java:21)]
+		 [ChangePropertyKey]: 721

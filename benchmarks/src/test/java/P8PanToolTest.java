@@ -44,10 +44,18 @@ public class P8PanToolTest {
 
     @Test
     public void testres() {
-        int limit = 0;
+        int limit = 41;
         String path = input_path +"saved-inputs_2/";
         testFilesInDir(path, limit);
     }
+
+    @Test
+    public void test2() {
+        int limit = 12;
+        String path = input_path +"pgfuzz3/saved-inputs_1/";
+        testFilesInDir(path, limit);
+    }
+
 
     @Test
     public void testmm() {

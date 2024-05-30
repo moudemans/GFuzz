@@ -92,7 +92,7 @@ while [ $i -lt $1 ]
 do
       echo "Start run"
 #      ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method
-        ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 d10 -1
+        ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method PGFuzz 1 d10 -1 100
 #      cp -r ./fuzz-dir/saved-inputs/ ./fuzz-dir/rand/saved-inputs_$i/
       mkdir -p ./fuzz-dir/${method}/saved-inputs_$i/
       cp -a ./fuzz-dir/saved-inputs/. ./fuzz-dir/${method}/saved-inputs_$i/

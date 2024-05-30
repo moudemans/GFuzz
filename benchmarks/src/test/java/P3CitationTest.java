@@ -41,8 +41,15 @@ public class P3CitationTest {
 
     @Test
     public void testres() {
-        int limit = 0;
+        int limit = 15;
         String path = input_path +"saved-inputs_3/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void test2() {
+        int limit = 41;
+        String path = input_path +"pgfuzz2/saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 

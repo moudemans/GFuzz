@@ -42,6 +42,13 @@ public class P7Pheno4jTest {
     }
 
     @Test
+    public void test2() {
+        int limit = 14;
+        String path = input_path +"pgfuzz2/saved-inputs_1/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
     public void testmm() {
         int limit = 0;
         String path = input_path +"mm/saved-inputs_4/";

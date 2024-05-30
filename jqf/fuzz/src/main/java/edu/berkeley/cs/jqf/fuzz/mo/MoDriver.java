@@ -49,7 +49,20 @@ public class MoDriver {
     private static int mutation_framework = 1;
     private static boolean new_input_enables = false;
     private static Duration maxDuration = Duration.of(5, ChronoUnit.MINUTES);
+    private static int mutationDepth = 100;
 
+    /**
+     *
+     * @param args
+     *  - arg[0] = test class name
+     *  - arg[1] = test method name
+     *  - arg[2] = mutation framework (None | -1=no mutation, Random | 0= random mutation, PGFuzz | 1=PGFuzz mutations)
+     *  - arg[3] = new inputs enables (1=true, 0=false)
+     *  - arg[4] = duration (t<x>=trials, d<x>=duration in minutes, 0=unlimitted)
+     *  - arg[5] = mutation category, -1 for all mutations
+     *  - arg[6] = mutation depth
+     *
+     */
     public static void main(String[] args) {
 
         parse_arguments(args);
@@ -59,7 +72,7 @@ public class MoDriver {
             // Load the guidance
 
 //            NoGuidance guidance = new NoGuidance(maxTrials, System.err);
-            GraphGuidance guidance = new GraphGuidance(maxTrials, System.out, testClassName, testMethodName, maxDuration, mutation_framework, new_input_enables);
+            GraphGuidance guidance = new GraphGuidance(maxTrials, System.out, testClassName, testMethodName, maxDuration, mutation_framework, new_input_enables, mutationDepth);
 
             // Run the Junit test
             GuidedFuzzing.run(testClassName, testMethodName, guidance, System.out);
@@ -107,6 +120,15 @@ public class MoDriver {
         if (args.length > mutation_status_index) {
             set_mutations_status(args[mutation_status_index], mutation_status_index);
         }
+
+        int mutation_depth_index = 6;
+        if (args.length > mutation_depth_index) {
+            set_mutation_depth(args[mutation_depth_index], mutation_depth_index);
+        }
+    }
+
+    private static void set_mutation_depth(String arg, int mutationDepthIndex) {
+        mutationDepth = Integer.parseInt(arg);
     }
 
     private static void set_new_inputs_enabled(String arg, int index) {

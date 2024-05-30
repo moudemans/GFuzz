@@ -173,8 +173,9 @@ public class GraphGuidance implements Guidance {
      * @param testMethodName
      * @param mutation_framework
      * @param new_input_enables
+     * @param mutationDepth
      */
-    public GraphGuidance(long maxTrials, PrintStream out, String testClassName, String testMethodName, Duration duration, int mutation_framework, boolean new_input_enables) {
+    public GraphGuidance(long maxTrials, PrintStream out, String testClassName, String testMethodName, Duration duration, int mutation_framework, boolean new_input_enables, int mutationDepth) {
 //        if (maxTrials <= 0) {
 //            throw new IllegalArgumentException("maxTrials must be greater than 0");
 //        }
@@ -188,6 +189,7 @@ public class GraphGuidance implements Guidance {
         this.mutation_framework = mutation_framework;
         this.USE_MAX_DEPTH = new_input_enables;
         this.USE_GENERATION_FOLDER = new_input_enables;
+        this.MAX_MUTATION_DEPTH = mutationDepth;
 
 
         try {

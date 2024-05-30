@@ -37,8 +37,15 @@ public class P9PanToolTest {
 
     @Test
     public void testmutated() {
-        int limit =0;
+        int limit =33;
         String path = input_path +"saved-inputs_3/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void test2() {
+        int limit =28;
+        String path = input_path +"pgfuzz3/saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
