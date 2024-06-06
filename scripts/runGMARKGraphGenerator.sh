@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-cd gmark/src/
+cd graphGenerators/gmark/src/ || exit
 if [[ ! $1 ]]
 then
   echo "Schema not provided"
@@ -16,8 +16,8 @@ then
   SCHEMA_PATH="use-cases/schema.xml"
   DIR_PATH="default/output/"
 else
-  SCHEMA_PATH="../../benchmarksFuzzable/"$1"/fuzz-dir/GenSchema.xml"
-  DIR_PATH="../../benchmarksFuzzable/"$1"/fuzz-dir/new-inputs/"
+  SCHEMA_PATH="../../../benchmarksFuzzable/"$1"/fuzz-dir/GenSchema.xml"
+  DIR_PATH="../../../benchmarksFuzzable/"$1"/fuzz-dir/new-inputs/"
 
 fi
 

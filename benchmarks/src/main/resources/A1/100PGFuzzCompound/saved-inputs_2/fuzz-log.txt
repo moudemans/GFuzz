@@ -1,0 +1,85 @@
+FUZZ LOG: A1Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         5m 0s 
+	Number of executions: 11,297
+	Total coverage:       1,387 branches (2.12% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+Parameters:
+	 testClassName='A1Driver'
+	 testMethodName='test1'
+	 maxTrials=9223372036854775807
+	 maxDurationMillis=300000
+	 maxDiscardRatio=0.9
+	 MAX_MUTATION_DEPTH=100
+	 USE_MAX_DEPTH=true
+	 USE_GENERATION_FOLDER=true
+	 graph_generator=0
+	 generator_schema=tudcomponents.GraphSchema@f806f0
+	 startTime=Tue Jun 04 14:56:20 CEST 2024
+	mutation counts:       
+		 RemoveNode: 148
+		 ChangePropertyType: 175
+		 CopyNode: 145
+		 RemoveProperty: 163
+		 ChangePropertyValue: 148
+		 AddNode: 133
+		 RemoveNodesOfLabel: 130
+		 ChangeLabelNode: 131
+		 ChangeEdge: 132
+		 AddEdge: 148
+		 ChangeLabelEdge: 162
+		 ChangePropertyKey: 165
+		 RemoveEdge: 166
+		 RemoveEdgesOfLabel: 164
+		 BreakSchema: 138
+		 CopySubset: 176
+	Saved inputs:       
+		 Coverage_101.json, created by mutation: RemoveNode
+		 Coverage_412.json, created by mutation: ChangeLabelNode
+		 error_48.json, created by mutation: RemoveNode
+		 Coverage_176.json, created by mutation: ChangeLabelEdge
+		 Coverage_3.json, created by mutation: NoMutation
+		 Coverage_24.json, created by mutation: CopyNode
+		 Coverage_2266.json, created by mutation: RemoveEdgesOfLabel
+		 Coverage_65.json, created by mutation: CopyNode
+		 Coverage_361.json, created by mutation: AddNode
+		 Coverage_1324.json, created by mutation: ChangeLabelEdge
+		 Coverage_54.json, created by mutation: ChangeLabelEdge
+		 Coverage_308.json, created by mutation: ChangeLabelNode
+		 Coverage_2.json, created by mutation: NoMutation
+		 Coverage_2349.json, created by mutation: ChangeLabelNode
+		 Coverage_378.json, created by mutation: ChangeLabelEdge
+		 Coverage_26.json, created by mutation: CopySubset
+		 Coverage_1460.json, created by mutation: ChangeLabelEdge
+		 Coverage_2163.json, created by mutation: ChangeLabelNode
+		 Coverage_571.json, created by mutation: ChangeLabelEdge
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_1553.json, created by mutation: ChangeLabelEdge
+		 Coverage_538.json, created by mutation: RemoveNode
+		 Coverage_75.json, created by mutation: ChangeLabelEdge
+		 Coverage_30.json, created by mutation: ChangeLabelEdge
+		 Coverage_1153.json, created by mutation: ChangeLabelNode
+
+
+ Unique failures found: 
+	java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+	UniqueErrors Redyced:       
+		 Unique error: A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+	UniqueErrors:       
+		 Unique error at [48], error message: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)]
+		 [RemoveProperty]: 1
+		 [RemoveNodesOfLabel]: 41
+		 [ChangeEdge]: 1
+		 [RemoveNode]: 127
+		 [ChangePropertyType]: 1
+		 [ChangePropertyKey]: 2
+		 [ChangeLabelEdge]: 2
+		 [RemoveEdge]: 4
+		 [RemoveEdgesOfLabel]: 12
+		 [CopySubset]: 5

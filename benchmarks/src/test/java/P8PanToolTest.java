@@ -75,15 +75,15 @@ public class P8PanToolTest {
 
     @Test
     public void testrand() {
-        int limit =31 ;
-        String path = input_path +"saved-inputs_rand3/";
+        int limit =34 ;
+        String path = input_path +"rand/saved-inputs_5/";
         testFilesInDir(path, limit);
     }
 
     @Test
     public void testgen() {
-        int limit = 0;
-        String path = input_path +"saved-inputs_gen1/";
+        int limit =7;
+        String path = input_path +"gen/saved-inputs_4/";
         testFilesInDir(path, limit);
     }
 
@@ -104,11 +104,11 @@ public class P8PanToolTest {
             Arrays.sort(listOfFiles, new Comparator<File>() {
                 public int compare(File str1, File str2) {
                     if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
-                        return 1;
+                        return 0;
                     }
 
                     if (!str1.getName().contains("_") || !str2.getName().contains("_")) {
-                        return 1;
+                        return 0;
                     }
                     String substr1 = str1.getName().split("_")[1].split("\\.")[0];
                     String substr2 = str2.getName().split("_")[1].split("\\.")[0];

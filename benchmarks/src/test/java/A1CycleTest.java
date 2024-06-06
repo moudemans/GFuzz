@@ -1,90 +1,124 @@
 
 import A1Cycle.A1Logic;
+import P2Transportation.P2Logic;
+import org.junit.Test;
 import tudcomponents.MyGraph;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import static org.junit.Assert.assertTrue;
 
 public class A1CycleTest {
 
-    @org.junit.Test
-    public void test01() {
+    String input_path = "src/main/resources/A1/";
+    boolean run_json = true;
+    boolean run_ser = true;
+
+
+
+    @Test
+    public void test10compound() {
+        int limit = 8;
+        String path = input_path + "10PGFuzzCompound/saved-inputs_2/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void test10N() {
+        int limit = 15;
+        String path = input_path + "10PGFuzzNormal/saved-inputs_2/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void test10gen() {
+        int limit = 0;
+        String path = input_path + "10GEN/saved-inputs_1/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void test100gen() {
+        int limit = 0;
+        String path = input_path + "100GEN/saved-inputs_2/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void test100PG() {
+        int limit = 25;
+        String path = input_path + "100PGFuzzNormal/saved-inputs_2/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void test100compound() {
+        int limit = 12;
+        String path = input_path + "100PGFuzzCompound/saved-inputs_2/";
+        testFilesInDir(path, limit);
+    }
+
+
+
+
+    public void testFilesInDir(String path, int limit) {
         A1Logic analysis = new A1Logic();
 
-        int start_test_id = 1;
-        int end_test_id = 3;
-
-        for (int i = start_test_id; i <= end_test_id; i++) {
-            try {
-                String fileName = "src/main/resources/P8/MANUAL/test" + i + ".ser";
-                MyGraph g = MyGraph.readGraphFromFile(fileName);
-                analysis.run(g);
-            } catch (Exception e) {
-                System.err.println("Caught exception: " + e.getMessage());
-            }
-        }
-
-
-        assertTrue("test", true);
-    }
-
-    @org.junit.Test
-    public void GMARK() {
-
-        String fileName = "benchmarks/src/main/resources/P8/GMARK-FIXED/";
-        testFilesInDir(fileName, "");
-
-    }
-
-    @org.junit.Test
-    public void GMARKMUTATED() {
-
-        String fileName = "benchmarks/src/main/resources/P8/GMARK-GFUZZ/";
-        testFilesInDir(fileName, "");
-
-    }
-
-    @org.junit.Test
-    public void GMARKMUTATED2() {
-
-        String fileName = "benchmarks/src/main/resources/P8/GMARK-GFUZZ2/";
-        testFilesInDir(fileName, "");
-
-    }
-
-    @org.junit.Test
-    public void GMARKRandom() {
-
-        String fileName = "benchmarks/src/main/resources/P8/GMARK-RANDOM/";
-        testFilesInDir(fileName, "");
-
-    }
-
-    public void testFilesInDir(String path, String pattern) {
-        A1Logic analysis = new A1Logic();
         File input_dir = new File(path);
         File[] listOfFiles = input_dir.listFiles();
+        Arrays.sort(listOfFiles, new Comparator<File>() {
+            public int compare(File str1, File str2) {
+                if (str1.getName().contains("fuzz") || str2.getName().contains("fuzz")) {
+                    return 1;
+                }
+                if (!str1.getName().contains("_") || !str2.getName().contains("_")) {
+                    return 1;
+                }
+
+                String substr1 = str1.getName().split("_")[1].split("\\.")[0];
+                String substr2 = str2.getName().split("_")[1].split("\\.")[0];
+
+                return Integer.valueOf(substr1).compareTo(Integer.valueOf(substr2));
+            }
+        });
+
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        int counter = 0;
         for (File f :
                 listOfFiles) {
-            if (f.getPath().contains("json")) {
-                continue;
-            }
-            if (pattern != null && !pattern.isEmpty() && !f.getPath().contains(pattern)) {
-                continue;
+            MyGraph g;
+
+            if (limit > 0 && counter >= limit) {
+                break;
             }
 
+            if (run_json && f.getPath().contains("json")) {
+                g = MyGraph.readGraphFromJSON(f.getPath());
+            } else if (run_ser && f.getPath().contains("ser")) {
+                g = MyGraph.readGraphFromJSON(f.getPath());
+            } else {
+                continue;
+            }
             try {
-                System.out.println("File input: " + f);
-                MyGraph g = MyGraph.readGraphFromFile(f.getPath());
+                counter++;
+                if (counter >= limit - 3) {
+                    System.out.println("File input: " + f);
+                }
+
                 analysis.run(g);
             } catch (Exception e) {
-                System.err.println("Caught exception: " + e.getMessage());
-                e.printStackTrace();
+                if (counter >= limit - 3) {
+
+                    System.err.println("Caught exception: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
+        System.out.println("Number of files processed: " + counter);
         assertTrue("test", true);
     }
 
 }
+

@@ -64,8 +64,8 @@ public class P7Pheno4jTest {
 
     @Test
     public void testrand() {
-        int limit = 30;
-        String path = input_path +"saved-inputs_rand3/";
+        int limit = 32;
+        String path = input_path +"rand/saved-inputs_5";
         testFilesInDir(path, limit);
     }
 

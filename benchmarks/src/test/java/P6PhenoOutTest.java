@@ -79,8 +79,8 @@ public class P6PhenoOutTest {
 
     @Test
     public void testrand() {
-        int limit = 10;
-        String path = input_path +"saved-inputs_rand3/";
+        int limit = 6;
+        String path = input_path +"rand/saved-inputs_5/";
         testFilesInDir(path, limit);
     }
 

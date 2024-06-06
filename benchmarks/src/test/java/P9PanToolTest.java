@@ -67,8 +67,8 @@ public class P9PanToolTest {
 
     @Test
     public void testrandom() {
-        int limit = 0;
-        String path = input_path +"saved-inputs_rand3/";
+        int limit = 27;
+        String path = input_path +"rand/saved-inputs_5/";
         testFilesInDir(path, limit);
     }
 

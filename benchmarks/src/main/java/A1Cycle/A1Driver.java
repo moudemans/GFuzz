@@ -17,7 +17,7 @@ public class A1Driver {
     public void test1(String fileName) throws IOException {
         A1Logic analysis = new A1Logic();
 //        List<String> fileList = Files.readAllLines(Paths.get(fileName));
-        MyGraph g = MyGraph.readGraphFromFile(fileName);
+        MyGraph g = MyGraph.readGraphFromJSON(fileName);
 
         analysis.run(g);
     }
