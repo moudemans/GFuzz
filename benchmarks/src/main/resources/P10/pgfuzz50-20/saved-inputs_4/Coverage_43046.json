@@ -1,0 +1,912 @@
+{
+  "GraphSchema": {
+    "NodeLabels": [
+      "sequence",
+      "mRNA",
+      "setting"
+    ],
+    "EdgeLabels": [
+      "mrnas",
+      "settings"
+    ],
+    "Relationships": [
+      {
+        "Label": "mrnas",
+        "From": "mRNA",
+        "To": "sequence",
+        "Cardinality": "ONE2MANY"
+      },
+      {
+        "Label": "settings",
+        "From": "setting",
+        "To": "mRNA",
+        "Cardinality": "ONE2ONE"
+      }
+    ],
+    "NodeProperties": {
+      "sequence": [
+        {
+          "Name": "phasing_assigned",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "identifier",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "phasing_ID",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "genome",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "number",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        },
+        {
+          "Name": "phasing_chromosome",
+          "Type": "INT",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ],
+      "mRNA": [
+        {
+          "Name": "value",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ],
+      "setting": [
+        {
+          "Name": "value",
+          "Type": "STRING",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ]
+    },
+    "EdgeProperties": {
+      "mrnas": [
+        {
+          "Name": "is_enabled",
+          "Type": "BOOLEAN",
+          "IsUnique": false,
+          "IsNotNull": false,
+          "ValueIsConstraint": false,
+          "Min": 0,
+          "Max": 0
+        }
+      ]
+    },
+    "Patterns": []
+  },
+  "Nodes": [
+    {
+      "Id": 0,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Irtsesqqwehgalqhcohbkxxzsgrr",
+        "genome": "73393",
+        "number": "10003",
+        "phasing_assigned": "Nqkzujaqcesbbfpgrqdamkolhnopyapvpzdcfqz",
+        "phasing_chromosome": "6194",
+        "phasing_ID": "9_m"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "105"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 0,
+          "To": 1,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Iklzzgtcoyeuzzzyhsypskrvzbjcngrhwrfxbt",
+        "genome": "52443",
+        "number": "14906",
+        "phasing_assigned": "Rnvxllsiqvwtsixuaevpthwsgeoemvbz",
+        "phasing_chromosome": "1586",
+        "phasing_ID": "7_n"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 2,
+          "To": 3,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "140"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 2,
+          "To": 3,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Dybunioeanwqlnzejhbgyliqcnzxdnqowqrdvygz",
+        "genome": "14991",
+        "number": "14348",
+        "phasing_assigned": "Vjcnbqsaajrejkbmuapyrufeyhgpgpkeenll",
+        "phasing_chromosome": "11186",
+        "phasing_ID": "3_u"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 4,
+          "To": 5,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "136"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 4,
+          "To": 5,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 6,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Lersookvbq",
+        "genome": "41125",
+        "number": "19600",
+        "phasing_assigned": "Alvaegshqgvjvnayipqpwmaorscdftbtyyu",
+        "phasing_chromosome": "4782",
+        "phasing_ID": "9_unphased"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 6,
+          "To": 7,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 7,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "88"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 6,
+          "To": 7,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 8,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Pbpkllaanrskhhraikhwbrsmkju",
+        "genome": "31938",
+        "number": "2371",
+        "phasing_assigned": "Dnlkrlukihdkawncfcvuwodtfmkqphsifhfopa",
+        "phasing_chromosome": "20334",
+        "phasing_ID": "0_unphased"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 8,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 9,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "26"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 8,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "mrnas",
+          "From": 14,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "mrnas",
+          "From": 28,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 10,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Eaiutirmumyoslutqelndrtxgp",
+        "genome": "74898",
+        "number": "27560",
+        "phasing_assigned": "Mtnvzrwetfdhtahvljoehafkkqqckjojfe",
+        "phasing_chromosome": "36851",
+        "phasing_ID": "5_unphased"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 10,
+          "To": 11,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 11,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "32"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 27,
+          "To": 11,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "mrnas",
+          "From": 10,
+          "To": 11,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 12,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Qgchjbslwbfgrheegafjfsqtabk",
+        "genome": "6090",
+        "number": "98860",
+        "phasing_assigned": "Lhyniheuiupsycdwftijcr",
+        "phasing_chromosome": "2210",
+        "phasing_ID": "7_j"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 12,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 13,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "84"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 25,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "mrnas",
+          "From": 24,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "mrnas",
+          "From": 12,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "mrnas",
+          "From": 23,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 14,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Lbnjtgspduhiatnaqdxpjxlnbbrqtsawqpzukw",
+        "genome": "22378",
+        "number": "19024",
+        "phasing_assigned": "Qcmtqyui",
+        "phasing_chromosome": "9314",
+        "phasing_ID": "8_c"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 14,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 15,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Hjy",
+        "genome": "2979",
+        "number": "62607",
+        "phasing_assigned": "Zraftkfylslgbadfrujsooetrmiwbrvlj",
+        "phasing_chromosome": "4793",
+        "phasing_ID": "9_unphased"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 15,
+          "To": 16,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 16,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "107"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 15,
+          "To": 16,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 17,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Zromxqucgzdeeavgnqkuaglhidr",
+        "genome": "100036",
+        "number": "20524",
+        "phasing_assigned": "Siyxuzafbikfrdqogcgcndytruemiaqntv",
+        "phasing_chromosome": "89575",
+        "phasing_ID": "0_h"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 17,
+          "To": 18,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 18,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "29"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 17,
+          "To": 18,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 19,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Okk",
+        "genome": "69828",
+        "number": "824",
+        "phasing_assigned": "Agmdjyoizpzjsenzqbtgkfqxvtdjkeukvvoozzu",
+        "phasing_chromosome": "44145",
+        "phasing_ID": "6_u"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 19,
+          "To": 20,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 20,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "68"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 19,
+          "To": 20,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 21,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Rttljnhokxwlbkrmahimoj",
+        "genome": "7786",
+        "number": "17383",
+        "phasing_assigned": "Jzgawuraxalskpkgiqbudrpawqdjtmybmy",
+        "phasing_chromosome": "44704",
+        "phasing_ID": "7_y"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 21,
+          "To": 22,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 22,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "11"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 21,
+          "To": 22,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 23,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Lgonecidzbemwdgybkdwy",
+        "genome": "46072",
+        "number": "58020",
+        "phasing_assigned": "Kkjpcjnlhftnpmmxnetfcoyqplj",
+        "phasing_chromosome": "53926",
+        "phasing_ID": "0_unphased"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 23,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 24,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Wazusmaibyjcd",
+        "genome": "34446",
+        "number": "57874",
+        "phasing_assigned": "Zmfohdzsgcwkasgfzaygdikufhulfgukquvw",
+        "phasing_chromosome": "5331",
+        "phasing_ID": "4_l"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 24,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 25,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Bamurahcgcaku",
+        "genome": "11850",
+        "number": "9584",
+        "phasing_assigned": "Elfdysxxqelstgqsgedlixu",
+        "phasing_chromosome": "9554",
+        "phasing_ID": "4_b"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 25,
+          "To": 13,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        },
+        {
+          "Label": "mrnas",
+          "From": 25,
+          "To": 26,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 26,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "123"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 25,
+          "To": 26,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 27,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Kpffinjlugxvfzewpmc",
+        "genome": "45388",
+        "number": "89194",
+        "phasing_assigned": "Hnbpymuvywxnedpnkpnpyht",
+        "phasing_chromosome": "20136",
+        "phasing_ID": "6_j"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 27,
+          "To": 11,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "false"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 28,
+      "Label": "sequence",
+      "Properties": {
+        "identifier": "Losytxrvwiaybvzglwrnqdju",
+        "genome": "64636",
+        "number": "5373",
+        "phasing_assigned": "Uvlqn",
+        "phasing_chromosome": "39539",
+        "phasing_ID": "0_unphased"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "mrnas",
+          "From": 28,
+          "To": 9,
+          "Weight": 0,
+          "Properties": {
+            "is_enabled": "true"
+          },
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 29,
+      "Label": "setting",
+      "Properties": {
+        "value": "148"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "settings",
+          "From": 29,
+          "To": 30,
+          "Weight": 0,
+          "Properties": {},
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 30,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "121"
+      },
+      "PropertyTypes": {},
+      "Edges": [
+        {
+          "Label": "settings",
+          "From": 29,
+          "To": 30,
+          "Weight": 0,
+          "Properties": {},
+          "PropertyTypes": {}
+        }
+      ]
+    },
+    {
+      "Id": 31,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "36"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    },
+    {
+      "Id": 32,
+      "Label": "mRNA",
+      "Properties": {
+        "value": "72"
+      },
+      "PropertyTypes": {},
+      "Edges": []
+    }
+  ]
+}

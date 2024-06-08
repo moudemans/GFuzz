@@ -1,0 +1,73 @@
+{
+  "NodeLabels": [
+    "sequence",
+    "mRNA",
+    "setting"
+  ],
+  "EdgeLabels": [
+    "mrnas",
+    "settings"
+  ],
+  "Relationships": [
+    {
+      "Label": "mrnas",
+      "From": "mRNA",
+      "To": "sequence",
+      "Cardinality": "ONE2MANY"
+    },
+    {
+      "Label": "settings",
+      "From": "setting",
+      "To": "mRNA",
+      "Cardinality": "ONE2ONE"
+    }
+  ],
+  "NodeProperties": {
+    "sequence": [
+      {
+        "Name": "phasing_assigned",
+        "Type": "STRING"
+      },
+      {
+        "Name": "identifier",
+        "Type": "STRING"
+      },
+      {
+        "Name": "phasing_ID",
+        "Type": "STRING"
+      },
+      {
+        "Name": "genome",
+        "Type": "INT"
+      },
+      {
+        "Name": "number",
+        "Type": "INT"
+      },
+      {
+        "Name": "phasing_chromosome",
+        "Type": "INT"
+      }
+    ],
+    "mRNA": [
+      {
+        "Name": "value",
+        "Type": "STRING"
+      }
+    ],
+    "setting": [
+      {
+        "Name": "value",
+        "Type": "STRING"
+      }
+    ]
+  },
+  "EdgeProperties": {
+    "mrnas": [
+      {
+        "Name": "is_enabled",
+        "Type": "BOOLEAN"
+      }
+    ]
+  }
+}

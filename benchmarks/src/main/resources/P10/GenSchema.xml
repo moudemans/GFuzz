@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<pgmark>
+    <types>
+        <type name="sequence">
+            <count>
+                <proportion>
+                    0.33
+                </proportion>
+            </count>
+            <relations>
+                <relation predicate="mrnas" target="mRNA" allow_loops="false">
+                    <inDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <zipfianDistribution exponent="2.5"/>
+                    </outDistribution>
+                </relation>
+            </relations>
+            <attributes>
+                <attribute name="phasing_assigned" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="identifier" unique="false" required="true">
+                    <regex>[A-Z][a-z]{1,40}</regex>
+                </attribute>
+                <attribute name="genome" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="number" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="phasing_chromosome" unique="false" required="true">
+                    <numeric min="0" max="50000000">
+                        <exponentialDistribution scale="26000"/>
+                    </numeric>
+                </attribute>
+                <attribute name="phasing_ID" unique="false" required="true">
+                    <regex>\d{1}_(unphased|[a-z])</regex>
+                </attribute>
+            </attributes>
+        </type>
+        <type name="mRNA">
+            <count>
+                <proportion>
+                    0.3
+                </proportion>
+            </count>
+            <relations>
+            </relations>
+            <attributes>
+                <attribute name="value" unique="true" required="true">
+                    <numeric min="0" max="500">
+                        <exponentialDistribution scale="100"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </type>
+        <type name="setting">
+            <count>
+                <proportion>
+                    0.01
+                </proportion>
+            </count>
+            <relations>
+                <relation predicate="settings" target="mRNA" allow_loops="false">
+                    <inDistribution>
+                        <uniformDistribution min="1" max="1"/>
+                    </inDistribution>
+                    <outDistribution>
+                        <uniformDistribution min="1" max="1"/>
+                    </outDistribution>
+                </relation>
+            </relations>
+            <attributes>
+                <attribute name="value" unique="true" required="true">
+                    <numeric min="0" max="500">
+                        <exponentialDistribution scale="100"/>
+                    </numeric>
+                </attribute>
+            </attributes>
+        </type>
+    </types>
+    <predicates>
+        <predicate name="mrnas">
+            <attributes>
+                <attribute name="is_enabled" unique="false" required="true">
+                    <categorical>
+                        <category probability="0.5">true</category>
+                        <category probability="0.5">false</category>
+                    </categorical>
+                </attribute>
+            </attributes>
+        </predicate>
+        <predicate name="settings">
+
+        </predicate>
+    </predicates>
+</pgmark>

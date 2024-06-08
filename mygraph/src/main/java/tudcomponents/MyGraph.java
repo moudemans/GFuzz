@@ -646,6 +646,17 @@ public class MyGraph implements Serializable {
         return new ArrayList<>();
     }
 
+    public ArrayList<Edge> getRelationshipsBetweenNodes(Node node1, Node node2) {
+        ArrayList<Edge> connections = new ArrayList<>();
+        for (Edge e :
+                node1.getEdges()) {
+            if ((e.from == node1.id && e.to == node2.id) || (e.from == node2.id && e.to == node1.id) ) {
+                connections.add(e);
+            }
+        }
+        return connections;
+    }
+
 
     public void addEdge(Edge e) {
         Node n = getNode(e.from);
