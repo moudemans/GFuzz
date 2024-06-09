@@ -57,8 +57,8 @@ public class P10PanToolTest {
 
     @Test
     public void testpgfuzz2() {
-        int limit =36;
-        String path = input_path +"pgfuzz2/saved-inputs_4/";
+        int limit =0;
+        String path = input_path +"pgfuzz20-noDepth/saved-inputs_4/";
         testFilesInDir(path, limit);
     }
 

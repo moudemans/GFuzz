@@ -22,6 +22,7 @@ public class P10Logic {
 
 
 
+
     public int preparePhasedGenomeInformation(MyGraph g) {
         phasingInfoMap = new HashMap<>(); // genome number and sequence identifiers as key
         int counter = 0;

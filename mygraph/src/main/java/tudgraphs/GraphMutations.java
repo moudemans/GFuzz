@@ -9,7 +9,7 @@ public class GraphMutations {
 
     // Indicates whether a mutation is active or not
     public static final boolean noMutationActive = false;  // Boolean is used to generate mutation list that can be applied. NoMutation is an indication that no Graphs.Mutation can be performed and does not match a specific mutation approach
-    public static  boolean copySubsetActive = false;
+    public static  boolean copySubsetActive = true;
 
     public static  boolean addEdgeActive = true;
     public static  boolean removeEdgeActive = true;

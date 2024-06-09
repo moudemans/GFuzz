@@ -72,6 +72,7 @@ public class GraphGuidance implements Guidance {
     boolean USE_MAX_DEPTH = true;
     boolean USE_GENERATION_FOLDER = true;
     int graph_generator = 1; // 0: GMARK, 1: PGMARK
+    double new_input_rate = 0.1;
     GraphSchema generator_schema;
 
     private final PrintStream out;
@@ -324,13 +325,19 @@ public class GraphGuidance implements Guidance {
         if (mutation_framework == -1) {
             important_files.clear();
         }
+        boolean force_new_input = false;
+        if (USE_GENERATION_FOLDER && random.nextDouble() <= new_input_rate) {
+            force_new_input = true;
+        }
+
         // If the queue of input files is empty, use the relevant files for a new mutation
         if (!priorityFiles.isEmpty()) {
             currentInputFile = priorityFiles.poll();
             System.out.println("Using priority file: " + currentInputFile);
             nextInputFileLocation = currentInputFile;
             last_mutation_applied = GraphMutations.MutationMethod.NoMutation;
-        } else if (!important_files.isEmpty()) {
+        } else if (!important_files.isEmpty() && !force_new_input) {
+
             //select random file from files which discovered new coverage
             int random_seed = random.nextInt(important_files.size());
             currentInputFile = important_files.get(random_seed);
