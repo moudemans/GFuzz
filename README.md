@@ -64,14 +64,14 @@ of the output folder.
 To run PGMark, run the following command
 
 ```bash 
-scripts/runPGMarkGraphGenerator.sh <program_name> <graph_size>
+scripts/generator/runPGMarkGraphGenerator.sh <program_name> <graph_size>
 # Example:
 # scripts/runPGMarkGraphGenerator.sh P2 100
 ```
 To run GMark, run the following command
 
 ```bash 
-scripts/runGMarkGraphGenerator.sh <program_name> <graph_size>
+scripts/generator/runGMarkGraphGenerator.sh <program_name> <graph_size>
 # Example:
 # scripts/runGMarkGraphGenerator.sh A1 500
 ```
@@ -85,11 +85,24 @@ A schema needs to be provided in the folder:
 Start the fuzz loop with the following command
 
 ```bash 
-TODO
+scripts/runBenchmark.sh 
+    <number_repetitions> 
+    <output_name> 
+    <program_name> 
+    <mutation_method>
+    <new_inputs_enables> 
+    <duration>
+    <mutation_category>
+    <mutation_depth> 
+    
+# exaple:
+# scripts/runBenchmark.sh 5 test_save P2 PGFuzz 1 d5 -1 100
 ```
 where :
+- number repetitions = amount of times the fuzz process is repeated for independent results
+- output name = name of directory where the independent runs are stored
 - program_name= name of the program that should be tested, located in benchmarksFuzzable
-- method= Fuzz method
+- mutation_method= Fuzz method
   - -1 | None = no mutation
   - 0 | Random = Random
   - 1 | PGFuzz = PGFuzz mutations
@@ -97,21 +110,26 @@ where :
   - 0 = No
   - 1 = Yes
 - duration = Limit for how long the fuzz loop should run
-  - d<x> = duration of x in minutes
-  - t<x> = amount of trials x
-- Mutation_cat = Enable single specific mutation category
+  - d\<x> = duration of x in minutes
+  - t\<x> = amount of trials x
+- Mutation_category = Enable single specific mutation category
   - -1 = Use all mutations
   - 0 = Use category 1
   - 1 = Use category 2
   - ...
+  - 4 = Use category 5
 - mutation_depth = maximum amount of times an input is mutated
 
 
 ## Graph generators
+The graph generators can also be used to generate a single graph. See below:
 ### Run GMark
+````bash
+        scripts/generator/gMarkGenerateSingleGraph.sh "" 100 3 default/output2/
+````
 ### Run PGMark 
 ```bash
-scripts/pgMarkGenerateSingleGraph.sh "" 100 3 default/output2/
+scripts/generator/pgMarkGenerateSingleGraph.sh "" 100 3 default/output2/
 ```
 
 where
@@ -145,7 +163,7 @@ public class ExampleTestClass {
 
     @Fuzz
     public void ExampleTestMethod() {
-        ...
+        // ...
     }
 }
 ```
