@@ -308,6 +308,7 @@ public class GraphMutator {
             case MANY2ONE -> breakMany2OneCardinality(g, rel);
             case ONE2MANY -> breakOne2ManyCardinality(g, rel);
             case ONE2ONE -> breakOne2OneCardinality(g, rel);
+            case NxM -> breakN2MCardinality(g, rel);
             default -> throw new RuntimeException("Cardinality mutation not yet implemented: " + rel.getCardinality());
         }
 
@@ -358,6 +359,77 @@ public class GraphMutator {
         g.addEdge(e1);
         g.addEdge(e2);
 
+    }
+
+    private static void breakN2MCardinality(MyGraph g, Relationship rel) {
+        String from_label = rel.getFrom();
+        String to_label = rel.getTo();
+
+        ArrayList<Node> from_nodes = g.getNodes(from_label);
+        ArrayList<Node> to_nodes = g.getNodes(to_label);
+
+        if (rel.getN() <= 0) {
+            printString(String.format("Relationship has NxM cardinality, but size of N is smaller than 0 [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
+        }
+
+        if (rel.getM() <= 0) {
+            printString(String.format("Relationship has NxM cardinality, but size of M is smaller than 0 [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
+        }
+
+        if (from_nodes.size() < rel.getN()) {
+            printString(String.format("Not enough from nodes found to break NxM cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
+            return;
+        }
+        if (to_nodes.size() < rel.getM()) {
+            printString(String.format("Not enough to nodes found to break NxM cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
+            return;
+        }
+
+        if(r.nextBoolean()) {
+            HashSet<Integer> random_from_nodes = new HashSet<>();
+            int tries = 0;
+            while (random_from_nodes.size() <= rel.getN()) {
+                random_from_nodes.add(r.nextInt(from_nodes.size()));
+
+                tries++;
+                if (tries > Math.max(100, rel.getN() * 2)) {
+                    printString(String.format("Exceeded amount of tries to collect from nodes to break NxM cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
+                    return;
+                }
+            }
+
+            int random_to_node_index = r.nextInt(to_nodes.size());
+            Node to_node = to_nodes.get(random_to_node_index);
+
+
+            for (Integer id : random_from_nodes) {
+                Node from_node = from_nodes.get(id);
+                Edge e1 = new Edge(rel.getLabel(), from_node.id, to_node.id);
+                g.addEdge(e1);
+            }
+        } else {
+            HashSet<Integer> random_to_nodes = new HashSet<>();
+            int tries = 0;
+            while (random_to_nodes.size() <= rel.getN()) {
+                random_to_nodes.add(r.nextInt(to_nodes.size()));
+
+                tries++;
+                if (tries > Math.max(100, rel.getM() * 2)) {
+                    printString(String.format("Exceeded amount of tries to collect from nodes to break NxM cardinality for relationship [%s] -- [%s] --> [%s]", rel.getFrom(), rel.getLabel(), rel.getTo()), System.Logger.Level.DEBUG);
+                    return;
+                }
+            }
+
+            int random_from_node_index = r.nextInt(from_nodes.size());
+            Node from_node = from_nodes.get(random_from_node_index);
+
+
+            for (Integer id : random_to_nodes) {
+                Node to_node = to_nodes.get(id);
+                Edge e1 = new Edge(rel.getLabel(), from_node.id, to_node.id);
+                g.addEdge(e1);
+            }
+        }
     }
 
     /**
