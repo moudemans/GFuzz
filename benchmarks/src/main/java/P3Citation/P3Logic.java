@@ -25,6 +25,7 @@ public class P3Logic {
 
     }
 
+
     public int getPaper(MyGraph g, String id) {
         if (g.getNode(Integer.parseInt(id)) == null ) {
             return -1;

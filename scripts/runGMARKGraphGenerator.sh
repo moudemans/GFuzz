@@ -50,7 +50,7 @@ do
       echo "Generating graph, current count $file_count"
 #      echo "current working dir: " $(pwd)
 
-        ./test -c ${SCHEMA_PATH} -g ${DIR_PATH}${FILE_NAME}-${i} -a
+        ./test -c ${SCHEMA_PATH} -g ${DIR_PATH}${FILE_NAME}-${i} -a -n $2
       i=$((i + 1))
   fi
 

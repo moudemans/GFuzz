@@ -17,49 +17,61 @@ public class A1CycleTest {
     boolean run_ser = true;
 
 
-
     @Test
-    public void test10compound() {
-        int limit = 8;
-        String path = input_path + "10PGFuzzCompound/saved-inputs_2/";
+    public void tests100gen() {
+        int limit = 10;
+        String path = input_path + "s100-Compound/saved-inputs_3/";
         testFilesInDir(path, limit);
     }
 
     @Test
-    public void test10N() {
-        int limit = 15;
-        String path = input_path + "10PGFuzzNormal/saved-inputs_2/";
-        testFilesInDir(path, limit);
-    }
-
-    @Test
-    public void test10gen() {
+    public void tests100000() {
         int limit = 0;
-        String path = input_path + "10GEN/saved-inputs_1/";
+        String path = input_path + "s1000-Compound/saved-inputs_0/";
         testFilesInDir(path, limit);
     }
 
     @Test
-    public void test100gen() {
+    public void tests10000gen() {
         int limit = 0;
-        String path = input_path + "100GEN/saved-inputs_2/";
+        String path = input_path + "s1000-None/saved-inputs_4/";
         testFilesInDir(path, limit);
     }
 
     @Test
-    public void test100PG() {
-        int limit = 25;
-        String path = input_path + "100PGFuzzNormal/saved-inputs_2/";
+    public void tests1000random() {
+        int limit = 0;
+        String path = input_path + "s500-PGFuzz/saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
     @Test
-    public void test100compound() {
+    public void tests10010random() {
+        int limit = 0;
+        String path = input_path + "s500-Compound/saved-inputs_4/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void tests1000pgfuzz() {
+        int limit = 0;
+        String path = input_path + "s10000-PGFuzz2/saved-inputs_4/";
+        testFilesInDir(path, limit);
+    }
+
+    @Test
+    public void tests10000random() {
         int limit = 12;
-        String path = input_path + "100PGFuzzCompound/saved-inputs_2/";
+        String path = input_path + "s10000-Random/saved-inputs_1/";
         testFilesInDir(path, limit);
     }
 
+    @Test
+    public void tests10000pgfuzz() {
+        int limit = 6;
+        String path = input_path + "s10000-PGFuzz/saved-inputs_4/";
+        testFilesInDir(path, limit);
+    }
 
 
 

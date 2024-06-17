@@ -16,6 +16,7 @@ public class A1Logic {
     }
 
 
+
     public boolean findCycle(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
 

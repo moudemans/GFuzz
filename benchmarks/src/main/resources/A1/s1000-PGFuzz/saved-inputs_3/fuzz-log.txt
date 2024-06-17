@@ -1,0 +1,83 @@
+FUZZ LOG: A1Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         5m 0s 
+	Number of executions: 4,695
+	Total coverage:       957 branches (1.46% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+Parameters:
+	 testClassName='A1Driver'
+	 testMethodName='test1'
+	 maxTrials=9223372036854775807
+	 maxDurationMillis=300000
+	 maxDiscardRatio=0.9
+	 MAX_MUTATION_DEPTH=200
+	 USE_MAX_DEPTH=true
+	 USE_GENERATION_FOLDER=true
+	 graph_generator=0
+	 generator_schema=tudcomponents.GraphSchema@632ebfc1
+	 startTime=Sun Jun 09 22:12:40 CEST 2024
+	mutation counts:       
+		 ChangePropertyType: 228
+		 ChangePropertyValue: 221
+		 RemoveNode: 242
+		 AddEdge: 231
+		 RemoveEdge: 233
+		 CopySubset: 214
+		 ChangeEdge: 252
+		 AddNode: 246
+		 CopyNode: 270
+		 RemoveEdgesOfLabel: 223
+		 BreakSchema: 215
+		 RemoveNodesOfLabel: 269
+		 RemoveProperty: 238
+		 ChangeLabelEdge: 236
+		 ChangeLabelNode: 260
+		 ChangePropertyKey: 241
+	Saved inputs:       
+		 Coverage_39.json, created by mutation: RemoveEdge
+		 Coverage_46.json, created by mutation: ChangeLabelNode
+		 Coverage_289.json, created by mutation: RemoveNode
+		 Coverage_2257.json, created by mutation: ChangeLabelEdge
+		 Coverage_1626.json, created by mutation: CopySubset
+		 error_27.json, created by mutation: RemoveNode
+		 Coverage_313.json, created by mutation: ChangeLabelNode
+		 Coverage_1336.json, created by mutation: ChangeLabelEdge
+		 Coverage_23.json, created by mutation: AddNode
+		 Coverage_74.json, created by mutation: ChangeLabelNode
+		 Coverage_144.json, created by mutation: RemoveProperty
+		 Coverage_3637.json, created by mutation: AddEdge
+		 Coverage_671.json, created by mutation: ChangeLabelNode
+		 Coverage_34.json, created by mutation: ChangeLabelEdge
+		 Coverage_181.json, created by mutation: ChangeLabelNode
+		 Coverage_3.json, created by mutation: NoMutation
+		 Coverage_69.json, created by mutation: ChangeLabelEdge
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_83.json, created by mutation: ChangeLabelNode
+		 Coverage_296.json, created by mutation: ChangeLabelNode
+
+
+ Unique failures found: 
+	java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+	UniqueErrors Redyced:       
+		 Unique error: A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+	UniqueErrors:       
+		 Unique error at [27], error message: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)]
+		 [ChangePropertyType]: 4
+		 [ChangePropertyValue]: 3
+		 [RemoveNode]: 227
+		 [RemoveEdge]: 3
+		 [CopySubset]: 1
+		 [ChangeEdge]: 3
+		 [RemoveEdgesOfLabel]: 9
+		 [BreakSchema]: 2
+		 [RemoveNodesOfLabel]: 137
+		 [RemoveProperty]: 7
+		 [ChangeLabelEdge]: 1
+		 [ChangeLabelNode]: 2
+		 [ChangePropertyKey]: 4

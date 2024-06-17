@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PATH1="benchmarksFuzzable/A1/"
-ProgramName="A1"
+PATH1="benchmarksFuzzable/$3/"
+ProgramName="$3"
 method=$2
 
 DEFAULT_PATH="benchmarksFuzzable/"
@@ -90,7 +90,7 @@ while [ $i -lt $1 ]
 do
       echo "Start run"
 #      ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method
-        ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method None 1 d5 -1 200
+        ${PATH_TO_ROOT}jqf/bin/jqf-mo -v -c .:$(${PATH_TO_ROOT}jqf/scripts/classpath.sh):$(${PATH_TO_ROOT}mygraph/scripts/classpath.sh) $class_name $class_method $4 1 d5 -1 100
 #      cp -r ./fuzz-dir/saved-inputs/ ./fuzz-dir/rand/saved-inputs_$i/
       mkdir -p ./fuzz-dir/${method}/saved-inputs_$i/
       cp -a ./fuzz-dir/saved-inputs/. ./fuzz-dir/${method}/saved-inputs_$i/

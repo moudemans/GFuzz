@@ -1,0 +1,72 @@
+FUZZ LOG: A1Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         5m 0s 
+	Number of executions: 11,045
+	Total coverage:       957 branches (1.46% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+Parameters:
+	 testClassName='A1Driver'
+	 testMethodName='test1'
+	 maxTrials=9223372036854775807
+	 maxDurationMillis=300000
+	 maxDiscardRatio=0.9
+	 MAX_MUTATION_DEPTH=100
+	 USE_MAX_DEPTH=true
+	 USE_GENERATION_FOLDER=true
+	 graph_generator=0
+	 generator_schema=tudcomponents.GraphSchema@3201c2a4
+	 startTime=Mon Jun 10 10:18:41 CEST 2024
+	mutation counts:       
+		 ChangePropertyType: 115
+		 RemoveEdgesOfLabel: 127
+		 RemoveEdge: 128
+		 ChangePropertyValue: 139
+		 BreakSchema: 115
+		 ChangeEdge: 111
+		 RemoveProperty: 110
+		 CopySubset: 106
+		 ChangeLabelNode: 126
+		 ChangeLabelEdge: 117
+		 RemoveNodesOfLabel: 121
+		 AddEdge: 115
+		 AddNode: 125
+		 RemoveNode: 132
+		 ChangePropertyKey: 124
+		 CopyNode: 108
+	Saved inputs:       
+		 Coverage_580.json, created by mutation: ChangeLabelEdge
+		 Coverage_1160.json, created by mutation: ChangeLabelEdge
+		 Coverage_813.json, created by mutation: CopyNode
+		 Coverage_36.json, created by mutation: ChangeLabelEdge
+		 Coverage_412.json, created by mutation: ChangeLabelEdge
+		 Coverage_337.json, created by mutation: ChangeLabelNode
+		 Coverage_44.json, created by mutation: ChangeLabelEdge
+		 Coverage_521.json, created by mutation: ChangeLabelEdge
+		 Coverage_23.json, created by mutation: AddNode
+		 Coverage_218.json, created by mutation: AddEdge
+		 Coverage_42.json, created by mutation: ChangeLabelNode
+		 error_64.json, created by mutation: RemoveNodesOfLabel
+		 Coverage_55.json, created by mutation: ChangePropertyValue
+		 Coverage_314.json, created by mutation: ChangeLabelNode
+		 Coverage_3.json, created by mutation: NoMutation
+		 Coverage_1347.json, created by mutation: ChangeLabelNode
+		 Coverage_7602.json, created by mutation: ChangePropertyValue
+		 Coverage_304.json, created by mutation: CopySubset
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_406.json, created by mutation: ChangeLabelEdge
+
+
+ Unique failures found: 
+	java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+	UniqueErrors Redyced:       
+		 Unique error: A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+	UniqueErrors:       
+		 Unique error at [64], error message: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)]
+		 [RemoveNodesOfLabel]: 56
+		 [RemoveNode]: 124

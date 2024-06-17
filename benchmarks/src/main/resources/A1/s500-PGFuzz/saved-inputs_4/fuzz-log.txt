@@ -1,0 +1,74 @@
+FUZZ LOG: A1Driver - test1
+	Mutation framework used:         1 
+	Elapsed time:         5m 0s 
+	Number of executions: 5,049
+	Total coverage:       954 branches (1.46% of map)
+	Failed mutations:       0
+	Invalid states:       0
+	Num discards:       0
+Parameters:
+	 testClassName='A1Driver'
+	 testMethodName='test1'
+	 maxTrials=9223372036854775807
+	 maxDurationMillis=300000
+	 maxDiscardRatio=0.9
+	 MAX_MUTATION_DEPTH=100
+	 USE_MAX_DEPTH=true
+	 USE_GENERATION_FOLDER=true
+	 graph_generator=0
+	 generator_schema=tudcomponents.GraphSchema@ca024d8
+	 startTime=Tue Jun 11 09:21:56 CEST 2024
+	mutation counts:       
+		 ChangePropertyValue: 101
+		 ChangePropertyType: 96
+		 AddNode: 105
+		 RemoveEdge: 105
+		 CopySubset: 95
+		 RemoveNode: 101
+		 CopyNode: 97
+		 ChangeEdge: 85
+		 RemoveEdgesOfLabel: 86
+		 ChangeLabelEdge: 82
+		 BreakSchema: 84
+		 AddEdge: 99
+		 ChangeLabelNode: 101
+		 RemoveNodesOfLabel: 91
+		 ChangePropertyKey: 98
+		 RemoveProperty: 89
+	Saved inputs:       
+		 error_47.json, created by mutation: RemoveNode
+		 Coverage_1346.json, created by mutation: ChangeLabelNode
+		 Coverage_53.json, created by mutation: RemoveNodesOfLabel
+		 Coverage_186.json, created by mutation: RemoveNode
+		 Coverage_331.json, created by mutation: ChangeLabelEdge
+		 Coverage_23.json, created by mutation: ChangeEdge
+		 Coverage_152.json, created by mutation: CopySubset
+		 Coverage_1320.json, created by mutation: ChangeLabelEdge
+		 Coverage_191.json, created by mutation: ChangeLabelEdge
+		 Coverage_3.json, created by mutation: NoMutation
+		 Coverage_81.json, created by mutation: ChangeLabelNode
+		 Coverage_1.json, created by mutation: NoMutation
+		 Coverage_38.json, created by mutation: ChangeLabelEdge
+		 Coverage_593.json, created by mutation: ChangeLabelEdge
+		 Coverage_211.json, created by mutation: ChangeLabelNode
+		 Coverage_588.json, created by mutation: ChangeLabelEdge
+
+
+ Unique failures found: 
+	java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+	UniqueErrors Redyced:       
+		 Unique error: A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+	UniqueErrors:       
+		 Unique error at [47], error message: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)
+
+*** UniqueErrors caused by: ***       
+	Unique error: [java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)java.base/java.util.Objects.checkIndex(Objects.java:385)java.base/java.util.ArrayList.get(ArrayList.java:427)A1Logic.findCycle(A1Logic.java:39)A1Logic.run(A1Logic.java:14)A1Driver.test1(A1Driver.java:21)]
+		 [RemoveEdgesOfLabel]: 15
+		 [RemoveEdge]: 1
+		 [RemoveNode]: 94
+		 [CopySubset]: 7
+		 [AddEdge]: 1
+		 [RemoveNodesOfLabel]: 21
+		 [ChangePropertyKey]: 1
+		 [RemoveProperty]: 1
