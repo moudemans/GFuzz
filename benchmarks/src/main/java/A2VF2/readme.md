@@ -1,8 +1,4 @@
 # VF2 algorithm
-**Functionality** \
-
-****
-
 
 **Motivation** \
 This example has been retrieved from a [github](https://github.com/pfllo/VF2) repository with 25 stars. The repository has some dummy queries which show the performance of the algorith. Applying all queries to the application results in a coverage of 95%.
