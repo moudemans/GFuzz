@@ -1,9 +1,8 @@
 PGFuzz
 --- 
 
-This repo contains PGFuzz, a coverage-guided, schema-aware fuzzer for graph process-
-ing applications. PGFuzz has been created for a MSc
-thesis at the TU Delft. Once finished, the paper will be
+This repo contains PGFuzz, a coverage-guided, schema-aware fuzzer for graph processing applications. 
+PGFuzz has been created for a MSc thesis at the TU Delft. Once finished, the paper will be
 added in the docs directory.
 
 ## Acknowledgement
@@ -22,18 +21,17 @@ added in the docs directory.
 ---
 Below is a description of the directories found in the repository root:
 
-- benchmarks - This module contains the benchmark programs used to evaluate the fuzzer
-- benchmarksFuzzable - This folder is automatically generated from the benchmarks folder and
+- [benchmarks](benchmarks) - This module contains the benchmark programs used to evaluate the fuzzer
+- [benchmarksFuzzable](benchmarksFuzzable) - This folder is automatically generated from the benchmarks folder and
   contains the compiled code from benchmarks and fuzzing directories (containting seeds and results)
-- jqf - This module contains the JQF fuzzing framework. It is collected from the JQF repo mentioned
+- [jqf](jqf) - This module contains the JQF fuzzing framework. It is collected from the JQF repo 
+  mentioned
   above and contains the fuzz loop, mutators and guidance. The contributions made for this thesis
   project can be found in this [folder](jqf/fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/mo)
-- mygraph - This module contains the internal graph structure for the fuzzer and the mutations
-  that are called in the fuzz loop. 
-  - The structures can be
-    found [here](mygraph/src/main/java/tudcomponents), the
-    mutator [here](mygraph/src/main/java/tudgraphs)
-- tutorial - tutorial collected from the JQF repo and toy examples (TODO: Remove!)
+- [mygraph](mygraph) - This module contains the internal graph structure for PGFuzz and the 
+  mutations that are available in PGFuzz. 
+  - [Graph object](mygraph/src/main/java/tudcomponents)
+  - [Mutations](mygraph/src/main/java/tudgraphs)
 
 ## Run PGFuzz 
 To run PGFuzz on an application, we need the following components:
@@ -57,7 +55,7 @@ Preparing a benchmark can be achieved by running the following script:
 ```bash 
 bash ./scripts/prepareBenchmark.sh <PATH> <program_name>
 # example:
-bash ./scripts/prepareBenchmark.sh "benchmarks/src/main/java/P1Medical/" "P1"
+# bash ./scripts/prepareBenchmark.sh "benchmarks/src/main/java/P1Medical/" "P1"
 ```
 Where <PATH> is the path to the application that should be compiled and <program_name> the name 
 of the output folder.
@@ -66,15 +64,22 @@ of the output folder.
 To run PGMark, run the following command
 
 ```bash 
-todo...
+scripts/runPGMarkGraphGenerator.sh <program_name> <graph_size>
+# Example:
+# scripts/runPGMarkGraphGenerator.sh P2 100
 ```
 To run GMark, run the following command
 
 ```bash 
-todo...
+scripts/runGMarkGraphGenerator.sh <program_name> <graph_size>
+# Example:
+# scripts/runGMarkGraphGenerator.sh A1 500
 ```
 Both generators checks the new-input dir in the fuzz-dir to see if there are enough new inputs. If 
 not, new inputs are generated.
+A schema needs to be provided in the folder: 
+
+/benchmarksFuzzable/<program_name>/fuzz-dir/GenSchema.xml
 
 **Start fuzz loop** \
 Start the fuzz loop with the following command
@@ -106,7 +111,7 @@ where :
 ### Run GMark
 ### Run PGMark 
 ```bash
-scripts/pgMarkGenerateGraph.sh "" 100 3 default/output2/
+scripts/pgMarkGenerateSingleGraph.sh "" 100 3 default/output2/
 ```
 
 where

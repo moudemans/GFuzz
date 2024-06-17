@@ -20,10 +20,6 @@ then
   exit
 fi
 
-# Examples
-#PATH1="benchmarks/src/main/java/P7Transportation/"
-#program_name="P7"
-
 PATH1=$1
 program_name=$2
 output_dir="${FUZZ_FOLDER}/${program_name}"
