@@ -1,7 +1,7 @@
 #!/bin/bash
 
 generatorPath="./graphGenerators/pgMark/"
-relativeSource="../../"
+relativeSource="../../../"
 
 cd $generatorPath || echo "PGMark graph generator not found" | exit
 if [[ ! $1 ]]
