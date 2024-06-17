@@ -72,15 +72,19 @@ if [ ! -d "${PATH2}" ]; then
   exit
 fi
 
-for filename in $PATH2*Schema.xml; do
+for filename in $PATH2"/"*"Schema.xml"; do
   #   Collect the file name and place it in the new output dir
+  echo  $filename
+
     cp "$filename" ${output_dir}"/GenSchema.xml"
 done
 
-for filename in $PATH2*Schema.json; do
+for filename in $PATH2"/"*"Schema.json"; do
   #   Collect the file name and place it in the new output dir
-    cp "$filename" ${output_dir}"/Schema.xml"
+  echo  $filename
+    cp "$filename" ${output_dir}"/Schema.json"
 done
+
 
 
 
