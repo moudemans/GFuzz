@@ -65,5 +65,22 @@ for filename in $PATH1*.java; do
     sed -i '1d'  "$new_file_name"
 done
 
+PATH2="benchmarks/src/main/resources/"${program_name}
+
+if [ ! -d "${PATH2}" ]; then
+  echo "Could not find resources path automatically, please copy schema's manually to fuzz-dir"
+  exit
+fi
+
+for filename in $PATH2*Schema.xml; do
+  #   Collect the file name and place it in the new output dir
+    cp "$filename" ${output_dir}"/GenSchema.xml"
+done
+
+for filename in $PATH2*Schema.json; do
+  #   Collect the file name and place it in the new output dir
+    cp "$filename" ${output_dir}"/Schema.xml"
+done
+
 
 
