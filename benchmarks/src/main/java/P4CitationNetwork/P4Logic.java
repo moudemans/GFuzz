@@ -55,7 +55,7 @@ public class P4Logic {
         result.getVertices().add(new VertexDTO(vid, null, (String) props.get("title"), 0));
 
         // step 1: find immediate neighbors (1-hop references)
-        List<Node> oneHopVertices = paper.getOutgoingEdges().stream().filter(edge -> edge.label.equals("cites")).map(edge -> g.getNode(edge.to)).filter(node -> node.properties.containsKey("title") ).toList();
+        List<Node> oneHopVertices = paper.getOutgoingEdges().stream().filter(edge -> edge.labels.equals("cites")).map(edge -> g.getNode(edge.to)).filter(node -> node.properties.containsKey("title") ).toList();
         for (Node oneHopVertex : oneHopVertices) {
             String id = (String) (oneHopVertex.id + "");
             citationMap.put(id, citationMap.getOrDefault(id, 0) + 1);
@@ -71,7 +71,7 @@ public class P4Logic {
         for (Node oneHopVertex : oneHopVertices) {
             String id = (String) (oneHopVertex.id + "");
 //            List<Object> neighbors = oneHopVertex.getOutgoingEdges()..out("cites").id().toList();
-            List<Integer> neighbors = oneHopVertex.getOutgoingEdges().stream().filter(edge -> edge.label.equals("cites")).map(edge -> edge.to).toList();
+            List<Integer> neighbors = oneHopVertex.getOutgoingEdges().stream().filter(edge -> edge.labels.equals("cites")).map(edge -> edge.to).toList();
             for (Object neighbor : neighbors) {
                 twoHopVerticesAndEdges.computeIfAbsent(neighbor.toString(), k -> new ArrayList<>()).add(id);
             }

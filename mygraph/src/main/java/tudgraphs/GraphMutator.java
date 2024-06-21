@@ -108,8 +108,7 @@ public class GraphMutator {
         GraphMutations.MutationMethod mm = selectMutationMethod();
         printString(String.format("Mutation method selected: " + mm), System.Logger.Level.INFO);
 
-        String message = applyMutationMethod(g, mm, breaking_mutations);
-        return message;
+        return applyMutationMethod(g, mm, breaking_mutations);
     }
 
 
@@ -122,7 +121,7 @@ public class GraphMutator {
         breaking_mutations_methods.add(GraphMutations.MutationMethod.ChangePropertyType);
 
         ArrayList<GraphMutations.MutationMethod> active_mutations = GraphMutations.getActiveMutationMethodList();
-        List<GraphMutations.MutationMethod> active_breaking_mutations = breaking_mutations_methods.stream().filter(mutationMethod -> active_mutations.contains(mutationMethod)).toList();
+        List<GraphMutations.MutationMethod> active_breaking_mutations = breaking_mutations_methods.stream().filter(active_mutations::contains).toList();
         if (active_breaking_mutations.isEmpty()) {
             GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakSchema, false);
             return "";
@@ -143,7 +142,7 @@ public class GraphMutator {
 
 
         if (nullprops.isEmpty()) {
-            printString(String.format("Could not perform a break null property mutation. There are no null properties"), System.Logger.Level.WARNING);
+            printString("Could not perform a break null property mutation. There are no null properties", System.Logger.Level.WARNING);
             GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakNull, false);
             return "";
         }
@@ -167,14 +166,14 @@ public class GraphMutator {
         ArrayList<String> node_labels = new ArrayList<>(filtered_properties.keySet());
         Collections.shuffle(node_labels, r);
 
-        String node_label = node_labels.get(0);
+        String node_label = node_labels.getFirst();
         assert !filtered_properties.get(node_label).isEmpty();
 
         ArrayList<Property> properties = new ArrayList<>(filtered_properties.get(node_label));
         Collections.shuffle(properties, r);
 
 
-        Property property = properties.get(0);
+        Property property = properties.getFirst();
 
         ArrayList<Node> nodes = new ArrayList<>(g.getNodes(node_label));
         if (nodes.isEmpty()) {
@@ -183,7 +182,7 @@ public class GraphMutator {
         }
 
         Collections.shuffle(nodes, r);
-        Node node1 = nodes.get(0);
+        Node node1 = nodes.getFirst();
 
 //        if (!node1.properties.containsKey(property.name)) {
 //            throw new RuntimeException(String.format("Node [%s] does not have property: [%s]", node1.label, property.name));
@@ -205,7 +204,7 @@ public class GraphMutator {
 
 
         if (uniqueprops.isEmpty()) {
-            printString(String.format("Could not perform a break unique property mutation. There are no unique properties"), System.Logger.Level.WARNING);
+            printString("Could not perform a break unique property mutation. There are no unique properties", System.Logger.Level.WARNING);
             GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakUnique, false);
             return "";
         }
@@ -228,19 +227,19 @@ public class GraphMutator {
 
 
         if (filtered_properties.isEmpty()) {
-            printString(String.format("Could not perform a break unique property mutation. all the unique properties have already been mutated"), System.Logger.Level.WARNING);
+            printString("Could not perform a break unique property mutation. all the unique properties have already been mutated", System.Logger.Level.WARNING);
             return "";
         }
         ArrayList<String> node_labels = new ArrayList<>(filtered_properties.keySet());
         Collections.shuffle(node_labels, r);
 
-        String node_label = node_labels.get(0);
+        String node_label = node_labels.getFirst();
         assert !filtered_properties.get(node_label).isEmpty();
 
         ArrayList<Property> properties = new ArrayList<>(filtered_properties.get(node_label));
         Collections.shuffle(properties, r);
 
-        Property property = properties.get(0);
+        Property property = properties.getFirst();
 
         ArrayList<Node> nodes = new ArrayList<>(g.getNodes(node_label));
         if (nodes.size() <= 1) {
@@ -268,7 +267,7 @@ public class GraphMutator {
 
 
         if (relationships_with_cardinality.isEmpty()) {
-            printString(String.format("There are no relationships with cardinality which can be broken, no cardinality mutation performed"), System.Logger.Level.DEBUG);
+            printString("There are no relationships with cardinality which can be broken, no cardinality mutation performed", System.Logger.Level.DEBUG);
             GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.BreakCardinality, false);
             return "";
         }
@@ -277,7 +276,7 @@ public class GraphMutator {
         ArrayList<Relationship> filtered_relationships = new ArrayList<>(relationships_with_cardinality.stream().filter(relationship -> !cardinality_mutations_applied.contains(relToConstraintString(relationship))).toList());
 
         if (filtered_relationships.isEmpty()) {
-            printString(String.format("All relationships with cardinality have already been broken, no mutation performed"), System.Logger.Level.DEBUG);
+            printString("All relationships with cardinality have already been broken, no mutation performed", System.Logger.Level.DEBUG);
             return "";
         }
 
@@ -287,8 +286,7 @@ public class GraphMutator {
         breakCardinality(g, rel);
 
         cardinalityMutationsPerformed.put(rel, true);
-        String constraint_string = relToConstraintString(rel);
-        return constraint_string;
+        return relToConstraintString(rel);
     }
 
     private static String relToConstraintString(Relationship rel) {
@@ -526,7 +524,7 @@ public class GraphMutator {
 
             String random_element_label = (random_index < node_labels.size()) ? node_labels.get(random_index) : edge_labels.get(random_index - node_labels.size());
             ArrayList<Property> random_element = (random_index < node_labels.size()) ? gs.getNodeProperties().get(random_element_label) : gs.getEdgeProperties().get(random_element_label);
-            if (random_element.size() > 0) {
+            if (!random_element.isEmpty()) {
                 Property random_property = random_element.get(r.nextInt(random_element.size()));
                 label = random_property.name;
                 value = GraphGenerator.generatePropertyValue(random_property);
@@ -600,7 +598,7 @@ public class GraphMutator {
             String value_to_be_removed = e.properties.get(prop_key);
             e.properties.remove(prop_key);
 
-            printString(String.format("Removed Property [%s] with value [%s], from edge [%s] -- [%s] --> [%s] \n", prop_key, value_to_be_removed, e.from, e.label, e.to), System.Logger.Level.INFO);
+            printString(String.format("Removed Property [%s] with value [%s], from edge [%s] -- [%s] --> [%s] \n", prop_key, value_to_be_removed, e.from, e.labels, e.to), System.Logger.Level.INFO);
         }
     }
 
@@ -618,7 +616,7 @@ public class GraphMutator {
             return;
         }
 
-        printString(String.format("Removed Edge [%s], from [%s] --> to [%s] \n", e.label, e.from, e.to), System.Logger.Level.INFO);
+        printString(String.format("Removed Edge [%s], from [%s] --> to [%s] \n", e.labels, e.from, e.to), System.Logger.Level.INFO);
         g.removeEdge(e);
     }
 
@@ -630,8 +628,7 @@ public class GraphMutator {
         }
 
         int random_edge_index = r.nextInt(edges.size());
-        Edge e = edges.get(random_edge_index);
-        return e;
+        return edges.get(random_edge_index);
     }
 
     private static Node getRandomNodeWithEdges(MyGraph g) {
@@ -656,10 +653,13 @@ public class GraphMutator {
             return;
         }
 
-        String old_label = n.label;
-        n.label = generateString(n.label.length() * 2);
+        ArrayList<String> old_labels = n.labels;
+        int random_label_index = r.nextInt(old_labels.size());
+        String old_label = old_labels.get(random_label_index);
+        String new_label = generateString(old_label.length() * 2);
+        n.labels.set(random_label_index, new_label);
 
-        printString(String.format("Changed label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.label, old_label, n.label), System.Logger.Level.INFO);
+        printString(String.format("Changed label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.labels, old_label, n.labels), System.Logger.Level.INFO);
     }
 
     private static void changeEdgeLabelMutation(MyGraph g) {
@@ -677,10 +677,13 @@ public class GraphMutator {
             return;
         }
 
-        String old_label = e.label;
-        e.label = generateString(e.label.length() * 2);
+        ArrayList<String> old_labels = e.labels;
+        int random_label_index = r.nextInt(old_labels.size());
+        String old_label = old_labels.get(random_label_index);
+        String new_label = generateString(old_label.length() * 2);
+        e.labels.set(random_label_index, new_label);
 
-        printString(String.format("Changed Edge label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.label, old_label, e.label), System.Logger.Level.INFO);
+        printString(String.format("Changed Edge label on Node [%s], from [%s] --> to [%s] \n", n.id + "_" + n.labels, old_label, e.labels), System.Logger.Level.INFO);
     }
 
     private static void changeEdgeMutation(MyGraph g) {
@@ -711,7 +714,7 @@ public class GraphMutator {
         e.from = new_from;
         e.to = new_to;
 
-        printString(String.format("Changed Edge reference on Node [%s], from [%s] --> [%s] to [%s] --> [%s] \n", n.id + "_" + n.label, old_from, new_from, old_to, new_to), System.Logger.Level.INFO);
+        printString(String.format("Changed Edge reference on Node [%s], from [%s] --> [%s] to [%s] --> [%s] \n", n.id + "_" + n.labels, old_from, new_from, old_to, new_to), System.Logger.Level.INFO);
     }
 
 
@@ -726,37 +729,6 @@ public class GraphMutator {
         return filtered_nodes;
     }
 
-    private static ArrayList<Node> getNodesWithNonStringProperties(MyGraph g) {
-        HashMap<String, Set<String>> non_string_properties_per_node = new HashMap<>();
-        for (String n_label : g.getSchema().getNodeLabels()) {
-            ArrayList<Property> properties = g.getSchema().getNodeProperties().get(n_label);
-            if (properties == null || properties.isEmpty()) {
-                continue;
-            }
-            for (Property property : properties) {
-                if (property.type != Type.STRING) {
-                    if (!non_string_properties_per_node.containsKey(n_label)) {
-                        non_string_properties_per_node.put(n_label, new HashSet<>());
-                    }
-                    non_string_properties_per_node.get(n_label).add(property.name);
-                }
-            }
-        }
-
-        if (non_string_properties_per_node.isEmpty()) {
-            printString("There are no nodes with non string properties in schema", System.Logger.Level.WARNING);
-            return null;
-        }
-
-        ArrayList<Node> nodes = g.getNodes();
-        ArrayList<Node> filtered_nodes = new ArrayList<>(nodes.stream().filter(node -> non_string_properties_per_node.containsKey(node.label)).toList());
-
-        if (filtered_nodes.isEmpty()) {
-            printString("There are no nodes with properties in graph", System.Logger.Level.WARNING);
-            return null;
-        }
-        return filtered_nodes;
-    }
 
     private static ArrayList<Edge> getEdgesWithProperties(MyGraph g) {
         ArrayList<Edge> edges = g.getEdges();
@@ -769,37 +741,6 @@ public class GraphMutator {
         return filtered_edges;
     }
 
-    private static ArrayList<Edge> getEdgesWithNonStringProperties(MyGraph g) {
-        HashMap<String, Set<String>> non_string_properties_per_edge = new HashMap<>();
-        for (String e_label : g.getSchema().getEdgeLabels()) {
-            ArrayList<Property> properties = g.getSchema().getEdgeProperties().get(e_label);
-            if (properties == null || properties.isEmpty()) {
-                continue;
-            }
-            for (Property property : properties) {
-                if (property.type != Type.STRING) {
-                    if (!non_string_properties_per_edge.containsKey(e_label)) {
-                        non_string_properties_per_edge.put(e_label, new HashSet<>());
-                    }
-                    non_string_properties_per_edge.get(e_label).add(property.name);
-                }
-            }
-        }
-
-        if (non_string_properties_per_edge.isEmpty()) {
-            printString("There are no edges with non string properties in schema", System.Logger.Level.INFO);
-            return null;
-        }
-
-        ArrayList<Edge> edges = g.getEdges();
-        ArrayList<Edge> filtered_edges = new ArrayList<>(edges.stream().filter(e -> non_string_properties_per_edge.containsKey(e.label)).toList());
-
-        if (filtered_edges.isEmpty()) {
-            printString("There are no edges with properties in graph", System.Logger.Level.INFO);
-            return null;
-        }
-        return filtered_edges;
-    }
 
     private static Node getRandomNode(MyGraph g) {
         ArrayList<Node> nodes = g.getNodes();
@@ -807,8 +748,7 @@ public class GraphMutator {
             return null;
         }
         int random_node_index = r.nextInt(nodes.size());
-        Node n = g.getNodeOnIndex(random_node_index);
-        return n;
+        return g.getNodeOnIndex(random_node_index);
     }
 
 
@@ -825,14 +765,14 @@ public class GraphMutator {
         ArrayList<Relationship> rels = new ArrayList<>(gs.getRelationships());
 
         if (rels.isEmpty()) {
-            printString(String.format("Add edge mutation failed, no relationships defined in schema"), System.Logger.Level.WARNING);
+            printString("Add edge mutation failed, no relationships defined in schema", System.Logger.Level.WARNING);
             GraphMutations.changeMutationStatus(GraphMutations.MutationMethod.AddEdge, false);
             return;
         }
 
         // Select random relationship to generate
         Collections.shuffle(rels, r);
-        Relationship rel = rels.get(0);
+        Relationship rel = rels.getFirst();
         String from_label = rel.getFrom();
         String to_label = rel.getTo();
 
@@ -856,7 +796,7 @@ public class GraphMutator {
         GraphGenerator.generateEdgeProperties(new_edge, gs);
 
         g.addEdge(new_edge);
-        printString(String.format("Add Edge [%s], from [%s] --> to [%s] \n", new_edge.label, new_edge.from, new_edge.to), System.Logger.Level.INFO);
+        printString(String.format("Add Edge [%s], from [%s] --> to [%s] \n", new_edge.labels, new_edge.from, new_edge.to), System.Logger.Level.INFO);
     }
 
 
@@ -924,6 +864,7 @@ public class GraphMutator {
             printString(String.format("Changed Property type of property [%s] with value [%s] to value [%s] for node [%s] \n", prop_key, old_value, new_value, n.id), System.Logger.Level.INFO);
 
         } else {
+            assert edges != null;
             Edge e = edges.get(random_index - node_pool_size);
 
 
@@ -959,7 +900,7 @@ public class GraphMutator {
             }
             e.propertyTypes.put(prop_key, new_type);
 
-            printString(String.format("Changed Property type of property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.label, e.to), System.Logger.Level.INFO);
+            printString(String.format("Changed Property type of property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.labels, e.to), System.Logger.Level.INFO);
         }
     }
 
@@ -1007,20 +948,32 @@ public class GraphMutator {
             n.propertyTypes.put(new_prop_key, g.getNodeProperty(n, prop_key).type);
             n.propertyTypes.remove(prop_key);
 
-            if (g.getSchema().getNodeProperties().get(n.label) == null) {
-                printString("No properties in schema on node " + n.label, System.Logger.Level.WARNING);
+            ArrayList<String> labels = new ArrayList<>(n.labels);
+            Collections.shuffle(labels);
+            int label_index= -1;
+            for (int i = 0; i < labels.size(); i++) {
+                if (g.getSchema().getNodeProperties().get(labels.get(i)) == null) {
+                    label_index = i;
+                }
+            }
+
+
+
+            if (label_index == -1) {
+                printString("No properties in schema on node " + n.labels, System.Logger.Level.WARNING);
                 return;
             }
-            Property p = g.getSchema().getNodeProperties().get(n.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
+            Property p = g.getSchema().getNodeProperties().get(labels.get(label_index)).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             if (p != null) {
                 Property new_prop = new Property(new_prop_key, p.type, p.isUnique, p.isNotNull, p.valueIsConstraint, p.min, p.max);
-                g.getSchema().getNodeProperties().get(n.label).add(new_prop);
+                g.getSchema().getNodeProperties().get(labels.get(label_index)).add(new_prop);
             }
 
             printString(String.format("Changed Property key [%s] with value [%s] to  new key:  [%s] for node [%s] \n", prop_key, value, new_prop_key, n.id), System.Logger.Level.INFO);
 
         } else {
+            assert edges != null;
             Edge e = edges.get(random_index - node_pool_size);
             ArrayList<String> properties = new ArrayList<>(e.properties.keySet());
             int random_property_index = r.nextInt(properties.size());
@@ -1039,18 +992,27 @@ public class GraphMutator {
             e.propertyTypes.put(new_prop_key, g.getEdgeProperty(e, prop_key).type);
             e.propertyTypes.remove(prop_key);
 
-            if (g.getSchema().getEdgeProperties().get(e.label) == null) {
-                printString("No properties in schema on edge " + e.label, System.Logger.Level.WARNING);
+            ArrayList<String> labels = new ArrayList<>(e.labels);
+            Collections.shuffle(labels);
+            int label_index= -1;
+            for (int i = 0; i < labels.size(); i++) {
+                if (g.getSchema().getNodeProperties().get(e.labels.get(i)) == null) {
+                    label_index = i;
+                }
+            }
+
+            if (label_index == -1) {
+                printString("No properties in schema on edge " + e.labels, System.Logger.Level.WARNING);
                 return;
             }
-            Property p = g.getSchema().getEdgeProperties().get(e.label).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
+            Property p = g.getSchema().getEdgeProperties().get(labels.get(label_index)).stream().filter(property -> property != null && property.name.equals(prop_key)).findFirst().orElse(null);
 
             if (p != null) {
                 Property new_prop = new Property(new_prop_key, p.type, p.isUnique, p.isNotNull, p.valueIsConstraint, p.min, p.max);
-                g.getSchema().getEdgeProperties().get(e.label).add(new_prop);
+                g.getSchema().getEdgeProperties().get(labels.get(label_index)).add(new_prop);
             }
 
-            printString(String.format("Changed Property key [%s] with value [%s] to  new key:  [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, value, new_prop_key, e.from, e.label, e.to), System.Logger.Level.INFO);
+            printString(String.format("Changed Property key [%s] with value [%s] to  new key:  [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, value, new_prop_key, e.from, e.labels, e.to), System.Logger.Level.INFO);
         }
     }
 
@@ -1099,6 +1061,7 @@ public class GraphMutator {
             printString(String.format("Changed Property [%s] with value [%s] to value [%s] for node [%s] \n", prop_key, old_value, new_value, n.id), System.Logger.Level.INFO);
 
         } else {
+            assert edges != null;
             Edge e = edges.get(random_index - node_pool_size);
             ArrayList<String> properties = new ArrayList<>(e.properties.keySet());
             int random_property_index = r.nextInt(properties.size());
@@ -1113,7 +1076,7 @@ public class GraphMutator {
 
             e.properties.put(prop_key, new_value);
 
-            printString(String.format("Changed Property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.label, e.to), System.Logger.Level.INFO);
+            printString(String.format("Changed Property [%s] with value [%s] to value [%s] for edge [%s] -- [%s] --> [%s]\n", prop_key, old_value, new_value, e.from, e.labels, e.to), System.Logger.Level.INFO);
         }
     }
 
@@ -1188,7 +1151,7 @@ public class GraphMutator {
             Set<Edge> edges = n.getEdges();
             Set<Edge> remove_edges = new HashSet<>();
             for (Edge e : edges) {
-                if (e.label.equals(random_edge_label)) {
+                if (e.labels.contains(random_edge_label)) {
                     remove_edges.add(e);
                 }
 
@@ -1222,7 +1185,7 @@ public class GraphMutator {
 
 
         ArrayList<Node> candidates;
-        if (newNode.label.equals(from_node_label)) {
+        if (newNode.labels.contains(from_node_label)) {
             candidates = g.getNodes(to_node_label);
         } else {
             candidates = g.getNodes(from_node_label);
@@ -1242,7 +1205,7 @@ public class GraphMutator {
     private static boolean checkCandidateCardinality(Node from, Node to, Relationship rel) {
         Cardinality c = rel.getCardinality();
 
-        if (!from.label.equals(rel.getFrom())) {
+        if (!from.labels.contains(rel.getFrom())) {
             Node holder = from;
             from = to;
             to = holder;
@@ -1257,30 +1220,30 @@ public class GraphMutator {
             }
             case SIMPLE -> {
                 // Check if one of the edges has an edge which corresponds to the label of rel.
-                return !(from.getEdges().stream().filter(edge -> edge.to == finalTo.id).map(edge -> edge.label).collect(Collectors.toSet()).contains(rel.getLabel()));
+                return !(from.getEdges().stream().filter(edge -> edge.to == finalTo.id).map(edge -> edge.labels).collect(Collectors.toSet()).contains(rel.getLabel()));
             }
             case MANY2ONE -> {
                 Set<Edge> current_edges = from.getOutgoingEdges();
-                Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
+                Set<String> edge_labels = current_edges.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
                 return !edge_labels.contains(rel.getLabel());
 
             }
             case ONE2MANY -> {
                 Set<Edge> current_edges = to.getIncomingEdges();
-                Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
+                Set<String> edge_labels = current_edges.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
                 return (!edge_labels.contains(rel.getLabel()));
             }
             case ONE2ONE -> {
                 Set<Edge> current_edges_from_out = from.getOutgoingEdges();
-                Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+                Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
                 Set<Edge> current_edges_from_in = from.getIncomingEdges();
-                Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+                Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
                 Set<Edge> current_edges_to_in = to.getIncomingEdges();
-                Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+                Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
                 Set<Edge> current_edges_to_out = to.getOutgoingEdges();
-                Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+                Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
                 return (!edge_labels_from_out.contains(rel.getLabel()) && !edge_labels_from_in.contains(rel.getLabel())
                         && !edge_labels_to_out.contains(rel.getLabel()) && !edge_labels_to_in.contains(rel.getLabel()));
@@ -1399,7 +1362,11 @@ public class GraphMutator {
             if (n == null) {
                 return false;
             }
-            n.label = generateString(n.label.length() * 2);
+            ArrayList<String> old_labels = n.labels;
+            int random_label_index = r.nextInt(old_labels.size());
+            String old_label = old_labels.get(random_label_index);
+            String new_label = generateString(old_label.length() * 2);
+            n.labels.set(random_label_index, new_label);
         } else if (rand_mutation_selection == 1) {
             Node n = getRandomNode(currentGraph);
             if (n == null) {
@@ -1409,7 +1376,11 @@ public class GraphMutator {
             if (e == null) {
                 return false;
             }
-            e.label = generateString(e.label.length() * 2);
+            ArrayList<String> old_labels = e.labels;
+            int random_label_index = r.nextInt(old_labels.size());
+            String old_label = old_labels.get(random_label_index);
+            String new_label = generateString(old_label.length() * 2);
+            e.labels.set(random_label_index, new_label);
         } else if (rand_mutation_selection == 2) {
             Node n = getRandomNode(currentGraph);
             if (n == null) {

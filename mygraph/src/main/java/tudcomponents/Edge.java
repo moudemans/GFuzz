@@ -1,12 +1,13 @@
 package tudcomponents;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class Edge implements Serializable {
 
-    public String label;
+    public ArrayList<String> labels = new ArrayList<>();
     public int from;
     public int to;
     //    boolean isDirected = false;
@@ -22,7 +23,12 @@ public class Edge implements Serializable {
     }
 
     public Edge(String label, int from, int to) {
-        this.label = label;
+        this.labels.add(label);
+        this.from = from;
+        this.to = to;
+    }
+    public Edge(ArrayList<String> labels, int from, int to) {
+        this.labels = labels;
         this.from = from;
         this.to = to;
     }
@@ -33,14 +39,14 @@ public class Edge implements Serializable {
     }
 
     public Edge(Relationship rel, Node c_from, Node c_to) {
-        if (!rel.from.equals(c_from.label)) {
+        if (!c_from.labels.contains(rel.from)) {
             this.to = c_from.id;
             this.from = c_to.id;
         } else {
             this.to = c_to.id;
             this.from = c_from.id;
         }
-        this.label = rel.label;
+        this.labels.add(rel.label);
     }
 
     @Override
@@ -48,7 +54,7 @@ public class Edge implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Edge edge = (Edge) o;
-        return from == edge.from && to == edge.to && Objects.equals(label, edge.label);
+        return from == edge.from && to == edge.to && Objects.equals(labels, edge.labels);
     }
 
     public Type getPropertyType(String label) {
@@ -60,6 +66,13 @@ public class Edge implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(label, from, to);
+        return Objects.hash(labels, from, to);
+    }
+
+    public void setLabels(ArrayList<String> labels) {
+        this.labels = labels;
+    }
+    public void addLabel(String label) {
+        this.labels.add(label);
     }
 }

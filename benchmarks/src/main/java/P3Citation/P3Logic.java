@@ -163,7 +163,7 @@ public class P3Logic {
 
 
 
-        List<Edge> referees = author.getOutgoingEdges().stream().filter(edge -> edge.label.equals("refers")).toList();
+        List<Edge> referees = author.getOutgoingEdges().stream().filter(edge -> edge.labels.equals("refers")).toList();
         List<CitationResponse> refereeResponse = new ArrayList<>(referees.size());
         for (Edge referee : referees) {
             int refCount = Integer.parseInt(referee.properties.get("refCount"));
@@ -175,7 +175,7 @@ public class P3Logic {
             refereeResponse.add(citationResponse);
         }
 
-        List<Edge> referers = author.getIncomingEdges().stream().filter(edge -> edge.label.equals("refers")).toList();
+        List<Edge> referers = author.getIncomingEdges().stream().filter(edge -> edge.labels.equals("refers")).toList();
 //        List<Edge> referers = g.V(author).inE("refers").limit(limit).toList();
         List<CitationResponse> refererResponse = new ArrayList<>(referers.size());
         for (Edge referer : referers) {
@@ -190,7 +190,7 @@ public class P3Logic {
             refererResponse.add(citationResponse);
         }
 
-        List<Edge> coauthors = author.getEdges().stream().filter(edge -> edge.label.equals("collaborates")).toList();
+        List<Edge> coauthors = author.getEdges().stream().filter(edge -> edge.labels.equals("collaborates")).toList();
 //        List<Edge> coauthors = g.V(author).bothE("collaborates").limit(limit).toList();
         List<CollaborationResponse> coauthorResponse = new ArrayList<>(coauthors.size());
         for (Edge edge : coauthors) {

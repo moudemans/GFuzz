@@ -21,9 +21,9 @@ public class P1Logic {
         for (Edge e :
                 relationships_to_maintain) {
             //System.out.println("Ping.a006");
-            if (g.getNode(e.to).label.equals(value)) {
+            if (g.getNode(e.to).labels.equals(value)) {
                 //System.out.println("Ping.a003");
-                value_relationship_name = e.label;
+                value_relationship_name = e.labels;
             }
         }
 
@@ -32,7 +32,7 @@ public class P1Logic {
                 relationships_to_maintain) {
 
             // TODO: add typing (or other condition) to access function 2 or not
-            ArrayList<Node> connected_nodes = function_2(g, prev_item, e.label, value, multiple_nodes, at_least_one);
+            ArrayList<Node> connected_nodes = function_2(g, prev_item, e.labels, value, multiple_nodes, at_least_one);
             if(connected_nodes == null) {
                 continue;
             }
@@ -40,19 +40,19 @@ public class P1Logic {
             for (Node n :
                     connected_nodes) {
                 //System.out.println("Ping.a007");
-                g.addEdge(new Edge( e.label, new_item_id, n.id));
+                g.addEdge(new Edge( e.labels, new_item_id, n.id));
             }
         }
 
         for (Edge e :
                 relationships_to_maintain) {
             //System.out.println("Ping.a008");
-            if (!g.checkSingle(prev_item_id, e.label)) {
+            if (!g.checkSingle(prev_item_id, e.labels)) {
                 //System.out.println("Ping.a009");
 //                throw new Exception("Not a single");
                 return -1;
             };
-            if (!g.checkSingle(new_item_id, e.label)) {
+            if (!g.checkSingle(new_item_id, e.labels)) {
                 //System.out.println("Ping.a010");
                 //System.out.println("check single: " + new_item_id +", " + e.label + ", " + g.getNode(new_item_id).label);
 //                throw new Exception("Not a single");
@@ -88,9 +88,9 @@ public class P1Logic {
             for (Edge e :
                     relationships) {
                 //System.out.println("Ping.b004");
-                if (g.getNode(e.to).label.equals(value)) {
+                if (g.getNode(e.to).labels.equals(value)) {
                     //System.out.println("Ping.b005");
-                    connected_study_value_rel_name.add(e.label);
+                    connected_study_value_rel_name.add(e.labels);
                 }
             }
         }
@@ -104,7 +104,7 @@ public class P1Logic {
             for (Node n2 :
                     study_values) {
                 //System.out.println("Ping.b008");
-                if (n2.label.equals(value)) {
+                if (n2.labels.equals(value)) {
                     //System.out.println("Ping.b009");
                     connected_nodes_with_value.add(n);
                 }

@@ -393,7 +393,7 @@ public class GraphGenerator {
 
         // Go over each node , find the properties and generate a random string for said property
         for (Node n : g.getNodes()) {
-            ArrayList<Property> nProps = gs.getNodeProperties().get(n.label);
+            ArrayList<Property> nProps = gs.getNodeProperties().get(n.labels);
             for (Property p : nProps) {
                 String new_p = generatePropertyValue(p);
                 n.properties.put(p.name, new_p);
@@ -404,7 +404,7 @@ public class GraphGenerator {
         // Go over each node , find the properties and generate a random string for said property
         for (Node n : g.getNodes()) {
             for (Edge e : n.getEdges()) {
-                ArrayList<Property> nProps = gs.getEdgeProperties().get(e.label);
+                ArrayList<Property> nProps = gs.getEdgeProperties().get(e.labels);
                 if (nProps == null) {
                     continue;
                 }
@@ -560,7 +560,7 @@ public class GraphGenerator {
     }
 
     public static void generateNodeProperties(Node newNode, GraphSchema gs) {
-        ArrayList<Property> properties = gs.getNodeProperties().get(newNode.label);
+        ArrayList<Property> properties = gs.getNodeProperties().get(newNode.labels);
         if (properties == null || properties.isEmpty()) {
             return;
         }
@@ -580,7 +580,7 @@ public class GraphGenerator {
     }
 
     public static void generateEdgeProperties(Edge newEdge, GraphSchema gs) {
-        ArrayList<Property> properties = gs.getEdgeProperties().get(newEdge.label);
+        ArrayList<Property> properties = gs.getEdgeProperties().get(newEdge.labels);
         if (properties == null || properties.isEmpty()) {
             return;
         }
@@ -637,16 +637,16 @@ public class GraphGenerator {
         Collections.shuffle(shuffledRels);
         for (Relationship rel : shuffledRels
         ) {
-            if (rel.getFrom().equals(currNode.label) || rel.getTo().equals(currNode.label)) {
+            if (rel.getFrom().equals(currNode.labels) || rel.getTo().equals(currNode.labels)) {
                 Node new_node = null;
                 Edge new_edge = null;
-                if (rel.getFrom().equals(currNode.label)) {
+                if (rel.getFrom().equals(currNode.labels)) {
 
 
                     new_node = new Node(available_id, rel.getTo());
                     new_edge = new Edge(rel.getLabel(), currNode.id, new_node.id);
                 }
-                if (rel.getTo().equals(currNode.label)) {
+                if (rel.getTo().equals(currNode.labels)) {
                     new_node = new Node(available_id, rel.getFrom());
                     new_edge = new Edge(rel.getLabel(), new_node.id, currNode.id);
                 }
@@ -656,7 +656,7 @@ public class GraphGenerator {
                 }
                 //TODO: check cardinality
                 boolean validCardinality;
-                if (rel.getFrom().equals(currNode.label)) {
+                if (rel.getFrom().equals(currNode.labels)) {
                     validCardinality = MyGraph.checkNewEdgeCardinality(new_edge, currNode, new_node, rel);
                 } else {
                     validCardinality = MyGraph.checkNewEdgeCardinality(new_edge, new_node, currNode, rel);

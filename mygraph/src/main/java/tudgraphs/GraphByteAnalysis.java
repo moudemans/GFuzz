@@ -229,7 +229,7 @@ out.add("\n*** SUMMARY ***");
             for (int j = 0; j < Math.min(edges1.size(),edges2.size()); j++) {
                 Edge e1 = edges1.get(j);
                 Edge e2 = edges2.get(j);
-                if (!e1.label.equals(e2.label)) {
+                if (!e1.labels.equals(e2.labels)) {
                     edge_changes.add(String.format("\n Label changed of edge"));
                     edge_label_change++;
                 }
@@ -332,7 +332,7 @@ out.add("\n*** SUMMARY ***");
             if (n1.id != n2.id) {
                 node_id_change++;
             }
-            if (!n1.label.equals(n2.label)) {
+            if (!n1.labels.equals(n2.labels)) {
                 node_label_change++;
             }
             if(n1.getIncomingEdges().size() != n2.getIncomingEdges().size()) {
@@ -511,7 +511,8 @@ out.add("\n*** SUMMARY ***");
         byte[] data_Edge2 = SerializationUtils.serialize(g);
 
         Edge e = g.getNodes().get(0).getEdges().stream().findFirst().orElse(null);
-        e.label = "tesr";
+        e.labels = new ArrayList<>();
+        e.labels.add("test");
         byte[] data_Edge_new_label = SerializationUtils.serialize(g);
 
 

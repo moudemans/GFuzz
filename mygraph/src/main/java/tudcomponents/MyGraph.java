@@ -424,12 +424,12 @@ public class MyGraph implements Serializable {
                 writer.write("t # " + i);
                 writer.write("\n");
                 for (Node n : g.getNodes()) {
-                    writer.write("v " + n.id + " " + n.label);
+                    writer.write("v " + n.id + " " + n.labels);
                     writer.write("\n");
                 }
                 for (Node n : g.getNodes()) {
                     for (Edge e : n.getOutgoingEdges()) {
-                        writer.write("e " + e.from + " " + e.to + " " + e.label);
+                        writer.write("e " + e.from + " " + e.to + " " + e.labels);
                         writer.write("\n");
                     }
                 }
@@ -449,12 +449,12 @@ public class MyGraph implements Serializable {
             writer.write("t # 0");
             writer.write("\n");
             for (Node n : g.getNodes()) {
-                writer.write("v " + n.id + " " + n.label);
+                writer.write("v " + n.id + " " + n.labels);
                 writer.write("\n");
             }
             for (Node n : g.getNodes()) {
                 for (Edge e : n.getOutgoingEdges()) {
-                    writer.write("e " + e.from + " " + e.to + " " + e.label);
+                    writer.write("e " + e.from + " " + e.to + " " + e.labels);
                     writer.write("\n");
                 }
             }
@@ -594,7 +594,7 @@ public class MyGraph implements Serializable {
             if (n.equals(prevItem)) {
                 for (Edge e :
                         n.edges) {
-                    if (e.label.equals(valueRelationshipName)) {
+                    if (e.labels.contains(valueRelationshipName)) {
                         connected_nodes.add(getNode(e.to));
                         break;
                     }
@@ -614,7 +614,7 @@ public class MyGraph implements Serializable {
 
                 for (Edge e :
                         edges) {
-                    if (e.label.equals(valueRelationshipName)) {
+                    if (e.labels.contains(valueRelationshipName)) {
                         connected_nodes.add(getNode(e.to));
                         break;
                     }
@@ -629,8 +629,10 @@ public class MyGraph implements Serializable {
         ArrayList<Node> conn_nodes = new ArrayList<>();
         for (Edge e :
                 n.getEdges()) {
-            if (connectedStudyValueRelName.contains(e.label)) {
-                conn_nodes.add(n);
+            for (String label : connectedStudyValueRelName) {
+                if (e.labels.contains(label)) {
+                    conn_nodes.add(n);
+                }
             }
         }
         return conn_nodes;
@@ -677,7 +679,7 @@ public class MyGraph implements Serializable {
 
     public Node addLabeledNode(String label) {
         Node newNode = addNewNode();
-        newNode.label = label;
+        newNode.addLabel(label);
         return newNode;
     }
 
@@ -694,7 +696,7 @@ public class MyGraph implements Serializable {
         ArrayList<Node> res = new ArrayList<>();
         for (Node n :
                 nodes) {
-            if (n.label.equals(label)) {
+            if (n.labels.contains(label)) {
                 res.add(n);
             }
         }
@@ -717,17 +719,20 @@ public class MyGraph implements Serializable {
         Set<String> node_labels = new HashSet<>();
         int counter = 0;
         for (Edge e : edges) {
-            if (e.label.equals(edgeLabel)) {
-                String node_label = getNode(e.to).label;
+            if (e.labels.contains(edgeLabel)) {
+                ArrayList<String> node_label = getNode(e.to).labels;
 
                 if (e.to == n.id) {
-                    node_label = getNode(e.from).label;
+                    node_label = getNode(e.from).labels;
                 }
 
-                if (node_labels.contains(node_label)) {
-                    counter++;
+                for (String label : node_label) {
+                    if (node_labels.contains(label)) {
+                        counter++;
+                    }
+                    node_labels.add(label);
                 }
-                node_labels.add(node_label);
+
             }
 
         }
@@ -847,39 +852,44 @@ public class MyGraph implements Serializable {
                 filtered_candidates.add(e);
             }
             Set<Edge> current_edges_from_out = g.getNode(e.from).getOutgoingEdges();
-            Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+            Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
             Set<Edge> current_edges_from_in = g.getNode(e.from).getIncomingEdges();
-            Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+            Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
             Set<Edge> current_edges_to_in = g.getNode(e.to).getIncomingEdges();
-            Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+            Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
             Set<Edge> current_edges_to_out = g.getNode(e.to).getOutgoingEdges();
-            Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+            Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
-            if (!edge_labels_from_out.contains(e.label) && !edge_labels_from_in.contains(e.label)
-                    && !edge_labels_to_out.contains(e.label) && !edge_labels_to_in.contains(e.label)) {
-                filtered_candidates.add(e);
+            for (String label : e.labels) {
+                if (!edge_labels_from_out.contains(label) && !edge_labels_from_in.contains(label)
+                        && !edge_labels_to_out.contains(label) && !edge_labels_to_in.contains(label)) {
+                    filtered_candidates.add(e);
+                }
             }
+
         }
         return filtered_candidates;
     }
 
     private static boolean checkOne2OneCardinality(Edge e, Node from_node, Node to_node) {
         Set<Edge> current_edges_from_out = from_node.getOutgoingEdges();
-        Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+        Set<String> edge_labels_from_out = current_edges_from_out.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
         Set<Edge> current_edges_from_in = from_node.getIncomingEdges();
-        Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+        Set<String> edge_labels_from_in = current_edges_from_in.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
         Set<Edge> current_edges_to_in = to_node.getIncomingEdges();
-        Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.label).collect(Collectors.toSet());
+        Set<String> edge_labels_to_in = current_edges_to_in.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
         Set<Edge> current_edges_to_out = to_node.getOutgoingEdges();
-        Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.label).collect(Collectors.toSet());
+        Set<String> edge_labels_to_out = current_edges_to_out.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
 
-        if (!edge_labels_from_out.contains(e.label) && !edge_labels_from_in.contains(e.label)
-                && !edge_labels_to_out.contains(e.label) && !edge_labels_to_in.contains(e.label)) {
-            return true;
+        for (String label : e.labels) {
+            if (!edge_labels_from_out.contains(label) && !edge_labels_from_in.contains(label)
+                    && !edge_labels_to_out.contains(label) && !edge_labels_to_in.contains(label)) {
+                return true;
+            }
         }
         return false;
     }
@@ -901,9 +911,11 @@ public class MyGraph implements Serializable {
 
     private static boolean checkOne2ManyCardinality(Edge e, Node to_node) {
         Set<Edge> current_edges = to_node.getIncomingEdges();
-        Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
-        if (!edge_labels.contains(e.label)) {
-            return true;
+        Set<String> edge_labels = current_edges.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
+        for (String label : e.labels) {
+            if (!edge_labels.contains(label)) {
+                return true;
+            }
         }
         return false;
     }
@@ -925,9 +937,11 @@ public class MyGraph implements Serializable {
 
     private static boolean checkMany2OneCardinality(Edge e, Node from_node) {
         Set<Edge> current_edges = from_node.getOutgoingEdges();
-        Set<String> edge_labels = current_edges.stream().map(edge -> edge.label).collect(Collectors.toSet());
-        if (!edge_labels.contains(e.label)) {
-            return true;
+        Set<String> edge_labels = current_edges.stream().map(edge -> edge.labels).flatMap(Collection::stream).collect(Collectors.toSet());
+        for (String label : e.labels) {
+            if (!edge_labels.contains(label)) {
+                return true;
+            }
         }
         return false;
     }
@@ -983,7 +997,7 @@ public class MyGraph implements Serializable {
         }
         Set<Edge> l_edges = isIncoming ? n.getIncomingEdges() : n.getOutgoingEdges();
         for (Edge e : l_edges) {
-            if (e.label.equals(label)) {
+            if (e.labels.equals(label)) {
                 int target = isIncoming ? e.from : e.to;
                 return getNode(target);
             }
@@ -1018,13 +1032,13 @@ public class MyGraph implements Serializable {
 
     public Node addCopyNode(Node n) {
         Node copy_node = addNewNode();
-        copy_node.label = n.label;
+        copy_node.labels = n.labels;
         copy_node.properties = (HashMap<String, String>) n.properties.clone();
         int id_mask = copy_node.id;
         for (Edge e : n.getEdges()) {
             int new_from = e.from == n.id ? id_mask : e.from;
             int new_to = e.to == n.id ? id_mask : e.to;
-            Edge copy_edge = new Edge(e.label, new_from, new_to);
+            Edge copy_edge = new Edge(e.labels, new_from, new_to);
             copy_edge.properties = (HashMap<String, String>) e.properties.clone();
             addEdge(copy_edge);
         }
@@ -1034,8 +1048,8 @@ public class MyGraph implements Serializable {
     public Property getEdgeProperty(Edge e, String label) {
         Type t = e.getPropertyType(label);
         Property p = null;
-        if (getSchema().getEdgeProperties().get(e.label) != null) {
-            ArrayList<Property> props = getSchema().getEdgeProperties().get(e.label);
+        if (getSchema().getEdgeProperties().get(e.labels) != null) {
+            ArrayList<Property> props = getSchema().getEdgeProperties().get(e.labels);
             p = props.stream().filter(property -> property.name.equals(label)).findFirst().orElse(null);
 
             if (p != null && t == null) {
@@ -1056,8 +1070,8 @@ public class MyGraph implements Serializable {
     public Property getNodeProperty(Node n, String prop_label) {
         Type t = n.getPropertyType(prop_label);
         Property p = null;
-        if (getSchema().getNodeProperties().get(n.label) != null) {
-            ArrayList<Property> props = getSchema().getNodeProperties().get(n.label);
+        if (getSchema().getNodeProperties().get(n.labels.getFirst()) != null) {
+            ArrayList<Property> props = getSchema().getNodeProperties().get(n.labels.getFirst());
             p = props.stream().filter(property -> property.name.equals(prop_label)).findFirst().orElse(null);
             if (p != null && t == null) {
                 t = p.type;

@@ -20,7 +20,7 @@ public class P6Logic {
 
     public String[] getHeaderForCsvFile(MyGraph g, Node n) {
         List<String> fields = new ArrayList<>();
-        String node_label = n.label;
+        String node_label = n.labels;
         for (String key : n.properties.keySet()) {
             final String value;
             if (key.equals(id_label)) {
