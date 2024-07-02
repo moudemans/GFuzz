@@ -25,12 +25,12 @@ public class P2Logic {
         int time3 = 0;
         int time4 = 0;
         for (Edge e: n.getEdges()) {
-            if (e.labels.equals("DRT")) {
+            if (e.getLabel().equals("DRT")) {
                 time1 += Integer.parseInt(e.properties.get("inter_times"));
                 time2 += Integer.parseInt(e.properties.get("waiting_DRT"));
                 time3 += Integer.parseInt(e.properties.get("DRT_time"));
             }
-            if (e.labels.equals("WALK")) {
+            if (e.getLabel().equals("WALK")) {
                 time4 += Integer.parseInt(e.properties.get("walking_time"));
             }
         }
@@ -40,10 +40,10 @@ public class P2Logic {
     private int getFirstStation(MyGraph g) {
         Node n =   g.getNodes("Centroid").get(0);
         for (Edge e : n.getEdges()) {
-            if (e.labels.equals("DRT")) {
+            if (e.getLabel().equals("DRT")) {
                 return e.to;
             }
-            if (e.labels.equals("WALK")) {
+            if (e.getLabel().equals("WALK")) {
                 return e.to;
             }
         }
@@ -57,8 +57,8 @@ public class P2Logic {
 
         Node n =  g.getNodes("Centroid").get(0);
         for (Edge e : n.getEdges()) {
-            if (e.labels.equals("DRT") || e.labels.equals("WALK")  ) {
-                trsp.add(e.labels);
+            if (e.getLabel().equals("DRT") || e.getLabel().equals("WALK")  ) {
+                trsp.add(e.getLabel());
                 transport_count += 1;
             }
         }

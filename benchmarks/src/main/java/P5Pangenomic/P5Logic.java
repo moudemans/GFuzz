@@ -49,7 +49,7 @@ public class P5Logic {
         ArrayList<Node> genes = new ArrayList<>();
         for (Edge e :
                 family.getEdges()) {
-            if (g.getNode(e.from).labels.equals("Gene")) {
+            if (g.getNode(e.from).getLabel().equals("Gene")) {
                 genes.add(g.getNode(e.to));
             }
         }

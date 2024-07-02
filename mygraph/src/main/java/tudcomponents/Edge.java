@@ -75,4 +75,13 @@ public class Edge implements Serializable {
     public void addLabel(String label) {
         this.labels.add(label);
     }
+
+    public String getLabel(int index) {
+        return labels.get(index);
+    }
+
+
+    public String getLabel() {
+        return labels.getFirst();
+    }
 }
