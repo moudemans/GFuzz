@@ -2,8 +2,9 @@ PGFuzz
 --- 
 
 This repo contains PGFuzz, a coverage-guided, schema-aware fuzzer for graph processing applications. 
-PGFuzz has been created for a MSc thesis at the TU Delft. Once finished, the paper will be
-added in the docs directory.
+PGFuzz has been created for a MSc thesis at the TU Delft. The paper is added to the docs 
+directory and the results collected for the report evaluation can be found in the EvalutionData 
+folder.
 
 ## Acknowledgement
 
