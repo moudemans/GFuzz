@@ -2,22 +2,9 @@ PGFuzz
 --- 
 
 This repo contains PGFuzz, a coverage-guided, schema-aware fuzzer for graph processing applications. 
-PGFuzz has been created for a MSc thesis at the TU Delft. The paper is added to the docs 
-directory and the results collected for the report evaluation can be found in the EvalutionData 
-folder.
 
-## Acknowledgement
 
-- PGFuzz has been created on top of  [JQF+Zest](https://github.com/rohanpadhye/JQF), specifically
-  created for researchers to build their new fuzz methods and publicly available on github.
-- The Graph generator GMark has been copied to this project in order to run its code. The repo
-  it is collected from can be found [here](https://github.com/gbagan/gmark) and has been
-  acknowledged in the thesis report
-- The graph generator [PGMark](https://github.com/ThomHurks/pgMark) (extension of GMark) has been
-  copied from the publicly available
-  repo and extended s.t. edge properties can also be generated
-
-## Overview repository
+## Contents of the repository
 
 ---
 Below is a description of the directories found in the repository root:
@@ -25,33 +12,61 @@ Below is a description of the directories found in the repository root:
 - [benchmarks](benchmarks) - This module contains the benchmark programs used to evaluate the fuzzer
 - [benchmarksFuzzable](benchmarksFuzzable) - This folder is automatically generated from the benchmarks folder and
   contains the compiled code from benchmarks and fuzzing directories (containting seeds and results)
-- [jqf](jqf) - This module contains the JQF fuzzing framework. It is collected from the JQF repo 
-  mentioned
-  above and contains the fuzz loop, mutators and guidance. The contributions made for this thesis
-  project can be found in this [folder](jqf/fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/mo)
-- [mygraph](mygraph) - This module contains the internal graph structure for PGFuzz and the 
-  mutations that are available in PGFuzz. 
-  - [Graph object](mygraph/src/main/java/tudcomponents)
+- graph generators - This folder contains the clones of two state-of-the-art graph generators:
+	- The GMark graph generator cloned from the [GMark repository](https://github.com/gbagan/gmark) (commit 77be5b6).
+	- The PGMark graph generator from the [PGMark](https://github.com/ThomHurks/pgMark). We extended PGMark so that it also supports edge properties to be generated.
+- [jqf](jqf) - This module contains the JQF fuzzing framework collected from [JQF+Zest](https://github.com/rohanpadhye/JQF), which provides a generic fuzz loop, mutators and guidance. The contributions made for the PGFuzz project can be found in this [folder](jqf/fuzz/src/main/java/edu/berkeley/cs/jqf/fuzz/mo)
+- [mygraph](mygraph) - This module contains the Graph API used in PGFuzz and the 
+  mutations supported by PGFuzz. 
+  - [Graph API](mygraph/src/main/java/tudcomponents)
   - [Mutations](mygraph/src/main/java/tudgraphs)
 
-## Run PGFuzz 
-To run PGFuzz on an application, we need the following components:
-- Packaged JQF framework and PGFuzz code, managed by maven
-- Compiled java application with jqf annotations 
-- Seed file, located in the fuzz-dir of the application being tested
-- Running graph generator
+## Building PGFuzz 
 
-We made some bash files, helping with starting up PGFuzz
+We follow the following steps to run PGFuzz to test a benchmark application:  
+- Building GMark and PGMark graph generators   
+- Packaging JQF framework and PGFuzz source code, managed by maven  
+- Compiling java benchmark applications with jqf annotations  
+- Generating seed input files, located in the fuzz-dir of the application being tested 
+- Running the PGFuzz grey-box fuzzer graph generator 
+
+The reproduction package provides script files to help build and run PGFuzz.
+
+### Building the graph generators:
+
+**Build GMark graph generator** in `graphGenerators/gmark` (a clone of [GMark](https://github.com/gbagan/gmark)). This command should produce the `test` executable in `graphGenerators/gmark/src/`.
+
+```bash 
+cd graphGenerators/gmark/demo/scripts
+./compile-all.sh
+```
+
+**Build PGMark graph generator** in `graphGenerators/pgMark` (an extended version of the [PGMark](https://github.com/ThomHurks/pgMark)). 
+
+```
+cd graphGenerators/pgMark
+ccmake .
+```
+
+Then press 'c' to configure and press 'g' to generate and exit. Then run `make`. This command should produce the executable `graphGenerators/pgMark/bin/pgMark`.
 
 
-**Package project** \
+```
+make
+```
+
+
+
+### Package the PGFuzz project:
+ 
 Package the project with the following command:
 ```bash 
 mvn package
 ```
 
-**Prepare benchmark** \
-Preparing a benchmark can be achieved by running the following script:
+### Prepare benchmarks:
+
+Prepare each benchmark to be tested with the fuzzer using the following command: 
 
 ```bash 
 bash ./scripts/prepareBenchmark.sh <PATH> <program_name>
@@ -61,29 +76,34 @@ bash ./scripts/prepareBenchmark.sh <PATH> <program_name>
 Where <PATH> is the path to the application that should be compiled and <program_name> the name 
 of the output folder.
 
-**Run graph generator** \
+
+## Running PGFuzz 
+
+### Run graph generators:
+
 To run PGMark, run the following command
 
 ```bash 
 scripts/generator/runPGMarkGraphGenerator.sh <program_name> <graph_size>
 # Example:
-# scripts/runPGMarkGraphGenerator.sh P2 100
+# scripts/generator/runPGMarkGraphGenerator.sh P2 100
 ```
 To run GMark, run the following command
 
 ```bash 
 scripts/generator/runGMarkGraphGenerator.sh <program_name> <graph_size>
 # Example:
-# scripts/runGMarkGraphGenerator.sh A1 500
+# scripts/generator/runGMarkGraphGenerator.sh A1 500
 ```
-Both generators checks the new-input dir in the fuzz-dir to see if there are enough new inputs. If 
+Both generators check the new-input dir in the fuzz-dir to see if there are enough new inputs. If 
 not, new inputs are generated.
 A schema needs to be provided in the folder: 
 
 /benchmarksFuzzable/<program_name>/fuzz-dir/GenSchema.xml
 
-**Start fuzz loop** \
-Start the fuzz loop with the following command
+**Run the fuzzing loop**:
+
+Run the fuzzing loop with the following command
 
 ```bash 
 scripts/runBenchmark.sh 
@@ -124,9 +144,10 @@ where :
 
 ## Graph generators
 The graph generators can also be used to generate a single graph. See below:
+
 ### Run GMark
 ````bash
-        scripts/generator/gMarkGenerateSingleGraph.sh "" 100 3 default/output2/
+scripts/generator/gMarkGenerateSingleGraph.sh "" 100 3 default/output2/
 ````
 ### Run PGMark 
 ```bash
@@ -142,7 +163,7 @@ scripts/pgMarkGenerateGraph.sh <Schema> <graph size> <DS count> <output dir> <ou
 ## Make changes, extend benchmarks
 
 The following steps describe how the fuzz loop can be run on a program. For the fuzz loop we need
-the fuzz framework to be built by maven, have a application on which we want to run the fuzzer and
+the fuzz framework to be built by maven, have an application on which we want to run the fuzzer and
 start the application with our bash script.
 
 **maven build**
@@ -194,4 +215,13 @@ The fuzzing loop is then started with the following command from the location th
 
 ---
  
+## Acknowledgement
 
+- PGFuzz has been created on top of  [JQF+Zest](https://github.com/rohanpadhye/JQF), specifically
+  created for researchers to build their new fuzz methods and publicly available on github.
+- The Graph generator GMark has been copied to this project in order to run its code. The repo
+  it is collected from can be found [here](https://github.com/gbagan/gmark) and has been
+  acknowledged in the thesis report
+- The graph generator [PGMark](https://github.com/ThomHurks/pgMark) (extension of GMark) has been
+  copied from the publicly available
+  repo and extended s.t. edge properties can also be generated
