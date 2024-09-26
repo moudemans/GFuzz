@@ -1,6 +1,6 @@
 #include "state.h"
 #include "subpattern.h"
-#include <sstream>
+#include <iostream>
 
 State::State(std::string a_String, const int a_Flags) : m_String(std::move(a_String)), m_Flags(a_Flags) {}
 

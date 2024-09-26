@@ -2,6 +2,7 @@
 #define PGMARK_BRANCH_H
 
 #include "opcode.h"
+#include <limits>
 
 class Branch : public Opcode {
 private:

@@ -3,6 +3,7 @@
 
 #include "opcode.h"
 #include <memory>
+#include <limits>
 
 class In : public Opcode {
 private:

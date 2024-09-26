@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include <stdexcept>
 #include "subpattern.h"
 #include "category_types.h"
 
